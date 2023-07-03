@@ -1,7 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import { api } from "./services/api";
+import { api } from './services/api';
 
 export function makeStore() {
   return configureStore({
@@ -9,8 +9,7 @@ export function makeStore() {
       [api.reducerPath]: api.reducer,
     },
 
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
   });
 }
 

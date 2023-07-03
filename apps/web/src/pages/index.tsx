@@ -1,5 +1,5 @@
-import { Button } from "@packages/ui";
-import { useHelloQuery } from "@/store/services/api";
+import { Button } from '@packages/ui';
+import { useHelloQuery } from '@/store/services/api';
 
 export default function Web() {
   const { data } = useHelloQuery();

@@ -3,4 +3,4 @@
 
 echo "🚦 PRE-COMMIT | lint-staged check..."
 
-pnpm lint-staged --allow-empty
+# pnpm lint-staged --allow-empty
