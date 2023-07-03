@@ -1,4 +1,4 @@
-const eslintBaseConfig = require('@monorepo/eslint/eslint.base');
+const eslintBaseConfig = require('@monorepo/eslint-config/eslint.base');
 
 module.exports = {
   ...eslintBaseConfig,

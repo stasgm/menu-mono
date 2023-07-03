@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@monorepo/eslint",
+  "name": "@monorepo/eslint-config",
   "version": "0.0.1",
   "files": [
     "eslint.base.js"

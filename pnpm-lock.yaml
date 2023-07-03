@@ -8,8 +8,8 @@ importers:
 
   .:
     devDependencies:
-      '@monorepo/prettier':
-        specifier: workspace:0.0.1
+      '@monorepo/prettier-config':
+        specifier: '*'
         version: link:configs/prettier
       husky:
         specifier: ^8.0.3
@@ -231,8 +231,8 @@ importers:
         specifier: 0.3.0
         version: 0.3.0(prettier@2.8.8)
     devDependencies:
-      '@monorepo/eslint':
-        specifier: workspace:0.0.1
+      '@monorepo/eslint-config':
+        specifier: '*'
         version: link:../eslint
 
   configs/tailwind:
@@ -253,8 +253,8 @@ importers:
         specifier: 3.3.2
         version: 3.3.2
     devDependencies:
-      '@monorepo/eslint':
-        specifier: workspace:0.0.1
+      '@monorepo/eslint-config':
+        specifier: '*'
         version: link:../eslint
 
   configs/tsconfig:

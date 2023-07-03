@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@monorepo/tsconfig",
+  "name": "@monorepo/tsconfig-config",
   "version": "0.0.1",
   "files": [
     "tsconfig.jsx.json"

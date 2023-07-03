@@ -14,7 +14,7 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@monorepo/prettier": "workspace:0.0.1",
+    "@monorepo/prettier-config": "*",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "turbo": "^1.10.7"
