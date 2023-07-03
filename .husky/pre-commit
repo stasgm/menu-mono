@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx lint-staged --allow-empty
+echo "🚦 PRE-COMMIT | lint-staged check..."
+
+pnpm lint-staged --allow-empty
