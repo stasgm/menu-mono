@@ -7,9 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'check-start': 'hsl(192, 100%, 67%)',
+        'check-end': 'hsl(280, 87%, 65%)',
+      },
+      fontFamily: {
+        body: ['Josefin Sans', 'sans-serif'],
+      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'mobile-dark': "url('/bg-mobile-dark.jpg')",
+        'desktop-dark': "url('/bg-desktop-dark.jpg')",
+        'desktop-dark-2': "url('/bg-desktop-dark-2.jpg')",
+        'desktop-dark-3': "url('/bg-desktop-dark-3.jpg')",
       },
     },
   },

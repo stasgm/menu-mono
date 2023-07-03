@@ -1,6 +1,6 @@
 {
-  "name": "shared-utils",
-  "files": [
-    "index.ts"
-  ]
+  "name": "@packages/shared-utils",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts"
 }

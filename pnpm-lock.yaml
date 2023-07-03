@@ -141,6 +141,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@packages/shared-utils':
+        specifier: '*'
+        version: link:../../packages/shared-utils
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5(react-redux@8.1.1)(react@18.2.0)
@@ -193,6 +196,12 @@ importers:
       '@testing-library/user-event':
         specifier: ^14.4.3
         version: 14.4.3(@testing-library/dom@9.3.1)
+      eslint-config-prettier:
+        specifier: ^8.8.0
+        version: 8.8.0(eslint@8.44.0)
+      eslint-plugin-prettier:
+        specifier: ^4.2.1
+        version: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.44.0)(prettier@2.8.8)
       jest:
         specifier: ^29.5.0
         version: 29.5.0(@types/node@20.3.3)(ts-node@10.9.1)
