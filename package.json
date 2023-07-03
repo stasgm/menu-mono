@@ -5,16 +5,16 @@
   "license": "MIT",
   "author": "Stanislau Shliakhtsich",
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
     "lint": "turbo run lint",
     "monorepo:prettier": "prettier --write './**/*.{js,jsx,ts,tsx,cjs,mjs}'",
     "monorepo:prettier:packagejson": "prettier-package-json --write './package.json' './**/*/package.json'",
     "prepare": "husky install",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "web:build": "turbo run build --filter=web",
+    "web:dev": "turbo run dev --filter=web"
   },
   "devDependencies": {
-    "@monorepo/prettier-config": "*",
+    "@configs/prettier": "*",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "turbo": "^1.10.7"
@@ -27,7 +27,7 @@
     "turbo"
   ],
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=16.8.0",
     "npm": "please-use-pnpm",
     "pnpm": ">=8.*",
     "yarn": "please-use-pnpm"

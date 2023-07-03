@@ -1,25 +1,25 @@
 {
-  "name": "api",
+  "private": true,
+  "name": "@apps/api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
-  "private": true,
   "license": "UNLICENSED",
+  "author": "",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
     "dev": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "start": "nest start",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
-    "test:watch": "jest --watch --runInBand",
+    "test:ci": "jest --ci --runInBand",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
-    "test:ci": "jest --ci --runInBand"
+    "test:watch": "jest --watch --runInBand"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.5",

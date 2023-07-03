@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@monorepo/prettier-config",
+  "name": "@configs/prettier",
   "version": "0.0.1",
   "files": [
     "prettier.base.js"
@@ -16,6 +16,6 @@
     "prettier-plugin-tailwindcss": "0.1.13"
   },
   "devDependencies": {
-    "@monorepo/eslint-config": "*"
+    "@configs/eslint": "*"
   }
 }
