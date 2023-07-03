@@ -1,21 +1,35 @@
 {
   "name": "menu-mono",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "Simple monorepo for testing new techstack",
+  "license": "MIT",
+  "author": "Stanislau Shliakhtsich",
   "scripts": {
-    "build": "turbo run build", 
+    "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "monorepo:prettier": "prettier --write './**/*.{js,jsx,ts,tsx,cjs,mjs}'",
+    "monorepo:prettier:packagejson": "prettier-package-json --write './package.json' './**/*/package.json'",
+    "prepare": "husky install",
     "test": "turbo run test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
+    "@monorepo/prettier": "workspace:0.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "turbo": "^1.10.7"
   },
+  "keywords": [
+    "nestjs",
+    "nextjs",
+    "pnpm",
+    "react",
+    "turbo"
+  ],
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.0.0",
+    "npm": "please-use-pnpm",
+    "pnpm": ">=8.*",
+    "yarn": "please-use-pnpm"
   }
 }

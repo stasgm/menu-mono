@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "@monorepo/tsconfig",
+  "version": "0.0.1",
+  "files": [
+    "tsconfig.jsx.json"
+  ],
+  "devDependencies": {
+    "typescript": "5.1.6"
+  }
+}

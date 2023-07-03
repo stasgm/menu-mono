@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "name": "@monorepo/tailwind",
+  "version": "0.0.1",
+  "files": [
+    "base.css",
+    "tailwindconfig.base.js"
+  ],
+  "scripts": {
+    "lint": "eslint --ext js,jsx,ts,tsx,cjs,mjs ."
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/typography": "0.5.9",
+    "autoprefixer": "10.4.14",
+    "postcss": "8.4.24",
+    "tailwindcss": "3.3.2"
+  },
+  "peerDependencies": {
+    "@tailwindcss/forms": "0.5.2",
+    "@tailwindcss/typography": "0.5.4",
+    "autoprefixer": "10.4.8",
+    "postcss": "8.4.16",
+    "tailwindcss": "3.1.8"
+  },
+  "devDependencies": {
+    "@monorepo/eslint": "workspace:0.0.1"
+  }
+}
