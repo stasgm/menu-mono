@@ -1,0 +1,6 @@
+{
+  "jest.autoRun": {
+    "jest.runAllTestsFirst": false
+  },
+  "jest.showCoverageOnLoad": false
+}

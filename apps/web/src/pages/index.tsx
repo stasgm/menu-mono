@@ -5,18 +5,36 @@ import OrderInfo from '../components/order-info';
 import MenuLine from '../components/menu-line';
 import Nav from '../components/nav';
 import Container from '../components/container';
+import { IMenuline, IOrder, IProductSelection } from '@packages/shared';
 
-import { IMenuline } from '@packages/shared';
 import { initialMenu } from '../mockData';
 
 const delay = (ms: number) => {
   return new Promise((res, _) => setTimeout(res, ms));
 };
 
+const getInitialOrder = (): IOrder => {
+  return {
+    id: crypto.randomUUID(),
+    number: 1,
+    date: new Date(),
+    customerDetails: {
+      name: '',
+      phoneNumber: '',
+    },
+    productSelections: [],
+    orderLines: [],
+    status: 'new',
+    totalAmount: 0,
+  };
+};
+
 export default function Menu() {
   // const { data } = useHelloQuery();
   const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
   const [menu, setMenu] = useState<IMenuline[]>([]);
+  // const [productSelections, setProductSelections] = useState<IProductSelection[]>([]);
+  const [order, setOrder] = useState<IOrder | null>(null);
   const [filter, setFilter] = useState<'all' | 'selected' | 'unselected'>('all');
 
   useEffect(() => {
@@ -29,6 +47,53 @@ export default function Menu() {
       setStatus('loaded');
     })();
   }, [status]);
+
+  useEffect(() => {
+    setOrder(getInitialOrder());
+  }, []);
+
+  const handleIncreaseQuantity = (productId: number) => {
+    if (!order) {
+      return;
+    }
+
+    const productSelection = order.productSelections.find((el) => el.productId === productId);
+
+    const productSelections: IProductSelection[] = (() => {
+      if (productSelection) {
+        return [
+          ...order.productSelections.filter((el) => el.id !== productSelection.id),
+          {
+            ...productSelection,
+            quantity: productSelection.quantity + 1,
+          },
+        ];
+      }
+
+      return [
+        ...order.productSelections,
+        {
+          id: crypto.randomUUID(),
+          productId,
+          quantity: 1,
+        },
+      ];
+    })();
+
+    setOrder((prev) => (prev ? { ...prev, productSelections } : { ...getInitialOrder(), productSelections }));
+  };
+
+  const handleDecreaseQuantity = (productId: number) => {};
+
+  const getProductQuantity = (productId: number) => {
+    const productSelection = order?.productSelections.find((el) => el.productId === productId);
+
+    if (!productSelection) {
+      return 0;
+    }
+
+    return productSelection.quantity;
+  };
 
   return (
     <>
@@ -54,7 +119,13 @@ export default function Menu() {
                   <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
                     {menu.map((line) => (
                       <li key={line.id}>
-                        <MenuLine item={line} />
+                        <MenuLine
+                          item={line}
+                          quantity={getProductQuantity(line.product.id)}
+                          key={line.id}
+                          increaseQuantity={handleIncreaseQuantity}
+                          decreaseQuantity={handleDecreaseQuantity}
+                        />
                       </li>
                     ))}
                   </ul>

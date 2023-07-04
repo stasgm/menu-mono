@@ -1,23 +1,20 @@
 {
   "private": true,
-  "name": "@packages/shared",
+  "name": "@packages/example",
   "version": "0.0.1",
-  "description": "Library that contains shared utility functions",
-  "main": "index.",
+  "description": "Example that imports a local package",
+  "main": "lib",
   "scripts": {
     "build": "pnpm clean && tsc",
-    "clean": "rimraf build",
+    "clean": "rimraf lib",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts}\" --check",
     "format:write": "prettier --parser=typescript \"src/**/*.{js,ts}\" --write",
     "lint": "eslint \"src/**/*.{js,ts}\"",
     "lint-staged": "lint-staged",
     "pretest": "jest --clearCache",
-    "test": "jest",
     "typecheck": "tsc"
   },
   "devDependencies": {
-    "@types/node": "^20.3.3",
-    "eslint": "8.44.0",
-    "ts-jest": "^29.1.1"
+    "eslint": "8.44.0"
   }
 }

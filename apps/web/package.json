@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@packages/shared": "*",
+    "@packages/shared": "workspace:*",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",

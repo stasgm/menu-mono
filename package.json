@@ -1,25 +1,45 @@
 {
+  "private": true,
   "name": "menu-mono",
   "version": "0.0.1",
   "description": "Simple monorepo for testing new techstack",
   "license": "MIT",
   "author": "Stanislau Shliakhtsich",
   "scripts": {
+    "all:clear-dist": "rimraf packages/*/dist && rimraf apps/*/dist && rimraf configs/*/dist",
+    "all:clear-node-modules": "rimraf packages/*/node_modules && rimraf apps/*/node_modules && rimraf configs/*/node_modules && rimraf node_modules",
     "all:format": "turbo run format",
     "all:format-packagejson": "prettier-package-json --write './package.json' './**/*/package.json'",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,cjs,mjs}'",
     "lint": "turbo run lint",
+    "lint-staged": "lint-staged",
     "prepare": "husky install",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
+    "test:integration": "turbo run test:integration",
+    "test:unit": "turbo run test:unit",
+    "typecheck": "turbo run typecheck",
     "web:build": "turbo run build --filter=web",
     "web:dev": "turbo run dev --filter=web"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.2",
     "husky": "^8.0.3",
+    "jest": "^29.5.0",
     "lint-staged": "^13.2.3",
     "prettier": "^2.8.8",
     "prettier-package-json": "^2.8.0",
-    "turbo": "^1.10.7"
+    "rimraf": "^5.0.1",
+    "ts-jest": "29.1.1",
+    "turbo": "^1.10.7",
+    "typescript": "^5.1.6"
   },
   "keywords": [
     "nestjs",
@@ -29,9 +49,10 @@
     "turbo"
   ],
   "engines": {
-    "node": ">=16.8.0",
+    "node": ">=18.15.0",
     "npm": "please-use-pnpm",
     "pnpm": ">=8.*",
     "yarn": "please-use-pnpm"
-  }
+  },
+  "packageManager": "pnpm@8.6.5"
 }

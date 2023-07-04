@@ -1,7 +1,7 @@
 export type OrderStatusT = 'new' | 'confirmed' | 'rejected';
 
 export interface IOrder {
-  id: number;
+  id: string;
   number: number;
   date: Date;
   customerDetails: {
@@ -9,7 +9,7 @@ export interface IOrder {
     phoneNumber: string;
   };
   totalAmount: number;
-  productSelection: IProductSelection[];
+  productSelections: IProductSelection[];
   orderLines: IOrderLine[];
   status: OrderStatusT;
 }
@@ -22,7 +22,7 @@ export interface IOrderLine {
 }
 
 export interface IProductSelection {
-  id: number;
+  id: string;
   productId: number;
   quantity: number;
 }
