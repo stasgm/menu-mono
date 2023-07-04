@@ -40,8 +40,8 @@ export const products: IProductData[] = [
 
 export const menus: IMenuData[] = [
   {
-    fromDate: new Date(2023, 7, 1),
-    toDate: new Date(2023, 7, 31),
+    fromDate: new Date(2023, 6, 1),
+    toDate: new Date(2023, 6, 31),
     name: 'Birthday menu',
     lines: [
       {
@@ -69,46 +69,8 @@ export const menus: IMenuData[] = [
 ];
 
 export const initialMenu: IMenu = getCurrentMenu({
-  currentDate: new Date(2023, 7, 18),
+  currentDate: new Date(2023, 6, 18),
   categories,
   menus,
   products,
 });
-// export const initialMenu: IMenuline[] = [
-//   {
-//     id: 1,
-//     product: {
-//       id: 1,
-//       name: 'Tea',
-//     },
-//     price: 100,
-//     quantity: 0,
-//   },
-//   {
-//     id: 2,
-//     product: {
-//       id: 2,
-//       name: 'Coffee',
-//     },
-//     price: 150,
-//     quantity: 0,
-//   },
-//   {
-//     id: 3,
-//     product: {
-//       id: 3,
-//       name: 'Cheesecake',
-//     },
-//     price: 250,
-//     quantity: 0,
-//   },
-//   {
-//     id: 4,
-//     product: {
-//       id: 4,
-//       name: 'Sandwich',
-//     },
-//     price: 200,
-//     quantity: 0,
-//   },
-// ];

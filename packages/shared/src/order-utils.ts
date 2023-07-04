@@ -36,8 +36,8 @@ const getCategory = (categories: ICategory[], categoryId: number): ICategory => 
 export const getCurrentMenu = (generateMenuData: IGenerateMenuData): IMenu => {
   const activeMenus = generateMenuData.menus.filter((el) => {
     return (
-      el.fromDate.getTime() >= generateMenuData.currentDate.getTime() &&
-      el.toDate.getTime() <= generateMenuData.currentDate.getTime()
+      el.fromDate.getTime() <= generateMenuData.currentDate.getTime() &&
+      el.toDate.getTime() >= generateMenuData.currentDate.getTime()
     );
   });
 

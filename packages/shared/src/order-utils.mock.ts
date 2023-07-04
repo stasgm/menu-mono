@@ -1,4 +1,4 @@
-import { ICategory, IProductData, IMenuData, IMenu } from './order-types';
+import { ICategory, IProductData, IMenuData } from './order-types';
 
 export const categories: ICategory[] = [
   {
@@ -40,8 +40,8 @@ export const products: IProductData[] = [
 
 export const menus: IMenuData[] = [
   {
-    fromDate: new Date(2023, 7, 1),
-    toDate: new Date(2023, 7, 31),
+    fromDate: new Date(2023, 6, 1),
+    toDate: new Date(2023, 6, 31),
     name: 'Birthday menu',
     lines: [
       {

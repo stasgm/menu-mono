@@ -10,15 +10,13 @@ interface IMenuLineProps {
 
 export default function MenuLine({ item, quantity, increaseQuantity, decreaseQuantity }: IMenuLineProps) {
   return (
-    <div className="flex justify-around items-center bg-white dark:bg-gray-800 shadow-sm py-4 px-6 border-b dark:border-gray-700">
-      <p
-        className={`flex-1 text-sm text-gray-900 dark:text-gray-100 ${
-          quantity && 'line-through text-gray-400 dark:text-gray-500'
-        }`}
-      >
-        {item.product.name}
-      </p>
-      <div className="space-x-2">
+    <div
+      className={`flex justify-around items-center ${
+        quantity ? 'bg-gray-700' : 'bg-gray-800'
+      } py-4 px-6 border-b border-gray-600`}
+    >
+      <p className="flex-1 text-sm text-gray-100">{item.product.name}</p>
+      <div>
         <button
           aria-label="Increase quantity"
           className="focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600"
@@ -27,9 +25,7 @@ export default function MenuLine({ item, quantity, increaseQuantity, decreaseQua
         >
           +
         </button>
-        <text className="flex-1 border-none text-xs sm:text-base bg-white dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-0">
-          {quantity}
-        </text>
+        <span className="inline-block w-10 text-center">{quantity}</span>
         <button
           aria-label="Increase quantity"
           className="focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600"

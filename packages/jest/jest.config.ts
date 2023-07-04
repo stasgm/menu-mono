@@ -13,7 +13,7 @@ export const baseConfig = {
   },
   rootDir: `${process.env.JEST_LIB_UNDER_TEST || testRoot}`,
   verbose: true,
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   moduleFileExtensions: ['ts', 'js', 'json'],
