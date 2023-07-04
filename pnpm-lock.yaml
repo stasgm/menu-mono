@@ -141,9 +141,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@packages/shared-utils':
+      '@packages/shared':
         specifier: '*'
-        version: link:../../packages/shared-utils
+        version: link:../../packages/shared
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5(react-redux@8.1.1)(react@18.2.0)
@@ -270,7 +270,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(prettier@2.8.8)
 
-  packages/shared-utils: {}
+  packages/shared: {}
 
   packages/ui:
     devDependencies:

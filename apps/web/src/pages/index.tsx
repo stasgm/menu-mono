@@ -6,56 +6,8 @@ import MenuLine from '../components/menu-line';
 import Nav from '../components/nav';
 import Container from '../components/container';
 
-interface IProduct {
-  id: number;
-  name: string;
-}
-
-export interface IMenuline {
-  id: number;
-  product: IProduct;
-  price: number;
-  quantity: number;
-}
-
-const initialMenu: IMenuline[] = [
-  {
-    id: 1,
-    product: {
-      id: 1,
-      name: 'Tea',
-    },
-    price: 100,
-    quantity: 0,
-  },
-  {
-    id: 2,
-    product: {
-      id: 2,
-      name: 'Coffee',
-    },
-    price: 150,
-    quantity: 0,
-  },
-  {
-    id: 3,
-    product: {
-      id: 3,
-      name: 'Cheesecake',
-    },
-    price: 250,
-    quantity: 0,
-  },
-  {
-    id: 4,
-    product: {
-      id: 4,
-      name: 'Sandwich',
-    },
-    price: 200,
-    quantity: 0,
-  },
-];
+import { IMenuline } from '@packages/shared';
+import { initialMenu } from '../mockData';
 
 const delay = (ms: number) => {
   return new Promise((res, _) => setTimeout(res, ms));
@@ -73,7 +25,7 @@ export default function Menu() {
 
     (async () => {
       // await delay(1000);
-      setMenu(initialMenu);
+      setMenu(initialMenu.lines);
       setStatus('loaded');
     })();
   }, [status]);

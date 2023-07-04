@@ -3,7 +3,7 @@
 // import CrossIcon from "../icons/cross";
 
 import { useState } from 'react';
-import { IMenuline } from '../pages';
+import { IMenuline } from '@packages/shared';
 
 export default function MenuLine({ item }: { item: IMenuline }) {
   const [quantity, setQuantity] = useState(0);

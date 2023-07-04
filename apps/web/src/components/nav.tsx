@@ -1,6 +1,4 @@
-// import axios from "axios";
-import { useState } from 'react';
-import { IMenuline } from '../pages';
+import { IMenuline, ICategory } from '@packages/shared';
 
 interface IProps {
   menuLines: IMenuline[];
@@ -64,7 +62,7 @@ export default function Nav({ menuLines, setFilter, filter }: IProps) {
             className="hover:text-gray-600 outline-slate-200 hidden sm:block focus:outline-none"
             onClick={deleteSelection}
           >
-            Clear order
+            Reset order
           </button>
           <button
             className="hover:bg-slate-700 hidden sm:block focus:outline-none bg-slate-950 rounded-md p-2 px-4"
