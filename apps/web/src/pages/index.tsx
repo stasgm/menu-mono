@@ -1,11 +1,21 @@
 // import { useHelloQuery } from '@/store/services/api';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+
 import OrderInfo from '../components/order-info';
 import MenuLine from '../components/menu-line';
 import Nav from '../components/nav';
 import Container from '../components/container';
-import { IMenu, IMenuline, IOrder, IProductSelection, calculateTotalPrice } from '@packages/shared';
+
+import {
+  IOrder,
+  IMenu,
+  IProductSelection,
+  calculateProductsQuantity,
+  calculateTotalPrice,
+  IMenuline,
+} from '@packages/domains';
 
 import { initialMenu } from '../mockData';
 
@@ -41,7 +51,7 @@ export default function Menu() {
     // sleep 2000 ms
 
     (async () => {
-      await delay(1000);
+      await delay(300);
       setMenu(initialMenu);
       setStatus('loaded');
     })();
@@ -129,10 +139,7 @@ export default function Menu() {
     return productSelection.quantity;
   };
 
-  const productSelectionAmount =
-    order?.productSelections.reduce((acc, cur) => {
-      return acc + cur.quantity;
-    }, 0) ?? 0;
+  const productSelectionAmount = order ? calculateProductsQuantity(order.productSelections) : 0;
 
   const orderPriceAmount = menu && order ? calculateTotalPrice(order.productSelections, menu) : 0;
 
@@ -156,19 +163,21 @@ export default function Menu() {
     <>
       <Head>
         <title>Menu App</title>
-        <link rel="icon" href="/favicon-32.png" />
+        <link rel="icon" href="/favicon-32.png" sizes="32" />
+        <link rel="icon" href="/favicon-24.png" sizes="24" />
       </Head>
 
       <div className="flex flex-col font-body min-h-screen">
         <header className="bg-slate-600 min-h-[200px] sm:min-h-[100px]">
           <Container>
-            <div className="flex justify-start">
-              <h1 className="text-2xl sm:text-4xl text-white font-bold">Menu</h1>
+            <div className="flex justify-start gap-2 self-center">
+              <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">Café-like menu</h1>
+              <ShoppingCartIcon className="flex-none self-center text-sm h-8 w-8 text-gray-400" />
             </div>
             <OrderInfo />
           </Container>
         </header>
-        <main className="flex-1 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        <main className="flex-1 bg-gray-900 text-gray-100">
           <Container>
             {menu?.lines.length ? (
               <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
@@ -178,8 +187,8 @@ export default function Menu() {
                       item={line}
                       quantity={getProductQuantity(line.product.id)}
                       key={line.id}
-                      increaseQuantity={handleIncreaseQuantity}
-                      decreaseQuantity={handleDecreaseQuantity}
+                      increaseQuantity={() => handleIncreaseQuantity(line.product.id)}
+                      decreaseQuantity={() => handleDecreaseQuantity(line.product.id)}
                     />
                   </li>
                 ))}
@@ -203,7 +212,7 @@ export default function Menu() {
             />
           </Container>
         </main>
-        <footer className="bg-gray-100 dark:bg-gray-900 text-gray-500 text-center">
+        <footer className="bg-gray-900 text-gray-500 text-center">
           <small>Simple cafe-like menu</small>
         </footer>
       </div>

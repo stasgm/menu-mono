@@ -1,4 +1,4 @@
-import { isNonEmptyArray } from './utils';
+import { isNonEmptyArray } from './helpers';
 
 describe('isNonEmptyArray', () => {
   it('should return false for []', () => {

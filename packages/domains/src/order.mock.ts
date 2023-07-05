@@ -1,4 +1,6 @@
-import { ICategory, IProductData, IMenuData } from './order-types';
+import { ICategory } from './category';
+import { IMenuData } from './menu';
+import { IProductData } from './product';
 
 export const categories: ICategory[] = [
   {

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.node.json",
+  "include": [".", "src", "../domains/src/order.ts"],
+  "compilerOptions": {
+    "outDir": "build",
+    "preserveSymlinks": true,
+    "declaration": true,
+    "declarationMap": true
+  }
+}

@@ -1,23 +1,23 @@
 {
   "private": true,
-  "name": "@packages/shared",
+  "name": "@packages/utils",
   "version": "0.0.1",
-  "description": "Library that contains shared utility functions",
-  "main": "index.",
+  "description": "Library that contains shared helper functions",
+  "main": "./src/index.ts",
   "scripts": {
     "build": "pnpm clean && tsc",
     "clean": "rimraf build",
+    "format": "prettier --parser=typescript \"src/**/*.{js,ts}\" --write",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts}\" --check",
-    "format:write": "prettier --parser=typescript \"src/**/*.{js,ts}\" --write",
     "lint": "eslint \"src/**/*.{js,ts}\"",
-    "lint-staged": "lint-staged",
     "pretest": "jest --clearCache",
     "test": "jest",
-    "typecheck": "tsc"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20.3.3",
     "eslint": "8.44.0",
+    "rimraf": "^5.0.1",
     "ts-jest": "^29.1.1"
   }
 }

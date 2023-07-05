@@ -3,5 +3,4 @@
 
 echo "🚦 PRE-COMMIT | lint-staged check..."
 
-pnpm all:format-packagejson
 pnpm lint-staged

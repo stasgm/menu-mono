@@ -1,6 +1,6 @@
-import { IProductSelection } from './order-types';
-import { calculateTotalPrice, getCurrentMenu } from './order-utils';
-import { categories, menus, products } from './order-utils.mock';
+import { getCurrentMenu } from './menu';
+import { IProductSelection, calculateTotalPrice } from './order';
+import { categories, menus, products } from './order.mock';
 
 describe('calculateTotalPrice', () => {
   it('should return 0 for empty order', () => {

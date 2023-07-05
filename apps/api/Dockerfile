@@ -15,7 +15,7 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 COPY --from=builder /app/turbo.json ./turbo.json
 COPY --from=builder /app/apps/api/prisma ./prisma
 RUN yarn install --frozen-lockfile
-RUN yarn prisma generate 
+RUN yarn prisma generate
 
 
 FROM node:16-alpine AS sourcer
@@ -28,4 +28,4 @@ RUN yarn turbo run build --scope=api --include-dependencies --no-deps
 FROM node:16-alpine as runner
 WORKDIR /app
 COPY --from=sourcer /app/ .
-CMD [ "node", "apps/api/dist/main.js" ]
+CMD [ "node", "apps/api/build/main.js" ]

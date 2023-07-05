@@ -33,9 +33,8 @@
       "cache": false,
       "persistent": true
     },
-    "format": {
-      "cache": false,
-      "persistent": true
-    }
+    "format": {},
+    "typecheck": {},
+    "clean": {}
   }
 }

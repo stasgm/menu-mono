@@ -177,9 +177,21 @@ importers:
 
   apps/web:
     dependencies:
-      '@packages/shared':
+      '@fortawesome/fontawesome-svg-core':
+        specifier: ^6.4.0
+        version: 6.4.0
+      '@fortawesome/react-fontawesome':
+        specifier: ^0.2.0
+        version: 0.2.0(@fortawesome/fontawesome-svg-core@6.4.0)(react@18.2.0)
+      '@heroicons/react':
+        specifier: ^2.0.18
+        version: 2.0.18(react@18.2.0)
+      '@packages/domains':
         specifier: workspace:*
-        version: link:../../packages/shared
+        version: link:../../packages/domains
+      '@packages/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@reduxjs/toolkit':
         specifier: ^1.9.5
         version: 1.9.5(react-redux@8.1.1)(react@18.2.0)
@@ -247,14 +259,11 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.3.0
         version: 0.3.0(prettier@2.8.8)
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
 
-  packages/example:
-    devDependencies:
-      eslint:
-        specifier: 8.44.0
-        version: 8.44.0
-
-  packages/shared:
+  packages/domains:
     devDependencies:
       '@types/node':
         specifier: ^20.3.3
@@ -262,6 +271,24 @@ importers:
       eslint:
         specifier: 8.44.0
         version: 8.44.0
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.1.1(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.1.6)
+
+  packages/example:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.3
+        version: 20.3.3
+      eslint:
+        specifier: 8.44.0
+        version: 8.44.0
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
       ts-jest:
         specifier: ^29.1.1
         version: 29.1.1(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.1.6)
@@ -274,6 +301,21 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.6
         version: 18.2.6
+
+  packages/utils:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.3
+        version: 20.3.3
+      eslint:
+        specifier: 8.44.0
+        version: 8.44.0
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.1.1(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.1.6)
 
 packages:
 
@@ -737,6 +779,31 @@ packages:
     resolution: {integrity: sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  /@fortawesome/fontawesome-common-types@6.4.0:
+    resolution: {integrity: sha512-HNii132xfomg5QVZw0HwXXpN22s7VBHQBv9CeOu9tfJnhsWQNd2lmTNi8CSrnw5B+5YOmzu1UoPAyxaXsJ6RgQ==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dev: false
+
+  /@fortawesome/fontawesome-svg-core@6.4.0:
+    resolution: {integrity: sha512-Bertv8xOiVELz5raB2FlXDPKt+m94MQ3JgDfsVbrqNpLU9+UE2E18GKjLKw+d3XbeYPqg1pzyQKGsrzbw+pPaw==}
+    engines: {node: '>=6'}
+    requiresBuild: true
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 6.4.0
+    dev: false
+
+  /@fortawesome/react-fontawesome@0.2.0(@fortawesome/fontawesome-svg-core@6.4.0)(react@18.2.0):
+    resolution: {integrity: sha512-uHg75Rb/XORTtVt7OS9WoK8uM276Ufi7gCzshVWkUJbHhh3svsUUeqXerrM96Wm7fRiDzfKRwSoahhMIkGAYHw==}
+    peerDependencies:
+      '@fortawesome/fontawesome-svg-core': ~1 || ~6
+      react: '>=16.3'
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 6.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: false
@@ -745,6 +812,14 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@heroicons/react@2.0.18(react@18.2.0):
+    resolution: {integrity: sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array@0.11.10:

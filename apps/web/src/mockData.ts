@@ -1,4 +1,4 @@
-import { ICategory, IProductData, IMenuData, getCurrentMenu, IMenu } from '@packages/shared';
+import { ICategory, IMenu, IMenuData, IProductData, getCurrentMenu } from '@packages/domains';
 
 export const categories: ICategory[] = [
   {

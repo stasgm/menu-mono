@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@packages/example",
+  "name": "@packages/domains",
   "version": "0.0.1",
-  "description": "Example that imports a local package",
+  "description": "Library that contains domain functions",
   "main": "./src/index.ts",
   "scripts": {
     "build": "pnpm clean && tsc",

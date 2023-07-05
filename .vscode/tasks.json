@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Run web:dev",
+      "command": "pnpm",
+      "args": ["web:dev"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "🧶 lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "✨ Format",
+      "command": "pnpm",
+      "args": ["format"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "✅ Typecheck",
+      "command": "pnpm",
+      "args": ["typecheck"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    }
+  ]
+}
