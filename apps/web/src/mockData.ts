@@ -13,13 +13,29 @@ export const categories: ICategory[] = [
     id: 3,
     name: 'snacks',
   },
+  {
+    id: 4,
+    name: 'cake',
+  },
+  {
+    id: 5,
+    name: 'salty',
+  },
+  {
+    id: 6,
+    name: 'hot',
+  },
+  {
+    id: 7,
+    name: 'kosher',
+  },
 ];
 
 export const products: IProductData[] = [
   {
     id: 1,
     name: 'Tea',
-    categories: [1],
+    categories: [1, 6],
   },
   {
     id: 2,
@@ -29,12 +45,12 @@ export const products: IProductData[] = [
   {
     id: 3,
     name: 'Cheesecake',
-    categories: [2],
+    categories: [2, 4],
   },
   {
     id: 4,
     name: 'Sandwich',
-    categories: [3],
+    categories: [3, 5, 7],
   },
 ];
 

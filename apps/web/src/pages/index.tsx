@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
+import axios from 'axios';
 
 import OrderInfo from '../components/order-info';
 import MenuLine from '../components/menu-line';
@@ -14,7 +15,7 @@ import {
   IProductSelection,
   calculateProductsQuantity,
   calculateTotalPrice,
-  IMenuline,
+  getOrder,
 } from '@packages/domains';
 
 import { initialMenu } from '../mockData';
@@ -43,8 +44,7 @@ export default function Menu() {
   // const { data } = useHelloQuery();
   const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
   const [menu, setMenu] = useState<IMenu | null>(null);
-  const [order, setOrder] = useState<IOrder | null>(null);
-  const [filter, setFilter] = useState<'all' | 'selected' | 'unselected'>('all');
+  const [order, setOrder] = useState<IOrder>(getInitialOrder());
 
   useEffect(() => {
     if (status !== 'loading') return;
@@ -61,11 +61,15 @@ export default function Menu() {
     setOrder(getInitialOrder());
   }, []);
 
-  const handleIncreaseQuantity = (productId: number) => {
-    if (!order) {
-      return;
-    }
+  const handleSetName = (name: string) => {
+    setOrder((prev) => ({ ...prev, customerDetails: { ...prev.customerDetails, name } }));
+  };
 
+  const handleSetPhoneNumber = (phoneNumber: string) => {
+    setOrder((prev) => ({ ...prev, customerDetails: { ...prev.customerDetails, phoneNumber } }));
+  };
+
+  const handleIncreaseQuantity = (productId: number) => {
     const productSelection = order.productSelections.find((el) => el.productId === productId);
 
     const productSelections: IProductSelection[] = (() => {
@@ -89,14 +93,12 @@ export default function Menu() {
       ];
     })();
 
-    setOrder((prev) => (prev ? { ...prev, productSelections } : { ...getInitialOrder(), productSelections }));
+    const orderPriceAmount = menu ? calculateTotalPrice(productSelections, menu) : 0;
+
+    setOrder((prev) => getOrder({ ...prev, productSelections, totalAmount: orderPriceAmount }, menu));
   };
 
   const handleDecreaseQuantity = (productId: number) => {
-    if (!order) {
-      return;
-    }
-
     const productSelection = order.productSelections.find((el) => el.productId === productId);
 
     const productSelections: IProductSelection[] = (() => {
@@ -117,20 +119,23 @@ export default function Menu() {
       return order.productSelections;
     })();
 
-    setOrder((prev) => (prev ? { ...prev, productSelections } : { ...getInitialOrder(), productSelections }));
+    const orderPriceAmount = menu ? calculateTotalPrice(productSelections, menu) : 0;
+
+    setOrder((prev) => getOrder({ ...prev, productSelections, totalAmount: orderPriceAmount }, menu));
   };
 
   const handleResetOrder = () => {
-    setOrder((prev) => (prev ? { ...prev, productSelections: [] } : null));
+    setOrder(getInitialOrder());
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     console.log('placing an order');
+    await axios.post<IOrder>(process.env.NEXT_PUBLIC_API_SERVER ?? 'localhost:3000', order);
     setOrder(getInitialOrder());
   };
 
   const getProductQuantity = (productId: number) => {
-    const productSelection = order?.productSelections.find((el) => el.productId === productId);
+    const productSelection = order.productSelections.find((el) => el.productId === productId);
 
     if (!productSelection) {
       return 0;
@@ -139,25 +144,7 @@ export default function Menu() {
     return productSelection.quantity;
   };
 
-  const productSelectionAmount = order ? calculateProductsQuantity(order.productSelections) : 0;
-
-  const orderPriceAmount = menu && order ? calculateTotalPrice(order.productSelections, menu) : 0;
-
-  const filterLines = (menu: IMenu): IMenuline[] => {
-    if (!order) {
-      return menu.lines;
-    }
-
-    if (filter === 'selected') {
-      return menu.lines.filter((line) => order.productSelections.find((el) => el.productId === line.product.id));
-    }
-
-    if (filter === 'unselected') {
-      return menu.lines.filter((line) => !order.productSelections.find((el) => el.productId === line.product.id));
-    }
-
-    return menu.lines;
-  };
+  const productSelectionAmount = calculateProductsQuantity(order.productSelections);
 
   return (
     <>
@@ -174,14 +161,19 @@ export default function Menu() {
               <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">Café-like menu</h1>
               <ShoppingCartIcon className="flex-none self-center text-sm h-8 w-8 text-gray-400" />
             </div>
-            <OrderInfo />
+            <OrderInfo
+              name={order.customerDetails.name || ''}
+              phoneNumber={order.customerDetails.phoneNumber || ''}
+              setName={handleSetName}
+              setPhoneNumber={handleSetPhoneNumber}
+            />
           </Container>
         </header>
         <main className="flex-1 bg-gray-900 text-gray-100">
           <Container>
             {menu?.lines.length ? (
               <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
-                {filterLines(menu).map((line) => (
+                {menu.lines.map((line) => (
                   <li key={line.id}>
                     <MenuLine
                       item={line}
@@ -203,9 +195,7 @@ export default function Menu() {
               </ul>
             )}
             <Nav
-              setFilter={setFilter}
-              filter={filter}
-              orderPriceAmount={orderPriceAmount}
+              orderPriceAmount={order.totalAmount}
               productAmount={productSelectionAmount}
               placeOrder={handlePlaceOrder}
               resetOrder={handleResetOrder}

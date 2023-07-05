@@ -23,18 +23,30 @@ export interface IOrder {
 }
 
 export interface IOrderLine {
-  id: number;
+  id: string;
   productId: number;
   quantity: number;
   price: number;
+  totalAmount: number;
 }
+
+export const getOrder = (order: IOrder, menu: IMenu | null): IOrder => {
+  const orderLines = generateOrderLines(order.productSelections, menu);
+  const totalAmount = calculateTotalPrice(order.productSelections, menu);
+
+  return {
+    ...order,
+    totalAmount,
+    orderLines,
+  };
+};
 
 /**
  * Calculate the total order value
  */
-export const calculateTotalPrice = (productSelections: IProductSelection[], menu: IMenu): number => {
+export const calculateTotalPrice = (productSelections: IProductSelection[], menu: IMenu | null): number => {
   return productSelections.reduce((acc, cur) => {
-    const menuLine = menu.lines.find((el) => el.product.id === cur.productId);
+    const menuLine = menu?.lines.find((el) => el.product.id === cur.productId);
 
     return acc + (menuLine ? cur.quantity * menuLine.price : 0);
   }, 0);
@@ -47,4 +59,21 @@ export const calculateProductsQuantity = (productSelections: IProductSelection[]
   return productSelections.reduce((acc, cur) => {
     return acc + cur.quantity;
   }, 0);
+};
+
+/**
+ * Generate order lines
+ */
+export const generateOrderLines = (productSelections: IProductSelection[], menu: IMenu | null): IOrderLine[] => {
+  return productSelections.map((cur) => {
+    const menuLine = menu?.lines.find((el) => el.product.id === cur.productId);
+
+    return {
+      id: cur.id,
+      productId: cur.productId,
+      quantity: cur.quantity,
+      price: menuLine?.price ?? 0,
+      totalAmount: menuLine ? cur.quantity * menuLine.price : 0,
+    };
+  }, []);
 };

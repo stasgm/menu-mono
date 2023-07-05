@@ -1,9 +1,12 @@
-import { useState } from 'react';
+interface IProps {
+  name: string;
+  phoneNumber: string;
+  setName: (name: string) => void;
+  setPhoneNumber: (name: string) => void;
+}
 
-export default function Form({}) {
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-
+export default function Form(props: IProps) {
+  const { name, phoneNumber, setName, setPhoneNumber } = props;
   return (
     <form className="w-full flex items-center bg-gray-800 rounded-md max-w-xl mx-auto px-7 mt-7 sm:mt-12 h-10 sm:h-12 space-x-1">
       <input
