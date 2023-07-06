@@ -98,25 +98,25 @@ export default function Menu() {
     setOrder((prev) => getOrder({ ...prev, productSelections, totalAmount: orderPriceAmount }, menu));
   };
 
-  const handleDecreaseQuantity = (productId: number) => {
+  const handleDecreaseQuantity = (productId: number, quantity = 1) => {
     const productSelection = order.productSelections.find((el) => el.productId === productId);
 
-    const productSelections: IProductSelection[] = (() => {
-      if (productSelection) {
-        if (productSelection.quantity === 1) {
-          return order.productSelections.filter((el) => el.id !== productSelection.id);
-        }
+    if (!productSelection) {
+      return;
+    }
 
-        return [
-          ...order.productSelections.filter((el) => el.id !== productSelection.id),
-          {
-            ...productSelection,
-            quantity: productSelection.quantity - 1,
-          },
-        ];
+    const productSelections: IProductSelection[] = (() => {
+      if (productSelection.quantity === quantity) {
+        return order.productSelections.filter((el) => el.id !== productSelection.id);
       }
 
-      return order.productSelections;
+      return [
+        ...order.productSelections.filter((el) => el.id !== productSelection.id),
+        {
+          ...productSelection,
+          quantity: productSelection.quantity - 1,
+        },
+      ];
     })();
 
     const orderPriceAmount = menu ? calculateTotalPrice(productSelections, menu) : 0;
@@ -179,8 +179,11 @@ export default function Menu() {
                       item={line}
                       quantity={getProductQuantity(line.product.id)}
                       key={line.id}
-                      increaseQuantity={() => handleIncreaseQuantity(line.product.id)}
-                      decreaseQuantity={() => handleDecreaseQuantity(line.product.id)}
+                      onIncreaseQuantityClicked={() => handleIncreaseQuantity(line.product.id)}
+                      onDecreaseQuantityClicked={() => handleDecreaseQuantity(line.product.id)}
+                      onResetQuantityClicked={() =>
+                        handleDecreaseQuantity(line.product.id, getProductQuantity(line.product.id))
+                      }
                     />
                   </li>
                 ))}
