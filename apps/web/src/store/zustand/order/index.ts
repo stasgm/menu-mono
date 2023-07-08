@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { IOrder, ICustomerDetails, calculateProductsQuantity, calculateTotalPrice } from '@packages/domains';
+import { IOrder, ICustomerDetails, calculateProductsQuantity, calculateTotalPrice, IMenuline } from '@packages/domains';
 
 const getInitialOrder = (): IOrder => {
   return {
@@ -17,16 +17,19 @@ const getInitialOrder = (): IOrder => {
   };
 };
 
-export interface OrderSlice {
+export type OrderSlice = State & { orderActions: Actions };
+
+interface State {
   order: IOrder;
-  orderActions: {
-    updateCustomerDetails: (customerDetails: ICustomerDetails) => void;
-    addProduct: (productId: string) => void;
-    removeProduct: (productId: string) => void;
-    updateQuantity: (productId: string, action: 'increase' | 'decrease') => void;
-    resetOrder: () => void;
-    placeOrder: () => void;
-  };
+}
+
+interface Actions {
+  updateCustomerDetails: (customerDetails: ICustomerDetails) => void;
+  addProduct: (menuLine: IMenuline) => void;
+  removeProduct: (menuLine: IMenuline) => void;
+  updateQuantity: (pmenuLine: IMenuline, action: 'increase' | 'decrease') => void;
+  resetOrder: () => void;
+  placeOrder: () => void;
 }
 
 export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
@@ -37,31 +40,32 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
       order.customerDetails = customerDetails;
       set({ order });
     },
-    addProduct: (productId: string) => {
+    addProduct: (menuLine: IMenuline) => {
       const order = get().order;
-      const findProduct = order.productSelections[productId];
+      const findProduct = order.productSelections[menuLine.product.id];
       if (findProduct) {
         findProduct.quantity = findProduct.quantity + 1;
       } else {
-        order.productSelections[productId] = { quantity: 1 };
+        order.productSelections[menuLine.product.id] = { quantity: 1, price: menuLine.price };
       }
       order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
-      // order.totalAmount = calculateTotalPrice(order.productSelections, menu);
+      order.totalAmount = calculateTotalPrice(order.productSelections);
       set({ order });
     },
-    removeProduct: (productId: string) => {
+    removeProduct: (menuLine: IMenuline) => {
       const order = get().order;
-      delete order.productSelections[productId];
+      delete order.productSelections[menuLine.product.id];
       order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
+      order.totalAmount = calculateTotalPrice(order.productSelections);
       set({ order });
     },
-    updateQuantity: (productId: string, action: 'increase' | 'decrease') => {
+    updateQuantity: (menuLine: IMenuline, action: 'increase' | 'decrease') => {
       const order = get().order;
-      const findProduct = order.productSelections[productId];
+      const findProduct = order.productSelections[menuLine.product.id];
 
       if (!findProduct) {
         if (action === 'increase') {
-          get().orderActions.addProduct(productId);
+          get().orderActions.addProduct(menuLine);
         }
         return;
       }
@@ -70,12 +74,13 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
         if (findProduct.quantity > 1) {
           findProduct.quantity = findProduct.quantity - 1;
         } else {
-          return get().orderActions.removeProduct(productId);
+          return get().orderActions.removeProduct(menuLine);
         }
       } else {
         findProduct.quantity = findProduct.quantity + 1;
       }
       order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
+      order.totalAmount = calculateTotalPrice(order.productSelections);
       set({ order });
     },
     resetOrder: () => {

@@ -17,8 +17,7 @@ export default function Menu() {
 
   useEffect(() => {
     fetchMenu();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchMenu]);
 
   // const getProductQuantity = (productId: string) => {
   //   const productSelection = order.productSelections.find((el) => el.productId === productId);
@@ -63,12 +62,11 @@ export default function Menu() {
                   <li key={line.id}>
                     <MenuLine
                       item={line}
-                      // quantity={getProductQuantity(line.product.id)}
                       quantity={order.productSelections[line.product.id]?.quantity ?? 0}
                       key={line.id}
-                      onIncreaseQuantityClicked={() => updateQuantity(line.product.id, 'increase')}
-                      onDecreaseQuantityClicked={() => updateQuantity(line.product.id, 'decrease')}
-                      onResetQuantityClicked={() => removeProduct(line.product.id)}
+                      onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
+                      onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}
+                      onResetQuantityClicked={() => removeProduct(line)}
                     />
                   </li>
                 ))}

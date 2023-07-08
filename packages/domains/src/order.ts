@@ -4,6 +4,7 @@ export interface IProductSelection {
   // id: string;
   // productId: string;
   quantity: number;
+  price: number;
 }
 
 export type OrderStatusT = 'new' | 'confirmed' | 'rejected';
@@ -49,11 +50,9 @@ export interface IOrderLine {
 /**
  * Calculate the total order value
  */
-export const calculateTotalPrice = (productSelections: IProductSelections, menu: IMenu | null): number => {
-  return Object.entries(productSelections).reduce((acc, [key, cur]) => {
-    const menuLine = menu?.lines.find((el) => el.product.id === key);
-
-    return acc + (menuLine ? cur.quantity * menuLine.price : 0);
+export const calculateTotalPrice = (productSelections: IProductSelections): number => {
+  return Object.values(productSelections).reduce((acc, cur) => {
+    return acc + cur.quantity * cur.price;
   }, 0);
 };
 
