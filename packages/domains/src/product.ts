@@ -1,18 +1,18 @@
 import { getCategory, ICategory } from './category';
 
 export interface IProductData {
-  id: number;
+  id: string;
   name: string;
-  categories: number[];
+  categories: string[];
 }
 
 export interface IProduct {
-  id: number;
+  id: string;
   name: string;
   categories: ICategory[];
 }
 
-export const getProduct = (products: IProductData[], categories: ICategory[], productId: number): IProduct => {
+export const getProduct = (products: IProductData[], categories: ICategory[], productId: string): IProduct => {
   const product = products.find((p) => p.id === productId);
 
   if (!product) {

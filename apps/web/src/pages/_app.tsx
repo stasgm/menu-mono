@@ -1,15 +1,17 @@
 import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
-
-import store from '@/store';
+import React from 'react';
+// import { Provider } from 'react-redux';
+// import store from '@/store/redux';
 
 import '@/styles/global.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
+    <React.StrictMode>
       <Component {...pageProps} />
-    </Provider>
+    </React.StrictMode>
+    // </Provider>
   );
 }
 

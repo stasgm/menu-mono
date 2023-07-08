@@ -1,150 +1,36 @@
-// import { useHelloQuery } from '@/store/services/api';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
-import axios from 'axios';
 
-import OrderInfo from '../components/order-info';
-import MenuLine from '../components/menu-line';
-import Nav from '../components/nav';
-import Container from '../components/container';
+import { useStore } from '@/store/zustand';
+import OrderInfo from '@/components/order-info';
+import MenuLine from '@/components/menu-line';
+import Nav from '@/components/nav';
+import Container from '@/components/container';
 
-import {
-  IOrder,
-  IMenu,
-  IProductSelection,
-  calculateProductsQuantity,
-  calculateTotalPrice,
-  getOrder,
-} from '@packages/domains';
-
-import { initialMenu } from '../mockData';
-
-const delay = (ms: number) => {
-  return new Promise((res, _) => setTimeout(res, ms));
-};
-
-const getInitialOrder = (): IOrder => {
-  return {
-    id: crypto.randomUUID(),
-    number: 1,
-    date: new Date(),
-    customerDetails: {
-      name: '',
-      phoneNumber: '',
-    },
-    productSelections: [],
-    orderLines: [],
-    status: 'new',
-    totalAmount: 0,
-  };
-};
+// import { calculateProductsQuantity } from '@packages/domains';
 
 export default function Menu() {
-  // const { data } = useHelloQuery();
-  const [status, setStatus] = useState<'loading' | 'loaded'>('loading');
-  const [menu, setMenu] = useState<IMenu | null>(null);
-  const [order, setOrder] = useState<IOrder>(getInitialOrder());
+  const { order, menu, menuActions, orderActions } = useStore();
+  const { fetchMenu } = menuActions;
+  const { placeOrder, removeProduct, resetOrder, updateCustomerDetails, updateQuantity } = orderActions;
 
   useEffect(() => {
-    if (status !== 'loading') return;
-    // sleep 2000 ms
-
-    (async () => {
-      await delay(300);
-      setMenu(initialMenu);
-      setStatus('loaded');
-    })();
-  }, [status]);
-
-  useEffect(() => {
-    setOrder(getInitialOrder());
+    fetchMenu();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSetName = (name: string) => {
-    setOrder((prev) => ({ ...prev, customerDetails: { ...prev.customerDetails, name } }));
-  };
+  // const getProductQuantity = (productId: string) => {
+  //   const productSelection = order.productSelections.find((el) => el.productId === productId);
 
-  const handleSetPhoneNumber = (phoneNumber: string) => {
-    setOrder((prev) => ({ ...prev, customerDetails: { ...prev.customerDetails, phoneNumber } }));
-  };
+  //   if (!productSelection) {
+  //     return 0;
+  //   }
 
-  const handleIncreaseQuantity = (productId: number) => {
-    const productSelection = order.productSelections.find((el) => el.productId === productId);
+  //   return productSelection.quantity;
+  // };
 
-    const productSelections: IProductSelection[] = (() => {
-      if (productSelection) {
-        return [
-          ...order.productSelections.filter((el) => el.id !== productSelection.id),
-          {
-            ...productSelection,
-            quantity: productSelection.quantity + 1,
-          },
-        ];
-      }
-
-      return [
-        ...order.productSelections,
-        {
-          id: crypto.randomUUID(),
-          productId,
-          quantity: 1,
-        },
-      ];
-    })();
-
-    const orderPriceAmount = menu ? calculateTotalPrice(productSelections, menu) : 0;
-
-    setOrder((prev) => getOrder({ ...prev, productSelections, totalAmount: orderPriceAmount }, menu));
-  };
-
-  const handleDecreaseQuantity = (productId: number, quantity = 1) => {
-    const productSelection = order.productSelections.find((el) => el.productId === productId);
-
-    if (!productSelection) {
-      return;
-    }
-
-    const productSelections: IProductSelection[] = (() => {
-      if (productSelection.quantity === quantity) {
-        return order.productSelections.filter((el) => el.id !== productSelection.id);
-      }
-
-      return [
-        ...order.productSelections.filter((el) => el.id !== productSelection.id),
-        {
-          ...productSelection,
-          quantity: productSelection.quantity - 1,
-        },
-      ];
-    })();
-
-    const orderPriceAmount = menu ? calculateTotalPrice(productSelections, menu) : 0;
-
-    setOrder((prev) => getOrder({ ...prev, productSelections, totalAmount: orderPriceAmount }, menu));
-  };
-
-  const handleResetOrder = () => {
-    setOrder(getInitialOrder());
-  };
-
-  const handlePlaceOrder = async () => {
-    console.log('placing an order');
-    await axios.post<IOrder>(process.env.NEXT_PUBLIC_API_SERVER ?? 'localhost:3000', order);
-    setOrder(getInitialOrder());
-  };
-
-  const getProductQuantity = (productId: number) => {
-    const productSelection = order.productSelections.find((el) => el.productId === productId);
-
-    if (!productSelection) {
-      return 0;
-    }
-
-    return productSelection.quantity;
-  };
-
-  const productSelectionAmount = calculateProductsQuantity(order.productSelections);
+  // const productSelectionAmount = calculateProductsQuantity(order.productSelections);
 
   return (
     <>
@@ -164,8 +50,8 @@ export default function Menu() {
             <OrderInfo
               name={order.customerDetails.name || ''}
               phoneNumber={order.customerDetails.phoneNumber || ''}
-              setName={handleSetName}
-              setPhoneNumber={handleSetPhoneNumber}
+              setName={(name) => updateCustomerDetails({ ...order.customerDetails, name })}
+              setPhoneNumber={(phoneNumber) => updateCustomerDetails({ ...order.customerDetails, phoneNumber })}
             />
           </Container>
         </header>
@@ -177,13 +63,12 @@ export default function Menu() {
                   <li key={line.id}>
                     <MenuLine
                       item={line}
-                      quantity={getProductQuantity(line.product.id)}
+                      // quantity={getProductQuantity(line.product.id)}
+                      quantity={order.productSelections[line.product.id]?.quantity ?? 0}
                       key={line.id}
-                      onIncreaseQuantityClicked={() => handleIncreaseQuantity(line.product.id)}
-                      onDecreaseQuantityClicked={() => handleDecreaseQuantity(line.product.id)}
-                      onResetQuantityClicked={() =>
-                        handleDecreaseQuantity(line.product.id, getProductQuantity(line.product.id))
-                      }
+                      onIncreaseQuantityClicked={() => updateQuantity(line.product.id, 'increase')}
+                      onDecreaseQuantityClicked={() => updateQuantity(line.product.id, 'decrease')}
+                      onResetQuantityClicked={() => removeProduct(line.product.id)}
                     />
                   </li>
                 ))}
@@ -199,9 +84,9 @@ export default function Menu() {
             )}
             <Nav
               orderPriceAmount={order.totalAmount}
-              productAmount={productSelectionAmount}
-              placeOrder={handlePlaceOrder}
-              resetOrder={handleResetOrder}
+              productAmount={order.totalProductQuantity}
+              placeOrder={placeOrder}
+              resetOrder={resetOrder}
             />
           </Container>
         </main>

@@ -1,9 +1,9 @@
 export interface ICategory {
-  id: number;
+  id: string;
   name: string;
 }
 
-export const getCategory = (categories: ICategory[], categoryId: number): ICategory => {
+export const getCategory = (categories: ICategory[], categoryId: string): ICategory => {
   const category = categories.find((c) => c.id === categoryId);
 
   if (!category) {

@@ -1,12 +1,22 @@
-# Techstack
+# Menu-mono
+
+## Techstack
 
 - pnpm - monorepo and dependencies (<https://pnpm.io/installation>)
   - pnpm install - install all dependencies
   - pnpm -r update (-L) - update all dependencies (latest)
 - turborepo - build\test\lint caching (<https://turbo.build/repo/docs>)
+- turbopack
 - nestjs - api seriver (<https://docs.nestjs.com>)
 - nextjs - web client (<https://nextjs.org/docs>)
+- redis - data caching
+- tailwind
 
-# Steps
+## Additional libs
+
+- Zustand - state managment tool (<https://docs.pmnd.rs/zustand/getting-started/introduction>)
+- Immer - immutability tool (<https://immerjs.github.io/immer/>)
+
+## How to
 
 - pnpm create next-app new-next-app - create a new nextjs app

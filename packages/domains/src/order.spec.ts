@@ -1,5 +1,5 @@
 import { getCurrentMenu } from './menu';
-import { IProductSelection, calculateTotalPrice } from './order';
+import { IProductSelections, calculateTotalPrice } from './order';
 import { categories, menus, products } from './order.mock';
 
 describe('calculateTotalPrice', () => {
@@ -15,23 +15,17 @@ describe('calculateTotalPrice', () => {
       products,
     });
 
-    const productsSelections: IProductSelection[] = [
-      {
-        id: '1',
-        productId: 1,
+    const productsSelections: IProductSelections = {
+      '1': {
         quantity: 2,
       },
-      {
-        id: '2',
-        productId: 2,
+      '2': {
         quantity: 1,
       },
-      {
-        id: '3',
-        productId: 4,
+      '3': {
         quantity: 0,
       },
-    ];
+    };
 
     expect(calculateTotalPrice(productsSelections, menu)).toBe(350);
   });

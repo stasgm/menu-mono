@@ -2,9 +2,9 @@ import { ICategory } from './category';
 import { IProductData, IProduct, getProduct } from './product';
 
 export interface IMenuline {
-  id: number;
+  id: string;
   product: {
-    id: number;
+    id: string;
     name: string;
     categories: ICategory[];
   };
@@ -12,8 +12,8 @@ export interface IMenuline {
 }
 
 export interface IMenulineData {
-  id: number;
-  productId: number;
+  id: string;
+  productId: string;
   price: number;
 }
 
