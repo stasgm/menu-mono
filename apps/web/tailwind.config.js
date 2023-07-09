@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -6,6 +8,10 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      xs: '475px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         'check-start': 'hsl(192, 100%, 67%)',
@@ -14,12 +20,7 @@ module.exports = {
       fontFamily: {
         body: ['Josefin Sans', 'sans-serif'],
       },
-      backgroundImage: {
-        'mobile-dark': "url('/bg-mobile-dark.jpg')",
-        'desktop-dark': "url('/bg-desktop-dark.jpg')",
-        'desktop-dark-2': "url('/bg-desktop-dark-2.jpg')",
-        'desktop-dark-3': "url('/bg-desktop-dark-3.jpg')",
-      },
+      backgroundImage: {},
     },
   },
   plugins: [],

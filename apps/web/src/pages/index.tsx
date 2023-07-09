@@ -45,35 +45,31 @@ export default function Menu() {
         <main className="flex-1 bg-gray-900 text-gray-100">
           <Container>
             {menu?.lines.length ? (
-              <ul className="-mt-14 sm:-mt-28 rounded-t-md overflow-hidden">
-                {menu.lines.map((line) => (
-                  <li key={line.id}>
-                    <MenuLine
-                      item={line}
-                      quantity={order.productSelections[line.product.id]?.quantity ?? 0}
-                      key={line.id}
-                      onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
-                      onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}
-                      onResetQuantityClicked={() => removeProduct(line)}
-                    />
-                  </li>
-                ))}
-              </ul>
+              <>
+                <ul className="-mt-14 sm:-mt-28 rounded-t-md overflow-hidden">
+                  {menu.lines.map((line) => (
+                    <li key={line.id}>
+                      <MenuLine
+                        item={line}
+                        quantity={order.productSelections[line.product.id]?.quantity ?? 0}
+                        key={line.id}
+                        onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
+                        onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}
+                        onResetQuantityClicked={() => removeProduct(line)}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <Nav
+                  orderPriceAmount={order.totalAmount}
+                  productAmount={order.totalProductQuantity}
+                  placeOrder={placeOrder}
+                  resetOrder={resetOrder}
+                />
+              </>
             ) : (
-              <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
-                <li>
-                  <div className="flex justify-around items-center bg-gray-800 py-4 px-6 border-b border-gray-600">
-                    Loading...
-                  </div>
-                </li>
-              </ul>
+              <div className="flex justify-around items-center py-4 px-6 text-gray-100">Loading menu ...</div>
             )}
-            <Nav
-              orderPriceAmount={order.totalAmount}
-              productAmount={order.totalProductQuantity}
-              placeOrder={placeOrder}
-              resetOrder={resetOrder}
-            />
           </Container>
         </main>
         <footer className="bg-gray-900 text-gray-500 text-center">

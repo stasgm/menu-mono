@@ -8,7 +8,7 @@ interface IProps {
 export default function Form(props: IProps) {
   const { name, phoneNumber, setName, setPhoneNumber } = props;
   return (
-    <form className="w-full flex items-center bg-gray-800 rounded-md max-w-xl mx-auto px-7 mt-4 sm:mt-12 h-10 sm:h-12 gap-x-2 flex-wrap">
+    <form className="flex w-full items-center bg-gray-800 rounded-md max-w-xl mx-auto xs:px-7 px-2 mt-4 sm:mt-12 h-10 sm:h-12 gap-x-2 xs:flex-nowrap flex-wrap">
       <input
         type="text"
         className="flex-1 border-none text-sm sm:text-base bg-gray-800 text-gray-100 focus:outline-none focus:ring-0 placeholder:text-slate-600"
