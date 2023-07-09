@@ -12,9 +12,9 @@ export default function Nav(props: IProps) {
 
   return (
     <>
-      <div className="flex justify-between text-sm text-gray-500 bg-gray-800 rounded-b-md py-4 px-6 font-bold mb-2 sm:mb-4">
-        <p className="flex-1">{`Total products: ${productAmount}`}</p>
-        <div className="flex justify-between w-1/4">
+      <div className="flex justify-between text-sm text-gray-500 bg-gray-800 rounded-b-md sm:py-4 py-2 sm:px-6 px-2 font-bold mb-2 sm:mb-4">
+        <p className="flex-1 self-center">{`Total products: ${productAmount}`}</p>
+        <div className="inline-flex justify-between sm:w-1/4 w-2/5">
           <p>Total price:</p>
           <p>{formatPrice(orderPriceAmount)}</p>
         </div>

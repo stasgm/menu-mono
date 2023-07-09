@@ -87,7 +87,7 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
       set({ order: getInitialOrder() });
     },
     placeOrder: async () => {
-      console.log('placing an order');
+      console.log('placing the order');
       set({ order: getInitialOrder() });
     },
   },

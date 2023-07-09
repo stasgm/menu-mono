@@ -1,5 +1,5 @@
 import { ICategory } from './category';
-import { IMenuData } from './menu';
+import { IMenu, IMenuData, getCurrentMenu } from './menu';
 import { IProductData } from './product';
 
 export const categories: ICategory[] = [
@@ -15,13 +15,29 @@ export const categories: ICategory[] = [
     id: '3',
     name: 'snacks',
   },
+  {
+    id: '4',
+    name: 'cake',
+  },
+  {
+    id: '5',
+    name: 'salty',
+  },
+  {
+    id: '6',
+    name: 'hot',
+  },
+  {
+    id: '7',
+    name: 'kosher',
+  },
 ];
 
 export const products: IProductData[] = [
   {
     id: '1',
     name: 'Tea',
-    categories: ['1'],
+    categories: ['1', '6'],
   },
   {
     id: '2',
@@ -31,12 +47,22 @@ export const products: IProductData[] = [
   {
     id: '3',
     name: 'Cheesecake',
-    categories: ['2'],
+    categories: ['2', '4'],
   },
   {
     id: '4',
     name: 'Sandwich',
-    categories: ['3'],
+    categories: ['3', '5', '7'],
+  },
+  {
+    id: '5',
+    name: 'Muffin',
+    categories: ['2', '3', '7'],
+  },
+  {
+    id: '6',
+    name: 'Water with lemon and sault',
+    categories: ['1', '5'],
   },
 ];
 
@@ -66,6 +92,23 @@ export const menus: IMenuData[] = [
         price: 250,
         productId: '4',
       },
+      {
+        id: '5',
+        price: 190,
+        productId: '5',
+      },
+      {
+        id: '6',
+        price: 70,
+        productId: '6',
+      },
     ],
   },
 ];
+
+export const menu: IMenu = getCurrentMenu({
+  currentDate: new Date(2023, 6, 18),
+  categories,
+  menus,
+  products,
+});

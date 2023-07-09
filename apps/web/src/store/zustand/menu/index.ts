@@ -1,7 +1,6 @@
 import { StateCreator } from 'zustand';
 import { IMenu } from '@packages/domains';
-
-import { initialMenu } from '@/mockData';
+import { menu } from '@packages/domains/src/order.mock';
 
 export interface MenuSlice {
   menu: IMenu | null;
@@ -22,7 +21,7 @@ export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set,
       // set({ products: await res.json() });
       // await axios.post<IOrder>(process.env.NEXT_PUBLIC_API_SERVER ?? 'localhost:3000', order);
       await delay(500);
-      set({ menu: initialMenu });
+      set({ menu });
     },
   },
 });

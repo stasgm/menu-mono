@@ -19,18 +19,6 @@ export default function Menu() {
     fetchMenu();
   }, [fetchMenu]);
 
-  // const getProductQuantity = (productId: string) => {
-  //   const productSelection = order.productSelections.find((el) => el.productId === productId);
-
-  //   if (!productSelection) {
-  //     return 0;
-  //   }
-
-  //   return productSelection.quantity;
-  // };
-
-  // const productSelectionAmount = calculateProductsQuantity(order.productSelections);
-
   return (
     <>
       <Head>
@@ -40,7 +28,7 @@ export default function Menu() {
       </Head>
 
       <div className="flex flex-col font-body min-h-screen">
-        <header className="bg-slate-600 min-h-[200px] sm:min-h-[100px]">
+        <header className="bg-slate-600 min-h-[150px] sm:min-h-[100px]">
           <Container>
             <div className="flex justify-start gap-2 self-center">
               <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">Café-like menu</h1>
@@ -57,7 +45,7 @@ export default function Menu() {
         <main className="flex-1 bg-gray-900 text-gray-100">
           <Container>
             {menu?.lines.length ? (
-              <ul className="-mt-16 sm:-mt-28 rounded-t-md overflow-hidden">
+              <ul className="-mt-14 sm:-mt-28 rounded-t-md overflow-hidden">
                 {menu.lines.map((line) => (
                   <li key={line.id}>
                     <MenuLine
