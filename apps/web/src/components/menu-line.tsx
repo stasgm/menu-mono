@@ -42,7 +42,7 @@ export default function MenuLine({
         </div>
         <p className="self-center text-sm text-gray-300 text-right">{item.price}</p>
       </div>
-      <div className="flex">
+      <div className="flex select-none">
         <button
           className="flex-none focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600 self-center"
           aria-label="Decrease quantity"
