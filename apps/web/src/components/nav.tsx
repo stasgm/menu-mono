@@ -19,7 +19,7 @@ export default function Nav(props: IProps) {
           <p>{formatPrice(orderPriceAmount)}</p>
         </div>
       </div>
-      <nav className="flex justify-between items-center text-sm bg-gray-800 text-gray-500 rounded-md px-2 p-2 mt-0 font-bold">
+      <nav className="flex justify-between items-center text-sm bg-gray-800 rounded-md px-2 p-2 mt-0 font-bold">
         <button
           className="hover:bg-slate-700 focus:outline-none bg-slate-900 rounded-md p-2 px-4 active:bg-gray-600 active:text-gray-400"
           onClick={resetOrder}
