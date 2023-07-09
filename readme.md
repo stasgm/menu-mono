@@ -1,5 +1,9 @@
 # Menu-mono
 
+<https://cafe-like-menu.netlify.app/>
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/64f89d24-c5c7-4ade-b6a5-89e480d5d2ea/deploy-status)](https://app.netlify.com/sites/cafe-like-menu/deploys)
+
 ## Techstack
 
 - pnpm - monorepo and dependencies (<https://pnpm.io/installation>)
