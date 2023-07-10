@@ -2,9 +2,17 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "🚀 Run web:dev",
+      "label": "🚀 web:dev",
       "command": "pnpm",
       "args": ["web:dev"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "🚀 api:dev",
+      "command": "pnpm",
+      "args": ["api:dev"],
       "options": {
         "cwd": "${workspaceFolder}",
       }

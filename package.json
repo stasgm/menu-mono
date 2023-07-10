@@ -6,6 +6,8 @@
   "license": "MIT",
   "author": "Stanislau Shliakhtsich",
   "scripts": {
+    "api:build": "turbo run build --filter=api",
+    "api:dev": "turbo run dev --filter=api",
     "clean": "turbo run clean",
     "clear-node-modules": "rimraf packages/*/node_modules && rimraf apps/*/node_modules && rimraf configs/*/node_modules && rimraf node_modules",
     "format": "turbo run format",

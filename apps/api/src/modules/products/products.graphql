@@ -1,0 +1,25 @@
+type Product {
+  # Example field (placeholder)
+  id: Int
+  name: String
+}
+
+input CreateProductInput {
+  # Example field (placeholder)
+  id: Int
+}
+
+input UpdateProductInput {
+  id: Int!
+}
+
+type Query {
+  products: [Product]!
+  product(id: Int!): Product
+}
+
+type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product
+}

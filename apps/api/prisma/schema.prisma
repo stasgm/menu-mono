@@ -5,13 +5,39 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator zod {
+  provider     = "zod-prisma"
+  output       = "../src/types/zod"
+  // useDecimalJs          = false // (default) represent the prisma Decimal type using as a JS number
+  useDecimalJs = true // represent the prisma Decimal type using Decimal.js (as Prisma does)
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id          Int    @id @default(autoincrement())
+  phoneNumber String @unique
+  name        String
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  category Category[]
+  menus    Menu[]
+}
+
+model Menu {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  products Product[]
 }

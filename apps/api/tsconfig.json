@@ -2,6 +2,14 @@
   "extends": "../../tsconfig.base.node.json",
   "compilerOptions": {
     "outDir": "./build",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false
   }
 }
