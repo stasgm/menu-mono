@@ -2,8 +2,8 @@ import * as z from 'zod';
 import {
   CompleteCategory,
   RelatedCategoryModel,
-  CompleteMenu,
-  RelatedMenuModel,
+  CompleteMenuLine,
+  RelatedMenuLineModel,
 } from './index';
 
 export const ProductModel = z.object({
@@ -12,8 +12,8 @@ export const ProductModel = z.object({
 });
 
 export interface CompleteProduct extends z.infer<typeof ProductModel> {
-  category: CompleteCategory[];
-  menus: CompleteMenu[];
+  categories: CompleteCategory[];
+  MenuLine: CompleteMenuLine[];
 }
 
 /**
@@ -23,7 +23,7 @@ export interface CompleteProduct extends z.infer<typeof ProductModel> {
  */
 export const RelatedProductModel: z.ZodSchema<CompleteProduct> = z.lazy(() =>
   ProductModel.extend({
-    category: RelatedCategoryModel.array(),
-    menus: RelatedMenuModel.array(),
+    categories: RelatedCategoryModel.array(),
+    MenuLine: RelatedMenuLineModel.array(),
   }),
 );

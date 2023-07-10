@@ -1,6 +1,9 @@
 import { StateCreator } from 'zustand';
+import { gql } from '@apollo/client';
+
 import { IMenu } from '@packages/domains';
-import { menu } from '@packages/domains/src/order.mock';
+// import { menu } from '@packages/domains/src/order.mock';
+import client from '../../../utils/apollo-client';
 
 export interface MenuSlice {
   menu: IMenu | null;
@@ -20,8 +23,20 @@ export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set,
       // const res = await fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=20');
       // set({ products: await res.json() });
       // await axios.post<IOrder>(process.env.NEXT_PUBLIC_API_SERVER ?? 'localhost:3000', order);
-      await delay(500);
-      set({ menu });
+      // await delay(500);
+
+      const { data } = await client.query({
+        query: gql`
+          query products {
+            products {
+              id
+              name
+            }
+          }
+        `,
+      });
+
+      set({ menu: data.menu });
     },
   },
 });

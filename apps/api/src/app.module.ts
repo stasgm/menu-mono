@@ -13,7 +13,9 @@ import { ProductsModule } from './modules/products/products.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: validationSchemaForEnv,
+      validate: (configuration: Record<string, unknown>) => {
+        return validationSchemaForEnv.parse(configuration);
+      },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

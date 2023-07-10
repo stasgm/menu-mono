@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.17",
     "@heroicons/react": "^2.0.18",
     "@packages/domains": "workspace:*",
     "@packages/utils": "workspace:*",
@@ -24,6 +25,7 @@
     "axios": "^1.4.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
+    "graphql": "^16.7.1",
     "next": "13.4.7",
     "postcss": "8.4.24",
     "react": "18.2.0",

@@ -30,14 +30,22 @@ model Category {
 }
 
 model Product {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  category Category[]
-  menus    Menu[]
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  categories Category[]
+  MenuLine   MenuLine[]
+}
+
+model MenuLine {
+  id        Int     @id @default(autoincrement())
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  price     Int
+  Menu      Menu[]
 }
 
 model Menu {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  products Product[]
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  menuLines MenuLine[]
 }

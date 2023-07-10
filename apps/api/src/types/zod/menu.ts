@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { CompleteProduct, RelatedProductModel } from './index';
+import { CompleteMenuLine, RelatedMenuLineModel } from './index';
 
 export const MenuModel = z.object({
   id: z.number().int(),
@@ -7,7 +7,7 @@ export const MenuModel = z.object({
 });
 
 export interface CompleteMenu extends z.infer<typeof MenuModel> {
-  products: CompleteProduct[];
+  menuLines: CompleteMenuLine[];
 }
 
 /**
@@ -17,6 +17,6 @@ export interface CompleteMenu extends z.infer<typeof MenuModel> {
  */
 export const RelatedMenuModel: z.ZodSchema<CompleteMenu> = z.lazy(() =>
   MenuModel.extend({
-    products: RelatedProductModel.array(),
+    menuLines: RelatedMenuLineModel.array(),
   }),
 );
