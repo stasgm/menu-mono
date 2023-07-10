@@ -7,7 +7,7 @@ export const MenuModel = z.object({
 });
 
 export interface CompleteMenu extends z.infer<typeof MenuModel> {
-  menuLines: CompleteMenuLine[];
+  lines: CompleteMenuLine[];
 }
 
 /**
@@ -17,6 +17,6 @@ export interface CompleteMenu extends z.infer<typeof MenuModel> {
  */
 export const RelatedMenuModel: z.ZodSchema<CompleteMenu> = z.lazy(() =>
   MenuModel.extend({
-    menuLines: RelatedMenuLineModel.array(),
+    lines: RelatedMenuLineModel.array(),
   }),
 );

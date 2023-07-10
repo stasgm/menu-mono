@@ -33,7 +33,7 @@ model Product {
   id         Int        @id @default(autoincrement())
   name       String     @unique
   categories Category[]
-  MenuLine   MenuLine[]
+  lines      MenuLine[]
 }
 
 model MenuLine {
@@ -45,7 +45,7 @@ model MenuLine {
 }
 
 model Menu {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  menuLines MenuLine[]
+  id    Int        @id @default(autoincrement())
+  name  String     @unique
+  lines MenuLine[]
 }

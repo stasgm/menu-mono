@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import { menu, categories, products } from '@packages/domains/src/order.mock';
-import { IMenuline } from '@packages/domains';
+import { IMenuline, menu, categories, products } from '@packages/domains';
 
 const prisma = new PrismaClient();
 
@@ -67,12 +66,12 @@ async function main() {
     });
   }
 
-  const menuLines = createMenuLinesByLines(menu.lines);
+  const lines = createMenuLinesByLines(menu.lines);
 
   await prisma.menu.create({
     data: {
       name: 'Current menu',
-      menuLines,
+      lines,
     },
   });
 }

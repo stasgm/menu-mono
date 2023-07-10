@@ -1,7 +1,8 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
+import { CreateProductInput, UpdateProductInput } from '../../graphql.schema';
+// import { CreateProductInput } from './dto/create-product.input';
+// import { UpdateProductInput } from './dto/update-product.input';
 
 @Resolver('Product')
 export class ProductsResolver {
@@ -14,6 +15,7 @@ export class ProductsResolver {
 
   @Query('products')
   findAll() {
+    console.log('dd');
     return this.productsService.findAll();
   }
 

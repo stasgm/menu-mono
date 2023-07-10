@@ -2,8 +2,8 @@
   "private": true,
   "name": "@packages/domains",
   "version": "0.0.1",
-  "description": "Library that contains domain functions",
-  "main": "./src/index.ts",
+  "description": "Library that contains domains functions",
+  "main": "build/src/index.js",
   "scripts": {
     "build": "pnpm clean && tsc",
     "clean": "rimraf build",
@@ -14,6 +14,7 @@
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
+  "types": "src",
   "devDependencies": {
     "@types/node": "^20.3.3",
     "eslint": "8.44.0",

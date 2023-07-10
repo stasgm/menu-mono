@@ -13,7 +13,7 @@ export const ProductModel = z.object({
 
 export interface CompleteProduct extends z.infer<typeof ProductModel> {
   categories: CompleteCategory[];
-  MenuLine: CompleteMenuLine[];
+  lines: CompleteMenuLine[];
 }
 
 /**
@@ -24,6 +24,6 @@ export interface CompleteProduct extends z.infer<typeof ProductModel> {
 export const RelatedProductModel: z.ZodSchema<CompleteProduct> = z.lazy(() =>
   ProductModel.extend({
     categories: RelatedCategoryModel.array(),
-    MenuLine: RelatedMenuLineModel.array(),
+    lines: RelatedMenuLineModel.array(),
   }),
 );

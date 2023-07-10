@@ -5,9 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import { validationSchemaForEnv } from './config/environment-variables';
-import { PersistenceModule } from './modules/core/persistence/persistence.module';
+import { PersistenceModule } from './modules/_core/persistence/persistence.module';
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 import { ProductsModule } from './modules/products/products.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { MenusModule } from './modules/menus/menus.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { ProductsModule } from './modules/products/products.module';
     }),
     PersistenceModule,
     ProductsModule,
+    CategoriesModule,
+    MenusModule,
   ],
   controllers: [],
   providers: [],

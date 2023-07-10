@@ -32,4 +32,4 @@ $ pnpm run test:cov
 
 # Additional
 
-- pn dlx @nestjs/cli g res modules/users - add new 'Users' resourse
+- pn dlx @nestjs/cli g res modules/users - add new 'Users' resource

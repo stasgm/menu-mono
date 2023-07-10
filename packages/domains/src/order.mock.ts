@@ -68,6 +68,7 @@ export const products: IProductData[] = [
 
 export const menus: IMenuData[] = [
   {
+    id: '1',
     fromDate: new Date(2023, 6, 1),
     toDate: new Date(2023, 6, 31),
     name: 'Birthday menu',

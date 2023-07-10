@@ -18,6 +18,7 @@ export interface IMenulineData {
 }
 
 export interface IMenuData {
+  id: string;
   name: string;
   fromDate: Date;
   toDate: Date;
@@ -25,6 +26,8 @@ export interface IMenuData {
 }
 
 export interface IMenu {
+  id: string;
+  name: string;
   lines: IMenuline[];
 }
 
@@ -72,6 +75,8 @@ export const getCurrentMenu = (generateMenuData: IGenerateMenuData): IMenu => {
   });
 
   return {
+    id: activeMenu.id,
+    name: activeMenu.name,
     lines: menuLines,
   };
 };

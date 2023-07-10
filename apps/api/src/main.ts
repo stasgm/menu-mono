@@ -28,6 +28,8 @@ async function bootstrap() {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
-  logger.log(`Server running on http://localhost:${PORT}`);
+  // logger.log(`Server running on http://localhost:${PORT}`);
+  logger.log(`Application is running on: ${await app.getUrl()}`);
+  logger.log(`GraphQL Sandbox: ${await app.getUrl()}/graphql`);
 }
 bootstrap();

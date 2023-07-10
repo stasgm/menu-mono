@@ -1,14 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
-import { Product } from '../../graphql.schema';
+
+import {
+  Product,
+  CreateProductInput,
+  UpdateProductInput,
+} from '../../graphql.schema';
+
+import { products, categories } from '@packages/domains';
 
 @Injectable()
 export class ProductsService {
-  private readonly products: Array<Product> = [
-    { id: 1, name: 'Tea' },
-    { id: 2, name: 'Coffee' },
-  ];
+  private readonly products: Product[] = products.map((pr) => ({
+    id: +pr.id,
+    name: pr.name,
+    categories: pr.categories.map((cat) => {
+      const category = categories.find((c) => c.id === cat)!;
+      return {
+        id: +category.id,
+        name: category.name,
+      };
+    }),
+  }));
 
   async create(createProductInput: CreateProductInput) {
     return this.products.push(createProductInput);

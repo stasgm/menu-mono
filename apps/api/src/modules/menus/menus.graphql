@@ -1,0 +1,34 @@
+type MenuLines {
+  # Example field (placeholder)
+  id: Int
+  price: Int
+  product: Product
+}
+
+type Menu {
+  # Example field (placeholder)
+  id: Int
+  name: String
+  lines: [MenuLines]!
+}
+
+input CreateMenuInput {
+  # Example field (placeholder)
+  name: String
+}
+
+input UpdateMenuInput {
+  id: Int!
+  name: String
+}
+
+type Query {
+  menus: [Menu]!
+  menu(id: Int!): Menu
+}
+
+type Mutation {
+  createMenu(createMenuInput: CreateMenuInput!): Menu!
+  updateMenu(updateMenuInput: UpdateMenuInput!): Menu!
+  removeMenu(id: Int!): Menu
+}

@@ -27,16 +27,28 @@ export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set,
 
       const { data } = await client.query({
         query: gql`
-          query products {
-            products {
+          query Query {
+            menus {
               id
               name
+              lines {
+                id
+                price
+                product {
+                  id
+                  name
+                  categories {
+                    name
+                    id
+                  }
+                }
+              }
             }
           }
         `,
       });
 
-      set({ menu: data.menu });
+      set({ menu: data.menus[0] });
     },
   },
 });

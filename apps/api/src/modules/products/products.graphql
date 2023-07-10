@@ -1,16 +1,18 @@
 type Product {
-  # Example field (placeholder)
   id: Int
   name: String
+  categories: [Category]
 }
 
 input CreateProductInput {
-  # Example field (placeholder)
-  id: Int
+  name: String
+  # categories: [Category]
 }
 
 input UpdateProductInput {
   id: Int!
+  name: String
+  # categories: [CategoryInput]
 }
 
 type Query {
