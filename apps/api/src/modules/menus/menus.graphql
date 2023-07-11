@@ -1,25 +1,28 @@
 type MenuLines {
   # Example field (placeholder)
-  id: Int
-  price: Int
-  product: Product
+  id: Int!
+  price: Int!
+  product: Product!
 }
 
 type Menu {
   # Example field (placeholder)
-  id: Int
-  name: String
+  id: Int!
+  name: String!
   lines: [MenuLines]!
 }
 
 input CreateMenuInput {
   # Example field (placeholder)
-  name: String
+  id: Int!
+  name: String!
+  lines: [MenuLines]!
 }
 
 input UpdateMenuInput {
   id: Int!
-  name: String
+  name: String!
+  lines: [MenuLines]!
 }
 
 type Query {

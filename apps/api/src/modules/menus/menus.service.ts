@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMenuInput } from './dto/create-menu.input';
-import { UpdateMenuInput } from './dto/update-menu.input';
 
 import { menu } from '@packages/mocks';
-import { Menu } from '../../types/graphql.schema';
+
+import {
+  Menu,
+  CreateMenuInput,
+  UpdateMenuInput,
+} from '../../types/graphql.schema';
 
 @Injectable()
 export class MenusService {
@@ -40,7 +43,7 @@ export class MenusService {
 
   async update(id: number, updateMenuInput: UpdateMenuInput) {
     const idx = this.menus.findIndex((p) => p.id !== id);
-    this.menus[idx] = updateMenuInput;
+    this.menus[idx] = { ...this.menus[idx], ...updateMenuInput };
     return this.menus[idx];
   }
 

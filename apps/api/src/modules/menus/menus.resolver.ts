@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+
 import { MenusService } from './menus.service';
-import { CreateMenuInput } from './dto/create-menu.input';
-import { UpdateMenuInput } from './dto/update-menu.input';
+import { CreateMenuInput, UpdateMenuInput } from '../../types/graphql.schema';
 
 @Resolver('Menu')
 export class MenusResolver {
