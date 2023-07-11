@@ -36,5 +36,5 @@ yarn-error.log*
 .turbo
 
 # auto-generated types
-**/src/types/prsima/a.ts
+**/src/types/prisma/
 **/src/types/graphql.schema.ts
