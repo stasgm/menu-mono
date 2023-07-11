@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 
-import { Category } from '../../graphql.schema';
+import { Category } from '../../types/graphql.schema';
 import { categories } from '@packages/mocks';
 
 @Injectable()

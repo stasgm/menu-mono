@@ -3,7 +3,7 @@ import { CreateMenuInput } from './dto/create-menu.input';
 import { UpdateMenuInput } from './dto/update-menu.input';
 
 import { menu } from '@packages/mocks';
-import { Menu } from '../../graphql.schema';
+import { Menu } from '../../types/graphql.schema';
 
 @Injectable()
 export class MenusService {

@@ -4,7 +4,7 @@ import {
   Product,
   CreateProductInput,
   UpdateProductInput,
-} from '../../graphql.schema';
+} from '../../types/graphql.schema';
 
 import { products, categories } from '@packages/mocks';
 
