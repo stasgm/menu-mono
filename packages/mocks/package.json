@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@packages/utils",
+  "name": "@packages/mocks",
   "version": "0.0.1",
-  "description": "Library that contains shared helper functions",
+  "description": "Mock data for testing functionality without server",
   "main": "build/src/index.js",
   "scripts": {
     "build": "pnpm clean && tsc",
@@ -13,6 +13,9 @@
     "pretest": "jest --clearCache",
     "test": "jest",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@packages/domains": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.3.3",

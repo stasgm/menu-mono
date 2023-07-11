@@ -6,10 +6,8 @@ generator client {
 }
 
 generator zod {
-  provider     = "zod-prisma"
-  output       = "../src/types/zod"
-  // useDecimalJs          = false // (default) represent the prisma Decimal type using as a JS number
-  useDecimalJs = true // represent the prisma Decimal type using Decimal.js (as Prisma does)
+  provider = "prisma-nestjs-graphql"
+  output   = "../src/types/prisma"
 }
 
 datasource db {

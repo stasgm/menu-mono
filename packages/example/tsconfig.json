@@ -1,10 +1,9 @@
 {
   "extends": "../../tsconfig.base.node.json",
-  "include": ["src"],
+  "include": ["./src"],
   "compilerOptions": {
-    "outDir": "lib",
-    "preserveSymlinks": true,
+    "outDir": "./build",
+    "composite": true,
     "declaration": true,
-    "declarationMap": true
   }
 }

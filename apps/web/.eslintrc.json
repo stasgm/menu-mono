@@ -3,5 +3,6 @@
   "extends": ["next", "next/core-web-vitals", "prettier"],
   "rules": {
     "prettier/prettier": "error"
-  }
+  },
+  "ignorePatterns": ["next.config.js", "jest.config.js", "jest.setup.js", "tailwind.config.js", "postcss.config.js"]
 }

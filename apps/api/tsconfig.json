@@ -3,13 +3,20 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
-    "incremental": true,
-    "skipLibCheck": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "strictPropertyInitialization": false
+    "skipLibCheck": true,
   },
-  "references": [{ "path": "../../packages/domains/tsconfig.json" }]
+  "references": [
+    {
+      "path": "../../packages/domains/tsconfig.json"
+    },
+    {
+      "path": "../../packages/mocks/tsconfig.json"
+    },
+    {
+      "path": "../../packages/utils/tsconfig.json"
+    }
+  ]
 }

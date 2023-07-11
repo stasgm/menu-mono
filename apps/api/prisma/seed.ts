@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 
-import { IMenuline, menu, categories, products } from '@packages/domains';
+import { IMenuline } from '@packages/domains';
+import { menu, categories, products } from '@packages/mocks';
 
 const prisma = new PrismaClient();
 

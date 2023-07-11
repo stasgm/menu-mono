@@ -2,10 +2,25 @@
   "name": "@packages/ui",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "build/src/index.js",
+  "scripts": {
+    "build": "pnpm clean && tsc",
+    "clean": "rimraf build",
+    "format": "prettier --parser=typescript \"src/**/*.{js*,ts*}\" --write",
+    "format:check": "prettier --parser=typescript \"src/**/*.{js*,ts*}\" --check",
+    "lint": "eslint \"src/**/*.{js*,ts*}\"",
+    "pretest": "jest --clearCache",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
   "devDependencies": {
     "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6"
+    "@types/react-dom": "^18.2.6",
+    "eslint": "8.44.0",
+    "jest": "^29.6.1",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.1",
+    "ts-jest": "29.1.1",
+    "typescript": "^5.1.6"
   }
 }

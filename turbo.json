@@ -2,6 +2,7 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
+      "cache": false,
       "dependsOn": [
         "^build"
       ],
@@ -35,6 +36,8 @@
     },
     "format": {},
     "typecheck": {},
-    "clean": {}
+    "clean": {
+      "cache": false
+    }
   }
 }

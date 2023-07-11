@@ -7,6 +7,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "pretty": true,
+    "strictPropertyInitialization": false,
     "forceConsistentCasingInFileNames": true,
     "removeComments": true,
     "resolveJsonModule": true,
@@ -16,6 +17,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "target": "esnext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "incremental": true
   }
 }

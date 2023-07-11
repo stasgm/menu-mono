@@ -3,16 +3,7 @@
   "include": ["./src"],
   "compilerOptions": {
     "outDir": "./build",
-    // "rootDir": "./src",
-    // "baseUrl": "./src",
     "composite": true,
-    // "preserveSymlinks": true,
     "declaration": true,
-    // "incremental": true,
-    // "skipLibCheck": true,
-    // "emitDecoratorMetadata": true,
-    // "experimentalDecorators": true,
-    // "allowSyntheticDefaultImports": true,
-    // "strictPropertyInitialization": false
   }
 }

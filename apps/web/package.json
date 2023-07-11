@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "clean": "rimraf build",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbo --show-all",
     "format": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --write",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --check",
     "lint": "next lint",

@@ -3,7 +3,7 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 
 import { Category } from '../../graphql.schema';
-import { categories } from '@packages/domains';
+import { categories } from '@packages/mocks';
 
 @Injectable()
 export class CategoriesService {

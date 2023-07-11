@@ -25,5 +25,19 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".env*"],
+  "references": [
+    {
+      "path": "../../packages/domains/tsconfig.json"
+    },
+    {
+      "path": "../../packages/mocks/tsconfig.json"
+    },
+    {
+      "path": "../../packages/utils/tsconfig.json"
+    },
+    {
+      "path": "../../packages/ui/tsconfig.json"
+    }
+  ]
 }

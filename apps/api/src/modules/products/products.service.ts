@@ -6,7 +6,7 @@ import {
   UpdateProductInput,
 } from '../../graphql.schema';
 
-import { products, categories } from '@packages/domains';
+import { products, categories } from '@packages/mocks';
 
 @Injectable()
 export class ProductsService {

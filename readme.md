@@ -26,3 +26,10 @@
 ## How to
 
 - pnpm create next-app new-next-app - create a new nextjs app
+
+## Todo
+
+- add utility libs (as new shared folder):
+  - prettier
+  - eslint
+  - typescript
