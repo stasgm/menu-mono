@@ -10,6 +10,7 @@ import {
   UpdateOrderInput,
 } from '../../types/graphql.schema';
 import { tranformProduct } from '../products/products.service';
+import { OrdersRepository } from './orders.repository';
 
 const tranformLines = (
   lines: Array<CreateOrderLineInput | null>,
@@ -89,14 +90,16 @@ const transformOrders = (ordersMock: IOrder[]): Order[] => {
 
 @Injectable()
 export class OrdersService {
+  constructor(private ordersRepository: OrdersRepository) {}
   private readonly orders: Order[] = transformOrders(ordersMock);
 
   create(createOrderInput: CreateOrderInput) {
-    const order = transformOrder(createOrderInput);
+    return this.ordersRepository.createOrder({ data: createOrderInput });
+    // const order = transformOrder(createOrderInput);
 
-    this.orders.push(order);
+    // this.orders.push(order);
 
-    return order;
+    // return order;
   }
 
   findAll() {

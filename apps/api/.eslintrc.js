@@ -32,6 +32,7 @@ module.exports = {
     '.eslintrc.js',
     'src/types/graphql.schema.ts',
     'src/types/prisma/',
+    'webpack-hmr.config.js',
   ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
