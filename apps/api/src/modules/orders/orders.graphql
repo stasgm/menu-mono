@@ -1,0 +1,56 @@
+type OrderLine {
+  id: Int!
+  price: Int!
+  quantity: Int!
+  totalAmount: Int!
+  product: Product!
+}
+
+input CreateOrderLineInput {
+  id: Int!
+  price: Int!
+  quantity: Int!
+  totalAmount: Int!
+  productId: Int!
+}
+
+type Order {
+  id: Int!
+  date: String!
+  number: String!
+  status: String!
+  userName: String!
+  userPhone: String!
+  lines: [OrderLine]!
+}
+
+input CreateOrderInput {
+  id: Int!
+  date: String!
+  number: String!
+  status: String!
+  userName: String!
+  userPhone: String!
+  lines: [CreateOrderLineInput]!
+}
+
+input UpdateOrderInput {
+  id: Int!
+  date: String!
+  number: String!
+  status: String!
+  userName: String!
+  userPhone: String!
+  lines: [CreateOrderLineInput]!
+}
+
+type Query {
+  orders: [Order]!
+  order(id: Int!): Order
+}
+
+type Mutation {
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
+  removeOrder(id: Int!): Order
+}

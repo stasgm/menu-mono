@@ -1,10 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CategoriesService } from './categories.service';
 import {
   CreateCategoryInput,
   UpdateCategoryInput,
 } from '../../types/graphql.schema';
+import { CategoriesService } from './categories.service';
 
 @Resolver('Category')
 export class CategoriesResolver {

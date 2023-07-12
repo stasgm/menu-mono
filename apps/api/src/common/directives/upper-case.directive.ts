@@ -18,8 +18,13 @@ export function upperDirectiveTransformer(
 
         // Replace the original resolver with a function that *first* calls
         // the original resolver, then converts its result to upper case
-        fieldConfig.resolve = async function (source, args, context, info) {
-          const result = resolve(source, args, context, info);
+        fieldConfig.resolve = async function (
+          source,
+          arguments_,
+          context,
+          info,
+        ) {
+          const result = resolve(source, arguments_, context, info);
           if (typeof result === 'string') {
             return result.toUpperCase();
           }
@@ -27,7 +32,8 @@ export function upperDirectiveTransformer(
         };
         return fieldConfig;
       }
-      return undefined;
+      // eslint-disable-next-line sonarjs/no-redundant-jump
+      return;
     },
   });
 }

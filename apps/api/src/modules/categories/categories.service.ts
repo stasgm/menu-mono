@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
-// import { CreateCategoryInput } from './dto/create-category.input';
-// import { UpdateCategoryInput } from './dto/update-category.input';
+import { ICategory } from '@packages/domains';
+import { categoriesMock } from '@packages/mocks';
 
 import {
   Category,
   CreateCategoryInput,
   UpdateCategoryInput,
 } from '../../types/graphql.schema';
-import { categories } from '@packages/mocks';
+
+const tranformCategories = (categories: ICategory[]) => {
+  return categories.map((cat) => ({ id: +cat.id, name: cat.name }));
+};
 
 @Injectable()
 export class CategoriesService {
-  private readonly categories: Category[] = categories.map((cat) => ({
-    id: +cat.id,
-    name: cat.name,
-  }));
+  private readonly categories: Category[] = tranformCategories(categoriesMock);
 
   create(createCategoryInput: CreateCategoryInput) {
-    return this.categories.push(createCategoryInput);
+    this.categories.push({
+      id: +createCategoryInput.id,
+      name: createCategoryInput.name,
+    });
+
+    return createCategoryInput;
   }
 
   findAll() {
@@ -29,12 +34,17 @@ export class CategoriesService {
   }
 
   update(id: number, updateCategoryInput: UpdateCategoryInput) {
-    const idx = this.categories.findIndex((p) => p.id !== id);
-    this.categories[idx] = updateCategoryInput;
-    return this.categories[idx];
+    const index = this.categories.findIndex((p) => p.id !== id);
+    this.categories[index] = updateCategoryInput;
+
+    return this.categories[index];
   }
 
   remove(id: number) {
-    return this.categories.slice(this.categories.findIndex((p) => p.id !== id));
+    const index = this.categories.findIndex((p) => p.id === id);
+    const oldCategory = this.categories[index];
+    this.categories.splice(index);
+
+    return oldCategory;
   }
 }

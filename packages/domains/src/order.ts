@@ -1,13 +1,11 @@
-import { IMenu } from './menu';
-
 export interface IProductSelection {
-  // id: string;
-  // productId: string;
   quantity: number;
   price: number;
 }
 
-export type OrderStatusT = 'new' | 'confirmed' | 'rejected';
+const OrderStatuses = ['NEW', 'CONFIRMED', 'REJECTED'] as const;
+
+export type OrderStatusT = (typeof OrderStatuses)[number];
 
 export interface ICustomerDetails {
   name: string;
@@ -19,8 +17,9 @@ export interface IProductSelections {
 }
 
 export interface IOrder {
-  number: number;
-  date: Date;
+  id: string;
+  number: string;
+  date: string;
   customerDetails: ICustomerDetails;
   totalAmount: number;
   productSelections: IProductSelections;
@@ -30,22 +29,12 @@ export interface IOrder {
 }
 
 export interface IOrderLine {
+  id: string;
   productId: string;
   quantity: number;
   price: number;
   totalAmount: number;
 }
-
-// export const getOrder = (order: IOrder, menu: IMenu | null): IOrder => {
-//   const orderLines = generateOrderLines(order.productSelections, menu);
-//   const totalAmount = calculateTotalPrice(order.productSelections, menu);
-
-//   return {
-//     ...order,
-//     totalAmount,
-//     orderLines,
-//   };
-// };
 
 /**
  * Calculate the total order value
@@ -68,15 +57,14 @@ export const calculateProductsQuantity = (productSelections: IProductSelections)
 /**
  * Generate order lines
  */
-export const generateOrderLines = (productSelections: IProductSelections, menu: IMenu | null): IOrderLine[] => {
+export const generateOrderLines = (productSelections: IProductSelections): IOrderLine[] => {
   return Object.entries(productSelections).map(([key, cur]) => {
-    const menuLine = menu?.lines.find((el) => el.product.id === key);
-
     return {
+      id: key,
       productId: key,
       quantity: cur.quantity,
-      price: menuLine?.price ?? 0,
-      totalAmount: menuLine ? cur.quantity * menuLine.price : 0,
+      price: cur.price,
+      totalAmount: cur.quantity * cur.price,
     };
   }, []);
 };

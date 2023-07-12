@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from '@prisma/client';
-
 import { IMenuline } from '@packages/domains';
-import { menu, categories, products } from '@packages/mocks';
+import { categoriesMock, menuMock, productsMock } from '@packages/mocks';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -14,16 +13,6 @@ const connectCategoriesByIds = (
     connect: connectCategories,
   };
 };
-
-// const connectProductById = (
-//   productId: string,
-// ): Prisma.ProductCreateWithoutMenuLineInput => {
-//   return {
-//     connect: {
-//       id: +productId,
-//     },
-//   };
-// };
 
 const createMenuLinesByLines = (
   menuLines: IMenuline[],
@@ -48,7 +37,7 @@ async function main() {
 
   console.log('Seeding...');
 
-  for await (const category of categories) {
+  for await (const category of categoriesMock) {
     await prisma.category.create({
       data: {
         name: category.name,
@@ -56,7 +45,7 @@ async function main() {
     });
   }
 
-  for await (const product of products) {
+  for await (const product of productsMock) {
     const categories = connectCategoriesByIds(product.categories);
 
     await prisma.product.create({
@@ -67,7 +56,7 @@ async function main() {
     });
   }
 
-  const lines = createMenuLinesByLines(menu.lines);
+  const lines = createMenuLinesByLines(menuMock.lines);
 
   await prisma.menu.create({
     data: {
@@ -78,7 +67,7 @@ async function main() {
 }
 
 main()
-  .catch((e) => console.error(e))
+  .catch((error) => console.error(error))
   .finally(async () => {
     await prisma.$disconnect();
   });

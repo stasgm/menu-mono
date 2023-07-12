@@ -5,14 +5,15 @@ type Product {
 }
 
 input CreateProductInput {
-  name: String
-  # categories: [Category]
+  id: Int!
+  name: String!
+  categories: [String]!
 }
 
 input UpdateProductInput {
   id: Int!
-  name: String
-  # categories: [CategoryInput]
+  name: String!
+  categories: [String]!
 }
 
 type Query {
