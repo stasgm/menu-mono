@@ -2,7 +2,6 @@ import { StateCreator } from 'zustand';
 import { gql } from '@apollo/client';
 
 import { IMenu } from '@packages/domains';
-// import { menu } from '@packages/domains/src/order.mock';
 import client from '../../../utils/apollo-client';
 
 export interface MenuSlice {
