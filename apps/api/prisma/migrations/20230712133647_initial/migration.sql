@@ -41,6 +41,31 @@ CREATE TABLE "Menu" (
 );
 
 -- CreateTable
+CREATE TABLE "OrderLine" (
+    "id" SERIAL NOT NULL,
+    "orderId" INTEGER,
+    "productId" INTEGER NOT NULL,
+    "price" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "totalAmount" INTEGER NOT NULL,
+
+    CONSTRAINT "OrderLine_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Order" (
+    "id" SERIAL NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+    "number" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "totalAmount" INTEGER NOT NULL,
+    "totalProductQuantity" INTEGER NOT NULL,
+    "status" TEXT NOT NULL,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_CategoryToProduct" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -78,6 +103,15 @@ CREATE INDEX "_MenuToMenuLine_B_index" ON "_MenuToMenuLine"("B");
 
 -- AddForeignKey
 ALTER TABLE "MenuLine" ADD CONSTRAINT "MenuLine_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CategoryToProduct" ADD CONSTRAINT "_CategoryToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -62,9 +62,13 @@ model OrderLine {
 }
 
 model Order {
-  id        Int         @id @default(autoincrement())
-  date      DateTime
-  User      User        @relation(fields: [userId], references: [id])
-  userId    Int
-  OrderLine OrderLine[]
+  id     Int         @id @default(autoincrement())
+  date   DateTime
+  number String
+  User   User        @relation(fields: [userId], references: [id])
+  userId Int
+  lines  OrderLine[]
+  totalAmount Int
+  totalProductQuantity Int
+  status String
 }
