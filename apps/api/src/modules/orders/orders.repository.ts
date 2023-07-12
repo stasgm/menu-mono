@@ -1,24 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { ICustomerDetails } from '@packages/domains';
 import { Order, Prisma } from '@prisma/client';
 
 import {
   CreateOrderInput,
   CreateOrderLineInput,
+  UpdateOrderInput,
 } from '../../types/graphql.schema';
 import { PrismaService } from '../_core/persistence/prisma/prisma.service';
-// import { CreateOrderDto } from './dto/create-order.dto';
-// import { OrderLineDto } from './dto/create-order-line.dto';
-// import { UpdateOrderDto } from './dto/update-order.dto';
+import { UsersService } from '../users/users.service';
 
-// const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
-//   _count: {
-//     select: {
-//       categories: true,
-//     },
-//   },
-//   categories: true,
-// });
+const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
+  _count: {
+    select: {
+      lines: true,
+    },
+  },
+  lines: true,
+});
 
 const createOrderLinesByLines = (
   orderLines: Array<CreateOrderLineInput | null>,
@@ -47,15 +45,18 @@ const createOrderLinesByLines = (
 
 @Injectable()
 export class OrdersRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private usersService: UsersService,
+  ) {}
 
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;
 
-    const userId = await this.getUserId({
-      name: data.userName,
-      phoneNumber: data.userPhone,
-    });
+    const user = await this.usersService.findOrCreate(
+      data.userName,
+      data.userPhone,
+    );
 
     const lines = createOrderLinesByLines(data.lines);
 
@@ -67,124 +68,88 @@ export class OrdersRepository {
       data: {
         date: new Date(data.date),
         number: data.number,
-        status: data.number,
-        userId,
+        status: data.status,
+        userId: user.id,
         totalProductQuantity,
         totalAmount,
         lines,
       },
-      // data: {
-      //   ...data,
-      //   lines,
-      //   categories,
-      // },
-      // include: {
-      //   categories: { select: { name: true } },
-      // },
+      include: orderInclude,
     });
   }
 
-  // getOrderByName(name: string): Promise<Order | null> {
-  //   return this.getOrder({ where: { name } });
-  // }
+  getOrderByNumber(number: string): Promise<Order | null> {
+    return this.getOrder({ where: { number } });
+  }
 
-  // getOrder(params: { where: Prisma.OrderWhereUniqueInput }) {
-  //   const { where } = params;
-  //   return this.prisma.order.findUnique({ where, include: orderInclude });
-  // }
+  getOrder(params: { where: Prisma.OrderWhereInput }) {
+    const { where } = params;
+    return this.prisma.order.findFirst({ where, include: orderInclude });
+  }
 
-  // async getOrders(params: {
-  //   skip?: number;
-  //   take?: number;
-  //   cursor?: Prisma.OrderWhereUniqueInput;
-  //   where?: Prisma.OrderWhereInput;
-  //   orderBy?: Prisma.OrderOrderByWithRelationInput;
-  // }): Promise<Order[]> {
-  //   const { skip, take, cursor, where, orderBy } = params;
-  //   return this.prisma.order.findMany({
-  //     skip,
-  //     include: orderInclude,
-  //     take,
-  //     cursor,
-  //     where,
-  //     orderBy,
-  //   });
-  // }
+  getOrderById(id: number) {
+    return this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: orderInclude,
+    });
+  }
 
-  // async updateOrder(params: {
-  //   where: Prisma.OrderWhereUniqueInput;
-  //   data: UpdateOrderDto;
-  // }): Promise<Order | null> {
-  //   const { where, data } = params;
+  async getOrders(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.OrderWhereUniqueInput;
+    where?: Prisma.OrderWhereInput;
+    orderBy?: Prisma.OrderOrderByWithRelationInput;
+  }): Promise<Order[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.order.findMany({
+      skip,
+      include: orderInclude,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+  }
 
-  //   const categories = this.connectCategoriesById(data.categories);
-  //   const lines = this.convertLines(data.lines);
+  async updateOrder(params: {
+    where: Prisma.OrderWhereUniqueInput;
+    data: UpdateOrderInput;
+  }): Promise<Order | null> {
+    const { where, data } = params;
 
-  //   return this.prisma.order.update({
-  //     where,
-  //     data: {
-  //       ...data,
-  //       lines,
-  //       categories,
-  //     },
-  //     include: {
-  //       categories: { select: { name: true } },
-  //     },
-  //   });
-  // }
+    const user = await this.usersService.findOrCreate(
+      data.userName,
+      data.userPhone,
+    );
 
-  // async deleteOrder(params: {
-  //   where: Prisma.OrderWhereUniqueInput;
-  // }): Promise<Order> {
-  //   const { where } = params;
-  //   return this.prisma.order.delete({ where });
-  // }
+    const lines = createOrderLinesByLines(data.lines);
 
-  // /**
-  //  * Format the categories IDs array into the prisma query way
-  //  */
-  // private connectCategoriesById(
-  //   category: number[] | undefined,
-  // ): Prisma.OrderCategoryUncheckedCreateNestedManyWithoutOrdersInput {
-  //   const categories = category?.map((id) => ({ id }));
+    // calculate again
+    const totalProductQuantity = 0;
+    const totalAmount = 0;
 
-  //   return {
-  //     connect: categories,
-  //   };
-  // }
+    return this.prisma.order.update({
+      where,
+      data: {
+        date: new Date(data.date),
+        number: data.number,
+        status: data.status,
+        userId: user.id,
+        totalProductQuantity,
+        totalAmount,
+        lines,
+      },
+      include: orderInclude,
+    });
+  }
 
-  // private convertLines(lines: OrderLineDto[] | undefined) {
-  //   const plainLines: Prisma.InputJsonValue | undefined = lines?.map(
-  //     (line) => ({
-  //       price: line.price,
-  //       productId: line.productId,
-  //     }),
-  //   );
-
-  //   return plainLines;
-  // }
-
-  // move to User service
-  private async getUserId(customerDetails: ICustomerDetails) {
-    const user = await (async () => {
-      const existingUser = await this.prisma.user.findFirst({
-        where: {
-          phoneNumber: customerDetails.phoneNumber,
-        },
-      });
-
-      if (existingUser) {
-        return existingUser;
-      }
-
-      return await this.prisma.user.create({
-        data: {
-          name: customerDetails.name,
-          phoneNumber: customerDetails.phoneNumber,
-        },
-      });
-    })();
-
-    return user.id;
+  async deleteOrder(params: {
+    where: Prisma.OrderWhereUniqueInput;
+  }): Promise<Order> {
+    const { where } = params;
+    return this.prisma.order.delete({ where });
   }
 }

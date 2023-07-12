@@ -1,0 +1,53 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 dev",
+      "command": "pnpm",
+      "args": ["dev"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "🌾 seed",
+      "command": "pnpm",
+      "args": ["seed"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "🗃️ prisma:generate",
+      "command": "pnpm",
+      "args": ["prisma:generate"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "🌴 migrate:dev",
+      "command": "pnpm",
+      "args": ["migrate:dev"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "✨ migrate:create",
+      "command": "pnpm",
+      "args": ["migrate:dev:create"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
+      "label": "✅ graphql",
+      "command": "pnpm",
+      "args": ["graphql:generate"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    }
+  ]
+}

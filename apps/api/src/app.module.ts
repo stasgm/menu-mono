@@ -11,6 +11,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { MenusModule } from './modules/menus/menus.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ProductsModule } from './modules/products/products.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProductsModule } from './modules/products/products.module';
     CategoriesModule,
     MenusModule,
     OrdersModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

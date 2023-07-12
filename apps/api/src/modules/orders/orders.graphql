@@ -7,7 +7,7 @@ type OrderLine {
 }
 
 input CreateOrderLineInput {
-  id: Int!
+  id: Int
   price: Int!
   quantity: Int!
   totalAmount: Int!
@@ -25,7 +25,7 @@ type Order {
 }
 
 input CreateOrderInput {
-  id: Int!
+  id: Int
   date: String!
   number: String!
   status: String!

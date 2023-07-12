@@ -19,7 +19,7 @@ model User {
   id          Int     @id @default(autoincrement())
   phoneNumber String  @unique
   name        String
-  Order       Order[]
+  order       Order[]
 }
 
 model Category {
@@ -32,16 +32,16 @@ model Product {
   id         Int         @id @default(autoincrement())
   name       String      @unique
   categories Category[]
-  lines      MenuLine[]
-  OrderLine  OrderLine[]
+  menuLines  MenuLine[]
+  orderLines  OrderLine[]
 }
 
 model MenuLine {
   id        Int     @id @default(autoincrement())
-  Product   Product @relation(fields: [productId], references: [id])
   productId Int
+  product   Product @relation(fields: [productId], references: [id])
   price     Int
-  Menu      Menu[]
+  menu      Menu[]
 }
 
 model Menu {
@@ -53,22 +53,22 @@ model Menu {
 model OrderLine {
   id          Int     @id @default(autoincrement())
   orderId     Int?
+  order       Order?  @relation(fields: [orderId], references: [id])
   productId   Int
+  product     Product @relation(fields: [productId], references: [id])
   price       Int
   quantity    Int
   totalAmount Int
-  Product     Product @relation(fields: [productId], references: [id])
-  Order       Order?  @relation(fields: [orderId], references: [id])
 }
 
 model Order {
-  id     Int         @id @default(autoincrement())
-  date   DateTime
-  number String
-  User   User        @relation(fields: [userId], references: [id])
-  userId Int
-  lines  OrderLine[]
-  totalAmount Int
+  id                   Int         @id @default(autoincrement())
+  date                 DateTime
+  number               String
+  status               String
+  userId               Int
+  user                 User        @relation(fields: [userId], references: [id])
+  lines                OrderLine[]
+  totalAmount          Int
   totalProductQuantity Int
-  status String
 }
