@@ -52,3 +52,14 @@ export const formatDate = (date: Date): string => {
 export const formatPrice = (value: number, separatorOfThousands = ' '): string => {
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separatorOfThousands);
 };
+
+// Exclude keys from object
+// export const exclude = <
+//   T extends Record<string, unknown>,
+//   Key extends keyof Extract<keyof T, string>,
+// >(
+//   object: T,
+//   keys: Key[],
+// ): Omit<T, Key> => {
+//   return Object.fromEntries(Object.entries(object).filter(([key]) => !keys.includes(key)));
+// };

@@ -20,12 +20,11 @@ export class ProductsRepository {
   async createProduct(params: { data: CreateProductInput }): Promise<Product> {
     const { data } = params;
 
-    const categories = this.connectCategoriesById(data.categories);
-
     return this.prisma.product.create({
       data: {
         name: data.name,
-        categories,
+        disabled: data.disabled,
+        categories: this.connectCategoriesById(data.categories),
       },
       include: productInclude,
     });
@@ -66,13 +65,15 @@ export class ProductsRepository {
   async updateProduct(params: {
     where: Prisma.ProductWhereUniqueInput;
     data: UpdateProductInput;
-  }): Promise<Product | null> {
+  }): Promise<Product> {
     const { where, data } = params;
 
     return this.prisma.product.update({
       where,
       data: {
         name: data.name,
+        disabled: data.disabled,
+        categories: this.connectCategoriesById(data.categories),
       },
       include: productInclude,
     });

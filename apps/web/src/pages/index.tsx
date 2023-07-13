@@ -3,18 +3,15 @@ import { useEffect } from 'react';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 
 import { useStore } from '@/store/zustand';
-import OrderInfo from '@/components/order-info';
 import MenuLine from '@/components/menu-line';
 import Nav from '@/components/nav';
 import Container from '@/components/container';
-
-// import { calculateProductsQuantity } from '@packages/domains';
+import UserInfoForm from '../components/user-info-form';
 
 export default function Menu() {
-  const { order, menu, menuActions, orderActions } = useStore();
+  const { cart, menu, menuActions, cartActions } = useStore();
   const { fetchMenu } = menuActions;
-  const { placeOrder, removeProduct, resetOrder, updateCustomerDetails, updateQuantity } =
-    orderActions;
+  const { placeOrder, removeProduct, resetCart, updateUserData, updateQuantity } = cartActions;
 
   useEffect(() => {
     fetchMenu();
@@ -35,13 +32,11 @@ export default function Menu() {
               <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">Café-like menu</h1>
               <ShoppingCartIcon className="flex-none self-center text-sm h-8 w-8 text-gray-400" />
             </div>
-            <OrderInfo
-              name={order.customerDetails.name || ''}
-              phoneNumber={order.customerDetails.phoneNumber || ''}
-              setName={(name) => updateCustomerDetails({ ...order.customerDetails, name })}
-              setPhoneNumber={(phoneNumber) =>
-                updateCustomerDetails({ ...order.customerDetails, phoneNumber })
-              }
+            <UserInfoForm
+              name={cart.userData.name}
+              phoneNumber={cart.userData.phoneNumber}
+              setName={(name) => updateUserData({ ...cart.userData, name })}
+              setPhoneNumber={(phoneNumber) => updateUserData({ ...cart.userData, phoneNumber })}
             />
           </Container>
         </header>
@@ -54,7 +49,7 @@ export default function Menu() {
                     <li key={line.id}>
                       <MenuLine
                         item={line}
-                        quantity={order.productSelections[line.product.id]?.quantity ?? 0}
+                        quantity={cart.productSelections[line.product.id]?.quantity ?? 0}
                         key={line.id}
                         onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
                         onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}
@@ -64,10 +59,10 @@ export default function Menu() {
                   ))}
                 </ul>
                 <Nav
-                  orderPriceAmount={order.totalAmount}
-                  productAmount={order.totalProductQuantity}
+                  totalAmount={cart.totalAmount}
+                  totalProductQuantity={cart.totalProductQuantity}
                   placeOrder={placeOrder}
-                  resetOrder={resetOrder}
+                  resetCart={resetCart}
                 />
               </>
             ) : (

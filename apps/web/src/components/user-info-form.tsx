@@ -5,7 +5,7 @@ interface IProps {
   setPhoneNumber: (name: string) => void;
 }
 
-export default function Form(props: IProps) {
+export default function UserInfoForm(props: IProps) {
   const { name, phoneNumber, setName, setPhoneNumber } = props;
   return (
     <form className="flex w-full items-center bg-gray-800 rounded-md max-w-xl mx-auto xs:px-7 px-2 mt-4 sm:mt-12 h-10 sm:h-12 gap-x-2 xs:flex-nowrap flex-wrap">

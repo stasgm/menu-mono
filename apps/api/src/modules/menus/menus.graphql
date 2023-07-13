@@ -1,40 +1,41 @@
 type MenuLine {
-  id: Int!
+  id: String!
   price: Int!
   product: Product!
 }
 
 input CreateMenuLineInput {
-  id: Int
   price: Int!
-  productId: Int!
+  productId: String!
 }
 
 type Menu {
-  id: Int!
+  id: String!
+  createdAt: String!
+  updatedAt: String!
+  number: Int!
   name: String!
-  lines: [MenuLine]!
+  lines: [MenuLine!]!
 }
 
 input CreateMenuInput {
-  id: Int
   name: String!
-  lines: [CreateMenuLineInput]!
+  lines: [CreateMenuLineInput!]!
 }
 
 input UpdateMenuInput {
-  id: Int!
+  id: String!
   name: String!
-  lines: [CreateMenuLineInput]!
+  lines: [CreateMenuLineInput!]!
 }
 
 type Query {
-  menus: [Menu]!
-  menu(id: Int!): Menu
+  menus: [Menu!]!
+  menu(id: String!): Menu
 }
 
 type Mutation {
   createMenu(createMenuInput: CreateMenuInput!): Menu!
   updateMenu(updateMenuInput: UpdateMenuInput!): Menu!
-  removeMenu(id: Int!): Menu
+  removeMenu(id: String!): Menu
 }

@@ -1,102 +1,94 @@
 import { StateCreator } from 'zustand';
 import {
-  IOrder,
-  ICustomerDetails,
+  IUserData,
   calculateProductsQuantity,
   calculateTotalPrice,
   IMenuline,
   generateOrderLines,
+  ICart,
 } from '@packages/domains';
 import { gql } from '@apollo/client';
 
 import client from '../../../utils/apollo-client';
 
-const getInitialOrder = (): IOrder => {
+const getInitialCart = (): ICart => {
   return {
-    id: '1',
-    number: '1',
     date: new Date().toDateString(),
-    customerDetails: {
+    userData: {
       name: '',
       phoneNumber: '',
     },
     productSelections: {},
-    orderLines: [],
-    status: 'NEW',
+    lines: [],
     totalAmount: 0,
     totalProductQuantity: 0,
   };
 };
 
-interface ICreateOrderLineInput {
-  id: number;
+interface ICreateCartLineInput {
+  productId: string;
   price: number;
   quantity: number;
-  totalAmount: number;
-  productId: number;
 }
 
 interface ICreateOrderInput {
-  id: number;
   date: string;
-  number: string;
-  status: string;
   userName: string;
   userPhone: string;
-  lines: ICreateOrderLineInput[];
+  lines: ICreateCartLineInput[];
 }
 
-export type OrderSlice = State & { orderActions: Actions };
+export type CartSlice = State & { cartActions: Actions };
 
 interface State {
-  order: IOrder;
+  cart: ICart;
 }
 
 interface Actions {
-  updateCustomerDetails: (customerDetails: ICustomerDetails) => void;
+  updateUserData: (userData: IUserData) => void;
   addProduct: (menuLine: IMenuline) => void;
   removeProduct: (menuLine: IMenuline) => void;
   updateQuantity: (pmenuLine: IMenuline, action: 'increase' | 'decrease') => void;
-  resetOrder: () => void;
+  resetCart: () => void;
   placeOrder: () => void;
 }
 
-export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
-  order: getInitialOrder(),
-  orderActions: {
-    updateCustomerDetails: (customerDetails: ICustomerDetails) => {
-      const order = get().order;
-      order.customerDetails = customerDetails;
-      set({ order });
+export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
+  cart: getInitialCart(),
+  cartActions: {
+    updateUserData: (userData: IUserData) => {
+      const cart = get().cart;
+      cart.userData = userData;
+      set({ cart });
     },
     addProduct: (menuLine: IMenuline) => {
-      const order = get().order;
-      const findProduct = order.productSelections[menuLine.product.id];
+      const cart = get().cart;
+      const findProduct = cart.productSelections[menuLine.product.id];
       if (findProduct) {
         findProduct.quantity = findProduct.quantity + 1;
       } else {
-        order.productSelections[menuLine.product.id] = { quantity: 1, price: menuLine.price };
+        cart.productSelections[menuLine.product.id] = { quantity: 1, price: menuLine.price };
       }
-      order.orderLines = generateOrderLines(order.productSelections);
-      order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
-      order.totalAmount = calculateTotalPrice(order.productSelections);
-      set({ order });
+      cart.lines = generateOrderLines(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+      set({ cart });
     },
     removeProduct: (menuLine: IMenuline) => {
-      const order = get().order;
-      delete order.productSelections[menuLine.product.id];
-      order.orderLines = generateOrderLines(order.productSelections);
-      order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
-      order.totalAmount = calculateTotalPrice(order.productSelections);
-      set({ order });
+      const cart = get().cart;
+      delete cart.productSelections[menuLine.product.id];
+      cart.lines = generateOrderLines(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+      set({ cart });
     },
     updateQuantity: (menuLine: IMenuline, action: 'increase' | 'decrease') => {
-      const order = get().order;
-      const findProduct = order.productSelections[menuLine.product.id];
+      const cart = get().cart;
+      const findProduct = cart.productSelections[menuLine.product.id];
 
       if (!findProduct) {
         if (action === 'increase') {
-          get().orderActions.addProduct(menuLine);
+          get().cartActions.addProduct(menuLine);
         }
         return;
       }
@@ -105,23 +97,24 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
         if (findProduct.quantity > 1) {
           findProduct.quantity = findProduct.quantity - 1;
         } else {
-          return get().orderActions.removeProduct(menuLine);
+          return get().cartActions.removeProduct(menuLine);
         }
       } else {
         findProduct.quantity = findProduct.quantity + 1;
       }
-      order.orderLines = generateOrderLines(order.productSelections);
-      order.totalProductQuantity = calculateProductsQuantity(order.productSelections);
-      order.totalAmount = calculateTotalPrice(order.productSelections);
-      set({ order });
+      cart.lines = generateOrderLines(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+
+      set({ cart });
     },
-    resetOrder: () => {
-      set({ order: getInitialOrder() });
+    resetCart: () => {
+      set({ cart: getInitialCart() });
     },
     placeOrder: async () => {
       console.log('placing the order');
 
-      const order = get().order;
+      const cart = get().cart;
 
       const mutateQuery = gql`
         mutation CreateOrder($createOrderInput: CreateOrderInput!) {
@@ -132,19 +125,14 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
       `;
 
       const data: ICreateOrderInput = {
-        date: order.date,
-        id: +order.id,
-        lines: order.orderLines.map((line) => ({
-          id: +line.id,
+        date: cart.date,
+        lines: cart.lines.map((line) => ({
+          productId: line.productId,
           price: line.price,
-          productId: +line.productId,
           quantity: line.quantity,
-          totalAmount: line.totalAmount,
         })),
-        number: order.number,
-        status: order.status,
-        userName: order.customerDetails.name,
-        userPhone: order.customerDetails.phoneNumber,
+        userName: cart.userData.name,
+        userPhone: cart.userData.phoneNumber,
       };
 
       const response = await client.mutate({
@@ -156,7 +144,7 @@ export const createOrderSlice: StateCreator<OrderSlice> = (set, get) => ({
 
       console.log(`result: ${JSON.stringify(response)}`);
 
-      set({ order: getInitialOrder() });
+      set({ cart: getInitialCart() });
     },
   },
 });

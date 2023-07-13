@@ -1,28 +1,30 @@
 type Product {
-  id: Int!
+  id: String!
   name: String!
-  categories: [Category]!
+  disabled: Boolean!
+  categories: [Category!]!
 }
 
 input CreateProductInput {
-  id: Int!
   name: String!
-  categories: [String]!
+  disabled: Boolean!
+  categories: [String!]!
 }
 
 input UpdateProductInput {
-  id: Int!
+  id: String!
   name: String!
-  categories: [String]!
+  disabled: Boolean!
+  categories: [String!]!
 }
 
 type Query {
-  products: [Product]!
-  product(id: Int!): Product
+  products: [Product!]!
+  product(id: String!): Product
 }
 
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product
+  removeProduct(id: String!): Product
 }

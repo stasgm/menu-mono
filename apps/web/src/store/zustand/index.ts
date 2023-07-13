@@ -3,9 +3,9 @@ import { devtools } from 'zustand/middleware';
 // import { immer } from 'zustand/middleware/immer';
 
 import { MenuSlice, createMenuSlice } from './menu';
-import { OrderSlice, createOrderSlice } from './order';
+import { CartSlice, createCartSlice } from './order';
 
-type StoreState = MenuSlice & OrderSlice;
+type StoreState = MenuSlice & CartSlice;
 
 export const useStore = create<StoreState>()(
   // immer(
@@ -13,7 +13,7 @@ export const useStore = create<StoreState>()(
   devtools(
     (...args) => ({
       ...createMenuSlice(...args),
-      ...createOrderSlice(...args),
+      ...createCartSlice(...args),
     }),
     { serialize: true },
     // ),

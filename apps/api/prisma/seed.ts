@@ -120,8 +120,6 @@ async function main() {
       data: {
         id: order.id,
         date: new Date(order.date),
-        status: order.status,
-        number: order.number,
         userId: order.userId,
         totalAmount: order.totalAmount,
         totalProductQuantity: order.totalProductQuantity,

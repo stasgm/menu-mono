@@ -39,11 +39,12 @@ $ pnpm run test:cov
 
 ## TODO
 
-- cast `ID`s to one type (string or integer)
-- revise the prisma data structure
-  - split `order` model to `order` and `cart` models
-  - `cart` model should contain only `products` field
-  - `order` model should contain only `lines` field
-  - maybe `order` model should have `lines` as jsonb
-- add error handling
-- move `types` to a separed lib
+- [x] cast `ID`s to one type (string or integer)
+- [ ] revise the prisma data structure
+  - [ ] `cart` model should contain only `products` field
+  - [ ] `order` model should contain only `lines` field
+  - [ ] maybe `order` model should have `lines` as jsonb
+- [ ] add error handling
+- [ ] move `types` to a separed lib
+- [ ] use GraphQL types for inputData in front-end. Save ts-types files to upper folder\lib
+- [x] split `order` model to `order` and `cart` models

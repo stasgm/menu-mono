@@ -5,6 +5,7 @@ import {
   CreateOrderInput,
   CreateOrderLineInput,
   UpdateOrderInput,
+  UpdateOrderStatusInput,
 } from '../../types/graphql.schema';
 import { PrismaService } from '../_core/persistence/prisma/prisma.service';
 import { UsersService } from '../users/users.service';
@@ -27,8 +28,12 @@ const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
   },
 });
 
+const calculateTotalAmount = (cur: { quantity: number; price: number }): number => {
+  return cur.quantity * cur.price;
+};
+
 const createOrderLinesByLines = (
-  orderLines: Array<CreateOrderLineInput | null>,
+  orderLines: Array<CreateOrderLineInput>,
 ): Prisma.OrderLineUncheckedCreateNestedManyWithoutOrderInput => {
   const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.reduce(
     (acc, cur) => {
@@ -41,7 +46,7 @@ const createOrderLinesByLines = (
         {
           price: cur.price,
           quantity: cur.quantity,
-          totalAmount: cur.totalAmount,
+          totalAmount: calculateTotalAmount(cur),
           productId: cur.productId,
         },
       ];
@@ -66,21 +71,17 @@ export class OrdersRepository {
 
     const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
-    const lines = createOrderLinesByLines(data.lines);
-
-    // calculate again
+    // calculate in domains again
     const totalProductQuantity = 0;
     const totalAmount = 0;
 
     return this.prisma.order.create({
       data: {
         date: new Date(data.date),
-        number: data.number,
-        status: data.status,
         userId: user.id,
         totalProductQuantity,
         totalAmount,
-        lines,
+        lines: createOrderLinesByLines(data.lines),
       },
       include: orderInclude,
     });
@@ -130,8 +131,6 @@ export class OrdersRepository {
 
     const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
-    const lines = createOrderLinesByLines(data.lines);
-
     // calculate again
     const totalProductQuantity = 0;
     const totalAmount = 0;
@@ -140,12 +139,25 @@ export class OrdersRepository {
       where,
       data: {
         date: new Date(data.date),
-        number: data.number,
-        status: data.status,
         userId: user.id,
         totalProductQuantity,
         totalAmount,
-        lines,
+        lines: createOrderLinesByLines(data.lines),
+      },
+      include: orderInclude,
+    });
+  }
+
+  async updateOrderStatus(params: {
+    where: Prisma.OrderWhereUniqueInput;
+    data: UpdateOrderStatusInput;
+  }): Promise<Order | null> {
+    const { where, data } = params;
+
+    return this.prisma.order.update({
+      where,
+      data: {
+        status: data.status,
       },
       include: orderInclude,
     });

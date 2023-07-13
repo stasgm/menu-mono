@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { v4 as uuid } from 'uuid';
 
 export interface IProductSelection {
   quantity: number;
@@ -53,7 +53,7 @@ export const calculateProductsQuantity = (productSelections: IProductSelections)
 export const generateOrderLines = (productSelections: IProductSelections): IOrderLine[] => {
   return Object.entries(productSelections).map(([key, cur]) => {
     return {
-      id: randomUUID(),
+      id: uuid(),
       productId: key,
       quantity: cur.quantity,
       price: cur.price,

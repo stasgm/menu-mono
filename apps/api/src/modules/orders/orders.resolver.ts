@@ -1,6 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CreateOrderInput, UpdateOrderInput } from '../../types/graphql.schema';
+import {
+  CreateOrderInput,
+  UpdateOrderInput,
+  UpdateOrderStatusInput,
+} from '../../types/graphql.schema';
 import { OrdersService } from './orders.service';
 
 @Resolver('Order')
@@ -25,6 +29,11 @@ export class OrdersResolver {
   @Mutation('updateOrder')
   update(@Args('updateOrderInput') updateOrderInput: UpdateOrderInput) {
     return this.ordersService.update(updateOrderInput.id, updateOrderInput);
+  }
+
+  @Mutation('updateOrderStatus')
+  updateStatus(@Args('updateOrderStatusInput') updateOrderStatusInput: UpdateOrderStatusInput) {
+    return this.ordersService.updateStatus(updateOrderStatusInput.id, updateOrderStatusInput);
   }
 
   @Mutation('removeOrder')

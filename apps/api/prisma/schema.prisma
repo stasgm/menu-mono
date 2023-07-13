@@ -13,7 +13,6 @@ generator zod {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-
 }
 
 model User {
@@ -32,6 +31,7 @@ model Category {
 model Product {
   id         String      @id @default(uuid())
   name       String      @unique
+  disabled   Boolean     @default(false)
   categories Category[]
   menuLines  MenuLine[]
   orderLines OrderLine[]
@@ -71,7 +71,7 @@ model Order {
   updatedAt            DateTime    @updatedAt
   date                 DateTime
   number               Int         @unique @default(autoincrement())
-  status               String
+  status               String      @default("NEW")
   userId               String
   user                 User        @relation(fields: [userId], references: [id])
   lines                OrderLine[]

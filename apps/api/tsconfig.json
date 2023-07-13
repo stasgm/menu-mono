@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
-    "declaration": false,
+    "declaration": true,
+    "declarationMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,

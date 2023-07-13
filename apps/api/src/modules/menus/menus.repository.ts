@@ -22,7 +22,7 @@ const menuInclude = Prisma.validator<Prisma.MenuInclude>()({
 });
 
 const createMenuLinesByLines = (
-  menuLines: Array<CreateMenuLineInput | null>,
+  menuLines: Array<CreateMenuLineInput>,
 ): Prisma.MenuLineUncheckedCreateNestedManyWithoutMenuInput => {
   const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.reduce(
     (acc, cur) => {
@@ -53,12 +53,10 @@ export class MenusRepository {
   async createMenu(params: { data: CreateMenuInput }): Promise<Menu> {
     const { data } = params;
 
-    const lines = createMenuLinesByLines(data.lines);
-
     return this.prisma.menu.create({
       data: {
         name: data.name,
-        lines,
+        lines: createMenuLinesByLines(data.lines),
       },
       include: menuInclude,
     });
@@ -102,7 +100,7 @@ export class MenusRepository {
   }): Promise<Menu | null> {
     const { where, data } = params;
 
-    // TODO: UPDATE NOT CREATE
+    // TODO: UPDATE LINE AND NOT CREATE
     const lines = createMenuLinesByLines(data.lines);
 
     return this.prisma.menu.update({
