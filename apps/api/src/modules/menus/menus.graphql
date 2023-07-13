@@ -5,7 +5,7 @@ type MenuLine {
 }
 
 input CreateMenuLineInput {
-  id: Int!
+  id: Int
   price: Int!
   productId: Int!
 }
@@ -17,7 +17,7 @@ type Menu {
 }
 
 input CreateMenuInput {
-  id: Int!
+  id: Int
   name: String!
   lines: [CreateMenuLineInput]!
 }

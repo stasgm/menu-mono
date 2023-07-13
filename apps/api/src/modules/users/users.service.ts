@@ -15,7 +15,7 @@ export class UsersService {
     return this.usersRepository.getUsers({});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.usersRepository.getUserById(id);
   }
 
@@ -40,7 +40,7 @@ export class UsersService {
     });
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
+  update(id: string, updateUserInput: UpdateUserInput) {
     return this.usersRepository.updateUser({
       where: {
         id,
@@ -49,7 +49,7 @@ export class UsersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.usersRepository.deleteUser({ where: { id } });
   }
 }

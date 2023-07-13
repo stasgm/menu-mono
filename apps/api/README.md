@@ -1,6 +1,9 @@
+# menu-api
+
 ## Installation
 
 ```bash
+# install the dependencies
 $ pnpm install
 ```
 
@@ -8,7 +11,7 @@ $ pnpm install
 
 ```bash
 # development
-$ pnpm run start
+$ pnpm run dev
 
 # watch mode
 $ pnpm run start:dev
@@ -36,5 +39,11 @@ $ pnpm run test:cov
 
 ## TODO
 
+- cast `ID`s to one type (string or integer)
 - revise the prisma data structure
+  - split `order` model to `order` and `cart` models
+  - `cart` model should contain only `products` field
+  - `order` model should contain only `lines` field
+  - maybe `order` model should have `lines` as jsonb
 - add error handling
+- move `types` to a separed lib

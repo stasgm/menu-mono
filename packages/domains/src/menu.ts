@@ -1,4 +1,4 @@
-import { ICategory } from './category';
+import { ICategory, ICategoryData } from './category';
 import { IProductData, IProduct, getProduct } from './product';
 
 export interface IMenuline {
@@ -20,6 +20,7 @@ export interface IMenulineData {
 export interface IMenuData {
   id: string;
   name: string;
+  number: number;
   fromDate: Date;
   toDate: Date;
   lines: IMenulineData[];
@@ -28,6 +29,7 @@ export interface IMenuData {
 export interface IMenu {
   id: string;
   name: string;
+  number: number;
   lines: IMenuline[];
 }
 
@@ -39,7 +41,37 @@ export interface IGenerateMenuData {
 }
 
 /**
- * Generates a menu
+ * Get menu
+ */
+export const getMenu = (
+  menuData: IMenuData,
+  productsData: IProductData[],
+  categoriesData: ICategoryData[],
+): IMenu => {
+  const menuLines: IMenuline[] = menuData.lines.map((el) => {
+    const product: IProduct | undefined = getProduct(productsData, categoriesData, el.productId);
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    return {
+      id: el.id,
+      price: el.price,
+      product,
+    };
+  });
+
+  return {
+    id: menuData.id,
+    number: menuData.number,
+    name: menuData.name,
+    lines: menuLines,
+  };
+};
+
+/**
+ * get on active menu
  */
 export const getCurrentMenu = (generateMenuData: IGenerateMenuData): IMenu => {
   const activeMenus = generateMenuData.menus.filter((el) => {
@@ -56,27 +88,5 @@ export const getCurrentMenu = (generateMenuData: IGenerateMenuData): IMenu => {
   // TODO: Sort menus by date
   const activeMenu = activeMenus[0];
 
-  const menuLines: IMenuline[] = activeMenu.lines.map((el) => {
-    const product: IProduct | undefined = getProduct(
-      generateMenuData.products,
-      generateMenuData.categories,
-      el.productId,
-    );
-
-    if (!product) {
-      throw new Error('Product not found');
-    }
-
-    return {
-      id: el.id,
-      price: el.price,
-      product,
-    };
-  });
-
-  return {
-    id: activeMenu.id,
-    name: activeMenu.name,
-    lines: menuLines,
-  };
+  return getMenu(activeMenu, generateMenuData.products, generateMenuData.categories);
 };

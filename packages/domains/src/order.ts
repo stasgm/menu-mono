@@ -1,15 +1,8 @@
+import { randomUUID } from 'crypto';
+
 export interface IProductSelection {
   quantity: number;
   price: number;
-}
-
-const OrderStatuses = ['NEW', 'CONFIRMED', 'REJECTED'] as const;
-
-export type OrderStatusT = (typeof OrderStatuses)[number];
-
-export interface ICustomerDetails {
-  name: string;
-  phoneNumber: string;
 }
 
 export interface IProductSelections {
@@ -18,13 +11,13 @@ export interface IProductSelections {
 
 export interface IOrder {
   id: string;
-  number: string;
+  number: number;
   date: string;
-  customerDetails: ICustomerDetails;
-  totalAmount: number;
+  userId: string;
   productSelections: IProductSelections;
   orderLines: IOrderLine[];
-  status: OrderStatusT;
+  status: string;
+  totalAmount: number;
   totalProductQuantity: number;
 }
 
@@ -60,7 +53,7 @@ export const calculateProductsQuantity = (productSelections: IProductSelections)
 export const generateOrderLines = (productSelections: IProductSelections): IOrderLine[] => {
   return Object.entries(productSelections).map(([key, cur]) => {
     return {
-      id: key,
+      id: randomUUID(),
       productId: key,
       quantity: cur.quantity,
       price: cur.price,

@@ -13,48 +13,52 @@ generator zod {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   phoneNumber String  @unique
   name        String
   order       Order[]
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String    @unique
   products Product[]
 }
 
 model Product {
-  id         Int         @id @default(autoincrement())
+  id         String      @id @default(uuid())
   name       String      @unique
   categories Category[]
   menuLines  MenuLine[]
-  orderLines  OrderLine[]
+  orderLines OrderLine[]
 }
 
 model MenuLine {
-  id        Int     @id @default(autoincrement())
-  productId Int
+  id        String  @id @default(uuid())
+  productId String
   product   Product @relation(fields: [productId], references: [id])
   price     Int
   menu      Menu[]
 }
 
 model Menu {
-  id    Int        @id @default(autoincrement())
-  name  String     @unique
-  lines MenuLine[]
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  number    Int        @unique @default(autoincrement())
+  name      String     @unique
+  lines     MenuLine[]
 }
 
 model OrderLine {
-  id          Int     @id @default(autoincrement())
-  orderId     Int?
+  id          String  @id @default(uuid())
+  orderId     String
   order       Order?  @relation(fields: [orderId], references: [id])
-  productId   Int
+  productId   String
   product     Product @relation(fields: [productId], references: [id])
   price       Int
   quantity    Int
@@ -62,11 +66,13 @@ model OrderLine {
 }
 
 model Order {
-  id                   Int         @id @default(autoincrement())
+  id                   String      @id @default(uuid())
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
   date                 DateTime
-  number               String @unique
+  number               Int         @unique @default(autoincrement())
   status               String
-  userId               Int
+  userId               String
   user                 User        @relation(fields: [userId], references: [id])
   lines                OrderLine[]
   totalAmount          Int

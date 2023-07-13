@@ -6,17 +6,18 @@ import {
   generateOrderLines,
 } from '@packages/domains';
 import { menuMock } from './menus';
+import { usersMock } from './users';
 
 const productSelections: IProductSelections = {
-  [menuMock.lines[0].id]: {
+  [menuMock.lines[0].product.id]: {
     price: menuMock.lines[0].price,
     quantity: 2,
   },
-  [menuMock.lines[1].id]: {
+  [menuMock.lines[1].product.id]: {
     price: menuMock.lines[1].price,
     quantity: 3,
   },
-  [menuMock.lines[2].id]: {
+  [menuMock.lines[2].product.id]: {
     price: menuMock.lines[2].price,
     quantity: 8,
   },
@@ -24,14 +25,11 @@ const productSelections: IProductSelections = {
 
 export const ordersMock: IOrder[] = [
   {
-    id: '1',
+    id: '0c0f2690-2181-11ee-be56-0242ac120002',
     date: '2023-07-18',
-    number: '1',
+    number: 1,
     status: 'NEW',
-    customerDetails: {
-      name: 'Stas',
-      phoneNumber: 'stas@mail.me',
-    },
+    userId: usersMock[0].id,
     orderLines: generateOrderLines(productSelections),
     productSelections: productSelections,
     totalAmount: calculateTotalPrice(productSelections),

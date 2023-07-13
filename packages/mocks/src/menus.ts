@@ -4,40 +4,41 @@ import { productsMock } from './products';
 
 export const menusMock: IMenuData[] = [
   {
-    id: '1',
+    id: '0c0f2532-2181-11ee-be56-0242ac120002',
     fromDate: new Date(2023, 6, 1),
     toDate: new Date(2023, 6, 31),
     name: 'Birthday menu',
+    number: 1,
     lines: [
       {
-        id: '1',
+        id: 'cec6224c-2181-11ee-be56-0242ac120002',
         price: 100,
-        productId: '1',
+        productId: productsMock[0].id,
       },
       {
-        id: '2',
+        id: 'cec626b6-2181-11ee-be56-0242ac120002',
         price: 150,
-        productId: '2',
+        productId: productsMock[1].id,
       },
       {
-        id: '3',
+        id: 'cec62b7a-2181-11ee-be56-0242ac120002',
         price: 200,
-        productId: '3',
+        productId: productsMock[2].id,
       },
       {
-        id: '4',
+        id: 'cec62cc4-2181-11ee-be56-0242ac120002',
         price: 250,
-        productId: '4',
+        productId: productsMock[3].id,
       },
       {
-        id: '5',
+        id: 'cec62e0e-2181-11ee-be56-0242ac120002',
         price: 190,
-        productId: '5',
+        productId: productsMock[4].id,
       },
       {
-        id: '6',
+        id: 'cec62f30-2181-11ee-be56-0242ac120002',
         price: 70,
-        productId: '6',
+        productId: productsMock[5].id,
       },
     ],
   },

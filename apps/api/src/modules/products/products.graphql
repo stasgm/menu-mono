@@ -1,7 +1,7 @@
 type Product {
-  id: Int
-  name: String
-  categories: [Category]
+  id: Int!
+  name: String!
+  categories: [Category]!
 }
 
 input CreateProductInput {

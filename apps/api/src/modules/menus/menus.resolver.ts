@@ -18,7 +18,7 @@ export class MenusResolver {
   }
 
   @Query('menu')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.menusService.findOne(id);
   }
 
@@ -28,7 +28,7 @@ export class MenusResolver {
   }
 
   @Mutation('removeMenu')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.menusService.remove(id);
   }
 }

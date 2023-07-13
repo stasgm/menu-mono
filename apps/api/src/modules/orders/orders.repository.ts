@@ -15,7 +15,16 @@ const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
       lines: true,
     },
   },
-  lines: true,
+  user: true,
+  lines: {
+    include: {
+      product: {
+        include: {
+          categories: true,
+        },
+      },
+    },
+  },
 });
 
 const createOrderLinesByLines = (
@@ -33,7 +42,7 @@ const createOrderLinesByLines = (
           price: cur.price,
           quantity: cur.quantity,
           totalAmount: cur.totalAmount,
-          productId: +cur.productId,
+          productId: cur.productId,
         },
       ];
     },
@@ -77,7 +86,7 @@ export class OrdersRepository {
     });
   }
 
-  getOrderByNumber(number: string): Promise<Order | null> {
+  getOrderByNumber(number: number): Promise<Order | null> {
     return this.getOrder({ where: { number } });
   }
 
@@ -86,7 +95,7 @@ export class OrdersRepository {
     return this.prisma.order.findFirst({ where, include: orderInclude });
   }
 
-  getOrderById(id: number) {
+  getOrderById(id: string) {
     return this.prisma.order.findUnique({
       where: {
         id,

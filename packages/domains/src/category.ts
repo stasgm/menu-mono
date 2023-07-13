@@ -3,6 +3,8 @@ export interface ICategory {
   name: string;
 }
 
+export type ICategoryData = ICategory;
+
 export const getCategory = (categories: ICategory[], categoryId: string): ICategory => {
   const category = categories.find((c) => c.id === categoryId);
 

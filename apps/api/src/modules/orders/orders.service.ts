@@ -15,11 +15,11 @@ export class OrdersService {
     return this.ordersRepository.getOrders({});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.ordersRepository.getOrderById(id);
   }
 
-  update(id: number, updateOrderInput: UpdateOrderInput) {
+  update(id: string, updateOrderInput: UpdateOrderInput) {
     return this.ordersRepository.updateOrder({
       where: {
         id,
@@ -28,7 +28,7 @@ export class OrdersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.ordersRepository.deleteOrder({ where: { id } });
   }
 }

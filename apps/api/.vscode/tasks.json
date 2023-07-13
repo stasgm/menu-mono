@@ -10,7 +10,7 @@
       }
     },
     {
-      "label": "🌾 seed",
+      "label": "🌿 seed",
       "command": "pnpm",
       "args": ["seed"],
       "options": {

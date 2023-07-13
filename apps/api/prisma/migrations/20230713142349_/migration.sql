@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "name" TEXT NOT NULL,
 
@@ -9,7 +9,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
@@ -17,7 +17,7 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "Product" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
@@ -25,8 +25,8 @@ CREATE TABLE "Product" (
 
 -- CreateTable
 CREATE TABLE "MenuLine" (
-    "id" SERIAL NOT NULL,
-    "productId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
 
     CONSTRAINT "MenuLine_pkey" PRIMARY KEY ("id")
@@ -34,7 +34,10 @@ CREATE TABLE "MenuLine" (
 
 -- CreateTable
 CREATE TABLE "Menu" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "number" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "Menu_pkey" PRIMARY KEY ("id")
@@ -42,9 +45,9 @@ CREATE TABLE "Menu" (
 
 -- CreateTable
 CREATE TABLE "OrderLine" (
-    "id" SERIAL NOT NULL,
-    "orderId" INTEGER,
-    "productId" INTEGER NOT NULL,
+    "id" TEXT NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "totalAmount" INTEGER NOT NULL,
@@ -54,27 +57,29 @@ CREATE TABLE "OrderLine" (
 
 -- CreateTable
 CREATE TABLE "Order" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
-    "number" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "number" SERIAL NOT NULL,
+    "status" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "totalAmount" INTEGER NOT NULL,
     "totalProductQuantity" INTEGER NOT NULL,
-    "status" TEXT NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "_CategoryToProduct" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_MenuToMenuLine" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -87,7 +92,13 @@ CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 CREATE UNIQUE INDEX "Product_name_key" ON "Product"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Menu_number_key" ON "Menu"("number");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Menu_name_key" ON "Menu"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Order_number_key" ON "Order"("number");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CategoryToProduct_AB_unique" ON "_CategoryToProduct"("A", "B");
@@ -105,10 +116,10 @@ CREATE INDEX "_MenuToMenuLine_B_index" ON "_MenuToMenuLine"("B");
 ALTER TABLE "MenuLine" ADD CONSTRAINT "MenuLine_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "OrderLine" ADD CONSTRAINT "OrderLine_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

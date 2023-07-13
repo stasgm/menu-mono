@@ -18,7 +18,7 @@ export class CategoriesResolver {
   }
 
   @Query('category')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.categoriesService.findOne(id);
   }
 
@@ -28,7 +28,7 @@ export class CategoriesResolver {
   }
 
   @Mutation('removeCategory')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.categoriesService.remove(id);
   }
 }

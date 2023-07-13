@@ -19,7 +19,7 @@ export class ProductsResolver {
   }
 
   @Query('product')
-  findOne(@Args('id') id: number) {
+  findOne(@Args('id') id: string) {
     return this.productsService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class ProductsResolver {
   }
 
   @Mutation('removeProduct')
-  remove(@Args('id') id: number) {
+  remove(@Args('id') id: string) {
     return this.productsService.remove(id);
   }
 }

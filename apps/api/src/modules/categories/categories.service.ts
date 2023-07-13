@@ -15,7 +15,7 @@ export class CategoriesService {
     return this.categoriesRepository.getCategories({});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.categoriesRepository.getCategoryById(id);
   }
 
@@ -23,7 +23,7 @@ export class CategoriesService {
     return this.categoriesRepository.getCategory({ where: { name } });
   }
 
-  update(id: number, updateCategoryInput: UpdateCategoryInput) {
+  update(id: string, updateCategoryInput: UpdateCategoryInput) {
     return this.categoriesRepository.updateCategory({
       where: {
         id,
@@ -32,7 +32,7 @@ export class CategoriesService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.categoriesRepository.deleteCategory({ where: { id } });
   }
 }

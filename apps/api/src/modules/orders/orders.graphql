@@ -19,8 +19,7 @@ type Order {
   date: String!
   number: String!
   status: String!
-  userName: String!
-  userPhone: String!
+  user: User!
   lines: [OrderLine]!
 }
 

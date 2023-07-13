@@ -23,7 +23,7 @@ export class CategoriesRepository {
     return this.prisma.category.findFirst({ where });
   }
 
-  getCategoryById(id: number) {
+  getCategoryById(id: string) {
     return this.prisma.category.findUnique({
       where: {
         id,
