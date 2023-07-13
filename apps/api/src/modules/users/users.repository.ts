@@ -19,10 +19,6 @@ export class UsersRepository {
     });
   }
 
-  getUserByPhoneNumber(phoneNumber: string): Promise<User | null> {
-    return this.getUser({ where: { phoneNumber } });
-  }
-
   getUser(params: { where: Prisma.UserWhereInput }) {
     const { where } = params;
     return this.prisma.user.findFirst({ where });
@@ -68,9 +64,7 @@ export class UsersRepository {
     });
   }
 
-  async deleteUser(params: {
-    where: Prisma.UserWhereUniqueInput;
-  }): Promise<User> {
+  async deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
     const { where } = params;
     return this.prisma.user.delete({ where });
   }

@@ -27,9 +27,7 @@ export const tranformCategories = (productCategories: Array<string | null>) => {
   }, [] as Category[]);
 };
 
-export const tranformProduct = (
-  productId: number | null,
-): Product | undefined => {
+export const tranformProduct = (productId: number | null): Product | undefined => {
   const product = productsMock.find((p) => +p.id === productId);
 
   if (!product) {

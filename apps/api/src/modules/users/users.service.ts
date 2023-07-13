@@ -20,13 +20,13 @@ export class UsersService {
   }
 
   findByPhoneNumber(phoneNumber: string) {
-    return this.usersRepository.getUserByPhoneNumber(phoneNumber);
+    return this.usersRepository.getUser({ where: { phoneNumber } });
   }
 
-  async findOrCreate(name: string, phoneNumber: string) {
-    const existingUser = await this.usersRepository.getUserByPhoneNumber(
-      phoneNumber,
-    );
+  async findByPhoneNumberOrCreate(name: string, phoneNumber: string) {
+    const existingUser = await this.usersRepository.getUser({
+      where: { phoneNumber },
+    });
 
     if (existingUser) {
       return existingUser;

@@ -12,14 +12,20 @@ export interface IProduct {
   categories: ICategory[];
 }
 
-export const getProduct = (products: IProductData[], categories: ICategory[], productId: string): IProduct => {
+export const getProduct = (
+  products: IProductData[],
+  categories: ICategory[],
+  productId: string,
+): IProduct => {
   const product = products.find((p) => p.id === productId);
 
   if (!product) {
     throw new Error('Product not found');
   }
 
-  const productCategories: ICategory[] = product.categories.map((categoryId) => getCategory(categories, categoryId));
+  const productCategories: ICategory[] = product.categories.map((categoryId) =>
+    getCategory(categories, categoryId),
+  );
 
   return { ...product, categories: productCategories };
 };

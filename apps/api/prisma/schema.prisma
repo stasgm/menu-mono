@@ -64,7 +64,7 @@ model OrderLine {
 model Order {
   id                   Int         @id @default(autoincrement())
   date                 DateTime
-  number               String
+  number               String @unique
   status               String
   userId               Int
   user                 User        @relation(fields: [userId], references: [id])

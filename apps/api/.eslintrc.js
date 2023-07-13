@@ -35,6 +35,16 @@ module.exports = {
     'webpack-hmr.config.js',
   ],
   rules: {
+    'max-len': [
+      'error',
+      {
+        code: 100,
+        ignoreComments: true,
+        ignoreUrls: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
+      },
+    ],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

@@ -37,7 +37,10 @@ export default function MenuLine({
         <div className="flex-1">
           <p className="sm:text-base text-sm  text-gray-300">{item.product.name}</p>
           <p className="text-xs text-gray-500">
-            {item.product.categories.reduce((acc, cur) => `${acc}${acc ? ' : ' : ''} ${cur.name}`, '')}
+            {item.product.categories.reduce(
+              (acc, cur) => `${acc}${acc ? ' : ' : ''} ${cur.name}`,
+              '',
+            )}
           </p>
         </div>
         <p className="self-center text-sm text-gray-300 text-right">{item.price}</p>

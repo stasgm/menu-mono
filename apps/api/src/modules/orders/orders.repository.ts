@@ -21,8 +21,8 @@ const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
 const createOrderLinesByLines = (
   orderLines: Array<CreateOrderLineInput | null>,
 ): Prisma.OrderLineUncheckedCreateNestedManyWithoutOrderInput => {
-  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] =
-    orderLines.reduce((acc, cur) => {
+  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.reduce(
+    (acc, cur) => {
       if (!cur) {
         return acc;
       }
@@ -36,7 +36,9 @@ const createOrderLinesByLines = (
           productId: +cur.productId,
         },
       ];
-    }, [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[]);
+    },
+    [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[],
+  );
 
   return {
     create: createOrderLines,
@@ -53,10 +55,7 @@ export class OrdersRepository {
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;
 
-    const user = await this.usersService.findOrCreate(
-      data.userName,
-      data.userPhone,
-    );
+    const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
     const lines = createOrderLinesByLines(data.lines);
 
@@ -120,10 +119,7 @@ export class OrdersRepository {
   }): Promise<Order | null> {
     const { where, data } = params;
 
-    const user = await this.usersService.findOrCreate(
-      data.userName,
-      data.userPhone,
-    );
+    const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
     const lines = createOrderLinesByLines(data.lines);
 
@@ -146,9 +142,7 @@ export class OrdersRepository {
     });
   }
 
-  async deleteOrder(params: {
-    where: Prisma.OrderWhereUniqueInput;
-  }): Promise<Order> {
+  async deleteOrder(params: { where: Prisma.OrderWhereUniqueInput }): Promise<Order> {
     const { where } = params;
     return this.prisma.order.delete({ where });
   }

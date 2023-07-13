@@ -13,7 +13,8 @@ import Container from '@/components/container';
 export default function Menu() {
   const { order, menu, menuActions, orderActions } = useStore();
   const { fetchMenu } = menuActions;
-  const { placeOrder, removeProduct, resetOrder, updateCustomerDetails, updateQuantity } = orderActions;
+  const { placeOrder, removeProduct, resetOrder, updateCustomerDetails, updateQuantity } =
+    orderActions;
 
   useEffect(() => {
     fetchMenu();
@@ -38,7 +39,9 @@ export default function Menu() {
               name={order.customerDetails.name || ''}
               phoneNumber={order.customerDetails.phoneNumber || ''}
               setName={(name) => updateCustomerDetails({ ...order.customerDetails, name })}
-              setPhoneNumber={(phoneNumber) => updateCustomerDetails({ ...order.customerDetails, phoneNumber })}
+              setPhoneNumber={(phoneNumber) =>
+                updateCustomerDetails({ ...order.customerDetails, phoneNumber })
+              }
             />
           </Container>
         </header>
@@ -68,7 +71,9 @@ export default function Menu() {
                 />
               </>
             ) : (
-              <div className="flex justify-around items-center py-4 px-6 text-gray-100">Loading menu ...</div>
+              <div className="flex justify-around items-center py-4 px-6 text-gray-100">
+                Loading menu ...
+              </div>
             )}
           </Container>
         </main>

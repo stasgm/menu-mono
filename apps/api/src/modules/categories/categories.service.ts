@@ -1,50 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { ICategory } from '@packages/domains';
-import { categoriesMock } from '@packages/mocks';
 
-import {
-  Category,
-  CreateCategoryInput,
-  UpdateCategoryInput,
-} from '../../types/graphql.schema';
-
-const tranformCategories = (categories: ICategory[]) => {
-  return categories.map((cat) => ({ id: +cat.id, name: cat.name }));
-};
+import { CreateCategoryInput, UpdateCategoryInput } from '../../types/graphql.schema';
+import { CategoriesRepository } from './categories.repository';
 
 @Injectable()
 export class CategoriesService {
-  private readonly categories: Category[] = tranformCategories(categoriesMock);
+  constructor(private categoriesRepository: CategoriesRepository) {}
 
   create(createCategoryInput: CreateCategoryInput) {
-    this.categories.push({
-      id: +createCategoryInput.id,
-      name: createCategoryInput.name,
-    });
-
-    return createCategoryInput;
+    return this.categoriesRepository.createCategory({ data: createCategoryInput });
   }
 
   findAll() {
-    return this.categories;
+    return this.categoriesRepository.getCategories({});
   }
 
   findOne(id: number) {
-    return this.categories.find((p) => p.id === id);
+    return this.categoriesRepository.getCategoryById(id);
+  }
+
+  findByName(name: string) {
+    return this.categoriesRepository.getCategory({ where: { name } });
   }
 
   update(id: number, updateCategoryInput: UpdateCategoryInput) {
-    const index = this.categories.findIndex((p) => p.id !== id);
-    this.categories[index] = updateCategoryInput;
-
-    return this.categories[index];
+    return this.categoriesRepository.updateCategory({
+      where: {
+        id,
+      },
+      data: updateCategoryInput,
+    });
   }
 
   remove(id: number) {
-    const index = this.categories.findIndex((p) => p.id === id);
-    const oldCategory = this.categories[index];
-    this.categories.splice(index);
-
-    return oldCategory;
+    return this.categoriesRepository.deleteCategory({ where: { id } });
   }
 }

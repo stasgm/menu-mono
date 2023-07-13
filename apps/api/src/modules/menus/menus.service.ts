@@ -11,9 +11,7 @@ import {
 } from '../../types/graphql.schema';
 import { tranformProduct } from '../products/products.service';
 
-const tranformLines = (
-  lines: Array<CreateMenuLineInput | null>,
-): MenuLine[] => {
+const tranformLines = (lines: Array<CreateMenuLineInput | null>): MenuLine[] => {
   return lines.reduce((acc, cur) => {
     if (!cur) {
       return acc;

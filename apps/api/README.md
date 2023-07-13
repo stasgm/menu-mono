@@ -30,6 +30,11 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-# Additional
+## Additional
 
 - pn dlx @nestjs/cli g res modules/users - add new 'Users' resource
+
+## TODO
+
+- revise the prisma data structure
+- add error handling
