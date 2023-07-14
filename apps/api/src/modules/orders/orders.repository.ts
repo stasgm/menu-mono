@@ -61,7 +61,10 @@ const createOrderLinesByLines = (
 
 @Injectable()
 export class OrdersRepository {
-  constructor(private prisma: PrismaService, private usersService: UsersService) {}
+  constructor(
+    private prisma: PrismaService,
+    private usersService: UsersService
+  ) {}
 
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;
