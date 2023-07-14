@@ -18,6 +18,7 @@
     "graphql:generate": "ts-node generate-typings",
     "postinstall": "pnpm run prisma:generate",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint-staged": "lint-staged",
     "migrate:deploy": "pnpm dlx prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
     "migrate:dev:create": "prisma migrate dev --create-only",
@@ -61,8 +62,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@configs/nest-prettier": "workspace:*",
     "@configs/lint-staged": "workspace:*",
+    "@configs/nest-prettier": "workspace:*",
     "@nestjs/cli": "^10.1.8",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.5",

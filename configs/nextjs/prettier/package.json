@@ -1,11 +1,9 @@
 {
   "private": true,
-  "name": "@configs/nextjs-prettier",
+  "name": "@configs/next-prettier",
   "version": "0.0.1",
-  "files": [
-    "prettier.base.js"
-  ],
-  "dependencies": {
+  "main": "index.js",
+  "devDependencies": {
     "prettier": "2.8.8",
     "prettier-package-json": "2.8.0",
     "prettier-plugin-tailwindcss": "0.3.0"

@@ -1,4 +1,4 @@
-const lintStagedBaseConfig = require('@configs/lint-staged/lint-staged.base')
+const lintStagedBaseConfig = require('@configs/lint-staged');
 
 const config = {
   ...lintStagedBaseConfig,
