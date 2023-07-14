@@ -8,7 +8,9 @@ export class CategoriesService {
   constructor(private categoriesRepository: CategoriesRepository) {}
 
   create(createCategoryInput: CreateCategoryInput) {
-    return this.categoriesRepository.createCategory({ data: createCategoryInput });
+    return this.categoriesRepository.createCategory({
+      data: createCategoryInput,
+    });
   }
 
   findAll() {

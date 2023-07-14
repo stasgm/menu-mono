@@ -26,6 +26,7 @@
 ## How to
 
 - pnpm create next-app new-next-app - create a new nextjs app
+- pnpm up -r -i --workspace api - update dependencies
 
 ## Todo
 

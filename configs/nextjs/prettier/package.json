@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "@configs/prettier",
+  "version": "0.0.1",
+  "files": [
+    "prettier.base.js"
+  ],
+  "dependencies": {
+    "prettier": "2.8.8",
+    "prettier-package-json": "2.8.0",
+    "prettier-plugin-tailwindcss": "0.3.0"
+  },
+  "peerDependencies": {
+    "prettier": "2.7.1",
+    "prettier-package-json": "2.6.4",
+    "prettier-plugin-tailwindcss": "0.1.13"
+  },
+  "devDependencies": {
+    "@configs/eslint": "^0.0.2"
+  }
+}

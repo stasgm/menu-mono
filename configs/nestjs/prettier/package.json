@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "@configs/lint-staged",
+  "version": "0.0.1",
+  "files": [
+    "lint-staged.base.js"
+  ],
+  "dependencies": {
+    "lint-staged": "^13.2.3",
+    "prettier-package-json": "^2.8.0"
+  }
+}

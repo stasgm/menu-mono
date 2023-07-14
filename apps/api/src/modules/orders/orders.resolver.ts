@@ -32,7 +32,10 @@ export class OrdersResolver {
   }
 
   @Mutation('updateOrderStatus')
-  updateStatus(@Args('updateOrderStatusInput') updateOrderStatusInput: UpdateOrderStatusInput) {
+  updateStatus(
+    @Args('updateOrderStatusInput')
+    updateOrderStatusInput: UpdateOrderStatusInput
+  ) {
     return this.ordersService.updateStatus(updateOrderStatusInput.id, updateOrderStatusInput);
   }
 

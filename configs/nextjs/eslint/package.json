@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "@configs/next-eslint",
+  "version": "0.0.1",
+  "main": "index.js",
+  "files": [
+    "eslint.base.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-turbo": "^1.10.7",
+    "eslint-config-next": "^13.4.10",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-security": "^1.7.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-sonarjs": "^0.19.0",
+    "eslint-plugin-unicorn": "^47.0.0",
+    "eslint-config-prettier": "^8.8.0"
+  }
+}

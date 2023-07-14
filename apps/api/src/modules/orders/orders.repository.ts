@@ -33,7 +33,7 @@ const calculateTotalAmount = (cur: { quantity: number; price: number }): number 
 };
 
 const createOrderLinesByLines = (
-  orderLines: Array<CreateOrderLineInput>,
+  orderLines: Array<CreateOrderLineInput>
 ): Prisma.OrderLineUncheckedCreateNestedManyWithoutOrderInput => {
   const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.reduce(
     (acc, cur) => {
@@ -51,7 +51,7 @@ const createOrderLinesByLines = (
         },
       ];
     },
-    [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[],
+    [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[]
   );
 
   return {
@@ -61,10 +61,7 @@ const createOrderLinesByLines = (
 
 @Injectable()
 export class OrdersRepository {
-  constructor(
-    private prisma: PrismaService,
-    private usersService: UsersService,
-  ) {}
+  constructor(private prisma: PrismaService, private usersService: UsersService) {}
 
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;

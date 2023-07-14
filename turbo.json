@@ -34,10 +34,13 @@
       "cache": false,
       "persistent": true
     },
-    "format": {},
+    "format": {
+
+    },
     "typecheck": {},
     "clean": {
       "cache": false
-    }
+    },
+    "lint-staged": {}
   }
 }

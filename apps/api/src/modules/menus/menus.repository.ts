@@ -22,7 +22,7 @@ const menuInclude = Prisma.validator<Prisma.MenuInclude>()({
 });
 
 const createMenuLinesByLines = (
-  menuLines: Array<CreateMenuLineInput>,
+  menuLines: Array<CreateMenuLineInput>
 ): Prisma.MenuLineUncheckedCreateNestedManyWithoutMenuInput => {
   const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.reduce(
     (acc, cur) => {
@@ -38,7 +38,7 @@ const createMenuLinesByLines = (
         },
       ];
     },
-    [] as Prisma.MenuLineUncheckedCreateWithoutMenuInput[],
+    [] as Prisma.MenuLineUncheckedCreateWithoutMenuInput[]
   );
 
   return {

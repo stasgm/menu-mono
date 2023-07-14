@@ -88,7 +88,7 @@ export class ProductsRepository {
    * Format the categories IDs array into the prisma query way
    */
   private connectCategoriesById(
-    category: Array<string | null>,
+    category: Array<string | null>
   ): Prisma.CategoryUncheckedCreateNestedManyWithoutProductsInput {
     const categories = category.reduce((acc, cur) => {
       if (!cur) {
