@@ -33,5 +33,4 @@ async function bootstrap() {
   logger.log(`Application is running on: http://localhost:${PORT}`);
   logger.log(`GraphQL Sandbox: http://localhost:${PORT}/graphql`);
 }
-
 bootstrap();
