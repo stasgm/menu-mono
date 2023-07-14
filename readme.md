@@ -33,3 +33,4 @@
   - prettier
   - eslint
   - typescript
+- add shared validation library
