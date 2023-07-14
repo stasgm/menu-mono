@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@configs/nest-prettier",
+  "name": "@configs/lint-staged",
   "version": "0.0.1",
   "files": [
     "lint-staged.base.js"

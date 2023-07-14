@@ -1,4 +1,4 @@
-const prettierBaseConfig = require('@configs/nest-prettier/prettier.base')
+const prettierBaseConfig = require('@configs/nest-prettier/prettier.base');
 
 const config = {
   ...prettierBaseConfig,

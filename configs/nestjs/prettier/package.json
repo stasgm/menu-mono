@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "@configs/lint-staged",
+  "name": "@configs/nest-prettier",
   "version": "0.0.1",
   "files": [
-    "lint-staged.base.js"
+    "prettier.base.js"
   ],
   "dependencies": {
     "lint-staged": "^13.2.3",
