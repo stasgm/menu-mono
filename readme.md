@@ -34,3 +34,4 @@
   - eslint
   - typescript
 - add shared validation library
+- add data immutalabity
