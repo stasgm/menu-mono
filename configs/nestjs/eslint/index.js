@@ -12,6 +12,7 @@ module.exports = {
     es2022: true,
     'jest/globals': true,
   },
+  ignorePatterns: ['jest.config.js', 'jest.setup.js', '.eslintrc.js'],
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
@@ -20,7 +21,7 @@ module.exports = {
     'security',
     'sonarjs',
     'jest',
-    'unicorn'
+    'unicorn',
   ],
   extends: [
     'eslint:recommended',

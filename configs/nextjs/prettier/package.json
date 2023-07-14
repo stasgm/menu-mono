@@ -3,9 +3,8 @@
   "name": "@configs/next-prettier",
   "version": "0.0.1",
   "main": "index.js",
-  "devDependencies": {
+  "dependencies": {
     "prettier": "2.8.8",
-    "prettier-package-json": "2.8.0",
     "prettier-plugin-tailwindcss": "0.3.0"
   }
 }

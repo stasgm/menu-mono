@@ -3,9 +3,6 @@
   "name": "@configs/next-eslint",
   "version": "0.0.1",
   "main": "index.js",
-  "files": [
-    "eslint.base.js"
-  ],
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",

@@ -41,6 +41,8 @@
     "clean": {
       "cache": false
     },
-    "lint-staged": {}
+    "lint-staged": {
+
+    }
   }
 }

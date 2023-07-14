@@ -1,11 +1,9 @@
 {
   "private": true,
-  "name": "@config/nest-eslint",
+  "name": "@configs/nest-eslint",
   "version": "0.0.1",
-  "files": [
-    "eslint.base.js"
-  ],
-  "devDependencies": {
+  "main": "index.js",
+  "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.44.0",

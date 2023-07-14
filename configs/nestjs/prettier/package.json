@@ -3,7 +3,7 @@
   "name": "@configs/nest-prettier",
   "version": "0.0.1",
   "main": "index.js",
-  "devDependencies": {
+  "dependencies": {
     "prettier": "2.8.8"
   }
 }

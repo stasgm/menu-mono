@@ -1,5 +1,6 @@
 {
   "extends": "../../tsconfig.base.node.json",
+  "include": [".eslintrc.js"],
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
