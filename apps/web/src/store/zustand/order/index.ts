@@ -1,13 +1,13 @@
-import { StateCreator } from 'zustand';
+import { gql } from '@apollo/client';
 import {
-  IUserData,
   calculateProductsQuantity,
   calculateTotalPrice,
-  IMenuline,
   generateOrderLines,
   ICart,
+  IMenuline,
+  IUserData,
 } from '@packages/domains';
-import { gql } from '@apollo/client';
+import { StateCreator } from 'zustand';
 
 import client from '../../../utils/apollo-client';
 
@@ -48,7 +48,10 @@ interface Actions {
   updateUserData: (userData: IUserData) => void;
   addProduct: (menuLine: IMenuline) => void;
   removeProduct: (menuLine: IMenuline) => void;
-  updateQuantity: (pmenuLine: IMenuline, action: 'increase' | 'decrease') => void;
+  updateQuantity: (
+    pmenuLine: IMenuline,
+    action: 'increase' | 'decrease',
+  ) => void;
   resetCart: () => void;
   placeOrder: () => void;
 }
@@ -67,10 +70,15 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
       if (findProduct) {
         findProduct.quantity = findProduct.quantity + 1;
       } else {
-        cart.productSelections[menuLine.product.id] = { quantity: 1, price: menuLine.price };
+        cart.productSelections[menuLine.product.id] = {
+          quantity: 1,
+          price: menuLine.price,
+        };
       }
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(
+        cart.productSelections,
+      );
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
       set({ cart });
     },
@@ -78,7 +86,9 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
       const cart = get().cart;
       delete cart.productSelections[menuLine.product.id];
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(
+        cart.productSelections,
+      );
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
       set({ cart });
     },
@@ -103,7 +113,9 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
         findProduct.quantity = findProduct.quantity + 1;
       }
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
+      cart.totalProductQuantity = calculateProductsQuantity(
+        cart.productSelections,
+      );
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
 
       set({ cart });

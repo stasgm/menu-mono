@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
@@ -9,7 +10,10 @@ export function makeStore() {
       [api.reducerPath]: api.reducer,
     },
 
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => [
+      ...getDefaultMiddleware(),
+      ...(Array.isArray(api.middleware) ? api.middleware : [api.middleware]),
+    ],
   });
 }
 

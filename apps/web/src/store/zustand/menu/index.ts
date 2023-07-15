@@ -1,7 +1,7 @@
-import { StateCreator } from 'zustand';
 import { gql } from '@apollo/client';
-
 import { IMenu } from '@packages/domains';
+import { StateCreator } from 'zustand';
+
 import client from '../../../utils/apollo-client';
 
 export interface MenuSlice {
@@ -11,20 +11,13 @@ export interface MenuSlice {
   };
 }
 
-const delay = (ms: number) => {
-  return new Promise((res, _) => setTimeout(res, ms));
-};
-
-export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set, get) => ({
+export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (
+  set,
+) => ({
   menu: null,
   menuActions: {
     fetchMenu: async () => {
-      // const res = await fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=20');
-      // set({ products: await res.json() });
-      // await axios.post<IOrder>(process.env.NEXT_PUBLIC_API_SERVER ?? 'localhost:3000', order);
-      // await delay(500);
-
-      const { data } = await client.query({
+      const { data } = await client.query<{ menus: IMenu[] }>({
         query: gql`
           query Query {
             menus {
@@ -47,7 +40,7 @@ export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set,
         `,
       });
 
-      set({ menu: data.menus[0] });
+      set({ menu: data.menus.length > 0 ? data.menus[0] : null });
     },
   },
 });

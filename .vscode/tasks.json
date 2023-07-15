@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "🚀 web:dev",
+      "label": "🖥️ web:dev",
       "command": "pnpm",
       "args": ["web:dev"],
       "options": {
@@ -21,6 +21,14 @@
       "label": "🧶 lint",
       "command": "pnpm",
       "args": ["lint"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "⚙️ lint-staged",
+      "command": "pnpm",
+      "args": ["lint-staged"],
       "options": {
         "cwd": "${workspaceFolder}"
       }

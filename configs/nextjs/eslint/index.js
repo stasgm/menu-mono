@@ -12,6 +12,15 @@ module.exports = {
     es2022: true,
     'jest/globals': true,
   },
+  ignorePatterns: [
+    '.eslintrc.js',
+    '.lintstagedrc.js',
+    'next.config.js',
+    'jest.config.js',
+    'jest.setup.js',
+    'tailwind.config.js',
+    'postcss.config.js',
+  ],
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
@@ -20,9 +29,13 @@ module.exports = {
     'security',
     'sonarjs',
     'jest',
-    'unicorn'
+    'unicorn',
   ],
   extends: [
+    'next',
+    'turbo',
+    'prettier',
+    'next/core-web-vitals',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:@typescript-eslint/recommended',
@@ -39,7 +52,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-
+    '@typescript-eslint/no-misused-promises': 'off',
     // https://typescript-eslint.io/rules/no-unused-vars/
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
@@ -53,7 +66,7 @@ module.exports = {
     'max-len': [
       'error',
       {
-        code: 80,
+        code: 100,
         ignoreComments: true,
         ignoreUrls: true,
         ignoreStrings: true,

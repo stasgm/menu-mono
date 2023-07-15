@@ -1,5 +1,5 @@
-import { IMenuline } from '@packages/domains';
 import { ShoppingBagIcon } from '@heroicons/react/24/solid';
+import { IMenuline } from '@packages/domains';
 
 interface IProps {
   item: IMenuline;
@@ -35,7 +35,9 @@ export default function MenuLine({
           />
         )}
         <div className="flex-1">
-          <p className="sm:text-base text-sm  text-gray-300">{item.product.name}</p>
+          <p className="sm:text-base text-sm  text-gray-300">
+            {item.product.name}
+          </p>
           <p className="text-xs text-gray-500">
             {item.product.categories.reduce(
               (acc, cur) => `${acc}${acc ? ' : ' : ''} ${cur.name}`,
@@ -43,7 +45,9 @@ export default function MenuLine({
             )}
           </p>
         </div>
-        <p className="self-center text-sm text-gray-300 text-right">{item.price}</p>
+        <p className="self-center text-sm text-gray-300 text-right">
+          {item.price}
+        </p>
       </div>
       <div className="flex select-none">
         <button
@@ -54,7 +58,9 @@ export default function MenuLine({
         >
           -
         </button>
-        <span className="flex-none w-10 text-center self-center text-gray-300">{quantity}</span>
+        <span className="flex-none w-10 text-center self-center text-gray-300">
+          {quantity}
+        </span>
         <button
           className="flex-none focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600 self-center"
           aria-label="Increase quantity"

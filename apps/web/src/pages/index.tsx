@@ -1,17 +1,24 @@
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 
-import { useStore } from '@/store/zustand';
+import Container from '@/components/container';
 import MenuLine from '@/components/menu-line';
 import Nav from '@/components/nav';
-import Container from '@/components/container';
+import { useStore } from '@/store/zustand';
+
 import UserInfoForm from '../components/user-info-form';
 
 export default function Menu() {
   const { cart, menu, menuActions, cartActions } = useStore();
   const { fetchMenu } = menuActions;
-  const { placeOrder, removeProduct, resetCart, updateUserData, updateQuantity } = cartActions;
+  const {
+    placeOrder,
+    removeProduct,
+    resetCart,
+    updateUserData,
+    updateQuantity,
+  } = cartActions;
 
   useEffect(() => {
     fetchMenu();
@@ -29,14 +36,18 @@ export default function Menu() {
         <header className="bg-slate-600 min-h-[150px] sm:min-h-[100px]">
           <Container>
             <div className="flex justify-start gap-2 self-center">
-              <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">Café-like menu</h1>
+              <h1 className="text-2xl sm:text-4xl text-gray-200 font-bold">
+                Café-like menu
+              </h1>
               <ShoppingCartIcon className="flex-none self-center text-sm h-8 w-8 text-gray-400" />
             </div>
             <UserInfoForm
               name={cart.userData.name}
               phoneNumber={cart.userData.phoneNumber}
               setName={(name) => updateUserData({ ...cart.userData, name })}
-              setPhoneNumber={(phoneNumber) => updateUserData({ ...cart.userData, phoneNumber })}
+              setPhoneNumber={(phoneNumber) =>
+                updateUserData({ ...cart.userData, phoneNumber })
+              }
             />
           </Container>
         </header>
@@ -49,10 +60,16 @@ export default function Menu() {
                     <li key={line.id}>
                       <MenuLine
                         item={line}
-                        quantity={cart.productSelections[line.product.id]?.quantity ?? 0}
+                        quantity={
+                          cart.productSelections[line.product.id]?.quantity ?? 0
+                        }
                         key={line.id}
-                        onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
-                        onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}
+                        onIncreaseQuantityClicked={() =>
+                          updateQuantity(line, 'increase')
+                        }
+                        onDecreaseQuantityClicked={() =>
+                          updateQuantity(line, 'decrease')
+                        }
                         onResetQuantityClicked={() => removeProduct(line)}
                       />
                     </li>

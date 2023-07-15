@@ -4,7 +4,17 @@
  */
 module.exports = {
   plugins: [require('prettier-plugin-tailwindcss')],
-  printWidth: 120,
+  arrowParens: 'always',
+  bracketSpacing: true,
+  htmlWhitespaceSensitivity: 'css',
+  insertPragma: false,
+  jsxSingleQuote: false,
+  printWidth: 100,
+  proseWrap: 'preserve',
+  quoteProps: 'as-needed',
+  requirePragma: false,
+  semi: true,
   singleQuote: true,
   trailingComma: 'es5',
+  useTabs: false,
 };

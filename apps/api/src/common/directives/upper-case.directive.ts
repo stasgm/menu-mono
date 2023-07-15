@@ -11,7 +11,7 @@ export function upperDirectiveTransformer(schema: GraphQLSchema, directiveName: 
 
         // Replace the original resolver with a function that *first* calls
         // the original resolver, then converts its result to upper case
-        fieldConfig.resolve = async function (source, arguments_, context, info) {
+        fieldConfig.resolve = function (source, arguments_, context, info) {
           const result = resolve(source, arguments_, context, info);
           if (typeof result === 'string') {
             return result.toUpperCase();
