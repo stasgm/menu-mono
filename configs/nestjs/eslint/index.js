@@ -12,9 +12,16 @@ module.exports = {
     es2022: true,
     'jest/globals': true,
   },
-  ignorePatterns: ['jest.config.js', 'jest.setup.js', '.eslintrc.js', 'test', 'webpack-hmr.config.js'],
+  ignorePatterns: [
+    'jest.config.js',
+    'jest.setup.js',
+    '.eslintrc.js',
+    'test',
+    'webpack-hmr.config.js',
+  ],
   parser: '@typescript-eslint/parser',
   plugins: [
+    'prettier',
     '@typescript-eslint',
     '@typescript-eslint/eslint-plugin',
     'simple-import-sort',
@@ -34,6 +41,15 @@ module.exports = {
     'plugin:unicorn/recommended',
   ],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {},
+      {
+        fileInfoOptions: {
+          withNodeModules: true,
+        },
+      },
+    ],
     // TypeScript specific rules are disabled by default
     // And enabled in "overrides" for TypeScript files only
     '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -65,8 +81,8 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/no-floating-promises": "off",
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
     'jest/expect-expect': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/no-array-reduce': 'off',

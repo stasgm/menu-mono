@@ -11,9 +11,7 @@ export interface MenuSlice {
   };
 }
 
-export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (
-  set,
-) => ({
+export const createMenuSlice: StateCreator<MenuSlice, [], [], MenuSlice> = (set) => ({
   menu: null,
   menuActions: {
     fetchMenu: async () => {

@@ -71,7 +71,7 @@ export class OrdersRepository {
 
     const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
-    // calculate in domains again
+    //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
     const totalAmount = 0;
 
@@ -131,7 +131,7 @@ export class OrdersRepository {
 
     const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
 
-    // calculate again
+    //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
     const totalAmount = 0;
 

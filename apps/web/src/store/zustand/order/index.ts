@@ -48,10 +48,7 @@ interface Actions {
   updateUserData: (userData: IUserData) => void;
   addProduct: (menuLine: IMenuline) => void;
   removeProduct: (menuLine: IMenuline) => void;
-  updateQuantity: (
-    pmenuLine: IMenuline,
-    action: 'increase' | 'decrease',
-  ) => void;
+  updateQuantity: (pmenuLine: IMenuline, action: 'increase' | 'decrease') => void;
   resetCart: () => void;
   placeOrder: () => void;
 }
@@ -76,9 +73,7 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
         };
       }
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(
-        cart.productSelections,
-      );
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
       set({ cart });
     },
@@ -86,9 +81,7 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
       const cart = get().cart;
       delete cart.productSelections[menuLine.product.id];
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(
-        cart.productSelections,
-      );
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
       set({ cart });
     },
@@ -113,9 +106,7 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
         findProduct.quantity = findProduct.quantity + 1;
       }
       cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(
-        cart.productSelections,
-      );
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
       cart.totalAmount = calculateTotalPrice(cart.productSelections);
 
       set({ cart });

@@ -20,49 +20,43 @@ export default function MenuLine({
     <div
       className={`${
         quantity ? 'bg-gray-700' : 'bg-gray-800'
-      } flex sm:py-3 py-2 sm:px-4 px-2 border-b border-gray-600 sm:gap-4 gap-2 justify-between`}
+      } flex justify-between gap-2 border-b border-gray-600 px-2 py-2 sm:gap-4 sm:px-4 sm:py-3`}
     >
-      <div className="flex grow sm:gap-4 gap-2">
+      <div className="flex grow gap-2 sm:gap-4">
         {quantity ? (
           <ShoppingBagIcon
-            className="flex-none self-center sm:h-6 sm:w-6 h-5 w-5 text-blue-500 cursor-pointer"
+            className="h-5 w-5 flex-none cursor-pointer self-center text-blue-500 sm:h-6 sm:w-6"
             onClick={onResetQuantityClicked}
           />
         ) : (
           <ShoppingBagIcon
-            className="flex-none self-center sm:h-6 sm:w-6 h-5 w-5 text-gray-600 cursor-pointer"
+            className="h-5 w-5 flex-none cursor-pointer self-center text-gray-600 sm:h-6 sm:w-6"
             onClick={onIncreaseQuantityClicked}
           />
         )}
         <div className="flex-1">
-          <p className="sm:text-base text-sm  text-gray-300">
-            {item.product.name}
-          </p>
+          <p className="text-sm text-gray-300  sm:text-base">{item.product.name}</p>
           <p className="text-xs text-gray-500">
             {item.product.categories.reduce(
               (acc, cur) => `${acc}${acc ? ' : ' : ''} ${cur.name}`,
-              '',
+              ''
             )}
           </p>
         </div>
-        <p className="self-center text-sm text-gray-300 text-right">
-          {item.price}
-        </p>
+        <p className="self-center text-right text-sm text-gray-300">{item.price}</p>
       </div>
       <div className="flex select-none">
         <button
-          className="flex-none focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600 self-center"
+          className="h-8 w-8 flex-none self-center rounded-lg bg-slate-950 font-bold hover:bg-slate-600 focus:outline-none"
           aria-label="Decrease quantity"
           type="button"
           onClick={onDecreaseQuantityClicked}
         >
           -
         </button>
-        <span className="flex-none w-10 text-center self-center text-gray-300">
-          {quantity}
-        </span>
+        <span className="w-10 flex-none self-center text-center text-gray-300">{quantity}</span>
         <button
-          className="flex-none focus:outline-none bg-slate-950 rounded-lg w-8 h-8 font-bold hover:bg-slate-600 self-center"
+          className="h-8 w-8 flex-none self-center rounded-lg bg-slate-950 font-bold hover:bg-slate-600 focus:outline-none"
           aria-label="Increase quantity"
           type="button"
           onClick={onIncreaseQuantityClicked}

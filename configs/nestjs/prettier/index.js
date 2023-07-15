@@ -1,17 +1,18 @@
 const config = {
-  arrowParens: "always",
+  arrowParens: 'always',
   bracketSpacing: true,
-  htmlWhitespaceSensitivity: "css",
+  htmlWhitespaceSensitivity: 'css',
   insertPragma: false,
   jsxSingleQuote: false,
+  bracketSameLine: true,
   printWidth: 100,
-  proseWrap: "preserve",
-  quoteProps: "as-needed",
+  proseWrap: 'preserve',
+  quoteProps: 'as-needed',
   requirePragma: false,
   semi: true,
   singleQuote: true,
-  trailingComma: "es5",
+  trailingComma: 'es5',
   useTabs: false,
-};
+}
 
 module.exports = config;

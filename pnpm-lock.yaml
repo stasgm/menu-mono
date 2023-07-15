@@ -519,6 +519,9 @@ importers:
 
   packages/utils:
     devDependencies:
+      '@types/jest':
+        specifier: ^29.5.3
+        version: 29.5.3
       '@types/node':
         specifier: ^20.4.2
         version: 20.4.2

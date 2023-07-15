@@ -30,11 +30,11 @@ module.exports = {
     'sonarjs',
     'jest',
     'unicorn',
+    'prettier',
   ],
   extends: [
     'next',
     'turbo',
-    'prettier',
     'next/core-web-vitals',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -46,6 +46,15 @@ module.exports = {
     'plugin:unicorn/recommended',
   ],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {},
+      {
+        fileInfoOptions: {
+          withNodeModules: true,
+        },
+      },
+    ],
     // TypeScript specific rules are disabled by default
     // And enabled in "overrides" for TypeScript files only
     '@typescript-eslint/no-unsafe-assignment': 'off',

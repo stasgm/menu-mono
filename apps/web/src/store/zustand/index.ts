@@ -15,9 +15,9 @@ export const useStore = create<StoreState>()(
       ...createMenuSlice(...args),
       ...createCartSlice(...args),
     }),
-    { serialize: true },
+    { serialize: true }
     // ),
-  ),
+  )
   // {
   //   name: 'app-store',
   // },

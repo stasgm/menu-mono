@@ -8,17 +8,17 @@ interface IProps {
 export default function UserInfoForm(props: IProps) {
   const { name, phoneNumber, setName, setPhoneNumber } = props;
   return (
-    <form className="flex w-full items-center bg-gray-800 rounded-md max-w-xl mx-auto xs:px-7 px-2 mt-4 sm:mt-12 h-10 sm:h-12 gap-x-2 xs:flex-nowrap flex-wrap">
+    <form className="mx-auto mt-4 flex h-10 w-full max-w-xl flex-wrap items-center gap-x-2 rounded-md bg-gray-800 px-2 xs:flex-nowrap xs:px-7 sm:mt-12 sm:h-12">
       <input
         type="text"
-        className="flex-1 border-none text-sm sm:text-base bg-gray-800 text-gray-100 focus:outline-none focus:ring-0 placeholder:text-slate-600"
+        className="flex-1 border-none bg-gray-800 text-sm text-gray-100 placeholder:text-slate-600 focus:outline-none focus:ring-0 sm:text-base"
         placeholder="Your name"
         value={name}
         onChange={(event) => setName(event.target.value)}
       />
       <input
         type="text"
-        className="flex-1 border-none text-sm sm:text-base bg-gray-800 text-gray-100 focus:outline-none focus:ring-0 placeholder:text-slate-600"
+        className="flex-1 border-none bg-gray-800 text-sm text-gray-100 placeholder:text-slate-600 focus:outline-none focus:ring-0 sm:text-base"
         placeholder="Your phone number"
         value={phoneNumber}
         onChange={(event) => setPhoneNumber(event.target.value)}

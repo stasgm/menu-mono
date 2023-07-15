@@ -7,9 +7,7 @@ type Props = {
 export default function Container({ children }: Props) {
   return (
     <section
-      className={
-        'flex flex-col justify-between max-w-xl mx-auto sm:px-6 px-2 py-4 sm:py-16'
-      }
+      className={'mx-auto flex max-w-xl flex-col justify-between px-2 py-4 sm:px-6 sm:py-16'}
     >
       {children}
     </section>

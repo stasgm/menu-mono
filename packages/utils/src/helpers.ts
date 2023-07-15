@@ -25,7 +25,7 @@ export const formatBytes = (bytes: number, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 };
 
-export const delay = (time: number, value: null | unknown = null, rejectDelay = false) => {
+export const delay = (time: number, value: unknown = null, rejectDelay = false) => {
   return new Promise(function (resolve, reject) {
     const callback = rejectDelay === true ? reject : resolve;
     setTimeout(callback.bind(null, value), time);
