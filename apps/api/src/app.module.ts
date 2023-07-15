@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
-import { validationSchemaForEnv as validationSchemaForEnvironment } from './config/environment-variables';
+// import { validationSchemaForEnv as validationSchemaForEnvironment } from './config/environment-variables';
 import { PersistenceModule } from './modules/_core/persistence/persistence.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MenusModule } from './modules/menus/menus.module';
@@ -17,9 +17,9 @@ import { UsersModule } from './modules/users/users.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validate: (configuration: Record<string, unknown>) => {
-        return validationSchemaForEnvironment.parse(configuration);
-      },
+      // validate: (configuration: Record<string, unknown>) => {
+      //   return validationSchemaForEnvironment.parse(configuration);
+      // },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

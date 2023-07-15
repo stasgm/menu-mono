@@ -25,8 +25,12 @@
 
 ## How to
 
-- pnpm create next-app new-next-app - create a new nextjs app
-- pnpm up -r -i --workspace api - update dependencies
+- `pnpm install` - install dependencies
+- `pnpn add [lib name]` - add a new dependency
+- `pnpm up -r -i --workspace api` - update dependencies for `api` app
+  
+- `pnpm create next-app new-next-app` - create a new nextjs app
+- `pnpm create next-app apps/web-admin --ts --use-pnpm --import-alias @/ --src-dir --app --eslint --tailwind` - add a new next app (typescript, tailwind, eslint)
 
 ## Todo
 

@@ -12,7 +12,7 @@ module.exports = {
     es2022: true,
     'jest/globals': true,
   },
-  ignorePatterns: ['jest.config.js', 'jest.setup.js', '.eslintrc.js', 'test'],
+  ignorePatterns: ['jest.config.js', 'jest.setup.js', '.eslintrc.js', 'test', 'webpack-hmr.config.js'],
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',

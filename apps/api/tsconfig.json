@@ -3,6 +3,7 @@
   "include": [".eslintrc.js", "./src"],
   "compilerOptions": {
     "outDir": "./build",
+    "baseUrl": "./src",
     "declaration": true,
     "declarationMap": true,
     "emitDecoratorMetadata": true,
