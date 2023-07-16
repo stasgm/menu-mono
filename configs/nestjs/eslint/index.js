@@ -60,7 +60,7 @@ module.exports = {
     // https://typescript-eslint.io/rules/no-unused-vars/
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn;',
       {
         argsIgnorePattern: '^_',
         destructuredArrayIgnorePattern: '^_',

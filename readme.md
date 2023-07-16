@@ -23,7 +23,17 @@
 - Zustand - state managment tool (<https://docs.pmnd.rs/zustand/getting-started/introduction>)
 - Immer - immutability tool (<https://immerjs.github.io/immer/>)
 
-## How to
+## How to start
+
+- `npm install -g pnpm`
+- `pnpm install`
+- `pnpm libs:build`
+- how to set up api server read in `apps/api/readme.md`
+- `pnpm run web:dev` - run web
+- `pnpm run web-admin:dev` - run web-admin
+- `pnpm run api:dev` - run api server
+
+## Additional commands
 
 - `pnpm install` - install dependencies
 - `pnpn add [lib name]` - add a new dependency
@@ -34,9 +44,9 @@
 
 ## Todo
 
-- add utility libs (as new shared folder):
-  - prettier
-  - eslint
-  - typescript
-- add shared validation library
-- add data immutalabity
+- [ ] add utility libs (as new shared folder):
+  - [x] prettier
+  - [x] eslint
+  - [ ] typescript
+- [ ] add shared validation library
+- [ ] add data immutalabity

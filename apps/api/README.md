@@ -7,6 +7,26 @@
 $ pnpm install
 ```
 
+```bash
+# run the database in docker container
+$ pnpm run docker:db
+```
+
+```bash
+# run the database migratation
+$ pnpm run migrate:dev
+```
+
+```bash
+# seed the database
+$ pnpm run seed
+```
+
+```bash
+# generate graphql types
+$ pnpm run graphql:generate
+```
+
 ## Running the app
 
 ```bash
@@ -40,8 +60,8 @@ $ pnpm run test:cov
 ## TODO
 
 - [x] cast `ID`s to one type (string or integer)
-- [ ] revise the prisma data structure
-  - [ ] `cart` model should contain only `products` field
+- [x] revise the prisma data structure
+  - [x] `cart` model should contain only `products` field
   - [ ] `order` model should contain only `lines` field
   - [ ] maybe `order` model should have `lines` as jsonb
 - [ ] add error handling

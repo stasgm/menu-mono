@@ -13,7 +13,7 @@
     "docker:build": "docker-compose build",
     "docker:db": "docker-compose -f docker-compose.db.yml up -d --build",
     "docker:migrate": "docker-compose -f docker-compose.migrate.yml --env-file .env.docker up -d --build",
-    "docker:seed": "docker exec -it nest-api pnpm run seed",
+    "docker:seed": "docker exec -it menu-prisma-migrate pnpm run seed",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "graphql:generate": "ts-node generate-typings",
     "postinstall": "pnpm run prisma:generate",

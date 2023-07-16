@@ -18,6 +18,14 @@
       }
     },
     {
+      "label": "🛠️ admin",
+      "command": "pnpm",
+      "args": ["web-admin:dev"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+      }
+    },
+    {
       "label": "🧶 lint",
       "command": "pnpm",
       "args": ["lint"],
