@@ -3,5 +3,5 @@
 
 echo "🚦 PRE-COMMIT | lint-staged check..."
 
-# pnpm lint-staged
+pnpm lint-staged
 # pnpm dlx lint-staged

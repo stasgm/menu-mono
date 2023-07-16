@@ -9,7 +9,7 @@
     "format": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --write",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --check",
     "lint": "next lint --fix",
-    "lint-staged": "lint-staged",
+    "lint-staged": "pnpm dlx lint-staged",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
