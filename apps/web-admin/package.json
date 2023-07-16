@@ -17,6 +17,7 @@
     "@apollo/client": "^3.7.17",
     "@heroicons/react": "^2.0.18",
     "@packages/domains": "workspace:*",
+    "@packages/mocks": "workspace:*",
     "@packages/utils": "workspace:*",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",

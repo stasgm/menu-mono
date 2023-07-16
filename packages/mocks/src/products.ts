@@ -1,4 +1,4 @@
-import { IProductData } from '@packages/domains';
+import { IProductData, getProduct } from '@packages/domains';
 import { categoriesMock } from './categories';
 
 export const productsMock: IProductData[] = [
@@ -33,3 +33,9 @@ export const productsMock: IProductData[] = [
     categories: [categoriesMock[0].id, categoriesMock[4].id],
   },
 ];
+
+export const getProductsMock = () => {
+  return productsMock.map((el) => {
+    return getProduct(productsMock, categoriesMock, el.id);
+  });
+};
