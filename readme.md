@@ -50,3 +50,6 @@
   - [ ] typescript
 - [ ] add shared validation library
 - [ ] add data immutalabity
+- [ ] fronend: import and use graphql schemas
+- [ ] fronend: zustand store - use selectors
+- [ ] fronend: zustand store - how to use: post\get state (isLoading, error etc)

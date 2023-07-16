@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 import { IMenu } from '@packages/domains';
 import { StateCreator } from 'zustand';
 
-import client from '../../../utils/apollo-client';
+import client from '@/utils/apollo-client';
 
 export interface MenuSlice {
   menu: IMenu | null;
