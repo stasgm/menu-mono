@@ -1,0 +1,22 @@
+query GetMenus {
+  menus {
+    id
+    createdAt
+    updatedAt
+    number
+    name
+    lines {
+      id
+      price
+      product {
+        id
+        name
+        disabled
+        categories {
+          id
+          name
+        }
+      }
+    }
+  }
+}
