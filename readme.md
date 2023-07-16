@@ -53,3 +53,4 @@
 - [ ] fronend: import and use graphql schemas
 - [ ] fronend: zustand store - use selectors
 - [ ] fronend: zustand store - how to use: post\get state (isLoading, error etc)
+- [ ] fronend: add ENV param to use mocked data instead of api server
