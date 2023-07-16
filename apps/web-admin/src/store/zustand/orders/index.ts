@@ -6,7 +6,7 @@ import { ILoadingState } from '../types';
 
 // import client from '@/utils/apollo-client';
 
-export type OrdersSlice = State & ILoadingState & { ordersAtions: Actions };
+export type OrdersSlice = State & ILoadingState & { ordersActions: Actions };
 
 interface IOrder {
   id: string;
@@ -23,7 +23,7 @@ export const createOrdersSlice: StateCreator<OrdersSlice> = (set) => ({
   orders: [],
   error: null,
   isLoading: false,
-  ordersAtions: {
+  ordersActions: {
     fetchOrders: () => {
       set({ isLoading: true });
     },

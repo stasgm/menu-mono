@@ -2,7 +2,7 @@ import { IProduct } from '@packages/domains';
 import { useEffect } from 'react';
 
 import Container from '@/components/container';
-import { useStore } from '@/store/zustand';
+import { useAppStore } from '@/store/zustand';
 
 interface IProps {
   data: IProduct[];
@@ -19,8 +19,10 @@ const ProductList = (props: IProps) => {
 };
 
 const Products = () => {
-  const { products, productsActions } = useStore();
-  const { fetchProducts } = productsActions;
+  // const { products, productsActions } = useStore();
+  const products = useAppStore.use.products();
+  const { fetchProducts } = useAppStore.use.productsActions();
+  // const { fetchProducts } = productsActions;
 
   useEffect(() => {
     fetchProducts();
