@@ -17,18 +17,20 @@
 - tailwind
 - turborepo - build\test\lint caching (<https://turbo.build/repo/docs>)
 - turbopack
-
-## Additional libs
-
 - Zustand - state managment tool (<https://docs.pmnd.rs/zustand/getting-started/introduction>)
 - Immer - immutability tool (<https://immerjs.github.io/immer/>)
 
-## How to start
+## How to setup the project
 
 - `npm install -g pnpm`
+- `pnpm install turbo --global` - install turbo
 - `pnpm install`
 - `pnpm libs:build`
-- how to set up api server read in `apps/api/readme.md`
+
+how to set up the api-server read in `apps/api/readme.md`
+
+## Run the apps
+
 - `pnpm run web:dev` - run web
 - `pnpm run web-admin:dev` - run web-admin
 - `pnpm run api:dev` - run api server
@@ -38,7 +40,6 @@
 - `pnpm install` - install dependencies
 - `pnpn add [lib name]` - add a new dependency
 - `pnpm up -r -i --workspace api` - update dependencies for `api` app
-  
 - `pnpm create next-app new-next-app` - create a new nextjs app
 - `pnpm create next-app apps/web-admin --ts --use-pnpm --import-alias @/ --src-dir --app --eslint --tailwind` - add a new next app (typescript, tailwind, eslint)
 
@@ -50,7 +51,7 @@
   - [ ] typescript
 - [ ] add shared validation library
 - [ ] add data immutalabity
-- [ ] fronend: import and use graphql schemas
-- [ ] fronend: zustand store - use selectors
-- [ ] fronend: zustand store - how to use: post\get state (isLoading, error etc)
-- [ ] fronend: add ENV param to use mocked data instead of api server
+- [ ] frontend: import and use graphql schemas
+- [ ] frontend: zustand store - use selectors
+- [ ] frontend: zustand store - how to use: post\get state (isLoading, error etc)
+- [ ] frontend: add ENV param to use mocked data instead of api-server
