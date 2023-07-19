@@ -41,15 +41,7 @@ module.exports = {
     'plugin:unicorn/recommended',
   ],
   rules: {
-    'prettier/prettier': [
-      'error',
-      {},
-      {
-        fileInfoOptions: {
-          withNodeModules: true,
-        },
-      },
-    ],
+    'prettier/prettier': "off",
     // TypeScript specific rules are disabled by default
     // And enabled in "overrides" for TypeScript files only
     '@typescript-eslint/no-unsafe-assignment': 'off',
