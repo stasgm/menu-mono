@@ -1,5 +1,5 @@
 import { Bars4Icon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+import { useRouter as useNavigation } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -13,18 +13,20 @@ const classNames = (...classes: string[]) => {
 };
 
 const MenuItem = (prop: IMenuItemProp) => {
-  const { pathname } = useRouter();
+  const nav = useNavigation();
+  const router = useRouter();
 
   return (
     <li
       className={classNames(
-        pathname === `/${prop.link}`
+        router.pathname === `/${prop.link}`
           ? 'bg-gray-900 text-white'
           : 'text-gray-300 hover:bg-gray-800 hover:text-white',
         'block cursor-pointer rounded-b-none rounded-t-none px-2 py-1 font-semibold lg:px-6 lg:py-2 lg:text-center lg:first:rounded-l-md lg:last:rounded-r-md'
       )}
+      onClick={() => nav.push(`/${prop.link}`)}
     >
-      <Link href={`${prop.link}`}>{prop.caption}</Link>
+      <span>{prop.caption}</span>
     </li>
   );
 };
@@ -56,7 +58,7 @@ const menuItems: IMenuItemProp[] = [
   },
 ];
 
-const Nav = () => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -86,4 +88,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default Navbar;

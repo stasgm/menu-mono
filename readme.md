@@ -22,12 +22,12 @@
 
 ## How to setup the project
 
-- `npm install -g pnpm`
-- `pnpm install turbo --global` - install turbo
-- `pnpm install`
-- `pnpm libs:build`
+- `npm install -g pnpm` - instal pnpm globaly
+- `pnpm install turbo --global` - install turbo globaly
+- `pnpm install` - install dependencies
+- `pnpm libs:build` - build all libraries
 
-how to set up the api-server read in `apps/api/readme.md`
+how to setup api-server read in `apps/api/readme.md`
 
 ## Run the apps
 
@@ -39,19 +39,26 @@ how to set up the api-server read in `apps/api/readme.md`
 
 - `pnpm install` - install dependencies
 - `pnpn add [lib name]` - add a new dependency
+- `pnpm up -r -i`  - update all dependencies
 - `pnpm up -r -i --workspace api` - update dependencies for `api` app
 - `pnpm create next-app new-next-app` - create a new nextjs app
 - `pnpm create next-app apps/web-admin --ts --use-pnpm --import-alias @/ --src-dir --app --eslint --tailwind` - add a new next app (typescript, tailwind, eslint)
 
 ## Todo
 
-- [ ] add utility libs (as new shared folder):
-  - [x] prettier
-  - [x] eslint
-  - [ ] typescript
-- [ ] add shared validation library
-- [ ] add data immutalabity
-- [ ] frontend: import and use graphql schemas
-- [ ] frontend: zustand store - use selectors
-- [ ] frontend: zustand store - how to use: post\get state (isLoading, error etc)
-- [ ] frontend: add ENV param to use mocked data instead of api-server
+- common
+  - [ ] add utility libs (as new shared folder):
+    - [x] prettier
+    - [x] eslint
+    - [ ] typescript
+  - [ ] add shared validation library
+  - [ ] add data immutalabity
+
+- backend
+
+- frontend:
+  - [ ] import and use graphql schemas
+  - [ ] zustand store - use selectors
+  - [ ] zustand store - how to use: post\get state (isLoading, error etc)
+  - [ ] add ENV param to use mocked data instead of api-server
+  - [ ] move api request to separated module

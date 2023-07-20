@@ -19,10 +19,8 @@ const ProductList = (props: IProps) => {
 };
 
 const Products = () => {
-  // const { products, productsActions } = useStore();
   const products = useAppStore.use.products();
   const { fetchProducts } = useAppStore.use.productsActions();
-  // const { fetchProducts } = productsActions;
 
   useEffect(() => {
     fetchProducts();
