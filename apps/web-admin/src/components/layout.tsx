@@ -10,10 +10,10 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="font-body flex min-h-screen flex-col bg-slate-600">
+    <div className="font-body flex min-h-screen flex-col">
       <Header />
       <Navbar />
-      <main className="flex-1 bg-gray-900 text-gray-100">{children}</main>
+      <main className="flex-1 bg-gray-600 text-gray-200">{children}</main>
       <Footer />
     </div>
   );

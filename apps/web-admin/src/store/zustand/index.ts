@@ -1,24 +1,33 @@
 import { create, StoreApi, UseBoundStore } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
 import { createMenusSlice, MenusSlice } from './menus';
 import { createOrdersSlice, OrdersSlice } from './orders';
 import { createProductsSlice, ProductsSlice } from './products';
 
-type StoreState = MenusSlice & OrdersSlice & ProductsSlice;
+type StoreState = MenusSlice & OrdersSlice;
 
-export const useStore = create<StoreState>()(
-  // immer(
+export const useProductsStore = create<ProductsSlice>()(
   devtools(
-    (...args) => ({
-      ...createMenusSlice(...args),
-      ...createOrdersSlice(...args),
+    immer((...args) => ({
       ...createProductsSlice(...args),
-    }),
+    })),
     { serialize: true }
   )
-  // )
 );
+
+// export const useStore = create<StoreState>()(
+//   // immer(
+//   devtools(
+//     (...args) => ({
+//       ...createMenusSlice(...args),
+//       ...createOrdersSlice(...args),
+//     }),
+//     { serialize: true }
+//   )
+//   // )
+// );
 
 type WithSelectors<S> = S extends { getState: () => infer T }
   ? S & { use: { [K in keyof T]: () => T[K] } }
@@ -35,4 +44,4 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(_store: S) =
   return store;
 };
 
-export const useAppStore = createSelectors(useStore);
+export const useAppProductsStore = createSelectors(useProductsStore);

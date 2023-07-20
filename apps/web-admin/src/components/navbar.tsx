@@ -19,10 +19,8 @@ const MenuItem = (prop: IMenuItemProp) => {
   return (
     <li
       className={classNames(
-        router.pathname === `/${prop.link}`
-          ? 'bg-gray-900 text-white'
-          : 'text-gray-300 hover:bg-gray-800 hover:text-white',
-        'block cursor-pointer rounded-b-none rounded-t-none px-2 py-1 font-semibold lg:px-6 lg:py-2 lg:text-center lg:first:rounded-l-md lg:last:rounded-r-md'
+        router.pathname === `/${prop.link}` ? 'bg-gray-500 text-gray-100' : 'text-gray-400',
+        'block cursor-pointer rounded-b-none rounded-t-none px-2 py-1 font-semibold hover:bg-gray-600 hover:text-white lg:px-6 lg:py-2 lg:text-center lg:first:rounded-l-md lg:last:rounded-r-md'
       )}
       onClick={() => nav.push(`/${prop.link}`)}
     >
@@ -62,7 +60,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="py-2">
+    <header className="bg-gray-800 py-2">
       <div className="mx-auto flex w-full flex-wrap items-center justify-end px-[2%] lg:justify-center lg:px-0 xl:mx-auto xl:max-w-7xl">
         <Bars4Icon
           className="h-6 w-6 cursor-pointer text-gray-300 lg:hidden"

@@ -26,6 +26,7 @@ export const productsMock: IProductData[] = [
     id: '5447ed7a-2181-11ee-be56-0242ac120002',
     name: 'Muffin',
     categories: [categoriesMock[1].id, categoriesMock[2].id, categoriesMock[6].id],
+    disabled: true,
   },
   {
     id: '5447eaa0-2181-11ee-be56-0242ac120002',

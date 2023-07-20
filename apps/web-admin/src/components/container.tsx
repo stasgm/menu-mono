@@ -6,7 +6,7 @@ type Props = {
 
 const Container = ({ children }: Props) => {
   return (
-    <section className="mx-auto flex max-w-xl flex-col justify-between px-2 py-4 sm:px-6 sm:py-10">
+    <section className="mx-auto flex max-w-xl flex-col justify-between px-2 py-4 sm:px-6 sm:py-10 lg:max-w-screen-md">
       {children}
     </section>
   );

@@ -4,12 +4,14 @@ export interface IProductData {
   id: string;
   name: string;
   categories: string[];
+  disabled?: boolean;
 }
 
 export interface IProduct {
   id: string;
   name: string;
   categories: ICategory[];
+  disabled?: boolean;
 }
 
 export const getProduct = (

@@ -1,26 +1,24 @@
-import { IProduct } from '@packages/domains';
 import { useEffect } from 'react';
 
 import Container from '@/components/container';
-import { useAppStore } from '@/store/zustand';
+import { useAppProductsStore } from '@/store/zustand';
 
-interface IProps {
-  data: IProduct[];
-}
+import ProductTable from './product-table';
 
-const ProductList = (props: IProps) => {
+const Header = () => {
   return (
-    <ul>
-      {props.data.map((el) => (
-        <li key={el.id}>{el.name}</li>
-      ))}
-    </ul>
+    <div className="mb-2 flex justify-between">
+      <h1 className="self-center text-xl font-bold text-gray-100">Products</h1>
+      <button className="rounded-md bg-gray-800 p-2 px-4 hover:bg-gray-900 focus:outline-none">
+        Add new
+      </button>
+    </div>
   );
 };
 
 const Products = () => {
-  const products = useAppStore.use.products();
-  const { fetchProducts } = useAppStore.use.productsActions();
+  const products = useAppProductsStore.use.products();
+  const { fetchProducts } = useAppProductsStore.use.productsActions();
 
   useEffect(() => {
     fetchProducts();
@@ -28,8 +26,8 @@ const Products = () => {
 
   return (
     <Container>
-      <h1 className="text-xl font-bold text-gray-200">Products</h1>
-      <ProductList data={products} />
+      <Header />
+      <ProductTable data={products} />
     </Container>
   );
 };
