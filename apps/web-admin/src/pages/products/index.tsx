@@ -1,3 +1,4 @@
+import { useRouter as useNavigation } from 'next/navigation';
 import { useEffect } from 'react';
 
 import Container from '@/components/container';
@@ -6,10 +7,15 @@ import { useAppProductsStore } from '@/store/zustand';
 import ProductTable from './product-table';
 
 const Header = () => {
+  const nav = useNavigation();
+
   return (
     <div className="mb-2 flex justify-between">
       <h1 className="self-center text-xl font-bold text-gray-100">Products</h1>
-      <button className="rounded-md bg-gray-800 p-2 px-4 hover:bg-gray-900 focus:outline-none">
+      <button
+        className="rounded-md bg-gray-800 p-2 px-4 hover:bg-gray-900 focus:outline-none"
+        onClick={() => nav.push('/products/new')}
+      >
         Add new
       </button>
     </div>

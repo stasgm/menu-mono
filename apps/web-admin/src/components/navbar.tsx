@@ -19,7 +19,10 @@ const MenuItem = (prop: IMenuItemProp) => {
   return (
     <li
       className={classNames(
-        router.pathname === `/${prop.link}` ? 'bg-gray-500 text-gray-100' : 'text-gray-400',
+        (router.pathname === '/' && prop.link === '') ||
+          (router.pathname.includes(`/${prop.link}`) && prop.link !== '')
+          ? 'bg-gray-500 text-gray-100'
+          : 'text-gray-400',
         'block cursor-pointer rounded-b-none rounded-t-none px-2 py-1 font-semibold hover:bg-gray-600 hover:text-white lg:px-6 lg:py-2 lg:text-center lg:first:rounded-l-md lg:last:rounded-r-md'
       )}
       onClick={() => nav.push(`/${prop.link}`)}
