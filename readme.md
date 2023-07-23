@@ -23,6 +23,7 @@
 ## How to setup the project
 
 - `npm install -g pnpm` - instal pnpm globaly
+- `pnpm setup` - set up system configuration for pnpm
 - `pnpm install turbo --global` - install turbo globaly
 - `pnpm install` - install dependencies
 - `pnpm libs:build` - build all libraries

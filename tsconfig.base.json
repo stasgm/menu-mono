@@ -18,6 +18,10 @@
     "moduleResolution": "node",
     "target": "esnext",
     "skipLibCheck": true,
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@packages/utils": ["packages/utils"]
+    },
   }
 }
