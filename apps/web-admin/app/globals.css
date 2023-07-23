@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 229, 231, 235;
+  --background-rgb: 51, 65, 85;
+}
+
+* {
+  color: rgb(var(--foreground-rgb));
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background: rgb(var(--background-rgb));
+}
