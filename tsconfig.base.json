@@ -19,11 +19,5 @@
     "target": "esnext",
     "skipLibCheck": true,
     "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@packages/utils": ["packages/utils"],
-      "@packages/mocks": ["packages/mocks"],
-      "@packages/domains": ["packages/domains"],
-    },
   }
 }

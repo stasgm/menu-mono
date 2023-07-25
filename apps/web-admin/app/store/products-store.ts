@@ -15,28 +15,34 @@ const useProductsStore = create<ProductState>((set, get) => ({
   products: [],
   isFetching: false,
   getProducts: async () => {
-    const { products, isFetching } = get();
-    if (products.length > 0 || isFetching) return;
+    const { products: prevProducts, isFetching } = get();
+    if (prevProducts.length > 0 || isFetching) return;
 
     set({
       isFetching: true,
     });
 
-    // const res = getProductsMock();
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=b`);
+    const products: IProduct[] = await (async () => {
+      if ((process.env.NEXT_PUBLIC_MOCKED_API ?? 'false') === 'true') {
+        return getProductsMock();
+      }
 
-    const result: { meals: any[] } = await response.json();
-    const convertedResult: IProduct[] = result.meals.map((r) => ({
-      id: r.idMeal,
-      name: r.strMeal,
-      description: r.strInstructions ?? '',
-      image: r.strMealThumb ?? '',
-      categories: [],
-      disabled: Math.floor(Math.random() * 2) === 1,
-    }));
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=b`);
+
+      const result: { meals: any[] } = await response.json();
+
+      return result.meals.map((r) => ({
+        id: r.idMeal,
+        name: r.strMeal,
+        description: r.strInstructions ?? '',
+        image: r.strMealThumb ?? '',
+        categories: [],
+        disabled: Math.floor(Math.random() * 2) === 1,
+      }));
+    })();
 
     set({
-      products: convertedResult,
+      products,
       isFetching: false,
     });
   },
