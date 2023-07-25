@@ -1,6 +1,6 @@
 'use client';
 import { menuItems } from '@constants';
-import { ShoppingBagIcon } from '@heroicons/react/24/solid';
+// import { ShoppingBagIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,7 +12,7 @@ export const NavBar = () => {
   const currentRoute = usePathname();
 
   return (
-    <header className="w-full bg-gray-600">
+    <header className="fixed z-10 w-full bg-gray-600">
       <nav className="mx-auto flex h-12 max-w-[1024px] justify-center bg-transparent">
         <Link href="/" className={`absolute left-0 h-12 ${linkStyle}`}>
           {/* <ShoppingBagIcon /> */}

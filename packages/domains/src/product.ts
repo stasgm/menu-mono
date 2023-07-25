@@ -5,13 +5,13 @@ export interface IProductData {
   name: string;
   categories: string[];
   disabled?: boolean;
+  image?: string;
+  description?: string;
+  price?: number;
 }
 
-export interface IProduct {
-  id: string;
-  name: string;
+export interface IProduct extends Omit<IProductData, 'categories'> {
   categories: ICategory[];
-  disabled?: boolean;
 }
 
 export const getProduct = (

@@ -21,7 +21,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@packages/utils": ["packages/utils"]
+      "@packages/utils": ["packages/utils"],
+      "@packages/mocks": ["packages/mocks"],
+      "@packages/domains": ["packages/domains"],
     },
   }
 }

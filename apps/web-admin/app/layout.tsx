@@ -17,10 +17,12 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body>
         <NavBar />
-        {children}
+        <main className="p-4 pt-14">
+          {children}
+        </main>
       </body>
     </html>
   );
