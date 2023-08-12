@@ -14,7 +14,7 @@ type PageProps = {
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params }) => {
   const productId = (params?.id as string) ?? '';
-  return { props: { productId } };
+  return new Promise((res) => res({ props: { productId } }));
 };
 
 export default function Page({ productId }: PageProps) {
