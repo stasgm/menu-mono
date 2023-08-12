@@ -62,6 +62,10 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
+    "require-await": "off",
+    "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
     // https://typescript-eslint.io/rules/no-unused-vars/
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
