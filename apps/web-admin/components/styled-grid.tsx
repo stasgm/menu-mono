@@ -1,6 +1,4 @@
-'use client';
-import { Spinner } from 'flowbite-react';
-
+// 'use client';
 import { CircularLoader } from './circular-loader';
 
 export interface StyledGridColumn {
@@ -26,7 +24,9 @@ interface StyledGridProps {
 }
 
 export const StyledGrid = (props: StyledGridProps) => {
-  const { rows, columns, fetching = false, className = '' } = props;
+  const { rows: source , columns, fetching = false, className = '' } = props;
+
+  const rows = fetching ? [...source].splice(0, 3) : [...source];
 
   return (
     <div

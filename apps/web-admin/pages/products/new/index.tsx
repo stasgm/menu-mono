@@ -1,15 +1,15 @@
-'use client';
-
-import useProductsStore from '@app/store/products-store';
-import { Container } from '@components';
+import { Button, Container } from '@components';
+import { StoreContext } from '@lib/zustand-provider';
 import { IProduct } from '@packages/domains';
-import { Button, Checkbox, FileInput, Label, Select, Textarea, TextInput } from 'flowbite-react';
+import { Checkbox, FileInput, Label, Select, Textarea, TextInput } from 'flowbite-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useContext, useRef } from 'react';
+import { useStore } from 'zustand';
 
 export default function Page() {
-  const { addProduct } = useProductsStore();
+  const store = useContext(StoreContext);
+  const { addProduct } = useStore(store!);
 
   const name = useRef<HTMLInputElement>(null);
   const description = useRef<HTMLTextAreaElement>(null);
@@ -77,10 +77,10 @@ export default function Page() {
           </Label>
         </div>
         <div className="flex gap-4">
-          <Button className="border-none bg-blue-500 px-2 py-1 font-semibold" type="submit">
+          <Button type="submit">
             Save
           </Button>
-          <Button className="border-none px-2 py-1">
+          <Button variant="secondary">
             <Link href={'/products'}>Cancel</Link>
           </Button>
         </div>

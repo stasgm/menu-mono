@@ -1,25 +1,33 @@
-'use client';
-import useProductsStore from '@app/store/products-store';
+import { Button } from '@components';
 import { StyledGrid, StyledGridColumns } from '@components/styled-grid';
+import { StoreContext } from '@lib/zustand-provider';
 import { IProduct } from '@packages/domains';
 import { DeleteIcon } from '@public/icons/delete';
 import { EditIcon } from '@public/icons/edit';
 import { IconButton } from '@public/icons/icon-button';
-import { Button } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext } from 'react';
+import { useStore } from 'zustand';
 
 export default function Page() {
-  const { products, getProducts, removeProduct, isFetching } = useProductsStore();
+  const store = useContext(StoreContext);
+  const { products, isFetching, getProducts, removeProduct, refreshProduct } = useStore(store!);
+  getProducts();
 
-  useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+  const router = useRouter();
 
   const handleDelete = (product: IProduct) => () => {
     removeProduct(product);
+  };
+
+  const handleAdd = () => {
+    router.push('/products/new');
+  };
+
+  const handleRefresh = () => {
+    refreshProduct();
   };
 
   const columns: StyledGridColumns = [
@@ -30,7 +38,7 @@ export default function Page() {
         return (
           <div className="flex items-center space-x-4">
             <Image
-              src={row.image ?? ''}
+              src={row.image ?? '/no-image.png'}
               alt={row.name}
               className="rounded-lg transition-all duration-500 hover:-rotate-2 hover:scale-110"
               width={80}
@@ -77,17 +85,11 @@ export default function Page() {
     },
   ];
 
-  const router = useRouter();
-
-  const handleAdd = () => {
-    router.push('/products/new');
-  };
-
   return (
     <div className="relative overflow-x-auto px-32 shadow-md">
       <div className="relative overflow-x-auto shadow-md">
         <div className="pb-4 dark:bg-gray-900">
-          <div className="relative mt-1 flex">
+          <div className="relative mt-1 flex gap-4">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
                 className="h-4 w-4 text-gray-500 dark:text-gray-400"
@@ -113,11 +115,16 @@ export default function Page() {
             />
             <div className="w-full" />
             <Button
-              disabled={isFetching}
-              className="border-none bg-blue-700 font-semibold disabled:bg-blue-400"
+              // disabled={isFetching}
               onClick={handleAdd}
             >
               New
+            </Button>
+            <Button
+              // disabled={isFetching}
+              onClick={handleRefresh}
+            >
+              Update
             </Button>
           </div>
         </div>

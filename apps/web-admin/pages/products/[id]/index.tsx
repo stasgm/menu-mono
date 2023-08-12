@@ -1,31 +1,35 @@
-'use client';
-import useProductsStore from '@app/store/products-store';
 import { Container } from '@components';
+import { StoreContext } from '@lib/zustand-provider';
 import { IProduct } from '@packages/domains';
-import { IconButton } from '@public/icons/icon-button';
 import { Button, Checkbox, FileInput, Label, Select, Textarea, TextInput } from 'flowbite-react';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, FormEventHandler, useMemo, useRef, useState } from 'react';
+import { FormEvent, useContext, useRef } from 'react';
+import { useStore } from 'zustand';
 
 type PageProps = {
-  params: {
-    id: string;
-  };
+  productId: string;
 };
 
-export default function Page({ params }: PageProps) {
-  const { products, updateProduct } = useProductsStore();
+export const getServerSideProps: GetServerSideProps<PageProps> = async ({ params }) => {
+  const productId = (params?.id as string) ?? '';
+  return { props: { productId } };
+};
+
+export default function Page({ productId }: PageProps) {
+  console.log('Page_edit', productId);
+
+  const store = useContext(StoreContext);
+  const { products, updateProduct } = useStore(store!);
 
   const name = useRef<HTMLInputElement>(null);
   const description = useRef<HTMLTextAreaElement>(null);
   const categories = useRef<HTMLSelectElement>(null);
   const disabled = useRef<HTMLInputElement>(null);
 
-  const product = useMemo(() => {
-    const findIndex = products.findIndex((p) => p.id === params.id);
-    return products[findIndex];
-  }, [products, params.id]);
+  const findIndex = products.findIndex((p) => p.id === productId);
+  const product = products[findIndex];
 
   const router = useRouter();
 
@@ -92,12 +96,11 @@ export default function Page({ params }: PageProps) {
         <div className="flex items-center gap-2">
           <Checkbox id="disabled" defaultChecked={!!product?.disabled} ref={disabled} />
           <Label htmlFor="disabled" placeholder="Name">
-            <span>disabled</span>
+            <span>Disabled</span>
           </Label>
         </div>
         <div className="flex gap-4">
           <Button className="border-none bg-blue-500 px-2 py-1 font-semibold" type="submit">
-            {/* <Link href={'/products'}>Update</Link> */}
             Update
           </Button>
           <Button className="border-none px-2 py-1">

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['@packages/ui', '@packages/domains', '@packages/utils', '@packages/mocks'],
+  compiler: {
+    styledComponents: true
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
