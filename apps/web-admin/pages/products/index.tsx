@@ -5,6 +5,7 @@ import { IProduct } from '@packages/domains';
 import { DeleteIcon } from '@public/icons/delete';
 import { EditIcon } from '@public/icons/edit';
 import { IconButton } from '@public/icons/icon-button';
+import { RefreshIcon } from '@public/icons/refresh';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -114,17 +115,16 @@ export default function Page() {
               placeholder="Search for items"
             />
             <div className="w-full" />
+            <IconButton onClick={handleRefresh}>
+              <div className={isFetching ? 'animate-spin' : 'animate-none'}>
+                <RefreshIcon />
+              </div>
+            </IconButton>
             <Button
-              // disabled={isFetching}
+              disabled={isFetching}
               onClick={handleAdd}
             >
               New
-            </Button>
-            <Button
-              // disabled={isFetching}
-              onClick={handleRefresh}
-            >
-              Update
             </Button>
           </div>
         </div>
