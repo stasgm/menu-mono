@@ -1,6 +1,7 @@
 import { IProduct } from '@packages/domains';
 import { getProductsMock } from '@packages/mocks';
-import { create } from 'zustand';
+import { create, StateCreator } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -16,7 +17,9 @@ export interface ProductState {
   refreshProduct: () => void;
 }
 
-const productsStore = create<ProductState>((set, get) => ({
+type CustomStoreType = StateCreator<ProductState>;
+
+const productsStore: CustomStoreType = (set, get) => ({
   products: [],
   isFetching: false,
   getProducts: async () => {
@@ -79,8 +82,10 @@ const productsStore = create<ProductState>((set, get) => ({
       isFetching: false,
     });
   },
-}));
+});
 
-export const initProductState = (defaultState = {}) => productsStore;
+const productsStoreWithDevTools = create<ProductState>()(devtools(productsStore));
+
+export const initProductState = (defaultState = {}) => productsStoreWithDevTools;
 
 export default productsStore;
