@@ -24,7 +24,7 @@ interface StyledGridProps {
 }
 
 export const StyledGrid = (props: StyledGridProps) => {
-  const { rows: source , columns, fetching = false, className = '' } = props;
+  const { rows: source, columns, fetching = false, className = '' } = props;
 
   const rows = fetching ? [...source].splice(0, 3) : [...source];
 
@@ -56,9 +56,7 @@ export const StyledGrid = (props: StyledGridProps) => {
                 <td key={row.id + column.headerName} className="px-6 py-4">
                   {column.renderCell
                     ? column.renderCell(row[column.fieldName], row)
-                    : row[column.fieldName]
-                      ? row[column.fieldName]
-                      : ''}
+                    : row[column.fieldName] ?? ''}
                 </td>
               ))}
             </tr>
