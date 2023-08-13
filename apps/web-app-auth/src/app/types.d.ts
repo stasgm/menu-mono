@@ -21,6 +21,6 @@ type Project = {
 };
 
 type TechStack = {
-  icon: IconType;
+  icon: any;
   title: string;
 };

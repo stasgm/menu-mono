@@ -21,11 +21,11 @@
         "name": "next"
       }
     ],
+    "baseUrl": "src/",
     "paths": {
-      "@/": ["./src/*"],
-      "@/app": ["./src/app/"],
-      "@/lib": ["./src/lib/"],
-      "@/graphql": ["./src/graphql/"]
+      "@/app/*": ["app/"],
+      "@/lib/*": ["lib/*"],
+      "@/graphql/*": ["graphql/*"]
     }
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],
