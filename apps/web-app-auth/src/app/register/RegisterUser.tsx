@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
-import { Formik, Form } from 'formik';
-import InputField from '../components/InputField';
-import FormButton from '../components/FormButton';
 import { gql, useMutation } from '@apollo/client';
+import { Form, Formik } from 'formik';
+import React from 'react';
+
 import { toErrorMap } from '@/lib/toErrorMap';
+
+import FormButton from '../components/FormButton';
+import InputField from '../components/InputField';
 
 // TODO: Check how to implement codegen accordinly for typechecking
 

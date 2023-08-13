@@ -1,6 +1,8 @@
 import './globals.css';
-import NavBar from './components/NavBar';
+
 import type { Metadata } from 'next';
+
+import NavBar from './components/NavBar';
 
 export const metadata: Metadata = {
   title: 'Blog',

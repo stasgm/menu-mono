@@ -30,14 +30,11 @@ function makeClient() {
   });
 }
 
-function makeSuspenseCache() {
-  return new SuspenseCache();
-}
+// function makeSuspenseCache() {
+//   return new SuspenseCache();
+// }
 
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
-  return (
-    <ApolloNextAppProvider makeClient={makeClient} makeSuspenseCache={makeSuspenseCache}>
-      {children}
-    </ApolloNextAppProvider>
-  );
+  return <ApolloNextAppProvider makeClient={makeClient}>{children}</ApolloNextAppProvider>;
+  // return <ApolloNextAppProvider makeClient={makeClient} makeSuspenseCache={makeSuspenseCache}>{children}</ApolloNextAppProvider>;
 }

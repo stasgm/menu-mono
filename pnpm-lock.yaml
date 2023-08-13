@@ -338,6 +338,9 @@ importers:
       '@apollo/experimental-nextjs-app-support':
         specifier: ^0.4.1
         version: 0.4.1(@apollo/client@3.8.1)(next@13.4.7)(react@18.2.0)
+      '@graphql-typed-document-node/core':
+        specifier: ^3.2.0
+        version: 3.2.0(graphql@16.7.1)
       '@icons-pack/react-simple-icons':
         specifier: ^8.0.1
         version: 8.0.1(react@18.2.0)

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import TechCard from './TechCard';
 
 // TODO: Do properly and make it reusable
@@ -13,7 +11,7 @@ type Params = {
 
 export default function Project({ params }: Params) {
   const { project } = params;
-  const { name } = project;
+  const { name, techStack, bullets, description, createdAt } = project;
 
   return (
     <article>
@@ -35,20 +33,18 @@ export default function Project({ params }: Params) {
           </div>
           <hr className="border-celestucho my-1 border-4"></hr>
           <div className="flex items-end justify-end">
-            <h4 className="text-gris my-2 text-right text-xs font-normal italic">{project.date}</h4>
-            <h4 className="text-gris my-2 text-right text-xs font-normal italic">
-              {project.description}
-            </h4>
+            <h4 className="text-gris my-2 text-right text-xs font-normal italic">{createdAt}</h4>
+            <h4 className="text-gris my-2 text-right text-xs font-normal italic">{description}</h4>
           </div>
         </div>
       </header>
       <section>
-        {project.bullets.map((bullet, i) => {
+        {bullets.map((bullet, i) => {
           return <p key={i}>{bullet}</p>;
         })}
       </section>
       <footer>
-        {project.techStack.map((tech, i) => {
+        {techStack?.map((tech, i) => {
           return <TechCard key={i} params={{ techStack: tech }} />;
         })}
       </footer>

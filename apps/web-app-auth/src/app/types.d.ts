@@ -9,10 +9,10 @@ type Post = {
 };
 
 type Project = {
-  uuid: string;
+  uuid?: string;
   name: string;
   description: string;
-  devPeriod: string;
+  devPeriod?: string;
   status: string;
   bullets: string[];
   techStack?: TechStack[];

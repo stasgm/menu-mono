@@ -1,5 +1,6 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
+
 import NavLink from './NavLink';
 
 // TODO: Responsiveness and onClick in menu.
@@ -10,7 +11,7 @@ export default function NavBar() {
       <nav className="bg-gris text-blancucho sticky p-5 shadow md:flex md:items-center md:justify-between">
         <div className="flex items-center justify-between">
           <Link href="/" className="cursor-pointer text-2xl font-bold">
-            ACÓLITO Y HEREJE
+            BLOG SYSTEM
           </Link>
           <span className="mx-2 block cursor-pointer text-3xl md:hidden">
             <a>=</a>

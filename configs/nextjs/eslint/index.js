@@ -91,6 +91,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    "unicorn/filename-case": 'off',
     'unicorn/no-null': 'off',
     'jest/expect-expect': 'off',
     'unicorn/prefer-top-level-await': 'off',
