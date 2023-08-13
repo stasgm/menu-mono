@@ -1,0 +1,11 @@
+query getAllPosts {
+  getPosts {
+    uuid
+    title
+    content
+    abstract
+    coverImg
+    updatedAt
+    createdAt
+  }
+}

@@ -18,9 +18,10 @@ export const productsMock: IProductData[] = [
   {
     id: '5447efdc-2181-11ee-be56-0242ac120002',
     name: 'Cheesecake',
-    description: 'A sweet dessert made with a soft fresh cheese (typically cottage cheese, cream cheese, quark or ricotta), eggs, and sugar. It may have a crust or base made from crushed cookies (or digestive biscuits), graham crackers, pastry, or sometimes sponge cake.',
+    description:
+      'A sweet dessert made with a soft fresh cheese (typically cottage cheese, cream cheese, quark or ricotta), eggs, and sugar. It may have a crust or base made from crushed cookies (or digestive biscuits), graham crackers, pastry, or sometimes sponge cake.',
     categories: [categoriesMock[1].id, categoriesMock[3].id],
-    image: 'https://www.themealdb.com/images/media/meals/swttys1511385853.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/swttys1511385853.jpg',
   },
   {
     id: '5447eea6-2181-11ee-be56-0242ac120002',
@@ -38,49 +39,51 @@ export const productsMock: IProductData[] = [
     id: '5447eaa0-2181-11ee-be56-0242ac120002',
     name: 'Water with lemon and sault',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/ingredients/Lemon%20Juice.png'
+    image: 'https://www.themealdb.com/images/ingredients/Lemon%20Juice.png',
   },
   {
     id: 'id1',
     name: 'Banana Pancakes',
-    description: 'In a bowl, mash the banana with a fork until it resembles a thick purée. Stir in the eggs, baking powder and vanilla.\r\nHeat a large non-stick frying pan or pancake pan over a medium heat and brush with half the oil. Using half the batter, spoon two pancakes into the pan, cook for 1-2 mins each side, then tip onto a plate. Repeat the process with the remaining oil and batter. Top the pancakes with the pecans and raspberries.',
+    description:
+      'In a bowl, mash the banana with a fork until it resembles a thick purée. Stir in the eggs, baking powder and vanilla.\r\nHeat a large non-stick frying pan or pancake pan over a medium heat and brush with half the oil. Using half the batter, spoon two pancakes into the pan, cook for 1-2 mins each side, then tip onto a plate. Repeat the process with the remaining oil and batter. Top the pancakes with the pecans and raspberries.',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/sywswr1511383814.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/sywswr1511383814.jpg',
   },
   {
     id: 'id2',
     name: 'Beef and Oyster pie',
     description: '',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/wrssvt1511556563.jpg',
   },
   {
     id: 'id3',
     name: 'Blackberry Fool',
     description: '',
     categories: [],
-    image: 'https://www.themealdb.com/images/media/meals/rpvptu1511641092.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/rpvptu1511641092.jpg',
   },
   {
     id: 'id4',
     name: 'Battenberg Cake',
     description: '',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/ywwrsp1511720277.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/ywwrsp1511720277.jpg',
   },
   {
     id: 'id5',
     name: 'Beef Bourguignon',
     description: '',
     categories: [categoriesMock[0].id],
-    image: 'https://www.themealdb.com/images/media/meals/vtqxtu1511784197.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/vtqxtu1511784197.jpg',
   },
   {
     id: 'id6',
     name: 'Brie wrapped in prosciutto & brioche',
-    description: 'Chill in the fridge for 30 mins, then brush again with beaten egg and chill for a further 30 mins.',
+    description:
+      'Chill in the fridge for 30 mins, then brush again with beaten egg and chill for a further 30 mins.',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/qqpwsy1511796276.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/qqpwsy1511796276.jpg',
   },
   {
     id: 'id7',
@@ -93,16 +96,16 @@ export const productsMock: IProductData[] = [
     id: 'id8',
     name: 'Big Mac',
     categories: [categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg',
   },
   {
     id: 'id9',
     name: 'Burek',
-    description: 'Fry the finely chopped onions and minced meat in oil. Add the salt and pepper. Grease a round baking tray and put a layer of pastry in it. Cover with a thin layer of filling and cover this with another layer of filo pastry which must be well coated in oil. Put another layer of filling and cover with pastry. When you have five or six layers, cover with filo pastry, bake at 200ºC/392ºF for half an hour and cut in quarters and serve.',
+    description:
+      'Fry the finely chopped onions and minced meat in oil. Add the salt and pepper. Grease a round baking tray and put a layer of pastry in it. Cover with a thin layer of filling and cover this with another layer of filo pastry which must be well coated in oil. Put another layer of filling and cover with pastry. When you have five or six layers, cover with filo pastry, bake at 200ºC/392ºF for half an hour and cut in quarters and serve.',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
-    image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg'
+    image: 'https://www.themealdb.com/images/media/meals/tkxquw1628771028.jpg',
   },
-
 ];
 
 export const getProductsMock = () => {

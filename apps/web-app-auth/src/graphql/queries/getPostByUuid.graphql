@@ -1,0 +1,9 @@
+query GetPostByUuid($uuid: String!) {
+  getPostByUuid(uuid: $uuid) {
+    uuid
+    title
+    content
+    createdAt
+    updatedAt
+  }
+}
