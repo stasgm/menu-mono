@@ -3,8 +3,8 @@ import React from 'react';
 export default function RegisterLayout({ children }: { children: React.ReactNode }) {
   return (
     <main>
-      <div className="text-gris flex">
-        <div className="bg-blancucho flex h-screen w-1/6 flex-col items-center justify-center">
+      <div className="flex text-gris">
+        <div className="flex h-screen w-1/6 flex-col items-center justify-center bg-blancucho">
           {children}
         </div>
       </div>

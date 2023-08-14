@@ -4,10 +4,15 @@ const config: CodegenConfig = {
   schema: 'http://localhost:5000/graphql',
   documents: ['./src/app/**/*.{ts, tsx}', './src/lib/**/*.{ts, tsx}'],
   ignoreNoDocuments: true,
+  hooks: {
+    afterOneFileWrite: ['prettier --write'],
+  },
   generates: {
-    './app/lib/gql/': {
+    './__generated__/': {
       preset: 'client',
-      plugins: [],
+      presetConfig: {
+        gqlTagName: 'gql',
+      },
     },
   },
 };

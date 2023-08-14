@@ -8,7 +8,7 @@ import NavLink from './NavLink';
 export default function NavBar() {
   return (
     <>
-      <nav className="bg-gris text-blancucho sticky p-5 shadow md:flex md:items-center md:justify-between">
+      <nav className="sticky bg-gris p-5 text-blancucho shadow md:flex md:items-center md:justify-between">
         <div className="flex items-center justify-between">
           <Link href="/" className="cursor-pointer text-2xl font-bold">
             BLOG SYSTEM
@@ -23,7 +23,7 @@ export default function NavBar() {
           <NavLink href={'/contact'} link={'Contact'} />
           <NavLink href={'/login'} link={'Login'} />
           <NavLink href={'/register'} link={'Register'} />
-          <NavLink href={'/posts'} link={'posts'} />
+          <NavLink href={'/products'} link={'products'} />
         </ul>
       </nav>
     </>

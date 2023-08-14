@@ -77,9 +77,7 @@ export default function Page() {
           </Label>
         </div>
         <div className="flex gap-4">
-          <Button type="submit">
-            Save
-          </Button>
+          <Button type="submit">Save</Button>
           <Button variant="secondary">
             <Link href={'/products'}>Cancel</Link>
           </Button>

@@ -8,7 +8,7 @@ interface NavLinkProps {
 export default function NavLink({ href, link }: NavLinkProps) {
   return (
     <li className="mx-4 my-6 capitalize md:my-0">
-      <Link href={href} className="hover:text-dorado text-xl duration-500">
+      <Link href={href} className="text-xl duration-500 hover:text-dorado">
         {link}
       </Link>
     </li>

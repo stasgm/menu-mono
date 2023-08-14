@@ -5,14 +5,14 @@
   "scripts": {
     "build": "next build",
     "clean": "rimraf build",
-    "dev": "next dev -p 3002",
+    "dev": "next dev -p 3003",
     "format": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --write",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --check",
     "lint": "next lint --fix",
     "lint-staged": "pnpm dlx lint-staged",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "gen": "graphql-codegen --watch"
+    "gen": "graphql-codegen"
   },
   "dependencies": {
     "@types/node": "20.4.10",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^4.0.0",
     "@graphql-codegen/client-preset": "^4.0.0",
+    "@graphql-codegen/add": "^5.0.0",
     "ts-node": "^10.9.1",
     "@configs/lint-staged": "workspace:*",
     "@configs/next-eslint": "workspace:*",

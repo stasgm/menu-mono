@@ -19,7 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
   return (
     <>
       <label>{label}</label>
-      <input {...field} {...props} className="outline-dorado mb-4 h-10 rounded-md focus:outline" />
+      <input {...field} {...props} className="mb-4 h-10 rounded-md outline-dorado focus:outline" />
       {meta.error && meta.touched ? <div>{meta.error}</div> : null}
     </>
   );

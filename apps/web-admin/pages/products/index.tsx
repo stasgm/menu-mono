@@ -120,10 +120,7 @@ export default function Page() {
                 <RefreshIcon />
               </div>
             </IconButton>
-            <Button
-              disabled={isFetching}
-              onClick={handleAdd}
-            >
+            <Button disabled={isFetching} onClick={handleAdd}>
               New
             </Button>
           </div>

@@ -20,6 +20,7 @@ module.exports = {
     'jest.setup.js',
     'tailwind.config.js',
     'postcss.config.js',
+    './src/lib/__generated__/',
   ],
   parser: '@typescript-eslint/parser',
   plugins: [
@@ -66,7 +67,6 @@ module.exports = {
     "@typescript-eslint/require-await": "warn",
     "@typescript-eslint/no-unsafe-argument": "warn",
     "@typescript-eslint/no-unsafe-return": "warn",
-    // https://typescript-eslint.io/rules/no-unused-vars/
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
@@ -90,14 +90,15 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'jest/expect-expect': 'off',
     'unicorn/prevent-abbreviations': 'off',
     "unicorn/filename-case": 'off',
     'unicorn/no-null': 'off',
-    'jest/expect-expect': 'off',
     'unicorn/prefer-top-level-await': 'off',
+    'unicorn/no-array-reduce': 'off',
+    'unicorn/no-abusive-eslint-disable': 'off',
     'security/detect-possible-timing-attacks': 'off',
     'security/detect-object-injection': 'off',
-    'unicorn/no-array-reduce': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
   },

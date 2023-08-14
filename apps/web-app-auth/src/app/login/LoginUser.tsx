@@ -4,8 +4,6 @@ import { gql, useMutation } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
 
-import { toErrorMap } from '@/lib/toErrorMap';
-
 import FormButton from '../components/FormButton';
 import InputField from '../components/InputField';
 
@@ -46,10 +44,10 @@ export default function LoginUser() {
           console.log(response.data.login.user);
         }
 
-        if (response.data.login.errors) {
-          console.log(response.data.login.errors);
-          setErrors(toErrorMap(response.data.login.errors));
-        }
+        // if (response.data.login.errors) {
+        //   console.log(response.data.login.errors);
+        //   setErrors(toErrorMap(response.data.login.errors));
+        // }
       }}
     >
       <Form className="flex flex-col">
