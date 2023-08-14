@@ -3,20 +3,20 @@ import { gql } from '@apollo/client';
 import { getClient } from '@/lib/apolloClient';
 
 const query = gql`
-  query getAllPosts {
-    getPosts {
-      uuid
-      title
-      content
-      abstract
-      coverImg
-      updatedAt
-      createdAt
+  query getAllProducts {
+    products {
+      id
+      name
+      disabled
+      categories {
+        id
+        name
+      }
     }
   }
 `;
 
-export default async function getAllPosts() {
+export default async function getAllProducts() {
   const { data } = await getClient().query({
     query,
     context: {
@@ -29,5 +29,5 @@ export default async function getAllPosts() {
 
   if (!data.getPosts) return {};
 
-  return data.getPosts;
+  return data.products;
 }

@@ -3,21 +3,18 @@ import { gql } from '@apollo/client';
 import { getClient } from '@/lib/apolloClient';
 
 const query = gql`
-  query GetPostByUuid($uuid: String!) {
-    getPostByUuid(uuid: $uuid) {
-      uuid
-      title
-      content
-      createdAt
-      updatedAt
+  query getProductById($productId: String!) {
+    product(id: $productId) {
+      id
+      name
     }
   }
 `;
 
-export default async function getPostByUuid(postUuid: string) {
+export default async function getProductById(productId: string) {
   const { data } = await getClient().query({
     query,
-    variables: { uuid: postUuid },
+    variables: { productId },
     context: {
       fetchOptions: {
         next: { revalidate: 60 },
@@ -28,5 +25,5 @@ export default async function getPostByUuid(postUuid: string) {
 
   if (!data.getPostByUuid) return {};
 
-  return data.getPostByUuid;
+  return data.product;
 }

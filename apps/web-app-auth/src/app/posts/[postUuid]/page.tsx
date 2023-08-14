@@ -1,4 +1,4 @@
-import getPostByUuid from '@/lib/getPostByUuid';
+import getPostByUuid from '@/lib/getProductById';
 
 type Params = {
   params: {
