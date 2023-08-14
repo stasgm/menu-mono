@@ -1,0 +1,11 @@
+query getAllProducts {
+  products {
+    id
+    name
+    disabled
+    categories {
+      id
+      name
+    }
+  }
+}
