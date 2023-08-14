@@ -24,19 +24,16 @@ const ProductList = () => {
   return (
     <ul>
       {data.products.map((product) => (
-        <>
-          <Link href={`/products/${product.id}`} key={product.id}>
-            <article className="border border-blancucho">
-              <h1 className="font-xl font-bold">{product.name}</h1>
-              {/* {product.categories === null ? (
+        <Link href={`/products/${product.id}`} key={product.id}>
+          <article className="border border-blancucho">
+            <h1 className="font-xl font-bold">{product.name}</h1>
+            {/* {product.categories === null ? (
                 <p className="ml-8">{product.categories.slice(0, 100)}...</p>
               ) : (
                 <p className="ml-8">{product.abstract}</p>
               )}*/}
-            </article>
-          </Link>
-          <br />
-        </>
+          </article>
+        </Link>
       ))}
     </ul>
   );
