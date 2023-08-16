@@ -2,7 +2,6 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
-// import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 declare const module: any;
 async function bootstrap() {
@@ -11,15 +10,6 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.enableCors();
-
-  // const config = new DocumentBuilder()
-  //   .setTitle('Leaves Tracker')
-  //   .setDescription('Api Docs for leaves tracker')
-  //   .setVersion('1.0')
-  //   .build();
-
-  // const document = SwaggerModule.createDocument(app, config);
-  // SwaggerModule.setup('docs', app, document);
 
   const PORT = 5000;
 

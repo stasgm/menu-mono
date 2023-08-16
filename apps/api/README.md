@@ -1,5 +1,9 @@
 # menu-api
 
+## Configuration
+
+copy `.env.example` to `.env` and replace parameters if needed.
+
 ## Installation
 
 ```bash
@@ -33,8 +37,8 @@ $ pnpm run graphql:generate
 # development
 $ pnpm run dev
 
-# watch mode
-$ pnpm run start:dev
+# debug mode
+$ pnpm run start:debug
 
 # production mode
 $ pnpm run start:prod
