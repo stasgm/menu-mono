@@ -6,8 +6,8 @@ interface IButton extends ButtonProps {
 
 export const Button = ({ variant = 'primary', ...props }: IButton) => (
   <FlowBiteButton
-    className={`border-none p-3 font-semibold ${
-      variant === 'primary' ? 'bg-blue-700 disabled:bg-blue-400' : ''
+    className={`border-none px-3 py-1 font-semibold ${
+      variant === 'primary' ? 'bg-blue-700 hover:bg-blue-600 disabled:bg-blue-400' : ''
     }`}
     {...props}
   />

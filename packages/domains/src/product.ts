@@ -8,6 +8,7 @@ export interface IProductData {
   image?: string;
   description?: string;
   price?: number;
+  quantity?: number;
 }
 
 export interface IProduct extends Omit<IProductData, 'categories'> {

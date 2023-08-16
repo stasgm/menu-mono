@@ -1,5 +1,8 @@
-// 'use client';
+'use client';
+import { useMemo, useState } from 'react';
+
 import { CircularLoader } from './circular-loader';
+import Pagination from './pagination';
 
 export interface StyledGridColumn {
   headerName?: string;
@@ -26,7 +29,19 @@ interface StyledGridProps {
 export const StyledGrid = (props: StyledGridProps) => {
   const { rows: source, columns, fetching = false, className = '' } = props;
 
-  const rows = fetching ? [...source].splice(0, 3) : [...source];
+  const [currentPage, setCurrentPage] = useState(1);
+  const onPageChange = (page: number) => setCurrentPage(page);
+
+  const rowsPerPage = 4;
+
+  const totalPages = useMemo(
+    () => Math.ceil(source.length / rowsPerPage),
+    [source.length, rowsPerPage]
+  );
+
+  const rows = fetching
+    ? [...source].splice(0, rowsPerPage)
+    : [...source].splice((currentPage - 1) * rowsPerPage, rowsPerPage);
 
   return (
     <div
@@ -48,7 +63,7 @@ export const StyledGrid = (props: StyledGridProps) => {
           {rows.map((row, idx) => (
             <tr
               key={row.id}
-              className={`border-b ${
+              className={`h-32 border-b ${
                 idx % 2 ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'
               } dark:border-gray-700 `}
             >
@@ -67,6 +82,9 @@ export const StyledGrid = (props: StyledGridProps) => {
         className={`absolute top-0 grid h-full w-full content-center ${fetching ? '' : 'hidden'}`}
       >
         <CircularLoader size={'xl'} />
+      </div>
+      <div className="float-right">
+        <Pagination currentPage={currentPage} onPageChange={onPageChange} totalPages={totalPages} />
       </div>
     </div>
   );

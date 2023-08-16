@@ -1,5 +1,7 @@
 import { Button } from '@components';
+import DefaultTooltip from '@components/default-tooltip';
 import { StyledGrid, StyledGridColumns } from '@components/styled-grid';
+import { Tooltip } from '@components/tooltip';
 import { StoreContext } from '@lib/zustand-provider';
 import { IProduct } from '@packages/domains';
 import { DeleteIcon } from '@public/icons/delete';
@@ -14,7 +16,7 @@ import { useStore } from 'zustand';
 
 export default function Page() {
   const store = useContext(StoreContext);
-  const { products, isFetching, getProducts, removeProduct, refreshProduct } = useStore(store!);
+  const { products, isFetching, getProducts, removeProduct, refreshProduct, updateProduct } = useStore(store!);
   getProducts();
 
   const router = useRouter();
@@ -29,6 +31,14 @@ export default function Page() {
 
   const handleRefresh = () => {
     refreshProduct();
+  };
+
+  const onQtyMinus = (row: IProduct) => (_: any) => {
+    updateProduct({ ...row, quantity: (row.quantity ?? 0) - 1 });
+  };
+
+  const onQtyPlus = (row: IProduct) => (_: any) => {
+    updateProduct({ ...row, quantity: (row.quantity ?? 0) + 1 });
   };
 
   const columns: StyledGridColumns = [
@@ -54,6 +64,65 @@ export default function Page() {
           </div>
         );
       },
+    },
+    {
+      headerName: 'Qty',
+      fieldName: 'quantity',
+      renderCell: (value, row) => (
+        <div className="flex items-center space-x-3">
+          <button
+            className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+            type="button"
+            onClick={onQtyMinus(row)}
+          >
+            <svg
+              className="h-3 w-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 2"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 1h16"
+              />
+            </svg>
+          </button>
+          <div>
+            <input
+              type="number"
+              className="block w-14 rounded-lg border border-gray-300 bg-gray-50 px-2.5 py-1 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+              onChange={() => {}}
+              value={value ?? 0}
+              required
+            />
+          </div>
+          <button
+            className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-gray-300 bg-white p-1 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+            type="button"
+            onClick={onQtyPlus(row)}
+          >
+            <svg
+              className="h-3 w-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </button>
+        </div>
+      ),
     },
     {
       headerName: 'Status',
@@ -87,8 +156,8 @@ export default function Page() {
   ];
 
   return (
-    <div className="relative overflow-x-auto px-32 shadow-md">
-      <div className="relative overflow-x-auto shadow-md">
+    <div className="relative overflow-x-auto px-32">
+      <div className="relative overflow-x-auto">
         <div className="pb-4 dark:bg-gray-900">
           <div className="relative mt-1 flex gap-4">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -130,3 +199,4 @@ export default function Page() {
     </div>
   );
 }
+
