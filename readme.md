@@ -39,7 +39,8 @@ how to setup api-server read in `apps/api/readme.md`
 ## Additional commands
 
 - `pnpm install` - install dependencies
-- `pnpn add [lib name]` - add a new dependency
+- `pnpm add [lib name]` - add a new dependency
+- `pnpm add [lib name] --filter [app name]` - add a new dependency to specific app
 - `pnpm up -r -i`  - update all dependencies
 - `pnpm up -r -i --workspace api` - update dependencies for `api` app
 - `pnpm create next-app new-next-app` - create a new nextjs app
