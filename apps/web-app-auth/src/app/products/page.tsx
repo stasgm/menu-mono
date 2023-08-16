@@ -8,6 +8,8 @@ import { query } from '@/lib/getAllProducts';
 
 import Loading from '../components/Loading';
 
+export const dynamic = 'force-dynamic';
+
 const Products = () => {
   return (
     <Suspense fallback={<Loading />}>

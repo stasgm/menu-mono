@@ -11,6 +11,7 @@ if (__DEV__) {
 }
 
 import { ApolloWrapper } from '../lib/apolloProvider';
+import { NextAuthProvider } from '../lib/nextAuthProvider';
 import NavBar from './components/NavBar';
 
 export const metadata: Metadata = {
@@ -23,8 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ApolloWrapper>
-          <NavBar />
-          {children}
+          <NextAuthProvider>
+            <NavBar />
+            {children}
+          </NextAuthProvider>
         </ApolloWrapper>
       </body>
     </html>
