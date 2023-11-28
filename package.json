@@ -7,6 +7,8 @@
   "author": "Stanislau Shliakhtsich",
   "scripts": {
     "api:dev": "turbo run dev --filter=api",
+    "web-admin:dev": "turbo run dev --filter=web-admin",
+    "web:dev": "turbo run dev --filter=web",
     "clean": "turbo run clean",
     "clear-node-modules": "rimraf packages/*/node_modules && rimraf apps/*/node_modules && rimraf configs/**/*/node_modules && rimraf node_modules",
     "clear-turbo-cache": "rimraf packages/*/.turbo && rimraf apps/*/.turbo && rimraf configs/**/*/.turbo && rimraf .turbo",
@@ -15,21 +17,18 @@
     "libs:build": "turbo run build --filter=@packages*",
     "lint": "turbo run lint",
     "lint-staged": "turbo run lint-staged",
-    "prepare": "husky install",
     "test": "turbo run test",
     "test:ci": "turbo run test:ci",
     "test:integration": "turbo run test:integration",
     "test:unit": "turbo run test:unit",
-    "typecheck": "turbo run typecheck",
-    "web-admin:dev": "turbo run dev --filter=web-admin",
-    "web:dev": "turbo run dev --filter=web"
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "husky": "^8.0.3",
-    "jest": "^29.6.2",
-    "rimraf": "^5.0.1"
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "jest": "^29.7.0",
+    "prettier-package-json": "^2.8.0",
+    "rimraf": "^5.0.5"
   },
   "keywords": [
     "nestjs",
