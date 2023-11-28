@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 import { UsersService } from './users.service';
@@ -7,19 +7,22 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation('createUser')
-  create(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput);
-  }
-
   @Query('users')
-  findAll() {
-    return this.usersService.findAll();
+  findAll(
+    @Args('skip', { type: () => Int, nullable: true }) skip: number,
+    @Args('take', { type: () => Int, nullable: true }) take: number
+  ) {
+    return this.usersService.findAll({ skip, take });
   }
 
   @Query('user')
   findOne(@Args('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  @Mutation('createUser')
+  create(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.usersService.create(createUserInput);
   }
 
   @Mutation('updateUser')

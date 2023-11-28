@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 
-import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
+import { upperDirectiveTransformer } from './core/directives/upper-case.directive';
 // import { validationSchemaForEnv as validationSchemaForEnvironment } from './config/environment-variables';
 import { PersistenceModule } from './core/persistence/persistence.module';
 import { CategoriesModule } from './modules/categories/categories.module';

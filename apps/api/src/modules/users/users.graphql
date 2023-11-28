@@ -16,7 +16,7 @@ input UpdateUserInput {
 }
 
 type Query {
-  users: [User]!
+  users(skip: Int, take: Int): [User]!
   user(id: String!): User
 }
 

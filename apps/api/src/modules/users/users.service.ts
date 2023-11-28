@@ -11,8 +11,8 @@ export class UsersService {
     return this.usersRepository.createUser({ data: createUserInput });
   }
 
-  findAll() {
-    return this.usersRepository.getUsers({});
+  findAll(params: { skip?: number; take?: number }) {
+    return this.usersRepository.getUsers(params);
   }
 
   findOne(id: string) {
@@ -21,6 +21,10 @@ export class UsersService {
 
   findByPhoneNumber(phoneNumber: string) {
     return this.usersRepository.getUser({ where: { phoneNumber } });
+  }
+
+  findByName(name: string) {
+    return this.usersRepository.getUser({ where: { name } });
   }
 
   async findByPhoneNumberOrCreate(name: string, phoneNumber: string) {

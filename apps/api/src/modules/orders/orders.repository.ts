@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Order, Prisma } from '@prisma/client';
 
+import { PrismaService } from '../../core/persistence/prisma/prisma.service';
 import {
   CreateOrderInput,
   CreateOrderLineInput,
   UpdateOrderInput,
   UpdateOrderStatusInput,
 } from '../../types/graphql.schema';
-import { PrismaService } from '../../core/persistence/prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
