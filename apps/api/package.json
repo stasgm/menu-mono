@@ -39,6 +39,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "redis": "^4.6.11",
+    "@nestjs/cache-manager": "^2.1.1",
+    "cache-manager-redis-store": "^3.0.1",
     "@apollo/server": "^4.9.5",
     "@graphql-tools/utils": "^10.0.11",
     "@nestjs/apollo": "^12.0.11",

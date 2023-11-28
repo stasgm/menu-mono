@@ -7,7 +7,7 @@ import {
   UpdateOrderInput,
   UpdateOrderStatusInput,
 } from '../../types/graphql.schema';
-import { PrismaService } from '../_core/persistence/prisma/prisma.service';
+import { PrismaService } from '../../core/persistence/prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({

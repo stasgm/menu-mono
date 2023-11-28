@@ -5,11 +5,11 @@ ENV PATH="${PATH}:${PNPM_HOME}"
 
 RUN npm i -g pnpm
 
-FROM base AS dependencies
+FROM BASE AS dependencies
 
 RUN openssl version -v
 RUN uname -a
-RUN echo $DATABASE_URL
+RUN echo "$DATABASE_URL"
 
 # Create app directory
 WORKDIR /app

@@ -32,7 +32,7 @@ export class UsersService {
       return existingUser;
     }
 
-    return await this.usersRepository.createUser({
+    return this.usersRepository.createUser({
       data: {
         name,
         phoneNumber,

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { PersistenceModule } from '../_core/persistence/persistence.module';
+import { PersistenceModule } from '../../core/persistence/persistence.module';
 import { UsersModule } from '../users/users.module';
 import { OrdersRepository } from './orders.repository';
 import { OrdersResolver } from './orders.resolver';

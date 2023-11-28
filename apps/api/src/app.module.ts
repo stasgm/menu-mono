@@ -6,7 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 
 import { upperDirectiveTransformer } from './common/directives/upper-case.directive';
 // import { validationSchemaForEnv as validationSchemaForEnvironment } from './config/environment-variables';
-import { PersistenceModule } from './modules/_core/persistence/persistence.module';
+import { PersistenceModule } from './core/persistence/persistence.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MenusModule } from './modules/menus/menus.module';
 import { OrdersModule } from './modules/orders/orders.module';

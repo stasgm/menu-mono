@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Category, Prisma } from '@prisma/client';
 
 import { CreateCategoryInput, UpdateCategoryInput } from '../../types/graphql.schema';
-import { PrismaService } from '../_core/persistence/prisma/prisma.service';
+import { PrismaService } from '../../core/persistence/prisma/prisma.service';
 
 @Injectable()
 export class CategoriesRepository {
