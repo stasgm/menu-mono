@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Product } from '@prisma/client';
 
-import { CreateProductInput, UpdateProductInput } from '../../types/graphql.schema';
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
+import { CreateProductInput, UpdateProductInput } from '../../types/graphql.schema';
 
 const productInclude = Prisma.validator<Prisma.ProductInclude>()({
   _count: {

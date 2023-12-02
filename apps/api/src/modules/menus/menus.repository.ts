@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Menu, Prisma } from '@prisma/client';
 
-import { CreateMenuInput, CreateMenuLineInput, UpdateMenuInput } from '../../types/graphql.schema';
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
+import { CreateMenuInput, CreateMenuLineInput, UpdateMenuInput } from '../../types/graphql.schema';
 
 const menuInclude = Prisma.validator<Prisma.MenuInclude>()({
   _count: {

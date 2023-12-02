@@ -16,7 +16,8 @@ import { useStore } from 'zustand';
 
 export default function Page() {
   const store = useContext(StoreContext);
-  const { products, isFetching, getProducts, removeProduct, refreshProduct, updateProduct } = useStore(store!);
+  const { products, isFetching, getProducts, removeProduct, refreshProduct, updateProduct } =
+    useStore(store!);
   getProducts();
 
   const router = useRouter();
@@ -199,4 +200,3 @@ export default function Page() {
     </div>
   );
 }
-

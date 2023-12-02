@@ -9,6 +9,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
+    "paths": {
+      "@core/*": ["core/*"],
+      "@modules/*": ["modules/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "references": [
     {

@@ -7,10 +7,6 @@ import { UsersRepository } from '../users/users.repository';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  create(createUserInput: CreateUserInput) {
-    return this.usersRepository.createUser({ data: createUserInput });
-  }
-
   findAll(params: { skip?: number; take?: number }) {
     return this.usersRepository.getUsers(params);
   }
@@ -25,6 +21,10 @@ export class UsersService {
 
   findByName(name: string) {
     return this.usersRepository.getUser({ where: { name } });
+  }
+
+  create(createUserInput: CreateUserInput) {
+    return this.usersRepository.createUser({ data: createUserInput });
   }
 
   async findByPhoneNumberOrCreate(name: string, phoneNumber: string) {

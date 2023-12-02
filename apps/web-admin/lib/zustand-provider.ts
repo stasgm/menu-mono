@@ -1,7 +1,7 @@
 import { createContext, useLayoutEffect } from 'react';
 import { StoreApi, UseBoundStore } from 'zustand';
 
-import productsStore, { ProductState, initProductState } from './products-store';
+import productsStore, { initProductState, ProductState } from './products-store';
 
 export const StoreContext = createContext<UseBoundStore<StoreApi<ProductState>> | null>(null);
 export const Provider = StoreContext.Provider;

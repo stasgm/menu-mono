@@ -11,11 +11,6 @@ import { OrdersService } from './orders.service';
 export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Mutation('createOrder')
-  create(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
-    return this.ordersService.create(createOrderInput);
-  }
-
   @Query('orders')
   findAll() {
     return this.ordersService.findAll();
@@ -24,6 +19,11 @@ export class OrdersResolver {
   @Query('order')
   findOne(@Args('id') id: string) {
     return this.ordersService.findOne(id);
+  }
+
+  @Mutation('createOrder')
+  create(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
+    return this.ordersService.create(createOrderInput);
   }
 
   @Mutation('updateOrder')

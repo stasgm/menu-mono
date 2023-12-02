@@ -102,7 +102,7 @@ export class OrdersRepository {
     });
   }
 
-  async getOrders(params: {
+  getOrders(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.OrderWhereUniqueInput;
@@ -145,7 +145,7 @@ export class OrdersRepository {
     });
   }
 
-  async updateOrderStatus(params: {
+  updateOrderStatus(params: {
     where: Prisma.OrderWhereUniqueInput;
     data: UpdateOrderStatusInput;
   }): Promise<Order | null> {
@@ -160,7 +160,7 @@ export class OrdersRepository {
     });
   }
 
-  async deleteOrder(params: { where: Prisma.OrderWhereUniqueInput }): Promise<Order> {
+  deleteOrder(params: { where: Prisma.OrderWhereUniqueInput }): Promise<Order> {
     const { where } = params;
     return this.prisma.order.delete({ where });
   }

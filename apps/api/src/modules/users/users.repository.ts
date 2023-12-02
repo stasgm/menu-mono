@@ -8,7 +8,7 @@ import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(params: { data: CreateUserInput }): Promise<User> {
+  createUser(params: { data: CreateUserInput }): Promise<User> {
     const { data } = params;
 
     return this.prisma.user.create({
@@ -32,7 +32,7 @@ export class UsersRepository {
     });
   }
 
-  async getUsers(params: {
+  getUsers(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.UserWhereUniqueInput;
@@ -49,7 +49,7 @@ export class UsersRepository {
     });
   }
 
-  async updateUser(params: {
+  updateUser(params: {
     where: Prisma.UserWhereUniqueInput;
     data: UpdateUserInput;
   }): Promise<User | null> {
@@ -64,7 +64,7 @@ export class UsersRepository {
     });
   }
 
-  async deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
+  deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
     const { where } = params;
     return this.prisma.user.delete({ where });
   }

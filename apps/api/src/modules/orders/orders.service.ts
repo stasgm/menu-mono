@@ -11,16 +11,16 @@ import { OrdersRepository } from './orders.repository';
 export class OrdersService {
   constructor(private ordersRepository: OrdersRepository) {}
 
-  create(createOrderInput: CreateOrderInput) {
-    return this.ordersRepository.createOrder({ data: createOrderInput });
-  }
-
   findAll() {
     return this.ordersRepository.getOrders({});
   }
 
   findOne(id: string) {
     return this.ordersRepository.getOrderById(id);
+  }
+
+  create(createOrderInput: CreateOrderInput) {
+    return this.ordersRepository.createOrder({ data: createOrderInput });
   }
 
   update(id: string, updateOrderInput: UpdateOrderInput) {
