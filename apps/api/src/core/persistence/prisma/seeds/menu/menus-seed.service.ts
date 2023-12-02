@@ -3,24 +3,24 @@ import { getMenu } from '@packages/domains';
 import { categoriesMock, menusMock, productsMock } from '@packages/mocks';
 
 import { PrismaService } from '../../prisma.service';
-import { createMenuLinesByLines, logInfo } from '../helpers';
-import { ISeedService } from '../types';
+import { createMenuLinesByLines } from '../helpers';
+import { SeedService } from '../types';
 
 @Injectable()
-export class MenusSeedService implements ISeedService {
-  public readonly name = 'menus';
-
-  constructor(private prisma: PrismaService) {}
+export class MenusSeedService extends SeedService {
+  constructor(private prisma: PrismaService) {
+    super('menus');
+  }
 
   async removeAll() {
-    logInfo(this.name, 'REMOVE');
+    this.logInfo('REMOVE');
 
     await this.prisma.menuLine.deleteMany();
     await this.prisma.menu.deleteMany();
   }
 
   async seed() {
-    logInfo(this.name);
+    this.logInfo('SEED');
 
     for await (const menu of menusMock) {
       await this.prisma.menu.create({

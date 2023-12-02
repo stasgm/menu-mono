@@ -2,24 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { ordersMock } from '@packages/mocks';
 
 import { PrismaService } from '../../prisma.service';
-import { createOrderLinesByLines, logInfo } from '../helpers';
-import { ISeedService } from '../types';
+import { createOrderLinesByLines } from '../helpers';
+import { SeedService } from '../types';
 
 @Injectable()
-export class OrdersSeedService implements ISeedService {
-  public readonly name = 'categories';
-
-  constructor(private prisma: PrismaService) {}
+export class OrdersSeedService extends SeedService {
+  constructor(private prisma: PrismaService) {
+    super('orders');
+  }
 
   async removeAll() {
-    logInfo(this.name, 'REMOVE');
+    this.logInfo('REMOVE');
 
     await this.prisma.orderLine.deleteMany();
     await this.prisma.order.deleteMany();
   }
 
   async seed() {
-    logInfo(this.name);
+    this.logInfo('SEED');
 
     for await (const order of ordersMock) {
       await this.prisma.order.create({

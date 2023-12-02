@@ -2,23 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { usersMock } from '@packages/mocks';
 
 import { PrismaService } from '../../prisma.service';
-import { logInfo } from '../helpers';
-import { ISeedService } from '../types';
+import { SeedService } from '../types';
 
 @Injectable()
-export class UsersSeedService implements ISeedService {
-  public readonly name = 'users';
-
-  constructor(private prisma: PrismaService) {}
+export class UsersSeedService extends SeedService {
+  constructor(private prisma: PrismaService) {
+    super('users');
+  }
 
   async removeAll() {
-    logInfo(this.name, 'REMOVE');
+    this.logInfo('REMOVE');
 
     await this.prisma.user.deleteMany();
   }
 
   async seed() {
-    logInfo(this.name);
+    this.logInfo('SEED');
 
     for await (const user of usersMock) {
       await this.prisma.user.create({

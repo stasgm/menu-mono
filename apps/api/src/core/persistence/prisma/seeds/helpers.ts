@@ -48,8 +48,3 @@ export const createOrderLinesByLines = (
     create: createOrderLines,
   };
 };
-
-export const logInfo = (name: string, type: 'SEED' | 'REMOVE' = 'SEED') => {
-  // TODO: Use logger
-  console.log(`  ${type === 'SEED' ? '🌻' : '🧹'} ${name}`);
-}

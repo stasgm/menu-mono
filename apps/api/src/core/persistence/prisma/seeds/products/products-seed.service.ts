@@ -2,23 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { productsMock } from '@packages/mocks';
 
 import { PrismaService } from '../../prisma.service';
-import { connectCategoriesByIds, logInfo } from '../helpers';
-import { ISeedService } from '../types';
+import { connectCategoriesByIds } from '../helpers';
+import { SeedService } from '../types';
 
 @Injectable()
-export class ProductsSeedService implements ISeedService {
-  public readonly name = 'products';
-
-  constructor(private prisma: PrismaService) {}
+export class ProductsSeedService extends SeedService {
+  constructor(private prisma: PrismaService) {
+    super('products');
+  }
 
   async removeAll() {
-    logInfo(this.name, 'REMOVE');
+    this.logInfo('REMOVE');
 
     await this.prisma.product.deleteMany();
   }
 
   async seed() {
-    logInfo(this.name);
+    this.logInfo('SEED');
 
     for await (const product of productsMock) {
       const categories = connectCategoriesByIds(product.categories);
