@@ -72,3 +72,4 @@ $ pnpm run test:cov
 - [ ] move `types` to a separed lib
 - [ ] use GraphQL types for inputData in front-end. Save ts-types files to upper folder\lib
 - [x] split `order` model to `order` and `cart` models
+- [ ] add bullmq module for user registration\confirmation

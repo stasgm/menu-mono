@@ -15,17 +15,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
 model User {
   id          String  @id @default(uuid())
   phoneNumber String  @unique
   name        String
   order       Order[]
+  role        Role    @default(USER)
+
+  @@map("users")
 }
 
 model Category {
   id       String    @id @default(uuid())
   name     String    @unique
   products Product[]
+
+  @@map("categories")
 }
 
 model Product {
@@ -35,6 +46,8 @@ model Product {
   categories Category[]
   menuLines  MenuLine[]
   orderLines OrderLine[]
+
+  @@map("products")
 }
 
 model MenuLine {
@@ -43,6 +56,8 @@ model MenuLine {
   product   Product @relation(fields: [productId], references: [id])
   price     Int
   menu      Menu[]
+
+  @@map("menuLines")
 }
 
 model Menu {
@@ -52,6 +67,8 @@ model Menu {
   number    Int        @unique @default(autoincrement())
   name      String     @unique
   lines     MenuLine[]
+
+  @@map("menus")
 }
 
 model OrderLine {
@@ -63,6 +80,8 @@ model OrderLine {
   price       Int
   quantity    Int
   totalAmount Int
+
+  @@map("orderLines")
 }
 
 model Order {
@@ -77,4 +96,6 @@ model Order {
   lines                OrderLine[]
   totalAmount          Int
   totalProductQuantity Int
+
+  @@map("orders")
 }
