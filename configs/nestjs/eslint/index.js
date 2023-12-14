@@ -48,9 +48,17 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-
+    "@typescript-eslint/quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
     // https://typescript-eslint.io/rules/no-unused-vars/
     'no-unused-vars': 'off',
+    'no-extra-parens': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

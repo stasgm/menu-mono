@@ -1,5 +1,5 @@
 // import { getCurrentMenu } from './menu';
-// import { IProductSelections, calculateTotalPrice } from './order';
+// import { IProductSelection, calculateTotalPrice } from './order';
 // import { categories, menus, products } from './mocks';
 
 // describe('calculateTotalPrice', () => {
@@ -15,7 +15,7 @@
 //     //   products,
 //     // });
 
-//     const productsSelections: IProductSelections = {
+//     const productsSelections: IProductSelection = {
 //       '1': {
 //         quantity: 2,
 //         price: 100,

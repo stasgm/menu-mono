@@ -1,20 +1,20 @@
 import { v4 as uuid } from 'uuid';
 
-export interface IProductSelection {
+export interface IProductSelectionItem {
   quantity: number;
   price: number;
 }
 
-export interface IProductSelections {
-  [productId: string]: IProductSelection;
+export interface IProductSelection {
+  [productId: string]: IProductSelectionItem;
 }
 
 export interface IOrder {
   id: string;
   number: number;
   date: string;
-  userId: string;
-  productSelections: IProductSelections;
+  customerId: string;
+  productSelection: IProductSelection;
   orderLines: IOrderLine[];
   status: string;
   totalAmount: number;
@@ -32,8 +32,8 @@ export interface IOrderLine {
 /**
  * Calculate the total order value
  */
-export const calculateTotalPrice = (productSelections: IProductSelections): number => {
-  return Object.values(productSelections).reduce((acc, cur) => {
+export const calculateTotalPrice = (productSelection: IProductSelection): number => {
+  return Object.values(productSelection).reduce((acc, cur) => {
     return acc + cur.quantity * cur.price;
   }, 0);
 };
@@ -41,8 +41,8 @@ export const calculateTotalPrice = (productSelections: IProductSelections): numb
 /**
  * Calculate the total quantity of product in the order
  */
-export const calculateProductsQuantity = (productSelections: IProductSelections): number => {
-  return Object.values(productSelections).reduce((acc, cur) => {
+export const calculateProductsQuantity = (productSelection: IProductSelection): number => {
+  return Object.values(productSelection).reduce((acc, cur) => {
     return acc + cur.quantity;
   }, 0);
 };
@@ -50,8 +50,8 @@ export const calculateProductsQuantity = (productSelections: IProductSelections)
 /**
  * Generate order lines
  */
-export const generateOrderLines = (productSelections: IProductSelections): IOrderLine[] => {
-  return Object.entries(productSelections).map(([key, cur]) => {
+export const generateOrderLines = (productSelection: IProductSelection): IOrderLine[] => {
+  return Object.entries(productSelection).map(([key, cur]) => {
     return {
       id: uuid(),
       productId: key,

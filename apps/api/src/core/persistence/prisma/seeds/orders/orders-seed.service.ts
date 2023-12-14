@@ -26,7 +26,7 @@ export class OrdersSeedService extends SeedService {
         data: {
           id: order.id,
           date: new Date(order.date),
-          userId: order.userId,
+          customerId: order.customerId,
           totalAmount: order.totalAmount,
           totalProductQuantity: order.totalProductQuantity,
           lines: createOrderLinesByLines(order.orderLines),

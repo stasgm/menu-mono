@@ -46,7 +46,7 @@ export const productsMock: IProductData[] = [
     quantity: 1,
   },
   {
-    id: 'id1',
+    id: '7766a404-93a5-11ee-b9d1-0242ac120002',
     name: 'Banana Pancakes',
     description:
       'In a bowl, mash the banana with a fork until it resembles a thick purée. Stir in the eggs, baking powder and vanilla.\r\nHeat a large non-stick frying pan or pancake pan over a medium heat and brush with half the oil. Using half the batter, spoon two pancakes into the pan, cook for 1-2 mins each side, then tip onto a plate. Repeat the process with the remaining oil and batter. Top the pancakes with the pecans and raspberries.',
@@ -54,7 +54,7 @@ export const productsMock: IProductData[] = [
     image: 'https://www.themealdb.com/images/media/meals/sywswr1511383814.jpg',
   },
   {
-    id: 'id2',
+    id: '7766a706-93a5-11ee-b9d1-0242ac120002',
     name: 'Beef and Oyster pie',
     description: '',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
@@ -62,7 +62,7 @@ export const productsMock: IProductData[] = [
     quantity: 2,
   },
   {
-    id: 'id3',
+    id: '7766a8a0-93a5-11ee-b9d1-0242ac120002',
     name: 'Blackberry Fool',
     description: '',
     categories: [],
@@ -70,14 +70,14 @@ export const productsMock: IProductData[] = [
     quantity: 1,
   },
   {
-    id: 'id4',
+    id: '7766aa62-93a5-11ee-b9d1-0242ac120002',
     name: 'Battenberg Cake',
     description: '',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
     image: 'https://www.themealdb.com/images/media/meals/ywwrsp1511720277.jpg',
   },
   {
-    id: 'id5',
+    id: '7766ab8e-93a5-11ee-b9d1-0242ac120002',
     name: 'Beef Bourguignon',
     description: '',
     categories: [categoriesMock[0].id],
@@ -85,7 +85,7 @@ export const productsMock: IProductData[] = [
     quantity: 1,
   },
   {
-    id: 'id6',
+    id: '7766afee-93a5-11ee-b9d1-0242ac120002',
     name: 'Brie wrapped in prosciutto & brioche',
     description:
       'Chill in the fridge for 30 mins, then brush again with beaten egg and chill for a further 30 mins.',
@@ -94,21 +94,21 @@ export const productsMock: IProductData[] = [
     quantity: 1,
   },
   {
-    id: 'id7',
+    id: '7766b12e-93a5-11ee-b9d1-0242ac120002',
     name: 'Breakfast Potatoes',
     description: '',
     categories: [categoriesMock[0].id, categoriesMock[4].id],
     image: 'https://www.themealdb.com/images/media/meals/1550441882.jpg',
   },
   {
-    id: 'id8',
+    id: '7766b23c-93a5-11ee-b9d1-0242ac120002',
     name: 'Big Mac',
     categories: [categoriesMock[4].id],
     image: 'https://www.themealdb.com/images/media/meals/urzj1d1587670726.jpg',
     quantity: 2,
   },
   {
-    id: 'id9',
+    id: '7766b3ae-93a5-11ee-b9d1-0242ac120002',
     name: 'Burek',
     description:
       'Fry the finely chopped onions and minced meat in oil. Add the salt and pepper. Grease a round baking tray and put a layer of pastry in it. Cover with a thin layer of filling and cover this with another layer of filo pastry which must be well coated in oil. Put another layer of filling and cover with pastry. When you have five or six layers, cover with filo pastry, bake at 200ºC/392ºF for half an hour and cut in quarters and serve.',

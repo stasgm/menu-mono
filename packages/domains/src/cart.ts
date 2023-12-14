@@ -1,4 +1,4 @@
-import { IOrderLine, IProductSelections } from './order';
+import { IOrderLine, IProductSelection } from './order';
 
 export interface IUserData {
   name: string;
@@ -8,7 +8,7 @@ export interface IUserData {
 export interface ICart {
   date: string;
   userData: IUserData;
-  productSelections: IProductSelections;
+  productSelection: IProductSelection;
   lines: IOrderLine[];
   totalAmount: number;
   totalProductQuantity: number;

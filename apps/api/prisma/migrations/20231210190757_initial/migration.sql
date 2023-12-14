@@ -1,19 +1,33 @@
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'SUPER_ADMIN');
-
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL,
-    "phoneNumber" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" TEXT NOT NULL,
-    "role" "Role" NOT NULL DEFAULT 'USER',
+    "passwordHash" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT false,
+    "customerId" UUID NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "customers" (
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+
+    CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "categories" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
@@ -21,7 +35,9 @@ CREATE TABLE "categories" (
 
 -- CreateTable
 CREATE TABLE "products" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "name" TEXT NOT NULL,
     "disabled" BOOLEAN NOT NULL DEFAULT false,
 
@@ -30,8 +46,8 @@ CREATE TABLE "products" (
 
 -- CreateTable
 CREATE TABLE "menuLines" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "productId" UUID NOT NULL,
     "price" INTEGER NOT NULL,
 
     CONSTRAINT "menuLines_pkey" PRIMARY KEY ("id")
@@ -39,7 +55,7 @@ CREATE TABLE "menuLines" (
 
 -- CreateTable
 CREATE TABLE "menus" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "number" SERIAL NOT NULL,
@@ -50,9 +66,9 @@ CREATE TABLE "menus" (
 
 -- CreateTable
 CREATE TABLE "orderLines" (
-    "id" TEXT NOT NULL,
-    "orderId" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
+    "id" UUID NOT NULL,
+    "orderId" UUID NOT NULL,
+    "productId" UUID NOT NULL,
     "price" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "totalAmount" INTEGER NOT NULL,
@@ -62,13 +78,13 @@ CREATE TABLE "orderLines" (
 
 -- CreateTable
 CREATE TABLE "orders" (
-    "id" TEXT NOT NULL,
+    "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "number" SERIAL NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'NEW',
-    "userId" TEXT NOT NULL,
+    "customerId" UUID NOT NULL,
     "totalAmount" INTEGER NOT NULL,
     "totalProductQuantity" INTEGER NOT NULL,
 
@@ -77,18 +93,33 @@ CREATE TABLE "orders" (
 
 -- CreateTable
 CREATE TABLE "_CategoryToProduct" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "_MenuToMenuLine" (
-    "A" TEXT NOT NULL,
-    "B" TEXT NOT NULL
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_phoneNumber_key" ON "users"("phoneNumber");
+CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_customerId_key" ON "users"("customerId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_firstName_key" ON "customers"("firstName");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_lastName_key" ON "customers"("lastName");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_phoneNumber_key" ON "customers"("phoneNumber");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "customers_email_key" ON "customers"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
@@ -118,6 +149,9 @@ CREATE UNIQUE INDEX "_MenuToMenuLine_AB_unique" ON "_MenuToMenuLine"("A", "B");
 CREATE INDEX "_MenuToMenuLine_B_index" ON "_MenuToMenuLine"("B");
 
 -- AddForeignKey
+ALTER TABLE "users" ADD CONSTRAINT "users_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "menuLines" ADD CONSTRAINT "menuLines_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -127,7 +161,7 @@ ALTER TABLE "orderLines" ADD CONSTRAINT "orderLines_orderId_fkey" FOREIGN KEY ("
 ALTER TABLE "orderLines" ADD CONSTRAINT "orderLines_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "orders" ADD CONSTRAINT "orders_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "orders" ADD CONSTRAINT "orders_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CategoryToProduct" ADD CONSTRAINT "_CategoryToProduct_A_fkey" FOREIGN KEY ("A") REFERENCES "categories"("id") ON DELETE CASCADE ON UPDATE CASCADE;

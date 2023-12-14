@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.node.json",
-  "include": ["src"],
+  "include": ["src", "config"],
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
@@ -10,10 +10,10 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "paths": {
-      "@core/*": ["core/*"],
-      "@modules/*": ["modules/*"],
-      "@types/*": ["types/*"],
-      "@utils/*": ["utils/*"]
+      "@/core/*": ["core/*"],
+      "@/modules/*": ["modules/*"],
+      "@/types/*": ["types/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "references": [

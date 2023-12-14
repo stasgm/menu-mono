@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { CustomersRepository } from '../customers/customers.repository';
 import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private customersRepository: CustomersRepository
+  ) {}
 
   findAll(params: { skip?: number; take?: number }) {
     return this.usersRepository.getUsers(params);
@@ -15,32 +19,18 @@ export class UsersService {
     return this.usersRepository.getUserById(id);
   }
 
-  findByPhoneNumber(phoneNumber: string) {
-    return this.usersRepository.getUser({ where: { phoneNumber } });
-  }
-
   findByName(name: string) {
     return this.usersRepository.getUser({ where: { name } });
   }
 
-  create(createUserInput: CreateUserInput) {
-    return this.usersRepository.createUser({ data: createUserInput });
+  findForAuth(name: string) {
+    return this.usersRepository.getUser({ where: { name } });
   }
 
-  async findByPhoneNumberOrCreate(name: string, phoneNumber: string) {
-    const existingUser = await this.usersRepository.getUser({
-      where: { phoneNumber },
-    });
-
-    if (existingUser) {
-      return existingUser;
-    }
-
+  async create(createCustomerInput: CreateCustomerInput, createUserInput: CreateUserInput) {
+    const customer = await this.customersRepository.createCustomer({ data: createCustomerInput });
     return this.usersRepository.createUser({
-      data: {
-        name,
-        phoneNumber,
-      },
+      data: { ...createUserInput, customerId: customer.id },
     });
   }
 

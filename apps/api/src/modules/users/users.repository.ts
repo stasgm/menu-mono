@@ -1,33 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 
-import { PrismaService } from '../../core/persistence/prisma/prisma.service';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+
 import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { PasswordService } from '../auth/password.service';
+import { Roles } from '../auth/types';
 
 @Injectable()
 export class UsersRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private passwordService: PasswordService) {}
 
-  createUser(params: { data: CreateUserInput }): Promise<User> {
+  async createUser(params: { data: CreateUserInput & { customerId: string } }): Promise<User> {
     const { data } = params;
+
+    // DEFAULT VALUES:
+    // - active: false
+    // - rule: user
+    const passwordHash = await this.passwordService.hashPassword(data.password);
 
     return this.prisma.user.create({
       data: {
         name: data.name,
-        phoneNumber: data.phoneNumber,
+        passwordHash,
+        role: Roles.USER,
+        active: false,
+        customerId: data.customerId,
       },
     });
   }
 
   getUser(params: { where: Prisma.UserWhereInput }) {
     const { where } = params;
-    return this.prisma.user.findFirst({ where });
+    return this.prisma.user.findFirst({
+      where,
+      select: {
+        passwordHash: false,
+      },
+    });
   }
 
   getUserById(id: string) {
     return this.prisma.user.findUnique({
       where: {
         id,
+      },
+      select: {
+        passwordHash: false,
       },
     });
   }
@@ -38,9 +57,12 @@ export class UsersRepository {
     cursor?: Prisma.UserWhereUniqueInput;
     where?: Prisma.UserWhereInput;
     orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  }) {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.user.findMany({
+      select: {
+        passwordHash: false,
+      },
       skip,
       take,
       cursor,
@@ -59,7 +81,6 @@ export class UsersRepository {
       where,
       data: {
         name: data.name,
-        phoneNumber: data.phoneNumber,
       },
     });
   }

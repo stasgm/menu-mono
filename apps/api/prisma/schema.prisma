@@ -15,24 +15,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
-  SUPER_ADMIN
-}
-
 model User {
-  id          String  @id @default(uuid())
-  phoneNumber String  @unique
-  name        String
-  order       Order[]
-  role        Role    @default(USER)
+  id           String   @id @default(uuid()) @db.Uuid
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  name         String   @unique
+  passwordHash String
+  role         String
+  active       Boolean  @default(false)
+  customer     Customer @relation(fields: [customerId], references: [id])
+  customerId   String   @unique @db.Uuid
 
   @@map("users")
 }
 
+model Customer {
+  id          String   @id @default(uuid()) @db.Uuid
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  firstName   String   @unique
+  lastName    String   @unique
+  phoneNumber String   @unique
+  email       String   @unique
+  order       Order[]
+  user        User?
+
+  @@map("customers")
+}
+
 model Category {
-  id       String    @id @default(uuid())
+  id       String    @id @default(uuid()) @db.Uuid
   name     String    @unique
   products Product[]
 
@@ -40,7 +52,9 @@ model Category {
 }
 
 model Product {
-  id         String      @id @default(uuid())
+  id         String      @id @default(uuid()) @db.Uuid
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   name       String      @unique
   disabled   Boolean     @default(false)
   categories Category[]
@@ -51,8 +65,8 @@ model Product {
 }
 
 model MenuLine {
-  id        String  @id @default(uuid())
-  productId String
+  id        String  @id @default(uuid()) @db.Uuid
+  productId String  @db.Uuid
   product   Product @relation(fields: [productId], references: [id])
   price     Int
   menu      Menu[]
@@ -61,7 +75,7 @@ model MenuLine {
 }
 
 model Menu {
-  id        String     @id @default(uuid())
+  id        String     @id @default(uuid()) @db.Uuid
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   number    Int        @unique @default(autoincrement())
@@ -72,10 +86,10 @@ model Menu {
 }
 
 model OrderLine {
-  id          String  @id @default(uuid())
-  orderId     String
+  id          String  @id @default(uuid()) @db.Uuid
+  orderId     String  @db.Uuid
   order       Order?  @relation(fields: [orderId], references: [id])
-  productId   String
+  productId   String  @db.Uuid
   product     Product @relation(fields: [productId], references: [id])
   price       Int
   quantity    Int
@@ -85,14 +99,14 @@ model OrderLine {
 }
 
 model Order {
-  id                   String      @id @default(uuid())
+  id                   String      @id @default(uuid()) @db.Uuid
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
   date                 DateTime
   number               Int         @unique @default(autoincrement())
   status               String      @default("NEW")
-  userId               String
-  user                 User        @relation(fields: [userId], references: [id])
+  customerId           String      @db.Uuid
+  customer             Customer    @relation(fields: [customerId], references: [id])
   lines                OrderLine[]
   totalAmount          Int
   totalProductQuantity Int

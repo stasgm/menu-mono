@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.7",
+    "@apollo/client": "^3.8.8",
     "@heroicons/react": "^2.0.18",
     "@packages/domains": "workspace:*",
     "@packages/utils": "workspace:*",

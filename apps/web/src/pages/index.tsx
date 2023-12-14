@@ -50,7 +50,7 @@ export default function Menu() {
                     <li key={line.id}>
                       <MenuLine
                         item={line}
-                        quantity={cart.productSelections[line.product.id]?.quantity ?? 0}
+                        quantity={cart.productSelection[line.product.id]?.quantity ?? 0}
                         key={line.id}
                         onIncreaseQuantityClicked={() => updateQuantity(line, 'increase')}
                         onDecreaseQuantityClicked={() => updateQuantity(line, 'decrease')}

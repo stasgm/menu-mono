@@ -8,7 +8,7 @@ import {
   UpdateOrderInput,
   UpdateOrderStatusInput,
 } from '../../types/graphql.schema';
-import { UsersService } from '../users/users.service';
+import { CustomersService } from '../customers/customers.service';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
   _count: {
@@ -16,7 +16,7 @@ const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
       lines: true,
     },
   },
-  user: true,
+  customer: true,
   lines: {
     include: {
       product: {
@@ -61,12 +61,17 @@ const createOrderLinesByLines = (
 
 @Injectable()
 export class OrdersRepository {
-  constructor(private prisma: PrismaService, private usersService: UsersService) {}
+  constructor(private prisma: PrismaService, private customersService: CustomersService) {}
 
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;
 
-    const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
+    const customer = await this.customersService.findByPhoneNumberOrCreate({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phoneNumber: data.phoneNumber,
+    });
 
     //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
@@ -75,7 +80,7 @@ export class OrdersRepository {
     return this.prisma.order.create({
       data: {
         date: new Date(data.date),
-        userId: user.id,
+        customerId: customer.id,
         totalProductQuantity,
         totalAmount,
         lines: createOrderLinesByLines(data.lines),
@@ -126,7 +131,12 @@ export class OrdersRepository {
   }): Promise<Order | null> {
     const { where, data } = params;
 
-    const user = await this.usersService.findByPhoneNumberOrCreate(data.userName, data.userPhone);
+    const customer = await this.customersService.findByPhoneNumberOrCreate({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phoneNumber: data.phoneNumber,
+    });
 
     //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
@@ -136,7 +146,7 @@ export class OrdersRepository {
       where,
       data: {
         date: new Date(data.date),
-        userId: user.id,
+        customerId: customer.id,
         totalProductQuantity,
         totalAmount,
         lines: createOrderLinesByLines(data.lines),

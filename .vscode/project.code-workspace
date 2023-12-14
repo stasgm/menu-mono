@@ -8,6 +8,14 @@
       "name": "apps/web",
       "path": "../apps/web"
     },
+    {
+      "name": "packages/domains",
+      "path": "../packages/domains"
+    },
+    {
+      "name": "packages/mocks",
+      "path": "../packages/mocks"
+    },
   ],
   "settings": {
     "jest.autoRun": {
@@ -18,6 +26,8 @@
       "ROOT",
       "apps/api",
       "apps/web"
+      "packages/domains",
+      "packages/mocks"
     ]
   }
 }

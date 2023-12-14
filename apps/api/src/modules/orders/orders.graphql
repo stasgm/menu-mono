@@ -19,7 +19,7 @@ type Order {
   date: String!
   number: Int!
   status: String!
-  user: User!
+  customer: Customer!
   lines: [OrderLine!]!
   totalAmount: Int!
   totalProductQuantity: Int!
@@ -27,16 +27,20 @@ type Order {
 
 input CreateOrderInput {
   date: String!
-  userName: String!
-  userPhone: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
   lines: [CreateOrderLineInput!]!
 }
 
 input UpdateOrderInput {
   id: String!
   date: String!
-  userName: String!
-  userPhone: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
   lines: [CreateOrderLineInput!]!
 }
 

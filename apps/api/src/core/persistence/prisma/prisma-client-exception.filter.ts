@@ -5,6 +5,10 @@ import { Prisma } from '@prisma/client';
 export declare type GqlContextType = 'graphql';
 
 export type ErrorCodesStatusMapping = {
+  [key: string]: number;
+};
+
+export type ExtendedErrorCodesStatusMapping = {
   [key: string]:
     | number
     | {
@@ -24,13 +28,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
    * Error codes definition for Prisma Client (Query Engine)
    * @see https://www.prisma.io/docs/reference/api-reference/error-reference#prisma-client-query-engine
    */
-  private readonly defaultMapping: { [fied: string]: HttpStatus } = {
+  private readonly defaultMapping: ErrorCodesStatusMapping = {
     P2000: HttpStatus.BAD_REQUEST,
     P2002: HttpStatus.CONFLICT,
     P2025: HttpStatus.NOT_FOUND,
   };
 
-  private readonly userDefinedMapping?: ErrorCodesStatusMapping;
+  private readonly userDefinedMapping?: ExtendedErrorCodesStatusMapping;
 
   /**
    * @param applicationRef

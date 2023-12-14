@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 import { UsersService } from './users.service';
 
 @Resolver('User')
@@ -21,8 +21,11 @@ export class UsersResolver {
   }
 
   @Mutation('createUser')
-  create(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.usersService.create(createUserInput);
+  create(
+    @Args('createUserInput') createUserInput: CreateUserInput,
+    @Args('createCreateCustomerInput') createCustomerInput: CreateCustomerInput
+  ) {
+    return this.usersService.create(createCustomerInput, createUserInput);
   }
 
   @Mutation('updateUser')

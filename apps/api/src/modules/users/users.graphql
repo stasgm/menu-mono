@@ -1,18 +1,19 @@
 type User {
   id: String!
   name: String!
-  phoneNumber: String!
+  role: String!
+  active: Boolean!
+  customerId: String!
 }
 
 input CreateUserInput {
   name: String!
-  phoneNumber: String!
+  password: String!
 }
 
 input UpdateUserInput {
   id: String!
   name: String!
-  phoneNumber: String!
 }
 
 type Query {
@@ -23,5 +24,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  enableUser(userId: String): Boolean!
+  disableUser(userId: String): Boolean!
   removeUser(id: String!): User
 }

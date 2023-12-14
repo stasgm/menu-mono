@@ -18,7 +18,7 @@ const getInitialCart = (): ICart => {
       name: '',
       phoneNumber: '',
     },
-    productSelections: {},
+    productSelection: {},
     lines: [],
     totalAmount: 0,
     totalProductQuantity: 0,
@@ -63,31 +63,31 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
     },
     addProduct: (menuLine: IMenuline) => {
       const cart = get().cart;
-      const findProduct = cart.productSelections[menuLine.product.id];
+      const findProduct = cart.productSelection[menuLine.product.id];
       if (findProduct) {
         findProduct.quantity = findProduct.quantity + 1;
       } else {
-        cart.productSelections[menuLine.product.id] = {
+        cart.productSelection[menuLine.product.id] = {
           quantity: 1,
           price: menuLine.price,
         };
       }
-      cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
-      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+      cart.lines = generateOrderLines(cart.productSelection);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelection);
+      cart.totalAmount = calculateTotalPrice(cart.productSelection);
       set({ cart });
     },
     removeProduct: (menuLine: IMenuline) => {
       const cart = get().cart;
-      delete cart.productSelections[menuLine.product.id];
-      cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
-      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+      delete cart.productSelection[menuLine.product.id];
+      cart.lines = generateOrderLines(cart.productSelection);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelection);
+      cart.totalAmount = calculateTotalPrice(cart.productSelection);
       set({ cart });
     },
     updateQuantity: (menuLine: IMenuline, action: 'increase' | 'decrease') => {
       const cart = get().cart;
-      const findProduct = cart.productSelections[menuLine.product.id];
+      const findProduct = cart.productSelection[menuLine.product.id];
 
       if (!findProduct) {
         if (action === 'increase') {
@@ -105,9 +105,9 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
       } else {
         findProduct.quantity = findProduct.quantity + 1;
       }
-      cart.lines = generateOrderLines(cart.productSelections);
-      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelections);
-      cart.totalAmount = calculateTotalPrice(cart.productSelections);
+      cart.lines = generateOrderLines(cart.productSelection);
+      cart.totalProductQuantity = calculateProductsQuantity(cart.productSelection);
+      cart.totalAmount = calculateTotalPrice(cart.productSelection);
 
       set({ cart });
     },
