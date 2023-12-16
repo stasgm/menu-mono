@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateCustomerInput, UpdateCustomerInput } from '../../types/graphql.schema';
+import { CreateCustomerInput, Customer, UpdateCustomerInput } from '../../types/graphql.schema';
 import { CustomersRepository } from '../customers/customers.repository';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class CustomersService {
     return this.customersRepository.getCustomerById(id);
   }
 
-  findByPhoneNumber(phoneNumber: string) {
+  findByPhoneNumber(phoneNumber: string): Promise<Customer | null> {
     return this.customersRepository.getCustomer({ where: { phoneNumber } });
   }
 

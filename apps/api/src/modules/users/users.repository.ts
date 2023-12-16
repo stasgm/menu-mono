@@ -3,7 +3,7 @@ import { Prisma, User } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
-import { CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 import { PasswordService } from '../auth/password.service';
 import { Roles } from '../auth/types';
 
@@ -11,7 +11,7 @@ import { Roles } from '../auth/types';
 export class UsersRepository {
   constructor(private prisma: PrismaService, private passwordService: PasswordService) {}
 
-  async createUser(params: { data: CreateUserInput & { customerId: string } }): Promise<User> {
+  async createUser(params: { data: CreateUserInput & CreateCustomerInput }): Promise<User> {
     const { data } = params;
 
     // DEFAULT VALUES:
@@ -25,18 +25,24 @@ export class UsersRepository {
         passwordHash,
         role: Roles.USER,
         active: false,
-        customerId: data.customerId,
+        customer: {
+          create: {
+            phoneNumber: data.phoneNumber,
+            email: data.email,
+            firstName: data.firstName,
+            lastName: data.lastName,
+          },
+        },
+        // customerId: data.customerId,
       },
     });
   }
 
   getUser(params: { where: Prisma.UserWhereInput }) {
+    // TODO do not return passwordHash
     const { where } = params;
     return this.prisma.user.findFirst({
       where,
-      select: {
-        passwordHash: false,
-      },
     });
   }
 

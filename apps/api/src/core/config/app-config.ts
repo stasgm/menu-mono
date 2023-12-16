@@ -64,8 +64,9 @@ export class AppConfig {
 
     return {
       accessSecret: (jwt.accessSecret ?? process.env.JWT_ACCESS_SECRET) as string,
+      accessExpiresIn: (jwt.accessExpiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN) as string,
       refreshSecret: (jwt.refreshSecret ?? process.env.JWT_REFRESH_SECRET) as string,
-      expiresIn: (jwt.expiresIn ?? process.env.JWT_EXPIRES_IN) as string,
+      refreshExpiresIn: (jwt.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN) as string,
     };
   }
 

@@ -25,19 +25,16 @@ export type JwtAuthConfig = {
   // audience: string;
   // issuer: string;
   // algorithm: string;
-  expiresIn: string;
   accessSecret: string;
+  accessExpiresIn: string;
   refreshSecret: string;
+  refreshExpiresIn: string;
 };
 
 export type AuthenticationConfig = {
-  secret: string;
   strategies: string[];
-  path: string;
-  service: string;
-  jwt: JwtAuthConfig;
-  local: {
-    entity: string;
+  jwt?: JwtAuthConfig;
+  local?: {
     usernameField: string;
     passwordField: string;
   };

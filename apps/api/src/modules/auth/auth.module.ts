@@ -1,30 +1,43 @@
-import { HttpModule } from '@nestjs/axios';
+// import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-// import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { AppConfig } from '../../core/config/app-config';
-import { UsersService } from '../users/users.service';
+import { UsersModule } from '../users/users.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 // import { GqlAuthGuard } from './guards/gql-auth.guard';
 import { PasswordService } from './password.service';
-import { JwtAccessStrategy } from './strategies/jwt-access.strategy';
-
-const { jwt } = new AppConfig();
+import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: jwt.accessSecret,
-      signOptions: { expiresIn: jwt.expiresIn },
-    }),
+    JwtModule.register({}),
+    // JwtModule.registerAsync({
+    //   extraProviders: [AppConfig],
+    //   useFactory: (appCinfig: AppConfig) => {
+    //     return {
+    //       global: true,
+    //       secret: appCinfig.jwt.accessSecret,
+    //       signOptions: { expiresIn: appCinfig.jwt.expiresIn },
+    //     };
+    //   },
+    //   inject: [AppConfig],
+    // }),
     PassportModule,
-    HttpModule,
+    // HttpModule,
+    UsersModule,
   ],
-  providers: [AuthResolver, AuthService, UsersService, JwtAccessStrategy, PasswordService],
-  exports: [],
+  providers: [
+    AuthResolver,
+    AuthService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+    PasswordService,
+    AppConfig,
+  ],
+  exports: [PasswordService],
 })
 export class AuthModule {}

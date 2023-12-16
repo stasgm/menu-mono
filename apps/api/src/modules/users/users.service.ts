@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
-import { CustomersRepository } from '../customers/customers.repository';
+import { CustomersService } from '../customers/customers.service';
 import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
-    private customersRepository: CustomersRepository
+    private customersService: CustomersService
   ) {}
 
   findAll(params: { skip?: number; take?: number }) {
@@ -27,10 +27,16 @@ export class UsersService {
     return this.usersRepository.getUser({ where: { name } });
   }
 
-  async create(createCustomerInput: CreateCustomerInput, createUserInput: CreateUserInput) {
-    const customer = await this.customersRepository.createCustomer({ data: createCustomerInput });
+  async create(createUserInput: CreateUserInput, createCustomerInput: CreateCustomerInput) {
+    // const existingCustomer = await this.customersService.findByPhoneNumber(createCustomerInput.phoneNumber);
+
+    // const customer = existingCustomer ?? await this.customersService.create(createCustomerInput);
+
     return this.usersRepository.createUser({
-      data: { ...createUserInput, customerId: customer.id },
+      data: {
+        ...createUserInput,
+        ...createCustomerInput,
+      },
     });
   }
 

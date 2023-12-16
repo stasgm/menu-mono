@@ -110,12 +110,6 @@ CREATE UNIQUE INDEX "users_name_key" ON "users"("name");
 CREATE UNIQUE INDEX "users_customerId_key" ON "users"("customerId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "customers_firstName_key" ON "customers"("firstName");
-
--- CreateIndex
-CREATE UNIQUE INDEX "customers_lastName_key" ON "customers"("lastName");
-
--- CreateIndex
 CREATE UNIQUE INDEX "customers_phoneNumber_key" ON "customers"("phoneNumber");
 
 -- CreateIndex
