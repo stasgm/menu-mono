@@ -3,6 +3,7 @@
   "tasks": [
     {
       "label": "🚀 dev",
+      "type": "shell",
       "command": "pnpm",
       "args": ["dev"],
       "options": {
@@ -20,7 +21,7 @@
     {
       "label": "🗃️ prisma:generate",
       "command": "pnpm",
-      "args": ["prisma:generate"],
+      "args": ["run", "prisma:generate"],
       "options": {
         "cwd": "${workspaceFolder}",
       }
