@@ -1,7 +1,12 @@
+type Tokens {
+  access_token: String!
+  refresh_token: String!
+}
+
 type Response {
   status: Int!
   errors: [String]
-  payload: String
+  payload: Tokens
 }
 
 type Mutation {

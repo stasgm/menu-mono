@@ -8,7 +8,7 @@ import { AppConfig } from '../../../core/config/app-config';
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   constructor(private readonly appConfig: AppConfig) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,
       secretOrKey: appConfig.jwt.accessSecret,
     });

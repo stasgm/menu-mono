@@ -88,9 +88,11 @@ export class AuthService {
       };
     }
 
+    const tokens = await this.generateTokens({ userId: user.id });
+
     return {
       status: HttpStatus.OK,
-      payload: JSON.stringify(await this.generateTokens({ userId: user.id })),
+      payload: tokens,
     };
   }
 
@@ -130,9 +132,12 @@ export class AuthService {
     //   status: HttpStatus.OK,
     //   payload: JSON.stringify(await this.generateTokens({ userId })),
     // }
+
+    const tokens = await this.generateTokens({ userId });
+
     return {
       status: HttpStatus.OK,
-      payload: JSON.stringify(await this.generateTokens({ userId })),
+      payload: tokens,
     };
   }
 

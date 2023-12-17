@@ -45,7 +45,7 @@ export interface IJwtRequest {
 export interface IResponse {
   status: number;
   errors?: string[];
-  payload?: string;
+  payload?: Record<string, unknown>;
 }
 
 export type Tokens = {

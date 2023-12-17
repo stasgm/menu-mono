@@ -8,7 +8,7 @@ import { AppConfig } from '../../../core/config/app-config';
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(private readonly appConfig: AppConfig) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,
       secretOrKey: appConfig.jwt.refreshSecret,
     });
