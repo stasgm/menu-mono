@@ -70,23 +70,21 @@ export class AuthService {
     if (!user) {
       return {
         status: HttpStatus.UNAUTHORIZED,
-        errors: invalidLogin,
+        errors: ['InvalidLogin'],
       };
     }
 
-    const { id, confirmed } = userEntity;
-
-    if (!confirmed) {
+    if (!user.active) {
       return {
         status: HttpStatus.UNAUTHORIZED,
-        errors: emailNotConfirmed,
+        errors: ['emailNotConfirmed'],
       };
     }
 
     if (!(await this.passwordService.validatePassword(password, user.passwordHash))) {
       return {
         status: HttpStatus.UNAUTHORIZED,
-        errors: invalidLogin,
+        errors: ['invalidLogin'],
       };
     }
 
@@ -118,16 +116,20 @@ export class AuthService {
   }
 
   async refreshTokens(userId: string): Promise<IResponse> {
-    const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
+    // const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
 
-    if (!token) {
-      throw new UnauthorizedException('The refresh token is invalid');
-    }
+    // if (!token) {
+    //   throw new UnauthorizedException('The refresh token is invalid');
+    // }
 
-    if (new Date(token.expires) < new Date()) {
-      throw new UnauthorizedException('The refresh token is expired');
-    }
+    // if (new Date(token.expires) < new Date()) {
+    //   throw new UnauthorizedException('The refresh token is expired');
+    // }
 
+    // return {
+    //   status: HttpStatus.OK,
+    //   payload: JSON.stringify(await this.generateTokens({ userId })),
+    // }
     return {
       status: HttpStatus.OK,
       payload: JSON.stringify(await this.generateTokens({ userId })),

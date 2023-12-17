@@ -25,7 +25,7 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
     @Args('createCreateCustomerInput') createCustomerInput: CreateCustomerInput
   ) {
-    return this.usersService.create(createCustomerInput, createUserInput);
+    return this.usersService.create(createUserInput, createCustomerInput);
   }
 
   @Mutation('updateUser')
