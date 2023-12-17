@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 import { IResponse } from './types';
-import { CurrentUser } from './decorators/current-user.decorator';
 // import { CurrentUser } from './decorators/current-user.decorator';
 // import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 // import { CurrentUser } from './decorators/current-user.decorator';

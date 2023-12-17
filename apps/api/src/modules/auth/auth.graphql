@@ -1,4 +1,11 @@
+type Response {
+  status: Int!
+  errors: [String]
+  payload: String
+}
+
 type Mutation {
-  register(name: String!,  password: String!): User!
-  login(name: String!,  password: String!): User!
+  register(name: String!, password: String!): Response!
+  login(name: String!,  password: String!): Response!
+  refresh: Response!
 }

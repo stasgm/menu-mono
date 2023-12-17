@@ -8,8 +8,8 @@ export class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'>
   implements OnModuleInit
 {
-  constructor(appConfig: AppConfig) {
-    const url = appConfig.postgresUrl;
+  constructor() {
+    const url = new AppConfig().postgresUrl;
 
     super({
       datasources: {
