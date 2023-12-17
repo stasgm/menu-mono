@@ -15,18 +15,18 @@ const runSeed = async () => {
 
   // remove old data
   await app.get(OrdersSeedService).removeAll();
+  await app.get(UsersSeedService).removeAll();
+  await app.get(CustomersSeedService).removeAll();
   await app.get(MenusSeedService).removeAll();
   await app.get(ProductsSeedService).removeAll();
   await app.get(CategoriesSeedService).removeAll();
-  await app.get(CustomersSeedService).removeAll();
-  await app.get(UsersSeedService).removeAll();
 
   // seed new data
   await app.get(CategoriesSeedService).seed();
   await app.get(ProductsSeedService).seed();
+  await app.get(MenusSeedService).seed();
   await app.get(CustomersSeedService).seed();
   await app.get(UsersSeedService).seed();
-  await app.get(MenusSeedService).seed();
   await app.get(OrdersSeedService).seed();
 
   console.log('🌿 Done! \t');

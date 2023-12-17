@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { usersMock } from '@packages/mocks';
 
-import { PrismaService } from '../../prisma.service';
+import { PrismaService } from '../../src/core/persistence/prisma/prisma.service';
 import { SeedService } from '../types';
 
 @Injectable()
@@ -26,6 +26,7 @@ export class UsersSeedService extends SeedService {
           name: user.name,
           passwordHash: user.passwordHash,
           active: user.active,
+          confirmed: user.confirmed,
           role: user.role,
           customerId: user.customerId,
         },

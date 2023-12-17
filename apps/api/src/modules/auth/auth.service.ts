@@ -133,7 +133,7 @@ export class AuthService {
     return {
       status: HttpStatus.OK,
       payload: JSON.stringify(await this.generateTokens({ userId })),
-    }
+    };
   }
 
   // async login(email: string, password: string, agent: string) {

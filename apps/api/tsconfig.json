@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.node.json",
-  "include": ["src", "config"],
+  "include": ["src", "config", "seeds"],
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",

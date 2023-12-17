@@ -23,6 +23,7 @@ model User {
   passwordHash String
   role         String
   active       Boolean  @default(false)
+  confirmed    Boolean  @default(false)
   customer     Customer @relation(fields: [customerId], references: [id])
   customerId   String   @unique @db.Uuid
 

@@ -14,7 +14,6 @@ export class ProductsResolver {
 
   @Query('products')
   findAll() {
-    console.log('dd');
     return this.productsService.findAll();
   }
 
