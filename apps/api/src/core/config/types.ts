@@ -25,10 +25,10 @@ export type JwtAuthConfig = {
   // audience: string;
   // issuer: string;
   // algorithm: string;
-  accessSecret: string;
-  accessExpiresIn: string;
-  refreshSecret: string;
-  refreshExpiresIn: string;
+  accessSecret?: string;
+  accessExpiresIn?: string;
+  refreshSecret?: string;
+  refreshExpiresIn?: string;
 };
 
 export type AuthenticationConfig = {

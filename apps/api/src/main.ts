@@ -1,17 +1,24 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
+import { AppConfig } from '@/core/config/app-config';
+import { PrismaClientExceptionFilter } from '@/core/persistence/prisma/prisma-client-exception.filter';
+
 import { AppModule } from './app.module';
 
 declare const module: any;
 async function bootstrap() {
   const logger = new Logger('EntryPoint');
+  const appConfig = new AppConfig();
+
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
   app.enableCors();
 
-  const PORT = 5000;
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
+
+  const PORT = appConfig.nestPort;
 
   await app.listen(PORT);
 

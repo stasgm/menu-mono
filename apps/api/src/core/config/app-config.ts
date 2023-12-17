@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import config from 'config';
 
 import { JwtAuthConfig, PostgresConfig, RedisConfig } from './types';
-export const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
+const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
+const DEFAULT_NESTJS_PORT = 5000;
 
 @Injectable()
 export class AppConfig {
@@ -75,6 +76,6 @@ export class AppConfig {
   }
 
   get nestPort(): number {
-    return config.get('nestPort');
+    return config.get('nestPort') || DEFAULT_NESTJS_PORT;
   }
 }
