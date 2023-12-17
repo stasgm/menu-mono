@@ -41,3 +41,14 @@ export interface IRequest {
 export interface IJwtRequest {
   user: JwtPayload;
 }
+
+export interface IResponse {
+  status: number;
+  errors?: string[];
+  payload?: string;
+}
+
+export type Tokens = {
+  access_token: string;
+  refresh_token: string;
+};

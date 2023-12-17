@@ -1,14 +1,18 @@
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
-// import { ConfigService } from '@nestjs/config';
+import { ConflictException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-// import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+import { AppConfig } from '@/core/config/app-config';
 import { UsersService } from '@/modules/users/users.service';
 
-import { CreateCustomerInput, CreateUserInput, User } from '../../types/graphql.schema';
+import { CreateCustomerInput, CreateUserInput } from '../../types/graphql.schema';
 import { RegisterDto } from './dto/register.dto';
 import { PasswordService } from './password.service';
-import { AppConfig } from '../../core/config/app-config';
+import { IResponse, Tokens } from './types';
+
+function getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
 
 @Injectable()
 export class AuthService {
@@ -21,8 +25,9 @@ export class AuthService {
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<User> {
+  async register(registerDto: RegisterDto): Promise<IResponse> {
     const { name, password } = registerDto;
+    // TODO validate credentials with ZOD
 
     const existedUser = await this.usersService.findByName(name);
 
@@ -44,14 +49,25 @@ export class AuthService {
 
     // Send an email to confirm the user
 
-    // Return status (the result of registratiion) instead of a user
-    return this.usersService.create(createUserInput, createCustomerInput);
+    try {
+      await this.usersService.create(createUserInput, createCustomerInput);
+      return {
+        status: HttpStatus.CREATED,
+      };
+    } catch (error) {
+      // TODO parse err type. Detect type of error and return the correct status
+
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        errors: [getErrorMessage(error)],
+      };
+    }
   }
 
-  async login(name: string, password: string): Promise<User> {
-    const userEntity = await this.usersService.findForAuth(name);
+  async login(name: string, password: string): Promise<IResponse> {
+    const user = await this.usersService.findForAuth(name);
 
-    if (!userEntity) {
+    if (!user) {
       return {
         status: HttpStatus.UNAUTHORIZED,
         errors: invalidLogin,
@@ -67,31 +83,23 @@ export class AuthService {
       };
     }
 
-    if (!(await this.comparePasswords(password, userEntity.password))) {
+    if (!(await this.passwordService.validatePassword(password, user.passwordHash))) {
       return {
         status: HttpStatus.UNAUTHORIZED,
         errors: invalidLogin,
       };
     }
 
-    const refresh_token = await this.getUserRefreshToken(id);
-
-    const tokens = {
-      access_token: await this.generateAccessToken(id),
-      refresh_token: refresh_token || (await this.generateRefreshToken(id)),
-    };
-
-    await AuthService.redisInstance.set(
-      id,
-      tokens.refresh_token,
-      'ex',
-      this.configurationService.get(Configuration.JWT_REFRESH_AGE_S)
-    );
-
     return {
       status: HttpStatus.OK,
-      errors: [],
-      payload: JSON.stringify(tokens),
+      payload: JSON.stringify(await this.generateTokens({ userId: user.id })),
+    };
+  }
+
+  async generateTokens(payload: { userId: string }): Promise<Tokens> {
+    return {
+      access_token: await this.generateAccessToken({ sub: payload.userId }),
+      refresh_token: await this.generateRefreshToken({ sub: payload.userId }),
     };
   }
 
@@ -108,17 +116,23 @@ export class AuthService {
       secret: this.appConfig.jwt.refreshSecret,
     });
   }
-  // async refreshTokens(refreshToken: string, agent: string): Promise<Tokens> {
-  //   const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
-  //   if (!token) {
-  //     throw new UnauthorizedException('The refresh token is invalid');
-  //   }
-  //   if (new Date(token.expires) < new Date()) {
-  //     throw new UnauthorizedException('The refresh token is expired');
-  //   }
-  //   const user = await this.usersService.findById(token.userId);
-  //   return this.generateTokens(user, agent);
-  // }
+
+  async refreshTokens(userId: string): Promise<IResponse> {
+    const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
+
+    if (!token) {
+      throw new UnauthorizedException('The refresh token is invalid');
+    }
+
+    if (new Date(token.expires) < new Date()) {
+      throw new UnauthorizedException('The refresh token is expired');
+    }
+
+    return {
+      status: HttpStatus.OK,
+      payload: JSON.stringify(await this.generateTokens({ userId })),
+    }
+  }
 
   // async login(email: string, password: string, agent: string) {
   //   const user = await this.usersService.findByEmail(email);
