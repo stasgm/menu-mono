@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
+import { Tokens } from './models/tokens';
 import { IResponse } from './types';
 // import { CurrentUser } from './decorators/current-user.decorator';
 // import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
@@ -14,7 +15,7 @@ import { IResponse } from './types';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation('register')
+  @Mutation(() => Tokens)
   register(@Args('name') name: string, @Args('password') password: string): Promise<IResponse> {
     return this.authService.register({ name, password });
   }

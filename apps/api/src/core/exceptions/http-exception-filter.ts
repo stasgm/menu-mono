@@ -1,75 +1,26 @@
-// import {
-//   ArgumentsHost,
-//   Catch,
-//   ExceptionFilter,
-//   HttpException,
-//   HttpStatus,
-//   Logger,
-// } from '@nestjs/common';
-// import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
-// import { Request, Response } from 'express';
-// import { GraphQLResolveInfo } from 'graphql';
+import { ArgumentsHost, Catch, ContextType, ExceptionFilter, HttpException } from '@nestjs/common';
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
+import { GraphQLError } from 'graphql';
 
-// @Catch()
-// export class HttpErrorFilter implements ExceptionFilter, GqlExceptionFilter {
-//   catch(exception: HttpException, host: ArgumentsHost) {
-//     const ctx = host.switchToHttp();
-//     const response = ctx.getResponse<Response>();
-//     const request = ctx.getRequest<Request>();
+import { BaseException } from '@/core/exceptions/base.exception';
 
-//     const gqlHost = GqlArgumentsHost.create(host);
-//     const info = gqlHost.getInfo<GraphQLResolveInfo>();
+@Catch(BaseException)
+export class GlobalExceptionFilter implements ExceptionFilter, GqlExceptionFilter {
+  // catch both GQL and REST errors
+  catch(exception: BaseException, host: ArgumentsHost) {
+    const gqlHost = GqlArgumentsHost.create(host);
 
-//     const status = exception.getStatus
-//       ? exception.getStatus()
-//       : HttpStatus.INTERNAL_SERVER_ERROR;
-
-//     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
-//       // tslint:disable-next-line: no-console
-//       console.error(exception);
-//     }
-
-//     const errorResponse = {
-//       statusCode: status,
-//       timestamp: new Date().toLocaleDateString(),
-//       error:
-//         status === HttpStatus.INTERNAL_SERVER_ERROR
-//           ? 'Internal server error'
-//           : exception.message.error || exception.message || null,
-//     };
-
-//     // This is for REST petitions
-//     if (request) {
-//       const error = {
-//         ...errorResponse,
-//         path: request.url,
-//         method: request.method,
-//       };
-
-//       Logger.error(
-//         `${request.method} ${request.url}`,
-//         JSON.stringify(error),
-//         'ExceptionFilter',
-//       );
-
-//       response.status(status).json(errorResponse);
-//     } else {
-//       // This is for GRAPHQL petitions
-//       const error = {
-//         ...errorResponse,
-//         type: info.parentType,
-//         field: info.fieldName,
-//       };
-
-//       Logger.error(
-//         `${info.parentType} ${info.fieldName}`,
-//         JSON.stringify(error),
-//         'ExceptionFilter',
-//       );
-
-//       return exception;
-//     }
-//   }
-// }
-
-export const exceptionFilter = {};
+    return gqlHost.getType<'graphql' | ContextType>() === 'graphql'
+      ? new GraphQLError(exception.message, {
+          extensions: { code: exception.code },
+        })
+      : new HttpException(
+          {
+            status: 400,
+            // error: exception.getErrorCode(),
+            message: exception.message,
+          },
+          400
+        );
+  }
+}

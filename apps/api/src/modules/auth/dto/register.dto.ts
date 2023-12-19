@@ -1,14 +1,12 @@
+import { InputType } from '@nestjs/graphql';
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
 
 // TODO check how to create a schema from type
 const registerSchema = z.object({
-  // email: z.string().email(),
-  password: z.string(),
-  name: z.string(),
+  name: z.string().describe('The name of the user'),
+  password: z.string().describe('The password of the user'),
 });
 
-export class RegisterDto extends createZodDto(registerSchema) {
-  password: string;
-  name: string;
-}
+@InputType()
+export class RegisterDto extends createZodDto(registerSchema) {}

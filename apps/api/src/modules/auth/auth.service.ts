@@ -1,7 +1,8 @@
-import { ConflictException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
+import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
 import { UsersService } from '@/modules/users/users.service';
 
 import { CreateCustomerInput, CreateUserInput } from '../../types/graphql.schema';
@@ -26,13 +27,13 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto): Promise<IResponse> {
-    const { name, password } = registerDto;
+    const { name, password} = registerDto;
     // TODO validate credentials with ZOD
 
     const existedUser = await this.usersService.findByName(name);
 
     if (existedUser) {
-      throw new ConflictException('The user with this name already exists');
+      throw new UserAlreadyExistsException();
     }
 
     const createCustomerInput: CreateCustomerInput = {
@@ -68,10 +69,7 @@ export class AuthService {
     const user = await this.usersService.findForAuth(name);
 
     if (!user) {
-      return {
-        status: HttpStatus.UNAUTHORIZED,
-        errors: ['InvalidLogin'],
-      };
+      throw new UserNotFoundException();
     }
 
     if (!user.active) {

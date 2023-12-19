@@ -30,6 +30,7 @@ import { UsersModule } from './modules/users/users.module';
       installSubscriptionHandlers: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      includeStacktraceInErrorResponses: process.env.NODE_ENV === 'development',
     }),
     AuthModule,
     PersistenceModule,
