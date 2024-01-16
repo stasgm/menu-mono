@@ -1,39 +1,38 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
+import { CreateUserInput } from './dto/create-user.input';
+import { FindUsersArgs } from './dto/find-users.args';
+import { UpdateUserInput } from './dto/update-user.input';
+import { User } from './models/user.model';
 import { UsersService } from './users.service';
 
-@Resolver('User')
+@Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query('users')
-  findAll(
-    @Args('skip', { type: () => Int, nullable: true }) skip: number,
-    @Args('take', { type: () => Int, nullable: true }) take: number
-  ) {
+  @Query(() => [User], { name: 'FindUsers', description: 'Find users' })
+  findUsers(@Args() findUsersArgs: FindUsersArgs) {
+    const { skip, take } = findUsersArgs;
     return this.usersService.findAll({ skip, take });
   }
 
-  @Query('user')
-  findOne(@Args('id') id: string) {
+  @Query(() => User, { name: 'FindUser', description: 'Find user by id' })
+  findUser(@Args('id') id: string) {
     return this.usersService.findOne(id);
   }
 
-  @Mutation('createUser')
-  create(
-    @Args('createUserInput') createUserInput: CreateUserInput,
-    @Args('createCreateCustomerInput') createCustomerInput: CreateCustomerInput
-  ) {
-    return this.usersService.create(createUserInput, createCustomerInput);
+  @Mutation(() => User, { name: 'CreateUser', description: 'Create user' })
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.usersService.create(createUserInput);
   }
 
-  @Mutation('updateUser')
-  update(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+  @Mutation(() => User, { name: 'UpdateUser', description: 'Update user' })
+  updateUser(@Args('id') id: string, @Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    return this.usersService.update(id, updateUserInput);
   }
 
-  @Mutation('removeUser')
+  @Mutation(() => User, { name: 'RemoveUser', description: 'Remove user' })
   remove(@Args('id') id: string) {
     return this.usersService.remove(id);
   }

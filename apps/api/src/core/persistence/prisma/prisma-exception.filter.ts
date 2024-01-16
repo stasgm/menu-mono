@@ -18,10 +18,10 @@ export type ExtendedErrorCodesStatusMapping = {
 };
 
 /**
- * {@link PrismaClientExceptionFilter} catches {@link Prisma.PrismaClientKnownRequestError} exceptions.
+ * {@link PrismaExceptionFilter} catches {@link Prisma.PrismaClientKnownRequestError} exceptions.
  */
-@Catch(Prisma?.PrismaClientKnownRequestError)
-export class PrismaClientExceptionFilter extends BaseExceptionFilter {
+@Catch(Prisma.PrismaClientKnownRequestError)
+export class PrismaExceptionFilter extends BaseExceptionFilter {
   /**
    * default error codes mapping
    *
@@ -133,7 +133,7 @@ export function providePrismaClientExceptionFilter(
   return {
     provide: APP_FILTER,
     useFactory: ({ httpAdapter }: HttpAdapterHost) => {
-      return new PrismaClientExceptionFilter(httpAdapter, errorCodesStatusMapping);
+      return new PrismaExceptionFilter(httpAdapter, errorCodesStatusMapping);
     },
     inject: [HttpAdapterHost],
   };

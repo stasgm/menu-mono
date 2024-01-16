@@ -1,0 +1,134 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+input CreateCustomerInput {
+  """email"""
+  email: String!
+
+  """First name"""
+  firstName: String!
+
+  """Last name"""
+  lastName: String!
+
+  """Phone number"""
+  phoneNumber: String!
+}
+
+input CreateUserInput {
+  """email"""
+  email: String!
+
+  """First name"""
+  firstName: String!
+
+  """Last name"""
+  lastName: String!
+
+  """User name"""
+  name: String!
+
+  """User password"""
+  password: String!
+
+  """Phone number"""
+  phoneNumber: String!
+}
+
+"""Customer"""
+type Customer {
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+}
+
+type Mutation {
+  """Create customer"""
+  CreateCustomer(createCustomerInput: CreateCustomerInput!): Customer!
+
+  """Create user"""
+  CreateUser(createUserInput: CreateUserInput!): User!
+
+  """Delete customer"""
+  DeleteCustomer(id: String!): Customer!
+
+  """Remove user"""
+  RemoveUser(id: String!): User!
+
+  """Update customer"""
+  UpdateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+
+  """Update user"""
+  UpdateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  login(name: String!, password: String!): Tokens!
+  refresh: Tokens!
+  register(name: String!, password: String!): Tokens!
+}
+
+type Query {
+  """Find customer"""
+  FindCustomer(id: String!): Customer!
+
+  """Find customers"""
+  FindCustomers(skip: Int, take: Int): [Customer!]!
+
+  """Find user by id"""
+  FindUser(id: String!): User!
+
+  """Find users"""
+  FindUsers(skip: Int = 0, take: Int = 100): [User!]!
+}
+
+type Tokens {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+}
+
+input UpdateCustomerInput {
+  """email"""
+  email: String
+
+  """First name"""
+  firstName: String
+  id: String!
+
+  """Last name"""
+  lastName: String
+
+  """Phone number"""
+  phoneNumber: String
+}
+
+input UpdateUserInput {
+  """email"""
+  email: String!
+
+  """First name"""
+  firstName: String!
+
+  """Last name"""
+  lastName: String!
+
+  """User name"""
+  name: String!
+
+  """Phone number"""
+  phoneNumber: String!
+}
+
+"""User"""
+type User {
+  active: Boolean!
+  customerId: ID!
+  id: ID!
+  name: String!
+  passwordHash: String!
+  role: String!
+}

@@ -3,15 +3,16 @@ import { Prisma, User } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
-import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 import { PasswordService } from '../auth/password.service';
 import { Roles } from '../auth/types';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersRepository {
   constructor(private prisma: PrismaService, private passwordService: PasswordService) {}
 
-  async createUser(params: { data: CreateUserInput & CreateCustomerInput }): Promise<User> {
+  async createUser(params: { data: CreateUserInput }): Promise<User> {
     const { data } = params;
 
     // DEFAULT VALUES:
@@ -38,11 +39,16 @@ export class UsersRepository {
     });
   }
 
-  getUser(params: { where: Prisma.UserWhereInput }) {
-    // TODO do not return passwordHash
+  async getUser(params: { where: Prisma.UserWhereInput }) {
     const { where } = params;
-    return this.prisma.user.findFirst({
+    return await this.prisma.user.findFirst({
       where,
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   }
 
@@ -66,9 +72,6 @@ export class UsersRepository {
   }) {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.user.findMany({
-      select: {
-        passwordHash: false,
-      },
       skip,
       take,
       cursor,
@@ -91,7 +94,7 @@ export class UsersRepository {
     });
   }
 
-  deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
+  deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User | null> {
     const { where } = params;
     return this.prisma.user.delete({ where });
   }

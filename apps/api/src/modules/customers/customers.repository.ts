@@ -3,7 +3,8 @@ import { Customer, Prisma } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
-import { CreateCustomerInput, UpdateCustomerInput } from '../../types/graphql.schema';
+import { CreateCustomerInput } from './dto/create-customer.input';
+import { UpdateCustomerInput } from './dto/update-customer.input';
 
 @Injectable()
 export class CustomersRepository {
@@ -22,12 +23,12 @@ export class CustomersRepository {
     });
   }
 
-  getCustomer(params: { where: Prisma.CustomerWhereInput }) {
+  getCustomer(params: { where: Prisma.CustomerWhereInput }): Promise<Customer | null> {
     const { where } = params;
     return this.prisma.customer.findFirst({ where });
   }
 
-  getCustomerById(id: string) {
+  getCustomerById(id: string): Promise<Customer | null> {
     return this.prisma.customer.findUnique({
       where: {
         id,
@@ -42,7 +43,7 @@ export class CustomersRepository {
     where?: Prisma.CustomerWhereInput;
     orderBy?: Prisma.CustomerOrderByWithRelationInput;
   }): Promise<Customer[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+    const { skip = 0, take = 100, cursor, where, orderBy } = params;
     return this.prisma.customer.findMany({
       skip,
       take,
@@ -61,15 +62,12 @@ export class CustomersRepository {
     return this.prisma.customer.update({
       where,
       data: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber,
+        ...data,
       },
     });
   }
 
-  deleteCustomer(params: { where: Prisma.CustomerWhereUniqueInput }): Promise<Customer> {
+  deleteCustomer(params: { where: Prisma.CustomerWhereUniqueInput }): Promise<Customer | null> {
     const { where } = params;
     return this.prisma.customer.delete({ where });
   }

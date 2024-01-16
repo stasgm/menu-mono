@@ -8,7 +8,11 @@ describe('MenusService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [MenusService],
-    }).compile();
+    })
+      .useMocker(() => {
+        return {};
+      })
+      .compile();
 
     service = module.get<MenusService>(MenusService);
   });

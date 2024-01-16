@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
@@ -15,12 +16,12 @@ import { IResponse } from './types';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Tokens)
+  @Mutation(returns => Tokens)
   register(@Args('name') name: string, @Args('password') password: string): Promise<IResponse> {
     return this.authService.register({ name, password });
   }
 
-  @Mutation('login')
+  @Mutation(returns => Tokens)
   login(@Args('name') name: string, @Args('password') password: string): Promise<IResponse> {
     return this.authService.login(name, password);
   }
@@ -31,7 +32,7 @@ export class AuthResolver {
   //   return this.authService.confirmEmail(hash);
   // }
 
-  @Mutation('refresh')
+  @Mutation(returns => Tokens)
   @UseGuards(JwtRefreshAuthGuard)
   refresh(@CurrentUser() { id }: { id: string }): Promise<IResponse> {
     return this.authService.refreshTokens(id);

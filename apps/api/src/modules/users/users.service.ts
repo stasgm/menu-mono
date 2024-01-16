@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateCustomerInput, CreateUserInput, UpdateUserInput } from '../../types/graphql.schema';
 import { CustomersService } from '../customers/customers.service';
 import { UsersRepository } from '../users/users.repository';
+import { CreateUserInput } from './dto/create-user.input';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
-    private customersService: CustomersService
   ) {}
 
   findAll(params: { skip?: number; take?: number }) {
@@ -27,15 +27,24 @@ export class UsersService {
     return this.usersRepository.getUser({ where: { name } });
   }
 
-  async create(createUserInput: CreateUserInput, createCustomerInput: CreateCustomerInput) {
-    // const existingCustomer = await this.customersService.findByPhoneNumber(createCustomerInput.phoneNumber);
+  // async create(createUserInput: CreateUserInput, createCustomerInput: CreateCustomerInput) {
+  async create(createUserInput: CreateUserInput) {
+    // const existingCustomer = await this.customersService.findByPhoneNumber(
+    //   createUserInput.phoneNumber
+    // );
 
-    // const customer = existingCustomer ?? await this.customersService.create(createCustomerInput);
+    // const customer =
+    //   existingCustomer ??
+    //   (await this.customersService.create({
+    //     email: createUserInput.email,
+    //     firstName: createUserInput.firstName,
+    //     lastName: createUserInput.lastName,
+    //     phoneNumber: createUserInput.phoneNumber,
+    //   }));
 
     return this.usersRepository.createUser({
       data: {
         ...createUserInput,
-        ...createCustomerInput,
       },
     });
   }

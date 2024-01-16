@@ -9,7 +9,11 @@ describe('MenusResolver', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [MenusResolver, MenusService],
-    }).compile();
+    })
+      .useMocker(() => {
+        return {};
+      })
+      .compile();
 
     resolver = module.get<MenusResolver>(MenusResolver);
   });

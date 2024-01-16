@@ -26,6 +26,7 @@
 - `pnpm setup` - set up system configuration for pnpm
 - `pnpm install turbo --global` - install turbo globaly
 - `pnpm install` - install dependencies
+- `pnpm i --frozen-lockfile` - install dependencies from lock file
 - `pnpm libs:build` - build all libraries
 
 how to setup api-server read in `apps/api/readme.md`
@@ -64,3 +65,7 @@ how to setup api-server read in `apps/api/readme.md`
   - [ ] zustand store - how to use: post\get state (isLoading, error etc)
   - [ ] add ENV param to use mocked data instead of api-server
   - [ ] move api request to separated module
+
+## Examples
+
+  <https://github.com/chloey863/Online-Shopping>

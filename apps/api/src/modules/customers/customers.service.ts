@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateCustomerInput, Customer, UpdateCustomerInput } from '../../types/graphql.schema';
-import { CustomersRepository } from '../customers/customers.repository';
+import { CustomersRepository } from './customers.repository';
+import { CreateCustomerInput } from './dto/create-customer.input';
+import { UpdateCustomerInput } from './dto/update-customer.input';
+import { Customer } from './models/customer.model';
 
 @Injectable()
 export class CustomersService {
   constructor(private customersRepository: CustomersRepository) {}
 
   findAll(params: { skip?: number; take?: number }) {
-    return this.customersRepository.getCustomers(params);
+    const { skip = 0, take = 100 } = params;
+    return this.customersRepository.getCustomers({ skip, take });
   }
 
   findOne(id: string) {

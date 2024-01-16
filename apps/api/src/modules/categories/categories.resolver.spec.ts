@@ -9,7 +9,11 @@ describe('CategoriesResolver', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [CategoriesResolver, CategoriesService],
-    }).compile();
+    })
+      .useMocker(() => {
+        return {};
+      })
+      .compile();
 
     resolver = module.get<CategoriesResolver>(CategoriesResolver);
   });

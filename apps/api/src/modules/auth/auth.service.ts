@@ -51,7 +51,7 @@ export class AuthService {
     // Send an email to confirm the user
 
     try {
-      await this.usersService.create(createUserInput, createCustomerInput);
+      await this.usersService.create({ ...createUserInput, ...createCustomerInput });
       return {
         status: HttpStatus.CREATED,
       };

@@ -1,10 +1,11 @@
 import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 
 import { AppConfig } from '@/core/config/app-config';
-import { PrismaClientExceptionFilter } from '@/core/persistence/prisma/prisma-client-exception.filter';
+import { PrismaExceptionFilter } from '@/core/persistence/prisma/prisma-exception.filter';
 
 import { AppModule } from './app.module';
+// import { GlobalExceptionFilter } from './core/exceptions/http-exception-filter';
 
 declare const module: any;
 async function bootstrap() {
@@ -16,7 +17,9 @@ async function bootstrap() {
   app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
   app.enableCors();
 
-  app.useGlobalFilters(new PrismaClientExceptionFilter());
+   const { httpAdapter } = app.get(HttpAdapterHost);
+  // app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter());
+  app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter));
 
   const PORT = appConfig.nestPort;
 
