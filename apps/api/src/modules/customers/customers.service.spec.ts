@@ -12,7 +12,7 @@ describe('CustomersService', () => {
 
     const customersRepositoryMock = {
       getCustomers: jest.fn().mockResolvedValue([]),
-    }
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [

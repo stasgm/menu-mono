@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { CustomersService } from '../customers/customers.service';
 import { UsersRepository } from '../users/users.repository';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -12,7 +11,8 @@ export class UsersService {
   ) {}
 
   findAll(params: { skip?: number; take?: number }) {
-    return this.usersRepository.getUsers(params);
+    const { skip = 0, take = 100 } = params;
+    return this.usersRepository.getUsers({ skip, take });
   }
 
   findOne(id: string) {

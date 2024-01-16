@@ -1,15 +1,47 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { User } from './models/user.model';
+import { UsersRepository } from './users.repository';
 import { UsersService } from './users.service';
+
+type UserWithoutPassword = Omit<User, 'passwordHash'>;
+
+const usersMock: UserWithoutPassword[] = [
+  {
+    id: '1',
+    name: 'test1',
+    active: true,
+    customerId: '1',
+    role: 'user',
+  },
+  {
+    id: '2',
+    name: 'test2',
+    active: true,
+    customerId: '2',
+    role: 'admin',
+  },
+];
 
 describe('UsersService', () => {
   let service: UsersService;
+  let usersRepository: UsersRepository;
 
   beforeEach(async () => {
     jest.clearAllMocks();
 
+    const usersRepositoryMock = {
+      getUsers: jest.fn().mockResolvedValue([]),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        {
+          provide: UsersRepository,
+          useValue: usersRepositoryMock,
+        },
+      ],
     })
       .useMocker(() => {
         return {};
@@ -17,29 +49,28 @@ describe('UsersService', () => {
       .compile();
 
     service = module.get<UsersService>(UsersService);
+    usersRepository = module.get<UsersRepository>(UsersRepository);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  // it('should find a user', async () => {
-  //   const user = await service.findUserById('someUserId');
-  //   expect(user).toBeDefined();
-  // });
+  describe('findAll', () => {
+    it('should call getUsers with the correct params', async () => {
+      const params = { skip: 10, take: 20 };
+      const getCustomersSpy = jest.spyOn(usersRepository, 'getUsers');
+      await service.findAll(params);
+      expect(getCustomersSpy).toHaveBeenCalledWith(params);
+    });
 
-  // it('should create a user', async () => {
-  //   const user = await service.createUser({ /* user data here */ });
-  //   expect(user).toBeDefined();
-  // });
-
-  // it('should update a user', async () => {
-  //   const updatedUser = await service.updateUser('someUserId', { /* new user data here */ });
-  //   expect(updatedUser).toBeDefined();
-  // });
-
-  // it('should delete a user', async () => {
-  //   const result = await service.deleteUser('someUserId');
-  //   expect(result).toBe(true);
-  // });
+    it('should call getUsers with default params if no params are provided', async () => {
+      const getCustomersSpy = jest
+        .spyOn(usersRepository, 'getUsers')
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        .mockResolvedValue(usersMock as any);
+      await service.findAll({});
+      expect(getCustomersSpy).toHaveBeenCalledWith({ skip: 0, take: 100 });
+    });
+  });
 });

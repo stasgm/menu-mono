@@ -46,6 +46,10 @@ export class UsersRepository {
       select: {
         id: true,
         name: true,
+        active: true,
+        confirmed: true,
+        customer: true,
+        role: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -58,6 +62,7 @@ export class UsersRepository {
         id,
       },
       select: {
+
         passwordHash: false,
       },
     });
