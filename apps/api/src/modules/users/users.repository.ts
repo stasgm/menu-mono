@@ -41,6 +41,7 @@ export class UsersRepository {
 
   async getUser(params: { where: Prisma.UserWhereInput }) {
     const { where } = params;
+
     return await this.prisma.user.findFirst({
       where,
       select: {
@@ -62,8 +63,14 @@ export class UsersRepository {
         id,
       },
       select: {
-
-        passwordHash: false,
+        id: true,
+        name: true,
+        active: true,
+        confirmed: true,
+        customer: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }
@@ -74,8 +81,9 @@ export class UsersRepository {
     cursor?: Prisma.UserWhereUniqueInput;
     where?: Prisma.UserWhereInput;
     orderBy?: Prisma.UserOrderByWithRelationInput;
-  }) {
+  }): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params;
+
     return this.prisma.user.findMany({
       skip,
       take,
@@ -93,14 +101,13 @@ export class UsersRepository {
 
     return this.prisma.user.update({
       where,
-      data: {
-        name: data.name,
-      },
+      data,
     });
   }
 
   deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User | null> {
     const { where } = params;
+
     return this.prisma.user.delete({ where });
   }
 }

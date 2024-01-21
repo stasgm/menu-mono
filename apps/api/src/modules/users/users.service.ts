@@ -43,9 +43,7 @@ export class UsersService {
     //   }));
 
     return this.usersRepository.createUser({
-      data: {
-        ...createUserInput,
-      },
+      data: createUserInput,
     });
   }
 

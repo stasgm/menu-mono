@@ -1,27 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { usersMock } from '@packages/mocks';
 
-import { User } from './models/user.model';
+// import { User } from './models/user.model';
 import { UsersRepository } from './users.repository';
 import { UsersService } from './users.service';
 
-type UserWithoutPassword = Omit<User, 'passwordHash'>;
+// type UserWithoutPassword = Omit<User, 'passwordHash'>;
 
-const usersMock: UserWithoutPassword[] = [
-  {
-    id: '1',
-    name: 'test1',
-    active: true,
-    customerId: '1',
-    role: 'user',
-  },
-  {
-    id: '2',
-    name: 'test2',
-    active: true,
-    customerId: '2',
-    role: 'admin',
-  },
-];
+// const usersMock: UserWithoutPassword[] = [
+//   {
+//     id: '1',
+//     name: 'test1',
+//     active: true,
+//     customerId: '1',
+//     role: 'user',
+//   },
+//   {
+//     id: '2',
+//     name: 'test2',
+//     active: true,
+//     customerId: '2',
+//     role: 'admin',
+//   },
+// ];
 
 describe('UsersService', () => {
   let service: UsersService;
