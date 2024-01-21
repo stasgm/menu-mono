@@ -27,7 +27,7 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto): Promise<IResponse> {
-    const { name, password} = registerDto;
+    const { name, password } = registerDto;
     // TODO validate credentials with ZOD
 
     const existedUser = await this.usersService.findByName(name);

@@ -27,7 +27,10 @@ export class CategoriesResolver {
   }
 
   @Mutation(() => Category, { name: 'UpdateCategory', description: 'Update category' })
-  update(@Args('id')id: string, @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
+  update(
+    @Args('id') id: string,
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput
+  ) {
     return this.categoriesService.update(id, updateCategoryInput);
   }
 

@@ -6,9 +6,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private usersRepository: UsersRepository,
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   findAll(params: { skip?: number; take?: number }) {
     const { skip = 0, take = 100 } = params;

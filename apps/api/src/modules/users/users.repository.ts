@@ -44,16 +44,16 @@ export class UsersRepository {
 
     return await this.prisma.user.findFirst({
       where,
-      select: {
-        id: true,
-        name: true,
-        active: true,
-        confirmed: true,
-        customer: true,
-        role: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   active: true,
+      //   confirmed: true,
+      //   customer: true,
+      //   role: true,
+      //   createdAt: true,
+      //   updatedAt: true,
+      // },
     });
   }
 

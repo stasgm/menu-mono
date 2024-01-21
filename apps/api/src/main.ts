@@ -17,7 +17,7 @@ async function bootstrap() {
   app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
   app.enableCors();
 
-   const { httpAdapter } = app.get(HttpAdapterHost);
+  const { httpAdapter } = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter());
   app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter));
 

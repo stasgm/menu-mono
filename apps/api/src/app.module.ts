@@ -35,13 +35,13 @@ import { UsersModule } from './modules/users/users.module';
             message: error.message,
             name: formattedError.extensions?.code,
             code: formattedError.extensions?.status || 500,
-          }
+          };
         } else if (error instanceof HttpException) {
           return {
             message: error.message,
             name: error.name,
             code: 500,
-          }
+          };
         }
 
         return formattedError;

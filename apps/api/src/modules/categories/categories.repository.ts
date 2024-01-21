@@ -58,7 +58,9 @@ export class CategoriesRepository {
     });
   }
 
-  async deleteCategory(params: { where: Prisma.CategoryWhereUniqueInput }): Promise<Category | null> {
+  async deleteCategory(params: {
+    where: Prisma.CategoryWhereUniqueInput;
+  }): Promise<Category | null> {
     const { where } = params;
 
     return this.prisma.category.delete({ where });
