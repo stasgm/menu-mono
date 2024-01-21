@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Category, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
-import { CreateCategoryInput, UpdateCategoryInput } from '../../types/graphql.schema';
+import { CreateCategoryInput } from './dto/create-category.input';
+import { UpdateCategoryInput } from './dto/update-category.input';
 
 @Injectable()
 export class CategoriesRepository {
@@ -11,11 +12,7 @@ export class CategoriesRepository {
   async createCategory(params: { data: CreateCategoryInput }): Promise<Category> {
     const { data } = params;
 
-    return this.prisma.category.create({
-      data: {
-        name: data.name,
-      },
-    });
+    return this.prisma.category.create({ data });
   }
 
   getCategory(params: { where: Prisma.CategoryWhereInput }) {
@@ -39,6 +36,7 @@ export class CategoriesRepository {
     orderBy?: Prisma.CategoryOrderByWithRelationInput;
   }): Promise<Category[]> {
     const { skip, take, cursor, where, orderBy } = params;
+
     return this.prisma.category.findMany({
       skip,
       take,
@@ -56,14 +54,13 @@ export class CategoriesRepository {
 
     return this.prisma.category.update({
       where,
-      data: {
-        name: data.name,
-      },
+      data,
     });
   }
 
-  async deleteCategory(params: { where: Prisma.CategoryWhereUniqueInput }): Promise<Category> {
+  async deleteCategory(params: { where: Prisma.CategoryWhereUniqueInput }): Promise<Category | null> {
     const { where } = params;
+
     return this.prisma.category.delete({ where });
   }
 }

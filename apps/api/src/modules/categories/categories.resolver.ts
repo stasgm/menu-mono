@@ -1,34 +1,38 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CreateCategoryInput, UpdateCategoryInput } from '../../types/graphql.schema';
 import { CategoriesService } from './categories.service';
+import { CreateCategoryInput } from './dto/create-category.input';
+import { FindCategoriesArgs } from './dto/find-categories.args';
+import { UpdateCategoryInput } from './dto/update-category.input';
+import { Category } from './model/category.model';
 
-@Resolver('Category')
+@Resolver(() => Category)
 export class CategoriesResolver {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  // @Mutation('createCategory')
-  // create(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
-  //   return this.categoriesService.create(createCategoryInput);
-  // }
+  @Query(() => [Category], { name: 'FindCategories', description: 'Find categories' })
+  findCategories(@Args() findCategoriesArgs: FindCategoriesArgs) {
+    const { skip, take } = findCategoriesArgs;
+    return this.categoriesService.findAll({ skip, take });
+  }
 
-  // @Query('categories')
-  // findAll() {
-  //   return this.categoriesService.findAll();
-  // }
+  @Query(() => Category, { name: 'FindCategories', description: 'Find category by id' })
+  findCategory(@Args('id', { type: () => String }) id: string) {
+    return this.categoriesService.findOne(id);
+  }
 
-  // @Query('category')
-  // findOne(@Args('id') id: string) {
-  //   return this.categoriesService.findOne(id);
-  // }
+  @Mutation(() => Category, { name: 'CreateCategory', description: 'Create category' })
+  create(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
+    return this.categoriesService.create(createCategoryInput);
+  }
 
-  // @Mutation('updateCategory')
-  // update(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-  //   return this.categoriesService.update(updateCategoryInput.id, updateCategoryInput);
-  // }
+  @Mutation(() => Category, { name: 'UpdateCategory', description: 'Update category' })
+  update(@Args('id')id: string, @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
+    return this.categoriesService.update(id, updateCategoryInput);
+  }
 
-  // @Mutation('removeCategory')
-  // remove(@Args('id') id: string) {
-  //   return this.categoriesService.remove(id);
-  // }
+  @Mutation(() => Category, { name: 'RemoveCategory', description: 'Remove category' })
+  remove(@Args('id') id: string) {
+    return this.categoriesService.remove(id);
+  }
 }
