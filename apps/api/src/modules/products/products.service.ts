@@ -7,7 +7,7 @@ import { ProductsRepository } from './products.repository';
 export class ProductsService {
   constructor(private productsRepository: ProductsRepository) {}
 
-  async create(createProductInput: CreateProductInput) {
+  create(createProductInput: CreateProductInput) {
     return this.productsRepository.createProduct({ data: createProductInput });
   }
 
@@ -15,11 +15,11 @@ export class ProductsService {
     return this.productsRepository.getProducts({});
   }
 
-  async findOne(id: string) {
+  findOne(id: string) {
     return this.productsRepository.getProductById(id);
   }
 
-  async update(id: string, updateProductInput: UpdateProductInput) {
+  update(id: string, updateProductInput: UpdateProductInput) {
     return this.productsRepository.updateProduct({
       where: {
         id,
@@ -28,7 +28,7 @@ export class ProductsService {
     });
   }
 
-  async remove(id: string) {
+  remove(id: string) {
     return this.productsRepository.deleteProduct({ where: { id } });
   }
 }

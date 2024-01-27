@@ -1,10 +1,6 @@
-import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { ArgsType } from '@nestjs/graphql';
+
+import { PaginationArgs } from '../../common/base.dto';
 
 @ArgsType()
-export class FindCustomersArgs {
-  @Field(() => Int, { nullable: true })
-  skip?: number;
-
-  @Field(() => Int, { nullable: true })
-  take?: number;
-}
+export class FindCustomersArgs extends PaginationArgs {};

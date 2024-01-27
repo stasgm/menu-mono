@@ -17,7 +17,7 @@ export class CustomersResolver {
   }
 
   @Query(() => Customer, { name: 'FindCustomer', description: 'Find customer' })
-  findCustomer(@Args('id') id: string) {
+  findCustomer(@Args('id', { type: () => String }) id: string) {
     return this.customersService.findOne(id);
   }
 
@@ -32,7 +32,7 @@ export class CustomersResolver {
   }
 
   @Mutation(() => Customer, { name: 'DeleteCustomer', description: 'Delete customer' })
-  deleteCustomer(@Args('id') id: string) {
+  deleteCustomer(@Args('id', { type: () => String }) id: string) {
     return this.customersService.remove(id);
   }
 }

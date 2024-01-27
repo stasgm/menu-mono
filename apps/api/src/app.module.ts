@@ -53,7 +53,7 @@ import { UsersModule } from './modules/users/users.module';
       installSubscriptionHandlers: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      // includeStacktraceInErrorResponses: process.env.NODE_ENV === 'development',
+      includeStacktraceInErrorResponses: process.env.NODE_ENV === 'development',
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -66,11 +66,11 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     PersistenceModule,
     // ProductsModule,
-    // CategoriesModule,
+    CategoriesModule,
     // MenusModule,
     // OrdersModule,
-    // UsersModule,
-    // CustomersModule,
+    UsersModule,
+    CustomersModule,
   ],
   controllers: [],
   providers: [],

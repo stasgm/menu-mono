@@ -5,7 +5,7 @@ const config = {
   insertPragma: false,
   jsxSingleQuote: false,
   bracketSameLine: true,
-  printWidth: 100,
+  printWidth: 120,
   proseWrap: 'preserve',
   quoteProps: 'as-needed',
   requirePragma: false,

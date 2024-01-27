@@ -15,6 +15,24 @@ export class CategoriesRepository {
     return this.prisma.category.create({ data });
   }
 
+  findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.CategoryWhereUniqueInput;
+    where?: Prisma.CategoryWhereInput;
+    orderBy?: Prisma.CategoryOrderByWithRelationInput;
+  }): Promise<Category[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+
+    return this.getCategories({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+  }
+
   getCategory(params: { where: Prisma.CategoryWhereInput }) {
     const { where } = params;
     return this.prisma.category.findFirst({ where });

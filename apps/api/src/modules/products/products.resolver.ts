@@ -1,6 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { CreateProductInput, UpdateProductInput } from '../../types/graphql.schema';
 import { ProductsService } from './products.service';
 
 @Resolver('Product')

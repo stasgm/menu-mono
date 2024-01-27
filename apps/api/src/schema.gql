@@ -4,6 +4,12 @@
 
 directive @upper on FIELD_DEFINITION
 
+"""Category"""
+type Category {
+  id: ID!
+  name: String!
+}
+
 input CreateCustomerInput {
   """email"""
   email: String!
@@ -74,13 +80,14 @@ type Query {
   FindCustomer(id: String!): Customer!
 
   """Find customers"""
-  FindCustomers(skip: Int, take: Int): [Customer!]!
+  FindCustomers(skip: Int = 0, take: Int = 100): [Customer!]!
 
   """Find user by id"""
   FindUser(id: String!): User!
 
   """Find users"""
   FindUsers(skip: Int = 0, take: Int = 100): [User!]!
+  findAllCategory(skip: Int = 0, take: Int = 100): [Category!]!
 }
 
 type Tokens {
