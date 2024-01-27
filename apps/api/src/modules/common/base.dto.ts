@@ -1,4 +1,6 @@
-import { ArgsType, Field, ID, InputType, Int, PartialType } from '@nestjs/graphql';
+import { ArgsType, Field, InputType, Int, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
+
+import { BaseEntity } from './base.entity';
 
 @ArgsType()
 export class PaginationArgs {
@@ -21,8 +23,8 @@ export class CreateBaseDTO {
 @InputType({ isAbstract: true })
 export class UpdateBaseDTO extends PartialType(CreateBaseDTO) {}
 
-@InputType({ isAbstract: true })
-export class QueryBaseDTO {
-  @Field(() => ID)
-  id?: string;
-}
+// @InputType({ isAbstract: true })
+// export class QueryBaseDTO {
+//   @Field(() => ID)
+//   id?: string;
+// }

@@ -9,7 +9,4 @@ export class Category extends BaseEntity {
 
   // @Field()
   // name: string;
-  constructor() {
-    super();
-  }
 }

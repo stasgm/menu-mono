@@ -1,23 +1,37 @@
 import { Logger } from '@nestjs/common';
 
-import { IBaseRepository } from './base.types';
+import { FindAllBaseDTO } from './base.dto';
+import { BaseEntity } from './base.entity';
+import { CreateInput, IBaseRepository, UpdateInput } from './base.types';
 
-export abstract class BaseService<T> {
+export abstract class BaseService<T extends BaseEntity> {
   private readonly logger: Logger = new Logger(BaseService.name);
   protected constructor(private readonly repository: IBaseRepository<T>) {}
 
-  findAll(params: { skip?: number; take?: number }) {
-    const { skip = 0, take = 100 } = params;
-
+  findAll(params: FindAllBaseDTO): Promise<T[]> {
     this.logger.debug('Operation: findAll');
-
-    return this.repository.findAll({ skip, take });
+    return this.repository.findAll(params);
   }
 
-  // create(data: Partial<T>): Promise<T> {
-  //   // this.logger.debug(`Operation: create.\n Data: ${JSON.stringify(data, null, 2)}`);
-  //   return this._entity.create(data) as Promise<T>;
-  // }
+  findOne(id: string): Promise<T | null> {
+    this.logger.debug(`Operation: findOne (id: ${id})`);
+    return this.repository.findOne(id);
+  }
+
+  create(data: CreateInput<T>): Promise<T | null> {
+    this.logger.debug('Operation: create', `Data: ${JSON.stringify(data, null, 2)}`);
+    return this.repository.create(data);
+  }
+
+  update(id: string, data: UpdateInput<T>): Promise<T | null> {
+    this.logger.debug(`Operation: update (id: ${id})`, `.\n Data: ${JSON.stringify(data, null, 2)}`);
+    return this.repository.update(id, data);
+  }
+
+  remove(id: string): Promise<T | null> {
+    this.logger.debug(`Operation: remove (id: ${id})`);
+    return this.repository.remove(id);
+  }
 
   //   async findById (id: ObjectId | string): Promise<DocumentType<T> | null> {
   //     this.logger.debug(`Operation: findById.\n Id: ${String(id)}`)

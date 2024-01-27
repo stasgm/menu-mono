@@ -88,6 +88,9 @@ type Query {
   """Find users"""
   FindUsers(skip: Int = 0, take: Int = 100): [User!]!
   findAllCategory(skip: Int = 0, take: Int = 100): [Category!]!
+
+  """Find by id"""
+  findOneCategory(id: String!): Category!
 }
 
 type Tokens {

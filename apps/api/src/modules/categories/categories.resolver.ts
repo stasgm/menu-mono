@@ -5,15 +5,17 @@ import { Category } from '@prisma/client';
 import { BaseResolver } from '../common/base.resolver';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryInput } from './dto/create-category.input';
+import { FindCategoriesArgs } from './dto/find-categories.args';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category as CategoryEntity } from './models/category.model';
 
 @Resolver(() => CategoryEntity)
 export class CategoriesResolver extends BaseResolver<
-  Category, 
+  Category,
   CreateCategoryInput,
-  UpdateCategoryInput
->(CategoryEntity, CreateCategoryInput, UpdateCategoryInput) {
+  UpdateCategoryInput,
+  FindCategoriesArgs
+>(CategoryEntity, new FindCategoriesArgs(), CreateCategoryInput, UpdateCategoryInput) {
   constructor(readonly categoriesService: CategoriesService) {
     super(categoriesService);
   }

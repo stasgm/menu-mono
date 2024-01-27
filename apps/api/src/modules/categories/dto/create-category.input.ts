@@ -1,7 +1,6 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
+
+import { CreateBaseDTO } from '../../common/base.dto';
 
 @InputType()
-export class CreateCategoryInput {
-  @Field()
-  name: string;
-}
+export class CreateCategoryInput extends CreateBaseDTO {}

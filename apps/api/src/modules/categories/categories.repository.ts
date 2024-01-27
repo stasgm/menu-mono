@@ -2,17 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { Category, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
+import { IBaseRepository } from '../common/base.types';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 
 @Injectable()
-export class CategoriesRepository {
-  constructor(private prisma: PrismaService) {}
-
-  async createCategory(params: { data: CreateCategoryInput }): Promise<Category> {
-    const { data } = params;
-
-    return this.prisma.category.create({ data });
+export class CategoriesRepository implements IBaseRepository<Category> {
+  readonly model;
+  constructor(private readonly prisma: PrismaService) {
+    this.model = this.prisma.category;
   }
 
   findAll(params: {
@@ -31,6 +29,22 @@ export class CategoriesRepository {
       where,
       orderBy,
     });
+  }
+
+  findOne(id: string) {
+    return this.getCategoryById(id);
+  }
+
+  create(data: CreateCategoryInput) {
+    return this.createCategory({ data });
+  }
+
+  update(id: string, data: UpdateCategoryInput) {
+    return this.updateCategory({ data, where: { id } });
+  }
+
+  remove(id: string) {
+    return this.deleteCategory({ where: { id } });
   }
 
   getCategory(params: { where: Prisma.CategoryWhereInput }) {
@@ -55,13 +69,19 @@ export class CategoriesRepository {
   }): Promise<Category[]> {
     const { skip, take, cursor, where, orderBy } = params;
 
-    return this.prisma.category.findMany({
+    return this.model.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy,
     });
+  }
+
+  async createCategory(params: { data: CreateCategoryInput }): Promise<Category> {
+    const { data } = params;
+
+    return this.model.create({ data });
   }
 
   async updateCategory(params: {
@@ -76,9 +96,7 @@ export class CategoriesRepository {
     });
   }
 
-  async deleteCategory(params: {
-    where: Prisma.CategoryWhereUniqueInput;
-  }): Promise<Category | null> {
+  async deleteCategory(params: { where: Prisma.CategoryWhereUniqueInput }): Promise<Category | null> {
     const { where } = params;
 
     return this.prisma.category.delete({ where });
