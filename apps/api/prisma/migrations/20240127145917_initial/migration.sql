@@ -3,10 +3,12 @@ CREATE TABLE "users" (
     "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "name" TEXT NOT NULL,
     "passwordHash" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
+    "confirmed" BOOLEAN NOT NULL DEFAULT false,
     "customerId" UUID NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
@@ -17,6 +19,7 @@ CREATE TABLE "customers" (
     "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
@@ -29,6 +32,9 @@ CREATE TABLE "customers" (
 CREATE TABLE "categories" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
 );
@@ -38,6 +44,7 @@ CREATE TABLE "products" (
     "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "name" TEXT NOT NULL,
     "disabled" BOOLEAN NOT NULL DEFAULT false,
 
@@ -47,6 +54,9 @@ CREATE TABLE "products" (
 -- CreateTable
 CREATE TABLE "menuLines" (
     "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "productId" UUID NOT NULL,
     "price" INTEGER NOT NULL,
 
@@ -58,6 +68,7 @@ CREATE TABLE "menus" (
     "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "number" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
 
@@ -67,6 +78,9 @@ CREATE TABLE "menus" (
 -- CreateTable
 CREATE TABLE "orderLines" (
     "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "orderId" UUID NOT NULL,
     "productId" UUID NOT NULL,
     "price" INTEGER NOT NULL,
@@ -81,6 +95,7 @@ CREATE TABLE "orders" (
     "id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
     "date" TIMESTAMP(3) NOT NULL,
     "number" SERIAL NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'NEW',

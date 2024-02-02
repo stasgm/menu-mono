@@ -104,6 +104,9 @@ importers:
       passport-local:
         specifier: ^1.0.0
         version: 1.0.0
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
       prisma:
         specifier: ^5.8.0
         version: 5.8.0
@@ -171,6 +174,9 @@ importers:
       '@types/passport-jwt':
         specifier: ^3.0.13
         version: 3.0.13
+      '@types/pluralize':
+        specifier: ^0.0.33
+        version: 0.0.33
       '@types/supertest':
         specifier: ^2.0.16
         version: 2.0.16
@@ -4441,6 +4447,10 @@ packages:
     resolution: {integrity: sha512-FD0qD5hbPWQzaM0wHUnJ/T0BBCJBxCeemtnCwc/ThhTg3x9jfrAcRUmj5Dopza+MfFS9acTe3wk7rcVnRIp/0A==}
     dependencies:
       '@types/express': 4.17.21
+    dev: true
+
+  /@types/pluralize@0.0.33:
+    resolution: {integrity: sha512-JOqsl+ZoCpP4e8TDke9W79FDcSgPAR0l6pixx2JHkhnRjvShyYiAYw2LVsnA7K08Y6DeOnaU6ujmENO4os/cYg==}
     dev: true
 
   /@types/prop-types@15.7.11:

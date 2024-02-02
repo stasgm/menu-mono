@@ -37,4 +37,4 @@ yarn-error.log*
 
 # auto-generated types
 **/src/types/prisma/
-**/src/types/graphql.schema.ts
+**/src/types/schema.gql

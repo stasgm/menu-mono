@@ -1,11 +1,16 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
-import { CreateMenuInput, UpdateMenuInput } from '../../types/graphql.schema';
+import { BaseResolver } from '../common/base.resolver';
+import { CreateMenuInput } from './dto/create-menu.input';
+import { UpdateMenuInput } from './dto/update-menu.input';
 import { MenusService } from './menus.service';
+import { Menu } from './models/menu.model';
 
-@Resolver('Menu')
-export class MenusResolver {
-  constructor(private readonly menusService: MenusService) {}
+@Resolver(() => Menu)
+export class MenusResolver extends BaseResolver(Menu, CreateMenuInput, UpdateMenuInput) {
+  constructor(private readonly menusService: MenusService) {
+    super(menusService);
+  }
 
   // @Mutation('createMenu')
   // create(@Args('createMenuInput') createMenuInput: CreateMenuInput) {

@@ -1,7 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-@InputType()
-export class CreateCustomerInput {
+import { CreateBaseInput } from '../../common/base.dto';
+
+@InputType('CreateCustomerInput')
+export class CreateCustomerInput extends CreateBaseInput {
   @Field(() => String, { description: 'First name' })
   firstName: string;
 

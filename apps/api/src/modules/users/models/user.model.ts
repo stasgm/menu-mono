@@ -1,13 +1,10 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+
+import { BaseNamedEntity } from '../../common/base.entity';
+import { Customer } from '../../customers/models/customer.model';
 
 @ObjectType({ description: 'User' })
-export class User {
-  @Field(() => ID)
-  id: string;
-
-  @Field(() => String)
-  name: string;
-
+export class User extends BaseNamedEntity {
   @Field(() => String)
   passwordHash: string;
 
@@ -17,6 +14,9 @@ export class User {
   @Field(() => Boolean)
   active: boolean;
 
-  @Field(() => ID)
-  customerId: string;
+  @Field(() => Boolean)
+  confirmed: boolean;
+
+  // @Field(() => Customer)
+  // customer: Customer;
 }

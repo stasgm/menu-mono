@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateMenuInput, UpdateMenuInput } from '../../types/graphql.schema';
+import { CreateMenuInput } from './dto/create-menu.input';
+import { UpdateMenuInput } from './dto/update-menu.input';
 import { MenusRepository } from './menus.repository';
 
 @Injectable()

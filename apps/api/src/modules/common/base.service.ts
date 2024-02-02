@@ -1,72 +1,39 @@
-import { Logger } from '@nestjs/common';
+import { Logger, Type } from '@nestjs/common';
 
-import { FindAllBaseDTO } from './base.dto';
+import { FindAllBaseArgs } from './base.dto';
 import { BaseEntity } from './base.entity';
-import { CreateInput, IBaseRepository, UpdateInput } from './base.types';
+import { CreateInput, IBaseRepository, IBaseService, UpdateInput } from './base.types';
 
-export abstract class BaseService<T extends BaseEntity> {
-  private readonly logger: Logger = new Logger(BaseService.name);
-  protected constructor(private readonly repository: IBaseRepository<T>) {}
+export const BaseService = <T extends BaseEntity>(entity: Type<T>) => {
+  abstract class BaseServiceHost implements IBaseService<T> {
+    readonly logger: Logger = new Logger(entity.name);
+    protected constructor(readonly repository: IBaseRepository<T>) {}
 
-  findAll(params: FindAllBaseDTO): Promise<T[]> {
-    this.logger.debug('Operation: findAll');
-    return this.repository.findAll(params);
+    findAll(params: FindAllBaseArgs) {
+      this.logger.debug(`Operation: findAll`);
+      return this.repository.findAll(params);
+    }
+
+    findOne(id: string) {
+      this.logger.debug(`Operation: findOne (id: ${id})`);
+      return this.repository.findOne(id);
+    }
+
+    create(data: CreateInput<T>) {
+      this.logger.debug('Operation: create', `\nData: ${JSON.stringify(data, null, 2)}`);
+      return this.repository.create(data);
+    }
+
+    update(id: string, data: UpdateInput<T>) {
+      this.logger.debug(`Operation: update (id: ${id})`, data);
+      return this.repository.update(id, data);
+    }
+
+    remove(id: string) {
+      this.logger.debug(`Operation: remove (id: ${id})`);
+      return this.repository.remove(id);
+    }
   }
 
-  findOne(id: string): Promise<T | null> {
-    this.logger.debug(`Operation: findOne (id: ${id})`);
-    return this.repository.findOne(id);
-  }
-
-  create(data: CreateInput<T>): Promise<T | null> {
-    this.logger.debug('Operation: create', `Data: ${JSON.stringify(data, null, 2)}`);
-    return this.repository.create(data);
-  }
-
-  update(id: string, data: UpdateInput<T>): Promise<T | null> {
-    this.logger.debug(`Operation: update (id: ${id})`, `.\n Data: ${JSON.stringify(data, null, 2)}`);
-    return this.repository.update(id, data);
-  }
-
-  remove(id: string): Promise<T | null> {
-    this.logger.debug(`Operation: remove (id: ${id})`);
-    return this.repository.remove(id);
-  }
-
-  //   async findById (id: ObjectId | string): Promise<DocumentType<T> | null> {
-  //     this.logger.debug(`Operation: findById.\n Id: ${String(id)}`)
-  //     return await this.model.findById(id)
-  //   }
-
-  //   async find (): Promise<Array<DocumentType<T>> | []> {
-  //     this.logger.debug('Operation: find.')
-  //     return await this.model.find()
-  //   }
-
-  //   async findOneByParam (filter: FilterQuery<DocumentType<T>>): Promise<DocumentType<T> | null> {
-  //     this.logger.debug(`Operation: findByParam.\n filterQuery: ${JSON.stringify(filter, null, 2)}`)
-  //     return await this.model.findOne(filter)
-  //   }
-
-  //   async updateOneById (id: String | string, data: UpdateQuery<DocumentType<T>>): Promise<DocumentType<T> | null> {
-  //     this.logger.debug(`Operation: updateOneById.\n Id: ${String(id)}. \n Data: ${JSON.stringify(data, null, 2)}`)
-  //     return await this.model.findByIdAndUpdate(id, data, { new: true })
-  //   }
-
-  //   async deleteOneById (id: ObjectId | string): Promise<void> {
-  //     this.logger.debug(`Operation: deleteOneById.\n Id: ${String(id)}`)
-  //     await this.model.findByIdAndDelete(id)
-  //   }
-
-  //   async upsertById (id: ObjectId | string, data: UpdateQuery<DocumentType<T>>): Promise<DocumentType<T>> {
-  //     this.logger.debug(`Operation: upsertById.\n Id: ${String(id)}. \n Data: ${JSON.stringify(data, null, 2)}`)
-  //     const { value } = await this.model.findByIdAndUpdate(id, data, { upsert: true, rawResult: true, new: true })
-  //     return value as DocumentType<T>
-  //   }
-
-  //   async upsertByParam (filter: FilterQuery<DocumentType<T>>, data: UpdateQuery<DocumentType<T>>): Promise<DocumentType<T>> {
-  //     this.logger.debug(`Operation: upsertByParam.\n filterQuery: ${JSON.stringify(filter, null, 2)}. \n Data: ${JSON.stringify(data, null, 2)}`)
-  //     const { value } = await this.model.findOneAndUpdate(filter, data, { upsert: true, rawResult: true, new: true })
-  //     return value as DocumentType<T>
-  //   }
-}
+  return BaseServiceHost;
+};

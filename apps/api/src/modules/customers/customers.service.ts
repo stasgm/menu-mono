@@ -9,10 +9,10 @@ import { Customer } from './models/customer.model';
 export class CustomersService {
   constructor(private customersRepository: CustomersRepository) {}
 
-  findAll(params: { skip?: number; take?: number }) {
-    const { skip = 0, take = 100 } = params;
-    return this.customersRepository.getCustomers({ skip, take });
-  }
+  // findAll(params: { skip?: number; take?: number }) {
+  //   const { skip = 0, take = 100 } = params;
+  //   return this.customersRepository.getCustomers({ skip, take });
+  // }
 
   findOne(id: string) {
     return this.customersRepository.getCustomerById(id);
@@ -26,9 +26,9 @@ export class CustomersService {
     return this.customersRepository.getCustomer({ where: { email } });
   }
 
-  create(createCustomerInput: CreateCustomerInput) {
-    return this.customersRepository.createCustomer({ data: createCustomerInput });
-  }
+  // create(createCustomerInput: CreateCustomerInput) {
+  //   return this.customersRepository.createCustomer({ data: createCustomerInput });
+  // }
 
   async findByPhoneNumberOrCreate(data: CreateCustomerInput) {
     const existingCustomer = await this.customersRepository.getCustomer({
@@ -49,16 +49,16 @@ export class CustomersService {
     });
   }
 
-  update(id: string, updateCustomerInput: UpdateCustomerInput) {
-    return this.customersRepository.updateCustomer({
-      where: {
-        id,
-      },
-      data: updateCustomerInput,
-    });
-  }
+  // update(id: string, updateCustomerInput: UpdateCustomerInput) {
+  //   return this.customersRepository.updateCustomer({
+  //     where: {
+  //       id,
+  //     },
+  //     data: updateCustomerInput,
+  //   });
+  // }
 
-  remove(id: string) {
-    return this.customersRepository.deleteCustomer({ where: { id } });
-  }
+  // remove(id: string) {
+  //   return this.customersRepository.deleteCustomer({ where: { id } });
+  // }
 }

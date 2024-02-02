@@ -13,10 +13,10 @@ import { PersistenceModule } from './core/persistence/persistence.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { CustomersModule } from './modules/customers/customers.module';
-import { MenusModule } from './modules/menus/menus.module';
-import { OrdersModule } from './modules/orders/orders.module';
+// import { MenusModule } from './modules/menus/menus.module';
+// import { OrdersModule } from './modules/orders/orders.module';
 import { ProductsModule } from './modules/products/products.module';
-import { UsersModule } from './modules/users/users.module';
+// import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { UsersModule } from './modules/users/users.module';
 
         return formattedError;
       },
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/types/schema.gql'),
       sortSchema: true,
       // typePaths: ['./**/*.graphql'],
       transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
@@ -55,6 +55,7 @@ import { UsersModule } from './modules/users/users.module';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       includeStacktraceInErrorResponses: process.env.NODE_ENV === 'development',
       buildSchemaOptions: {
+        // dateScalarMode: 'timestamp',
         directives: [
           new GraphQLDirective({
             name: 'upper',
@@ -65,11 +66,11 @@ import { UsersModule } from './modules/users/users.module';
     }),
     AuthModule,
     PersistenceModule,
-    // ProductsModule,
+    ProductsModule,
     CategoriesModule,
     // MenusModule,
     // OrdersModule,
-    UsersModule,
+    // UsersModule,
     CustomersModule,
   ],
   controllers: [],

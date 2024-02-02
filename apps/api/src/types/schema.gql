@@ -1,0 +1,179 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+"""Auth model"""
+type Auth {
+  """JWT access token"""
+  accessToken: String!
+
+  """JWT refresh token"""
+  refreshToken: String!
+}
+
+"""Category"""
+type Category {
+  createdAt: DateTime!
+  deletedAt: DateTime
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+"""Create category input"""
+input CreateCategoryInput {
+  name: String!
+}
+
+"""Create product input"""
+input CreateProductInput {
+  disabled: Boolean!
+  name: String!
+}
+
+"""Create user input"""
+input CreateUserInput {
+  """User role"""
+  active: Boolean!
+
+  """User role"""
+  confirmed: Boolean!
+
+  """User name"""
+  name: String!
+
+  """User password hash"""
+  passwordHash: String!
+
+  """User role"""
+  role: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""Login user input"""
+input LoginUserInput {
+  """User name"""
+  name: String!
+
+  """User password"""
+  password: String!
+}
+
+type Mutation {
+  """Create category"""
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+
+  """Create product"""
+  createProduct(createProductInput: CreateProductInput!): Product!
+
+  """Create user"""
+  createUser(createUserInput: CreateUserInput!): User!
+
+  """Login user"""
+  loginUser(loginUserInput: LoginUserInput!): Auth!
+  refresh: Auth!
+
+  """Register user"""
+  registerUser(registerUserInput: RegisterUserInput!): Auth!
+
+  """Remove category"""
+  removeCategory(id: String!): Category!
+
+  """Remove product"""
+  removeProduct(id: String!): Product!
+
+  """Remove user"""
+  removeUser(id: String!): User!
+
+  """Update category"""
+  updateCategory(id: String!, updateCategoryInput: UpdateCategoryInput!): Category!
+
+  """Update product"""
+  updateProduct(id: String!, updateProductInput: UpdateProductInput!): Product!
+
+  """Update user"""
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+}
+
+"""Product"""
+type Product {
+  categories: [Category!]!
+  createdAt: DateTime!
+  deletedAt: DateTime
+  disabled: Boolean!
+  id: ID!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type Query {
+  """Find all categories"""
+  findAllCategories(skip: Int = 0, take: Int = 100): [Category!]!
+
+  """Find all products"""
+  findAllProducts(skip: Int = 0, take: Int = 100): [Product!]!
+
+  """Find all users"""
+  findAllUsers(skip: Int = 0, take: Int = 100): [User!]!
+
+  """Find one category by id"""
+  findOneCategory(id: String!): Category!
+
+  """Find one product by id"""
+  findOneProduct(id: String!): Product!
+
+  """Find one user by id"""
+  findOneUser(id: String!): User!
+}
+
+"""Register user input"""
+input RegisterUserInput {
+  """User name"""
+  name: String!
+
+  """User password"""
+  password: String!
+}
+
+"""Update category input"""
+input UpdateCategoryInput {
+  name: String
+}
+
+"""Update product input"""
+input UpdateProductInput {
+  disabled: Boolean
+  name: String
+}
+
+"""Update user input"""
+input UpdateUserInput {
+  """User role"""
+  active: Boolean
+
+  """User role"""
+  confirmed: Boolean
+  name: String
+
+  """User role"""
+  role: String
+}
+
+"""User"""
+type User {
+  active: Boolean!
+  confirmed: Boolean!
+  createdAt: DateTime!
+  deletedAt: DateTime
+  id: ID!
+  name: String!
+  passwordHash: String!
+  role: String!
+  updatedAt: DateTime!
+}

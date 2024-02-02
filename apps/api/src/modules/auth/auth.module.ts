@@ -30,14 +30,7 @@ import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
     // HttpModule,
     UsersModule,
   ],
-  providers: [
-    AuthResolver,
-    AuthService,
-    JwtAccessStrategy,
-    JwtRefreshStrategy,
-    PasswordService,
-    AppConfig,
-  ],
+  providers: [AuthResolver, AuthService, JwtAccessStrategy, JwtRefreshStrategy, PasswordService, AppConfig],
   exports: [PasswordService],
 })
 export class AuthModule {}

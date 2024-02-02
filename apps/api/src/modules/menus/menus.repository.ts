@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Menu, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
-import { CreateMenuInput, CreateMenuLineInput, UpdateMenuInput } from '../../types/graphql.schema';
+import { CreateMenuInput } from './dto/create-menu.input';
+import { CreateMenuLineInput } from './dto/create-menu-line.input';
+import { UpdateMenuInput } from './dto/update-menu.input';
 
 const menuInclude = Prisma.validator<Prisma.MenuInclude>()({
   _count: {
@@ -24,22 +26,19 @@ const menuInclude = Prisma.validator<Prisma.MenuInclude>()({
 const createMenuLinesByLines = (
   menuLines: Array<CreateMenuLineInput>
 ): Prisma.MenuLineUncheckedCreateNestedManyWithoutMenuInput => {
-  const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.reduce(
-    (acc, cur) => {
-      if (!cur) {
-        return acc;
-      }
+  const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.reduce((acc, cur) => {
+    if (!cur) {
+      return acc;
+    }
 
-      return [
-        ...acc,
-        {
-          price: cur.price,
-          productId: cur.productId,
-        },
-      ];
-    },
-    [] as Prisma.MenuLineUncheckedCreateWithoutMenuInput[]
-  );
+    return [
+      ...acc,
+      {
+        price: cur.price,
+        productId: cur.productId,
+      },
+    ];
+  }, [] as Prisma.MenuLineUncheckedCreateWithoutMenuInput[]);
 
   return {
     create: createMenuLines,
@@ -56,7 +55,7 @@ export class MenusRepository {
     return this.prisma.menu.create({
       data: {
         name: data.name,
-        lines: createMenuLinesByLines(data.lines),
+        lines: createMenuLinesByLines(data.lines || []),
       },
       include: menuInclude,
     });
@@ -94,14 +93,11 @@ export class MenusRepository {
     });
   }
 
-  async updateMenu(params: {
-    where: Prisma.MenuWhereUniqueInput;
-    data: UpdateMenuInput;
-  }): Promise<Menu | null> {
+  async updateMenu(params: { where: Prisma.MenuWhereUniqueInput; data: UpdateMenuInput }): Promise<Menu | null> {
     const { where, data } = params;
 
     // TODO: UPDATE LINE AND NOT CREATE
-    const lines = createMenuLinesByLines(data.lines);
+    const lines = createMenuLinesByLines(data.lines || []);
 
     return this.prisma.menu.update({
       where,

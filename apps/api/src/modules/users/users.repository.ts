@@ -4,39 +4,75 @@ import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 import { PasswordService } from '../auth/password.service';
-import { Roles } from '../auth/types';
+import { IBaseRepository } from '../common/base.types';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+// import { User as UserModel } from './models/user.model';
 
 @Injectable()
-export class UsersRepository {
-  constructor(private prisma: PrismaService, private passwordService: PasswordService) {}
+export class UsersRepository implements IBaseRepository<User> {
+  readonly model;
+  constructor(private prisma: PrismaService, private passwordService: PasswordService) {
+    this.model = this.prisma.user;
+  }
 
-  async createUser(params: { data: CreateUserInput }): Promise<User> {
-    const { data } = params;
+  findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.UserWhereUniqueInput;
+    where?: Prisma.UserWhereInput;
+    orderBy?: Prisma.UserOrderByWithRelationInput;
+  }): Promise<User[]> {
+    const { skip, take, cursor, where, orderBy } = params;
 
-    // DEFAULT VALUES:
-    // - active: false
-    // - rule: user
-    const passwordHash = await this.passwordService.hashPassword(data.password);
-
-    return this.prisma.user.create({
-      data: {
-        name: data.name,
-        passwordHash,
-        role: Roles.USER,
-        active: false,
-        customer: {
-          create: {
-            phoneNumber: data.phoneNumber,
-            email: data.email,
-            firstName: data.firstName,
-            lastName: data.lastName,
-          },
-        },
-        // customerId: data.customerId,
-      },
+    return this.getUsers({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
     });
+  }
+
+  findOne(id: string) {
+    return this.getUserById(id);
+  }
+
+  create(data: CreateUserInput) {
+    // const user: UserModel = {
+    //     ...data,
+    //   id: 'id',
+    //   createdAt: new Date(),
+    //   deletedAt: null,
+    //   updatedAt: new Date(),
+    //   customer: {
+    //     createdAt: new Date(),
+    //     deletedAt: null,
+    //     updatedAt: new Date(),
+    //     email: 'email',
+    //     firstName: 'firstName',
+    //     id: 'id',
+    //     lastName: 'lastName',
+    //     phoneNumber: 'phoneNumber',
+    //   }
+    // };
+    return Promise.resolve(null);
+    // return this.createUser({ data });
+  }
+
+  update(id: string, data: UpdateUserInput) {
+    return Promise.resolve(null);
+    // return this.updateUser({ data, where: { id } });
+  }
+
+  remove(id: string) {
+    return this.deleteUser({ where: { id } });
+  }
+
+  createUser(params: { data: CreateUserInput }): Promise<User | null> {
+    const { data } = params;
+    return Promise.resolve(null);
+    // return this.prisma.user.create({ data });
   }
 
   async getUser(params: { where: Prisma.UserWhereInput }) {
@@ -62,16 +98,16 @@ export class UsersRepository {
       where: {
         id,
       },
-      select: {
-        id: true,
-        name: true,
-        active: true,
-        confirmed: true,
-        customer: true,
-        role: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   active: true,
+      //   confirmed: true,
+      //   customer: true,
+      //   role: true,
+      //   createdAt: true,
+      //   updatedAt: true,
+      // },
     });
   }
 
@@ -93,10 +129,7 @@ export class UsersRepository {
     });
   }
 
-  updateUser(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: UpdateUserInput;
-  }): Promise<User | null> {
+  updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }): Promise<User | null> {
     const { where, data } = params;
 
     return this.prisma.user.update({

@@ -35,8 +35,7 @@ export class AppConfig {
       dbname: (postgres.dbname ?? process.env.POSTGRES_DB) as string,
       user: (postgres.user ?? process.env.POSTGRES_USER) as string,
       password: (postgres.password ?? process.env.POSTGRES_PASSWORD) as string,
-      dbConnectionMaxAttempts:
-        postgres.dbConnectionMaxAttempts ?? DEFAULT_DB_CONNECTION_MAX_ATTEMPTS,
+      dbConnectionMaxAttempts: postgres.dbConnectionMaxAttempts ?? DEFAULT_DB_CONNECTION_MAX_ATTEMPTS,
     };
   }
 

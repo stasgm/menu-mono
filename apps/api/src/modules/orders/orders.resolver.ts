@@ -1,35 +1,16 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
-import {
-  CreateOrderInput,
-  UpdateOrderInput,
-  UpdateOrderStatusInput,
-} from '../../types/graphql.schema';
+import { BaseResolver } from '../common/base.resolver';
+import { CreateOrderInput } from './dto/create-order.input';
+import { UpdateOrderInput } from './dto/update-order.input';
+import { Order } from './models/order.model';
 import { OrdersService } from './orders.service';
 
-@Resolver('Order')
-export class OrdersResolver {
-  constructor(private readonly ordersService: OrdersService) {}
-
-  // @Query('orders')
-  // findAll() {
-  //   return this.ordersService.findAll();
-  // }
-
-  // @Query('order')
-  // findOne(@Args('id') id: string) {
-  //   return this.ordersService.findOne(id);
-  // }
-
-  // @Mutation('createOrder')
-  // create(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
-  //   return this.ordersService.create(createOrderInput);
-  // }
-
-  // @Mutation('updateOrder')
-  // update(@Args('updateOrderInput') updateOrderInput: UpdateOrderInput) {
-  //   return this.ordersService.update(updateOrderInput.id, updateOrderInput);
-  // }
+@Resolver(() => Order)
+export class OrdersResolver extends BaseResolver(Order, CreateOrderInput, UpdateOrderInput) {
+  constructor(readonly ordersService: OrdersService) {
+    super(ordersService);
+  }
 
   // @Mutation('updateOrderStatus')
   // updateStatus(
@@ -37,10 +18,5 @@ export class OrdersResolver {
   //   updateOrderStatusInput: UpdateOrderStatusInput
   // ) {
   //   return this.ordersService.updateStatus(updateOrderStatusInput.id, updateOrderStatusInput);
-  // }
-
-  // @Mutation('removeOrder')
-  // remove(@Args('id') id: string) {
-  //   return this.ordersService.remove(id);
   // }
 }

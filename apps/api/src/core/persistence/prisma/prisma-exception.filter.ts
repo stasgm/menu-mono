@@ -72,14 +72,10 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
     return this.catchClientKnownRequestError(exception, host);
   }
 
-  private catchClientKnownRequestError(
-    exception: Prisma.PrismaClientKnownRequestError,
-    host: ArgumentsHost
-  ) {
+  private catchClientKnownRequestError(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
     const statusCode = this.userDefinedStatusCode(exception) ?? this.defaultStatusCode(exception);
 
-    const message =
-      this.userDefinedExceptionMessage(exception) ?? this.defaultExceptionMessage(exception);
+    const message = this.userDefinedExceptionMessage(exception) ?? this.defaultExceptionMessage(exception);
 
     if (host.getType() === 'http') {
       if (statusCode === undefined) {
@@ -97,9 +93,7 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
     }
   }
 
-  private userDefinedStatusCode(
-    exception: Prisma.PrismaClientKnownRequestError
-  ): number | undefined {
+  private userDefinedStatusCode(exception: Prisma.PrismaClientKnownRequestError): number | undefined {
     const userDefinedValue = this.userDefinedMapping?.[exception.code];
     return typeof userDefinedValue === 'number' ? userDefinedValue : userDefinedValue?.statusCode;
   }
@@ -108,9 +102,7 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
     return this.defaultMapping[exception.code];
   }
 
-  private userDefinedExceptionMessage(
-    exception: Prisma.PrismaClientKnownRequestError
-  ): string | undefined {
+  private userDefinedExceptionMessage(exception: Prisma.PrismaClientKnownRequestError): string | undefined {
     const userDefinedValue = this.userDefinedMapping?.[exception.code];
     return typeof userDefinedValue === 'number' ? undefined : userDefinedValue?.errorMessage;
   }
@@ -127,9 +119,7 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
   }
 }
 
-export function providePrismaClientExceptionFilter(
-  errorCodesStatusMapping?: ErrorCodesStatusMapping
-) {
+export function providePrismaClientExceptionFilter(errorCodesStatusMapping?: ErrorCodesStatusMapping) {
   return {
     provide: APP_FILTER,
     useFactory: ({ httpAdapter }: HttpAdapterHost) => {

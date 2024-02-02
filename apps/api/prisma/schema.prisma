@@ -16,28 +16,30 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  name         String   @unique
+  id           String    @id @default(uuid()) @db.Uuid
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  name         String    @unique
   passwordHash String
   role         String
-  active       Boolean  @default(false)
-  confirmed    Boolean  @default(false)
-  customer     Customer @relation(fields: [customerId], references: [id])
-  customerId   String   @unique @db.Uuid
+  active       Boolean   @default(false)
+  confirmed    Boolean   @default(false)
+  customer     Customer  @relation(fields: [customerId], references: [id])
+  customerId   String    @unique @db.Uuid
 
   @@map("users")
 }
 
 model Customer {
-  id          String   @id @default(uuid()) @db.Uuid
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(uuid()) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
   firstName   String
   lastName    String
-  phoneNumber String   @unique
-  email       String   @unique
+  phoneNumber String    @unique
+  email       String    @unique
   order       Order[]
   user        User?
 
@@ -45,9 +47,12 @@ model Customer {
 }
 
 model Category {
-  id       String    @id @default(uuid()) @db.Uuid
-  name     String    @unique
-  products Product[]
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  products  Product[]
 
   @@map("categories")
 }
@@ -56,6 +61,7 @@ model Product {
   id         String      @id @default(uuid()) @db.Uuid
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
   name       String      @unique
   disabled   Boolean     @default(false)
   categories Category[]
@@ -66,9 +72,12 @@ model Product {
 }
 
 model MenuLine {
-  id        String  @id @default(uuid()) @db.Uuid
-  productId String  @db.Uuid
-  product   Product @relation(fields: [productId], references: [id])
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  productId String    @db.Uuid
+  product   Product   @relation(fields: [productId], references: [id])
   price     Int
   menu      Menu[]
 
@@ -79,6 +88,7 @@ model Menu {
   id        String     @id @default(uuid()) @db.Uuid
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
   number    Int        @unique @default(autoincrement())
   name      String     @unique
   lines     MenuLine[]
@@ -87,11 +97,14 @@ model Menu {
 }
 
 model OrderLine {
-  id          String  @id @default(uuid()) @db.Uuid
-  orderId     String  @db.Uuid
-  order       Order?  @relation(fields: [orderId], references: [id])
-  productId   String  @db.Uuid
-  product     Product @relation(fields: [productId], references: [id])
+  id          String    @id @default(uuid()) @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  orderId     String    @db.Uuid
+  order       Order?    @relation(fields: [orderId], references: [id])
+  productId   String    @db.Uuid
+  product     Product   @relation(fields: [productId], references: [id])
   price       Int
   quantity    Int
   totalAmount Int
@@ -103,6 +116,7 @@ model Order {
   id                   String      @id @default(uuid()) @db.Uuid
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
+  deletedAt            DateTime?
   date                 DateTime
   number               Int         @unique @default(autoincrement())
   status               String      @default("NEW")

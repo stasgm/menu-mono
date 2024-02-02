@@ -1,30 +1,34 @@
-import { ArgsType, Field, InputType, Int, ObjectType, OmitType, PartialType } from '@nestjs/graphql';
-
-import { BaseEntity } from './base.entity';
+import { ArgsType, Field, ID, InputType, Int, PartialType } from '@nestjs/graphql';
 
 @ArgsType()
-export class PaginationArgs {
+class PaginationArgs {
   @Field(() => Int, { defaultValue: 0, nullable: true })
-  skip: number = 0;
+  skip?: number = 0;
 
   @Field(() => Int, { defaultValue: 100, nullable: true })
-  take: number = 100;
+  take?: number = 100;
 }
 
 @ArgsType()
-export class FindAllBaseDTO extends PaginationArgs {}
+export class FindOneBaseArgs {
+  @Field(() => ID)
+  id: string;
+}
+
+@ArgsType()
+export class FindAllBaseArgs extends PaginationArgs {}
 
 @InputType({ isAbstract: true })
-export class CreateBaseDTO {
+export class CreateBaseInput {}
+
+@InputType({ isAbstract: true })
+export class CreateBaseNamedInput {
   @Field()
   name: string;
 }
 
 @InputType({ isAbstract: true })
-export class UpdateBaseDTO extends PartialType(CreateBaseDTO) {}
+export class UpdateBaseInput extends PartialType(CreateBaseInput) {}
 
-// @InputType({ isAbstract: true })
-// export class QueryBaseDTO {
-//   @Field(() => ID)
-//   id?: string;
-// }
+@InputType({ isAbstract: true })
+export class UpdateBaseNamedInput extends PartialType(CreateBaseNamedInput) {}

@@ -4,26 +4,30 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { LoginUserInput } from './dto/login-user.input';
+import { RegisterUserInput } from './dto/register-user.input';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
-import { Tokens } from './models/tokens.model';
+import { Auth } from './models/auth.model';
 import { IResponse } from './types';
 // import { CurrentUser } from './decorators/current-user.decorator';
 // import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 // import { CurrentUser } from './decorators/current-user.decorator';
 // import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 
-@Resolver('Auth')
+@Resolver(() => Auth)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Tokens)
-  register(@Args('name') name: string, @Args('password') password: string): Promise<IResponse> {
-    return this.authService.register({ name, password });
+  @Mutation(() => Auth, { name: `registerUser`, description: `Register user` })
+  register(
+    @Args({ type: () => RegisterUserInput, name: `registerUserInput` }) data: RegisterUserInput
+  ): Promise<IResponse> {
+    return this.authService.register(data);
   }
 
-  @Mutation(() => Tokens)
-  login(@Args('name') name: string, @Args('password') password: string): Promise<IResponse> {
-    return this.authService.login(name, password);
+  @Mutation(() => Auth, { name: `loginUser`, description: `Login user` })
+  login(@Args({ type: () => LoginUserInput, name: `loginUserInput` }) data: LoginUserInput): Promise<IResponse> {
+    return this.authService.login(data);
   }
 
   // @Mutation('confirm')
@@ -32,7 +36,7 @@ export class AuthResolver {
   //   return this.authService.confirmEmail(hash);
   // }
 
-  @Mutation(() => Tokens)
+  @Mutation(() => Auth)
   @UseGuards(JwtRefreshAuthGuard)
   refresh(@CurrentUser() { id }: { id: string }): Promise<IResponse> {
     return this.authService.refreshTokens(id);

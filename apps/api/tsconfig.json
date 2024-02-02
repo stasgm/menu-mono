@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.node.json",
-  // "include": ["src", "seeds", "config"],
-  "include": ["src", "config"],
+  "include": ["src", "seeds", "config"],
+  // "include": ["src", "config"],
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",

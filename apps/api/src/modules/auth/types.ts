@@ -1,4 +1,4 @@
-import { User } from '../../types/graphql.schema';
+import { User } from '../users/models/user.model';
 
 export const Roles = {
   USER: 'USER',

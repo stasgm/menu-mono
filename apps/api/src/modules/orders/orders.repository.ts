@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Order, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
-import {
-  CreateOrderInput,
-  CreateOrderLineInput,
-  UpdateOrderInput,
-  UpdateOrderStatusInput,
-} from '../../types/graphql.schema';
 import { CustomersService } from '../customers/customers.service';
+import { CreateOrderInput } from './dto/create-order.input';
+import { CreateOrderLineInput } from './dto/create-order-line.input';
+import { UpdateOrderInput } from './dto/update-order.input';
+import { UpdateOrderStatusInput } from './dto/update-order-status.input';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
   _count: {
@@ -35,24 +33,21 @@ const calculateTotalAmount = (cur: { quantity: number; price: number }): number 
 const createOrderLinesByLines = (
   orderLines: Array<CreateOrderLineInput>
 ): Prisma.OrderLineUncheckedCreateNestedManyWithoutOrderInput => {
-  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.reduce(
-    (acc, cur) => {
-      if (!cur) {
-        return acc;
-      }
+  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.reduce((acc, cur) => {
+    if (!cur) {
+      return acc;
+    }
 
-      return [
-        ...acc,
-        {
-          price: cur.price,
-          quantity: cur.quantity,
-          totalAmount: calculateTotalAmount(cur),
-          productId: cur.productId,
-        },
-      ];
-    },
-    [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[]
-  );
+    return [
+      ...acc,
+      {
+        price: cur.price,
+        quantity: cur.quantity,
+        totalAmount: calculateTotalAmount(cur),
+        productId: cur.productId,
+      },
+    ];
+  }, [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[]);
 
   return {
     create: createOrderLines,
@@ -66,12 +61,23 @@ export class OrdersRepository {
   async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
     const { data } = params;
 
-    const customer = await this.customersService.findByPhoneNumberOrCreate({
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phoneNumber: data.phoneNumber,
-    });
+    const customer = await (async () => {
+      if (data.customerId) {
+        const existingCustomer = await this.customersService.findOne(data.customerId);
+
+        if (!existingCustomer) {
+          throw new Error('Customer not found');
+        }
+      }
+
+      // TODO customer fields must be mandatory
+      return this.customersService.findByPhoneNumberOrCreate({
+        email: data.email!,
+        firstName: data.firstName!,
+        lastName: data.lastName!,
+        phoneNumber: data.phoneNumber!,
+      });
+    })();
 
     //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
@@ -83,7 +89,7 @@ export class OrdersRepository {
         customerId: customer.id,
         totalProductQuantity,
         totalAmount,
-        lines: createOrderLinesByLines(data.lines),
+        lines: createOrderLinesByLines(data.lines || []),
       },
       include: orderInclude,
     });
@@ -125,18 +131,26 @@ export class OrdersRepository {
     });
   }
 
-  async updateOrder(params: {
-    where: Prisma.OrderWhereUniqueInput;
-    data: UpdateOrderInput;
-  }): Promise<Order | null> {
+  async updateOrder(params: { where: Prisma.OrderWhereUniqueInput; data: UpdateOrderInput }): Promise<Order | null> {
     const { where, data } = params;
 
-    const customer = await this.customersService.findByPhoneNumberOrCreate({
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phoneNumber: data.phoneNumber,
-    });
+    const customer = await (async () => {
+      if (data.customerId) {
+        const existingCustomer = await this.customersService.findOne(data.customerId);
+
+        if (!existingCustomer) {
+          throw new Error('Customer not found');
+        }
+      }
+
+      // TODO customer fields must be mandatory
+      return this.customersService.findByPhoneNumberOrCreate({
+        email: data.email!,
+        firstName: data.firstName!,
+        lastName: data.lastName!,
+        phoneNumber: data.phoneNumber!,
+      });
+    })();
 
     //TODO: calculate in domains again -> move to service
     const totalProductQuantity = 0;
@@ -145,11 +159,11 @@ export class OrdersRepository {
     return this.prisma.order.update({
       where,
       data: {
-        date: new Date(data.date),
+        date: new Date(data.date!),
         customerId: customer.id,
         totalProductQuantity,
         totalAmount,
-        lines: createOrderLinesByLines(data.lines),
+        lines: createOrderLinesByLines(data.lines || []),
       },
       include: orderInclude,
     });

@@ -5,10 +5,11 @@ import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
 import { UsersService } from '@/modules/users/users.service';
 
-import { CreateCustomerInput, CreateUserInput } from '../../types/graphql.schema';
-import { RegisterDto } from './dto/register.dto';
+import { CreateUserInput } from '../users/dto/create-user.input';
+import { LoginUserInput } from './dto/login-user.input';
+import { RegisterUserInput } from './dto/register-user.input';
 import { PasswordService } from './password.service';
-import { IResponse, Tokens } from './types';
+import { IResponse, Roles, Tokens } from './types';
 
 function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;
@@ -26,32 +27,41 @@ export class AuthService {
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<IResponse> {
-    const { name, password } = registerDto;
+  async register(registerUserInput: RegisterUserInput): Promise<IResponse> {
+    const { password, ...userData } = registerUserInput;
     // TODO validate credentials with ZOD
 
-    const existedUser = await this.usersService.findByName(name);
+    const existedUser = await this.usersService.findByName(userData.name);
 
     if (existedUser) {
       throw new UserAlreadyExistsException();
     }
 
-    const createCustomerInput: CreateCustomerInput = {
-      email: 'test@mail.com',
-      firstName: 'Stas',
-      lastName: 'ThatGuy',
-      phoneNumber: '5555555',
-    };
+    const passwordHash = await this.passwordService.hashPassword(password);
 
+    // DEFAULT VALUES:
+    // - active: false
+    // - rule: USER
+    // - confirmed: false
     const createUserInput: CreateUserInput = {
-      name,
-      password,
+      ...userData,
+      passwordHash,
+      active: false,
+      confirmed: false,
+      role: Roles.USER,
+      // customer: {
+      //   email: 'test@mail.com',
+      //   firstName: 'Stas',
+      //   lastName: 'ThatGuy',
+      //   phoneNumber: '5555555',
+      // },
     };
 
     // Send an email to confirm the user
 
     try {
-      await this.usersService.create({ ...createUserInput, ...createCustomerInput });
+      await this.usersService.create(createUserInput);
+
       return {
         status: HttpStatus.CREATED,
       };
@@ -65,7 +75,9 @@ export class AuthService {
     }
   }
 
-  async login(name: string, password: string): Promise<IResponse> {
+  async login(loginUserInput: LoginUserInput): Promise<IResponse> {
+    const { name, password } = loginUserInput;
+
     const user = await this.usersService.findForAuth(name);
 
     if (!user) {

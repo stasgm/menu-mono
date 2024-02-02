@@ -1,14 +1,29 @@
-import { Field, InputType, IntersectionType } from '@nestjs/graphql';
+import { Field, InputType, PickType } from '@nestjs/graphql';
 
 import { CreateCustomerInput } from '../../customers/dto/create-customer.input';
+import { User } from '../models/user.model';
 
-@InputType()
-export class UserInput {
+// import { CreateCustomerInput } from '../../customers/dto/create-customer.input';
+
+@InputType('CreateUserInput', { description: 'Create user input' })
+export class CreateUserInput extends PickType(User, ['name']) {
   @Field(() => String, { description: 'User name' })
   name: string;
 
-  @Field(() => String, { description: 'User password' })
-  password: string;
+  @Field(() => String, { description: 'User password hash' })
+  passwordHash: string;
+
+  @Field(() => String, { description: 'User role' })
+  role: string;
+
+  @Field(() => Boolean, { description: 'User role' })
+  active: boolean;
+
+  @Field(() => Boolean, { description: 'User role' })
+  confirmed: boolean;
+
+  // @Field(() => CreateCustomerInput, { description: 'Customer' })
+  // customer: CreateCustomerInput;
 }
 
 // @ObjectType()
@@ -26,5 +41,5 @@ export class UserInput {
 //   phoneNumber: string;
 // }
 
-@InputType()
-export class CreateUserInput extends IntersectionType(UserInput, CreateCustomerInput) {}
+// @InputType()
+// export class CreateUserInput extends IntersectionType(UserInput, CreateCustomerInput) {}
