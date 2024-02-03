@@ -12,7 +12,9 @@ async function bootstrap() {
   const logger = new Logger('EntryPoint');
   const appConfig = new AppConfig();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    snapshot: true,
+  });
 
   app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
   app.enableCors();

@@ -20,12 +20,12 @@ export const BaseService = <T extends BaseEntity>(entity: Type<T>) => {
     }
 
     create(data: CreateInput<T>) {
-      this.logger.debug('Operation: create', `\nData: ${JSON.stringify(data, null, 2)}`);
+      this.logger.debug('Operation: create', JSON.stringify(data, null, 2));
       return this.repository.create(data);
     }
 
     update(id: string, data: UpdateInput<T>) {
-      this.logger.debug(`Operation: update (id: ${id})`, data);
+      this.logger.debug(`Operation: update (id: ${id})`, JSON.stringify(data, null, 2));
       return this.repository.update(id, data);
     }
 

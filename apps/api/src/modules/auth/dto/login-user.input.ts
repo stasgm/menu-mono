@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { CreateBaseInput } from '../../common/base.dto';
+import { CreateBaseInput } from '@/modules/common/base.dto';
 
 @InputType('LoginUserInput', { description: 'Login user input' })
 export class LoginUserInput extends CreateBaseInput {

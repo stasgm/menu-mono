@@ -1,96 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Product } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
-import { IBaseRepository } from '@/modules/common/base.types';
+import { BaseRepository } from '@/modules/common/base.repository';
 
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Product as ProductModel } from './models/product.model';
+import { Product } from './models/product.model';
 
 const productInclude = Prisma.validator<Prisma.ProductInclude>()({
   categories: true,
 });
 
 @Injectable()
-export class ProductsRepository implements IBaseRepository<Product> {
-  readonly model;
-  constructor(private prisma: PrismaService) {
-    this.model = this.prisma.product;
+export class ProductsRepository extends BaseRepository(Product, 'product') {
+  constructor(readonly prisma: PrismaService) {
+    super(prisma);
   }
 
-  async findAll(params: {
+  findAll(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.ProductWhereUniqueInput;
     where?: Prisma.ProductWhereInput;
     orderBy?: Prisma.ProductOrderByWithRelationInput;
-  }): Promise<ProductModel[]> {
+  }) {
     const { skip, take, cursor, where, orderBy } = params;
 
-    return await this.getProducts({
+    return this.getProducts({
       skip,
       take,
       cursor,
       where,
       orderBy,
     });
-    // return products.map((p) => {
-    //   const { categories, ...product } = p;
-    //   return {
-    //     ...product,
-    //     categoryIds: categories.map((c) => c.id),
-    //   };
-    // });
   }
 
-  async findOne(id: string) {
+  findOne(id: string) {
     return this.getProductById(id);
-    // const p = await this.getProductById(id);
-
-    // if (!p) {
-    //   return null;
-    // }
-
-    // const { categories, ...product } = p;
-
-    // return {
-    //   ...product,
-    //   categoryIds: categories.map((c) => c.id),
-    // };
   }
 
-  async create(data: CreateProductInput) {
+  create(data: CreateProductInput) {
     return this.createProduct({ data });
-    // const p = await this.createProduct({ data });
-
-    // const { categories, ...product } = p;
-    // return {
-    //   ...product,
-    //   categoryIds: categories.map((c) => c.id),
-    // };
   }
 
-  async update(id: string, data: UpdateProductInput) {
+  update(id: string, data: UpdateProductInput) {
     return this.updateProduct({ data, where: { id } });
-    // const p = await this.updateProduct({ data, where: { id } });
-
-    // const { categories, ...product } = p;
-    // return {
-    //   ...product,
-    //   categoryIds: categories.map((c) => c.id),
-    // };
   }
 
-  async remove(id: string) {
+  remove(id: string) {
     return this.deleteProduct({ where: { id } });
-    // const p = await this.deleteProduct({ where: { id } });
-
-    // const { categories, ...product } = p;
-    // return {
-    //   ...product,
-    //   categoryIds: categories.map((c) => c.id),
-    // };
   }
 
   private async createProduct(params: { data: CreateProductInput }) {
@@ -128,6 +87,7 @@ export class ProductsRepository implements IBaseRepository<Product> {
     orderBy?: Prisma.ProductOrderByWithRelationInput;
   }) {
     const { skip, take, cursor, where, orderBy } = params;
+
     return await this.prisma.product.findMany({
       skip,
       take,

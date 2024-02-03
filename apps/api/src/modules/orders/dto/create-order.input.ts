@@ -1,16 +1,18 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 
-import { CreateBaseInput } from '../../common/base.dto';
+import { CreateBaseInput } from '@/modules/common/base.dto';
+import { Customer } from '@/modules/customers/models/customer.model';
+
 import { CreateOrderLineInput } from './create-order-line.input';
 
-@InputType()
+@InputType('CreateOrderInput', { description: 'Create order input' })
 export class CreateOrderInput extends CreateBaseInput {
   @Field(() => Date)
   date: Date;
 
   // TODO create two types for registered user and guest
-  @Field(() => String, { nullable: true })
-  customerId?: string;
+  @Field(() => Customer, { nullable: 'items' })
+  customer?: Customer;
 
   @Field(() => String, { nullable: true })
   email?: string;

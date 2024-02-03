@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { BaseService } from '../common/base.service';
+import { BaseService } from '@/modules/common/base.service';
+
 // import { UpdateOrderStatusInput } from './dto/update-order-status.input';
 import { Order } from './models/order.model';
 import { OrdersRepository } from './orders.repository';

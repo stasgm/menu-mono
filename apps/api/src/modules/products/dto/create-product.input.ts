@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 // import { Category } from '../../categories/models/category.model';
-import { CreateBaseNamedInput } from '../../common/base.dto';
+import { CreateBaseNamedInput } from '@/modules/common/base.dto';
 
 @InputType('CreateProductInput', { description: 'Create product input' })
 export class CreateProductInput extends CreateBaseNamedInput {

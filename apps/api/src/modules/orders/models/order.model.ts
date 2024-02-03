@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '@/modules/common/base.entity';
+
 import { Customer } from '../../customers/models/customer.model';
 import { OrderLine } from './order-line.model';
 

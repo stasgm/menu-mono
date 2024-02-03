@@ -1,19 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+import { PasswordService } from '@/modules/auth/password.service';
+import { BaseRepository } from '@/modules/common/base.repository';
 
-import { PasswordService } from '../auth/password.service';
-import { IBaseRepository } from '../common/base.types';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-// import { User as UserModel } from './models/user.model';
+import { User } from './models/user.model';
 
 @Injectable()
-export class UsersRepository implements IBaseRepository<User> {
-  readonly model;
-  constructor(private prisma: PrismaService, private passwordService: PasswordService) {
-    this.model = this.prisma.user;
+export class UsersRepository extends BaseRepository(User, 'user') {
+  constructor(readonly prisma: PrismaService, private readonly passwordService: PasswordService) {
+    super(prisma);
   }
 
   findAll(params: {

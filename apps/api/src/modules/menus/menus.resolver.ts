@@ -1,6 +1,7 @@
 import { Resolver } from '@nestjs/graphql';
 
-import { BaseResolver } from '../common/base.resolver';
+import { BaseResolver } from '@/modules/common/base.resolver';
+
 import { CreateMenuInput } from './dto/create-menu.input';
 import { UpdateMenuInput } from './dto/update-menu.input';
 import { MenusService } from './menus.service';

@@ -8,6 +8,6 @@ import { CategoriesService } from './categories.service';
 @Module({
   imports: [PersistenceModule],
   providers: [CategoriesResolver, CategoriesService, CategoriesRepository],
-  exports: [CategoriesService]
+  exports: [CategoriesService],
 })
 export class CategoriesModule {}

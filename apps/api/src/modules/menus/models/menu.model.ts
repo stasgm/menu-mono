@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '@/modules/common/base.entity';
+
 import { MenuLine } from './menu-line';
 
 @ObjectType({ description: 'Menu' })

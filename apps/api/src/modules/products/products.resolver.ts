@@ -1,7 +1,6 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Resolver } from '@nestjs/graphql';
 
 import { CategoriesService } from '@/modules/categories/categories.service';
-import { Category } from '@/modules/categories/models/category.model';
 import { BaseResolver } from '@/modules/common/base.resolver';
 
 import { CreateProductInput } from './dto/create-product.input';

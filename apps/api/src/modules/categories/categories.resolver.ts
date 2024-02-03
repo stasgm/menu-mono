@@ -1,7 +1,8 @@
 import { Resolver } from '@nestjs/graphql';
 
 // import { Category } from '@prisma/client';
-import { BaseResolver } from '../common/base.resolver';
+import { BaseResolver } from '@/modules/common/base.resolver';
+
 import { CategoriesService } from './categories.service';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';

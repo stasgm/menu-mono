@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-import { BaseEntity } from '../../common/base.entity';
+import { BaseEntity } from '@/modules/common/base.entity';
+
 import { Product } from '../../products/models/product.model';
 
 @ObjectType({ description: 'Order Line' })

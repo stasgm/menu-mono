@@ -1,6 +1,6 @@
 import { ArgsType, Field } from '@nestjs/graphql';
 
-import { FindAllBaseArgs } from '../../common/base.dto';
+import { FindAllBaseArgs } from '@/modules/common/base.dto';
 
 type SortType = 'ASC' | 'DESC';
 @ArgsType()

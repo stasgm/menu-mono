@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { BaseNamedEntity } from '../../common/base.entity';
+import { BaseNamedEntity } from '@/modules/common/base.entity';
+
 import { Customer } from '../../customers/models/customer.model';
 
 @ObjectType({ description: 'User' })

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { BaseService } from '../common/base.service';
+import { BaseService } from '@/modules/common/base.service';
+
 import { CategoriesRepository } from './categories.repository';
 import { Category } from './models/category.model';
 

@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { Category, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+
+import { BaseRepository } from '@/modules/common/base.repository';
 
 import { PrismaService } from '../../core/persistence/prisma/prisma.service';
-import { IBaseRepository } from '../common/base.types';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
+import { Category } from './models/category.model';
 
 @Injectable()
-export class CategoriesRepository implements IBaseRepository<Category> {
-  readonly model;
-  constructor(private readonly prisma: PrismaService) {
-    this.model = this.prisma.category;
+export class CategoriesRepository extends BaseRepository(Category, 'category') {
+  constructor(readonly prisma: PrismaService) {
+    super(prisma);
   }
 
   findAll(params: {
@@ -60,7 +61,7 @@ export class CategoriesRepository implements IBaseRepository<Category> {
     });
   }
 
-  async getCategories(params: {
+  getCategories(params: {
     skip?: number;
     take?: number;
     cursor?: Prisma.CategoryWhereUniqueInput;

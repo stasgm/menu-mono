@@ -1,21 +1,15 @@
 import { Injectable } from '@nestjs/common';
 
+import { BaseService } from '@/modules/common/base.service';
+
 import { CustomersRepository } from './customers.repository';
 import { CreateCustomerInput } from './dto/create-customer.input';
-import { UpdateCustomerInput } from './dto/update-customer.input';
 import { Customer } from './models/customer.model';
 
 @Injectable()
-export class CustomersService {
-  constructor(private customersRepository: CustomersRepository) {}
-
-  // findAll(params: { skip?: number; take?: number }) {
-  //   const { skip = 0, take = 100 } = params;
-  //   return this.customersRepository.getCustomers({ skip, take });
-  // }
-
-  findOne(id: string) {
-    return this.customersRepository.getCustomerById(id);
+export class CustomersService extends BaseService(Customer) {
+  constructor(private customersRepository: CustomersRepository) {
+    super(customersRepository);
   }
 
   findByPhoneNumber(phoneNumber: string): Promise<Customer | null> {
@@ -25,10 +19,6 @@ export class CustomersService {
   findByEmail(email: string) {
     return this.customersRepository.getCustomer({ where: { email } });
   }
-
-  // create(createCustomerInput: CreateCustomerInput) {
-  //   return this.customersRepository.createCustomer({ data: createCustomerInput });
-  // }
 
   async findByPhoneNumberOrCreate(data: CreateCustomerInput) {
     const existingCustomer = await this.customersRepository.getCustomer({
@@ -48,17 +38,4 @@ export class CustomersService {
       },
     });
   }
-
-  // update(id: string, updateCustomerInput: UpdateCustomerInput) {
-  //   return this.customersRepository.updateCustomer({
-  //     where: {
-  //       id,
-  //     },
-  //     data: updateCustomerInput,
-  //   });
-  // }
-
-  // remove(id: string) {
-  //   return this.customersRepository.deleteCustomer({ where: { id } });
-  // }
 }

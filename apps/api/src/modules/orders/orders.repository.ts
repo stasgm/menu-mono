@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { Order, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
-import { PrismaService } from '../../core/persistence/prisma/prisma.service';
-import { CustomersService } from '../customers/customers.service';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+import { BaseRepository } from '@/modules/common/base.repository';
+import { CustomersService } from '@/modules/customers/customers.service';
+
 import { CreateOrderInput } from './dto/create-order.input';
 import { CreateOrderLineInput } from './dto/create-order-line.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { UpdateOrderStatusInput } from './dto/update-order-status.input';
+import { Order } from './models/order.model';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
   _count: {
@@ -44,7 +47,7 @@ const createOrderLinesByLines = (
         price: cur.price,
         quantity: cur.quantity,
         totalAmount: calculateTotalAmount(cur),
-        productId: cur.productId,
+        productId: cur.product.id,
       },
     ];
   }, [] as Prisma.OrderLineUncheckedCreateWithoutOrderInput[]);
@@ -55,15 +58,46 @@ const createOrderLinesByLines = (
 };
 
 @Injectable()
-export class OrdersRepository {
-  constructor(private prisma: PrismaService, private customersService: CustomersService) {}
+export class OrdersRepository extends BaseRepository(Order, 'order') {
+  constructor(readonly prisma: PrismaService, private customersService: CustomersService) {
+    super(prisma);
+  }
 
-  async createOrder(params: { data: CreateOrderInput }): Promise<Order> {
+  findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.OrderWhereUniqueInput;
+    where?: Prisma.OrderWhereInput;
+    orderBy?: Prisma.OrderOrderByWithRelationInput;
+  }) {
+    return this.getOrders(params);
+  }
+
+  findOne(id: string) {
+    return this.getOrderById(id);
+  }
+
+  create(data: CreateOrderInput) {
+    return Promise.resolve(null);
+    // return this.createOrder({ data });
+  }
+
+  update(id: string, data: UpdateOrderInput) {
+    return Promise.resolve(null);
+    // return this.updateOrder({ data, where: { id } });
+  }
+
+  remove(id: string) {
+    return Promise.resolve(null);
+    // return this.deleteOrder({ where: { id } });
+  }
+
+  async createOrder(params: { data: CreateOrderInput }) {
     const { data } = params;
 
     const customer = await (async () => {
-      if (data.customerId) {
-        const existingCustomer = await this.customersService.findOne(data.customerId);
+      if (data.customer) {
+        const existingCustomer = await this.customersService.findOne(data.customer.id);
 
         if (!existingCustomer) {
           throw new Error('Customer not found');
@@ -83,29 +117,29 @@ export class OrdersRepository {
     const totalProductQuantity = 0;
     const totalAmount = 0;
 
-    return this.prisma.order.create({
+    return this.model.create({
       data: {
         date: new Date(data.date),
         customerId: customer.id,
         totalProductQuantity,
         totalAmount,
-        lines: createOrderLinesByLines(data.lines || []),
+        lines: createOrderLinesByLines(data.lines ?? []),
       },
       include: orderInclude,
     });
   }
 
-  getOrderByNumber(number: number): Promise<Order | null> {
+  getOrderByNumber(number: number) {
     return this.getOrder({ where: { number } });
   }
 
   getOrder(params: { where: Prisma.OrderWhereInput }) {
     const { where } = params;
-    return this.prisma.order.findFirst({ where, include: orderInclude });
+    return this.model.findFirst({ where, include: orderInclude });
   }
 
   getOrderById(id: string) {
-    return this.prisma.order.findUnique({
+    return this.model.findUnique({
       where: {
         id,
       },
@@ -119,9 +153,10 @@ export class OrdersRepository {
     cursor?: Prisma.OrderWhereUniqueInput;
     where?: Prisma.OrderWhereInput;
     orderBy?: Prisma.OrderOrderByWithRelationInput;
-  }): Promise<Order[]> {
+  }) {
     const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.order.findMany({
+
+    return this.model.findMany({
       skip,
       include: orderInclude,
       take,
@@ -131,12 +166,12 @@ export class OrdersRepository {
     });
   }
 
-  async updateOrder(params: { where: Prisma.OrderWhereUniqueInput; data: UpdateOrderInput }): Promise<Order | null> {
+  async updateOrder(params: { where: Prisma.OrderWhereUniqueInput; data: UpdateOrderInput }) {
     const { where, data } = params;
 
     const customer = await (async () => {
-      if (data.customerId) {
-        const existingCustomer = await this.customersService.findOne(data.customerId);
+      if (data.customer) {
+        const existingCustomer = await this.customersService.findOne(data.customer.id);
 
         if (!existingCustomer) {
           throw new Error('Customer not found');
@@ -156,7 +191,7 @@ export class OrdersRepository {
     const totalProductQuantity = 0;
     const totalAmount = 0;
 
-    return this.prisma.order.update({
+    return this.model.update({
       where,
       data: {
         date: new Date(data.date!),
@@ -169,13 +204,10 @@ export class OrdersRepository {
     });
   }
 
-  updateOrderStatus(params: {
-    where: Prisma.OrderWhereUniqueInput;
-    data: UpdateOrderStatusInput;
-  }): Promise<Order | null> {
+  updateOrderStatus(params: { where: Prisma.OrderWhereUniqueInput; data: UpdateOrderStatusInput }) {
     const { where, data } = params;
 
-    return this.prisma.order.update({
+    return this.model.update({
       where,
       data: {
         status: data.status,
@@ -184,8 +216,8 @@ export class OrdersRepository {
     });
   }
 
-  deleteOrder(params: { where: Prisma.OrderWhereUniqueInput }): Promise<Order> {
+  deleteOrder(params: { where: Prisma.OrderWhereUniqueInput }) {
     const { where } = params;
-    return this.prisma.order.delete({ where });
+    return this.model.delete({ where });
   }
 }
