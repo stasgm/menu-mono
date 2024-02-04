@@ -5,11 +5,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// generator zod {
-//   provider = "prisma-nestjs-graphql"
-//   output   = "../src/types/prisma"
-// }
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
