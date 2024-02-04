@@ -4,6 +4,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 
+import { IReqUserData, JwtPayload } from '../types';
+
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(readonly appConfig: AppConfig) {
@@ -14,7 +16,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     });
   }
 
-  validate(payload: { sub: string }) {
-    return { id: payload.sub };
+  validate(payload: JwtPayload): IReqUserData {
+    return { user: { id: payload.sub, role: payload.role } };
   }
 }

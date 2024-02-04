@@ -12,6 +12,7 @@ import { JwtAccessAuthGuard } from './guards/jwt-access.guard';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 import { Auth } from './models/auth.model';
 import { Tokens } from './models/tokens.model';
+import { IReqUserData } from './types';
 
 @Resolver(() => Auth)
 export class AuthResolver {
@@ -19,12 +20,13 @@ export class AuthResolver {
 
   @Query(() => User, { name: 'getCurrentUser', description: 'Get current user' })
   @UseGuards(JwtAccessAuthGuard)
-  async currentUser(@CurrentUser() { id }: { id: string }): Promise<User> {
-    const user = await this.authService.getCurrentUser(id);
+  async currentUser(@CurrentUser() req: IReqUserData): Promise<User> {
+    const user = await this.authService.getCurrentUser(req.user.id);
 
     if (!user) {
       throw new UserNotFoundException();
     }
+
     return user;
   }
 
@@ -54,7 +56,7 @@ export class AuthResolver {
 
   @Mutation(() => Tokens)
   @UseGuards(JwtRefreshAuthGuard)
-  refreshTokens(@CurrentUser() { id }: { id: string }): Promise<Tokens> {
-    return this.authService.refreshTokens(id);
+  refreshTokens(@CurrentUser() req: IReqUserData): Promise<Tokens> {
+    return this.authService.refreshTokens({ sub: req.user.id, role: req.user.role });
   }
 }

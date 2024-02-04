@@ -1,11 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { User } from '@/modules/users/models/user.model';
+import { IJwtRequest } from '../types';
 
-import { IRequest } from '../types';
-
-export const CurrentUser = createParamDecorator((data: unknown, context: ExecutionContext): User => {
+export const CurrentUser = createParamDecorator((_data: unknown, context: ExecutionContext) => {
   const ctx = GqlExecutionContext.create(context);
-  return ctx.getContext<IRequest>().req.user;
+  return ctx.getContext<IJwtRequest>().req.user;
 });

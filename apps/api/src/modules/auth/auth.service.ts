@@ -12,7 +12,7 @@ import { RegisterUserInput } from './dto/register-user.input';
 import { Auth } from './models/auth.model';
 import { Tokens } from './models/tokens.model';
 import { PasswordService } from './password.service';
-import { Roles } from './types';
+import { JwtPayload, Roles } from './types';
 
 // function getErrorMessage(error: unknown) {
 //   if (error instanceof Error) return error.message;
@@ -76,7 +76,7 @@ export class AuthService {
     // 6. Generate tokens
     // TODO generate tokens for the user and agent: this.generateTokens(user, agent);
     // TODO do not generate tokens if the user is not active
-    const tokens = await this.generateTokens({ userId: user?.id });
+    const tokens = await this.generateTokens({ sub: user.id, role: user.role });
 
     return {
       user,
@@ -86,7 +86,7 @@ export class AuthService {
 
   async login(loginUserInput: LoginUserInput): Promise<Auth> {
     this.logger.debug(`Operation: loginUser`);
-    // TODO add agent: string
+    // TODO add agent for the token
     // TODO restrict if the user is not confirmed or disabed
 
     const { name, password } = loginUserInput;
@@ -105,7 +105,9 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const tokens = await this.generateTokens({ userId: user.id });
+    const payload = { sub: user.id, role: user.role };
+
+    const tokens = await this.generateTokens(payload);
 
     return {
       user,
@@ -113,31 +115,27 @@ export class AuthService {
     };
   }
 
-  refreshTokens(userId: string): Promise<Tokens> {
-    // const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
+  refreshTokens(payload: JwtPayload): Promise<Tokens> {
     this.logger.debug(`Operation: refreshTokens`);
+    // const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
 
     // if (!token) {
     //   throw new UnauthorizedException('The refresh token is invalid');
     // }
 
-    // if (new Date(token.expires) < new Date()) {
-    //   throw new UnauthorizedException('The refresh token is expired');
-    // }
-
-    return this.generateTokens({ userId });
+    return this.generateTokens(payload);
   }
 
-  getCurrentUser(userId: string): Promise<User | null> {
+  getCurrentUser(id: string): Promise<User | null> {
     this.logger.debug(`Operation: getCurrentUser`);
 
-    return this.usersService.findOne(userId);
+    return this.usersService.findOne(id);
   }
 
-  private async generateTokens(payload: { userId: string }): Promise<Tokens> {
+  private async generateTokens(payload: JwtPayload): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
-      this.generateAccessToken({ sub: payload.userId }),
-      this.generateRefreshToken({ sub: payload.userId }),
+      this.generateAccessToken(payload),
+      this.generateRefreshToken(payload),
     ]);
 
     return {

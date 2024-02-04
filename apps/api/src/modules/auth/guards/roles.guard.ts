@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 import { ROLES_KEY } from '../decorators/roles.decorator';
-import { IRequest, Role } from '../types';
+import { IJwtRequest, Role } from '../types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const ctx = GqlExecutionContext.create(context);
-    const req = ctx.getContext<IRequest>().req;
+    const req = ctx.getContext<IJwtRequest>().req;
 
     return requiredRoles.some((role) => [req.user.role]?.includes(role));
   }
