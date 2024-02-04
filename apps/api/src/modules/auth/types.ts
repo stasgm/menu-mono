@@ -42,13 +42,8 @@ export interface IJwtRequest {
   user: JwtPayload;
 }
 
-export interface IResponse {
-  status: number;
-  errors?: string[];
-  payload?: Record<string, unknown>;
-}
-
-export type Tokens = {
-  access_token: string;
-  refresh_token: string;
-};
+// export interface IResponse {
+//   status: number;
+//   errors?: string[];
+//   payload?: Record<string, unknown>;
+// }

@@ -6,7 +6,7 @@ import { AppConfig } from '../../../core/config/app-config';
 
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
-  constructor(private readonly appConfig: AppConfig) {
+  constructor(readonly appConfig: AppConfig) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,

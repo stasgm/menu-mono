@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({ description: 'Auth model' })
-export class Auth {
-  @Field(() => String, { description: 'JWT access token' })
-  accessToken: string;
+import { User } from '../../users/models/user.model';
+import { Tokens } from './tokens.model';
 
-  @Field(() => String, { description: 'JWT refresh token' })
-  refreshToken: string;
+@ObjectType({ description: 'Auth' })
+export class Auth extends Tokens {
+  @Field(() => User, { description: 'User' })
+  user: User;
 }

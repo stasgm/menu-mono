@@ -1,20 +1,23 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
 import { CustomersService } from '@/modules/customers/customers.service';
+import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
 import { LoginUserInput } from './dto/login-user.input';
 import { RegisterUserInput } from './dto/register-user.input';
+import { Auth } from './models/auth.model';
+import { Tokens } from './models/tokens.model';
 import { PasswordService } from './password.service';
-import { IResponse, Roles, Tokens } from './types';
+import { Roles } from './types';
 
-function getErrorMessage(error: unknown) {
-  if (error instanceof Error) return error.message;
-  return String(error);
-}
+// function getErrorMessage(error: unknown) {
+//   if (error instanceof Error) return error.message;
+//   return String(error);
+// }
 
 @Injectable()
 export class AuthService {
@@ -28,9 +31,11 @@ export class AuthService {
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerUserInput: RegisterUserInput): Promise<IResponse> {
+  async register(registerUserInput: RegisterUserInput): Promise<Auth> {
+    this.logger.debug(`Operation: registerUser`);
+
     const { password, customer: createCustomerInput, ...createUserInput } = registerUserInput;
-    // TODO validate name minimal required length and password strength
+    // TODO validate name (minimal required length) and password strength
 
     // 1. Check if the user already exists
     const existedUser = await this.usersService.findByName(createUserInput.name);
@@ -48,36 +53,40 @@ export class AuthService {
     // - confirmed: false
 
     // 3. Create the customer
+    // TODO. Check if the customer already exists and not connected with any user
     const customer = await this.customersService.findByPhoneNumberOrCreate(createCustomerInput);
 
     // 4. Send an email to confirm the user
     // TODO Add bullmq service to send email
 
     // 5. Create the user
-    try {
-      await this.usersService.create({
-        ...createUserInput,
-        passwordHash,
-        active: false,
-        confirmed: false,
-        role: Roles.USER,
-        customerId: customer.id,
-      });
+    const user = await this.usersService.create({
+      ...createUserInput,
+      passwordHash,
+      active: false,
+      confirmed: false,
+      role: Roles.USER,
+      customerId: customer.id,
+    });
 
-      return {
-        status: HttpStatus.CREATED,
-      };
-    } catch (error) {
-      // TODO parse err type. Detect type of error and return the correct status
-
-      return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        errors: [getErrorMessage(error)],
-      };
+    if (!user) {
+      throw new InternalServerErrorException('Failed to create user');
     }
+
+    // 6. Generate tokens
+    // TODO return this.generateTokens(user, agent);
+    const tokens = await this.generateTokens({ userId: user?.id });
+
+    return {
+      user,
+      ...tokens,
+    };
   }
 
-  async login(loginUserInput: LoginUserInput): Promise<IResponse> {
+  async login(loginUserInput: LoginUserInput): Promise<Auth> {
+    this.logger.debug(`Operation: loginUser`);
+    // TODO add agent: string
+
     const { name, password } = loginUserInput;
 
     const user = await this.usersService.findForAuth(name);
@@ -87,50 +96,24 @@ export class AuthService {
     }
 
     if (!user.active) {
-      return {
-        status: HttpStatus.UNAUTHORIZED,
-        errors: ['emailNotConfirmed'],
-      };
+      throw new UnauthorizedException();
     }
 
     if (!(await this.passwordService.validatePassword(password, user.passwordHash))) {
-      return {
-        status: HttpStatus.UNAUTHORIZED,
-        errors: ['invalidLogin'],
-      };
+      throw new UnauthorizedException();
     }
 
     const tokens = await this.generateTokens({ userId: user.id });
 
     return {
-      status: HttpStatus.OK,
-      payload: tokens,
+      user,
+      ...tokens,
     };
   }
 
-  async generateTokens(payload: { userId: string }): Promise<Tokens> {
-    return {
-      access_token: await this.generateAccessToken({ sub: payload.userId }),
-      refresh_token: await this.generateRefreshToken({ sub: payload.userId }),
-    };
-  }
-
-  generateAccessToken(payload: { sub: string }): Promise<string> {
-    return this.jwtService.signAsync(payload, {
-      expiresIn: this.appConfig.jwt.accessExpiresIn,
-      secret: this.appConfig.jwt.accessSecret,
-    });
-  }
-
-  generateRefreshToken(payload: { sub: string }): Promise<string> {
-    return this.jwtService.signAsync(payload, {
-      expiresIn: this.appConfig.jwt.refreshExpiresIn,
-      secret: this.appConfig.jwt.refreshSecret,
-    });
-  }
-
-  async refreshTokens(userId: string): Promise<IResponse> {
+  refreshTokens(userId: string): Promise<Tokens> {
     // const token = await this.prismaService.token.delete({ where: { token: refreshToken } });
+    this.logger.debug(`Operation: refreshTokens`);
 
     // if (!token) {
     //   throw new UnauthorizedException('The refresh token is invalid');
@@ -140,28 +123,38 @@ export class AuthService {
     //   throw new UnauthorizedException('The refresh token is expired');
     // }
 
-    // return {
-    //   status: HttpStatus.OK,
-    //   payload: JSON.stringify(await this.generateTokens({ userId })),
-    // }
+    return this.generateTokens({ userId });
+  }
 
-    const tokens = await this.generateTokens({ userId });
+  getCurrentUser(userId: string): Promise<User | null> {
+    this.logger.debug(`Operation: getCurrentUser`);
+
+    return this.usersService.findOne(userId);
+  }
+
+  private async generateTokens(payload: { userId: string }): Promise<Tokens> {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.generateAccessToken({ sub: payload.userId }),
+      this.generateRefreshToken({ sub: payload.userId }),
+    ]);
 
     return {
-      status: HttpStatus.OK,
-      payload: tokens,
+      accessToken,
+      refreshToken,
     };
   }
 
-  // async login(email: string, password: string, agent: string) {
-  //   const user = await this.usersService.findByEmail(email);
-  //   if (!user) {
-  //     throw new UnauthorizedException('Login or password is incorrect');
-  //   }
-  //   const passwordValid = await this.passwordService.comparePassword(user.password, password);
-  //   if (!passwordValid) {
-  //     throw new UnauthorizedException('Login or password is incorrect');
-  //   }
-  //   return this.generateTokens(user, agent);
-  // }
+  private generateAccessToken(payload: { sub: string }): Promise<string> {
+    return this.jwtService.signAsync(payload, {
+      expiresIn: this.appConfig.jwt.accessExpiresIn,
+      secret: this.appConfig.jwt.accessSecret,
+    });
+  }
+
+  private generateRefreshToken(payload: { sub: string }): Promise<string> {
+    return this.jwtService.signAsync(payload, {
+      expiresIn: this.appConfig.jwt.refreshExpiresIn,
+      secret: this.appConfig.jwt.refreshSecret,
+    });
+  }
 }
