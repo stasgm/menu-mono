@@ -9,7 +9,7 @@ import { CreateOrderInput } from './dto/create-order.input';
 import { CreateOrderLineInput } from './dto/create-order-line.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { UpdateOrderStatusInput } from './dto/update-order-status.input';
-import { Order } from './models/order.model';
+import { Order, OrderWithKeys } from './models/order.model';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({
   _count: {
@@ -58,7 +58,7 @@ const createOrderLinesByLines = (
 };
 
 @Injectable()
-export class OrdersRepository extends BaseRepository(Order, 'order') {
+export class OrdersRepository extends BaseRepository(Order, OrderWithKeys, 'order') {
   constructor(readonly prisma: PrismaService, private customersService: CustomersService) {
     super(prisma);
   }
@@ -96,8 +96,8 @@ export class OrdersRepository extends BaseRepository(Order, 'order') {
     const { data } = params;
 
     const customer = await (async () => {
-      if (data.customer) {
-        const existingCustomer = await this.customersService.findOne(data.customer.id);
+      if (data.customerId) {
+        const existingCustomer = await this.customersService.findOne(data.customerId);
 
         if (!existingCustomer) {
           throw new Error('Customer not found');
@@ -170,8 +170,8 @@ export class OrdersRepository extends BaseRepository(Order, 'order') {
     const { where, data } = params;
 
     const customer = await (async () => {
-      if (data.customer) {
-        const existingCustomer = await this.customersService.findOne(data.customer.id);
+      if (data.customerId) {
+        const existingCustomer = await this.customersService.findOne(data.customerId);
 
         if (!existingCustomer) {
           throw new Error('Customer not found');

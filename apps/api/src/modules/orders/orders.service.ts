@@ -3,11 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from '@/modules/common/base.service';
 
 // import { UpdateOrderStatusInput } from './dto/update-order-status.input';
-import { Order } from './models/order.model';
+import { Order, OrderWithKeys } from './models/order.model';
 import { OrdersRepository } from './orders.repository';
 
 @Injectable()
-export class OrdersService extends BaseService(Order) {
+export class OrdersService extends BaseService(Order, OrderWithKeys) {
   constructor(readonly ordersRepository: OrdersRepository) {
     super(ordersRepository);
   }

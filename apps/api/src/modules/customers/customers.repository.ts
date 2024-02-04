@@ -9,7 +9,7 @@ import { UpdateCustomerInput } from './dto/update-customer.input';
 import { Customer } from './models/customer.model';
 
 @Injectable()
-export class CustomersRepository extends BaseRepository(Customer, 'customer') {
+export class CustomersRepository extends BaseRepository(Customer, Customer, 'customer') {
   constructor(readonly prisma: PrismaService) {
     super(prisma);
   }
@@ -50,15 +50,7 @@ export class CustomersRepository extends BaseRepository(Customer, 'customer') {
 
   createCustomer(params: { data: CreateCustomerInput }) {
     const { data } = params;
-
-    return this.model.create({
-      data: {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phoneNumber: data.phoneNumber,
-      },
-    });
+    return this.model.create({ data });
   }
 
   getCustomer(params: { where: Prisma.CustomerWhereInput }) {
@@ -67,11 +59,7 @@ export class CustomersRepository extends BaseRepository(Customer, 'customer') {
   }
 
   getCustomerById(id: string) {
-    return this.prisma.customer.findUnique({
-      where: {
-        id,
-      },
-    });
+    return this.prisma.customer.findUnique({ where: { id } });
   }
 
   getCustomers(params: {

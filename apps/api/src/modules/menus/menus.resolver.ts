@@ -8,7 +8,7 @@ import { MenusService } from './menus.service';
 import { Menu } from './models/menu.model';
 
 @Resolver(() => Menu)
-export class MenusResolver extends BaseResolver(Menu, CreateMenuInput, UpdateMenuInput) {
+export class MenusResolver extends BaseResolver(Menu, Menu, CreateMenuInput, UpdateMenuInput) {
   constructor(private readonly menusService: MenusService) {
     super(menusService);
   }

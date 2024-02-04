@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
+import { CustomersService } from '@/modules/customers/customers.service';
 import { UsersService } from '@/modules/users/users.service';
 
-import { CreateUserInput } from '../users/dto/create-user.input';
 import { LoginUserInput } from './dto/login-user.input';
 import { RegisterUserInput } from './dto/register-user.input';
 import { PasswordService } from './password.service';
@@ -23,44 +23,46 @@ export class AuthService {
   constructor(
     private readonly appConfig: AppConfig,
     private readonly usersService: UsersService,
+    private readonly customersService: CustomersService,
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService
   ) {}
 
   async register(registerUserInput: RegisterUserInput): Promise<IResponse> {
-    const { password, ...userData } = registerUserInput;
-    // TODO validate credentials with ZOD
+    const { password, customer: createCustomerInput, ...createUserInput } = registerUserInput;
+    // TODO validate name minimal required length and password strength
 
-    const existedUser = await this.usersService.findByName(userData.name);
+    // 1. Check if the user already exists
+    const existedUser = await this.usersService.findByName(createUserInput.name);
 
     if (existedUser) {
       throw new UserAlreadyExistsException();
     }
 
+    // 2. Hash the password
     const passwordHash = await this.passwordService.hashPassword(password);
 
     // DEFAULT VALUES:
     // - active: false
     // - rule: USER
     // - confirmed: false
-    const createUserInput: CreateUserInput = {
-      ...userData,
-      passwordHash,
-      active: false,
-      confirmed: false,
-      role: Roles.USER,
-      // customer: {
-      //   email: 'test@mail.com',
-      //   firstName: 'Stas',
-      //   lastName: 'ThatGuy',
-      //   phoneNumber: '5555555',
-      // },
-    };
 
-    // Send an email to confirm the user
+    // 3. Create the customer
+    const customer = await this.customersService.findByPhoneNumberOrCreate(createCustomerInput);
 
+    // 4. Send an email to confirm the user
+    // TODO Add bullmq service to send email
+
+    // 5. Create the user
     try {
-      await this.usersService.create(createUserInput);
+      await this.usersService.create({
+        ...createUserInput,
+        passwordHash,
+        active: false,
+        confirmed: false,
+        role: Roles.USER,
+        customerId: customer.id,
+      });
 
       return {
         status: HttpStatus.CREATED,

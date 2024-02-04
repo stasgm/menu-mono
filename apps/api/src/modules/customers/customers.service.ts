@@ -7,7 +7,7 @@ import { CreateCustomerInput } from './dto/create-customer.input';
 import { Customer } from './models/customer.model';
 
 @Injectable()
-export class CustomersService extends BaseService(Customer) {
+export class CustomersService extends BaseService(Customer, Customer) {
   constructor(private customersRepository: CustomersRepository) {
     super(customersRepository);
   }
@@ -29,13 +29,6 @@ export class CustomersService extends BaseService(Customer) {
       return existingCustomer;
     }
 
-    return this.customersRepository.createCustomer({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-      },
-    });
+    return this.customersRepository.createCustomer({ data });
   }
 }

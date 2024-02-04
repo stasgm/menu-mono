@@ -1,8 +1,8 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, Int, ObjectType, OmitType } from '@nestjs/graphql';
 
 import { BaseEntity } from '@/modules/common/base.entity';
+import { Customer } from '@/modules/customers/models/customer.model';
 
-import { Customer } from '../../customers/models/customer.model';
 import { OrderLine } from './order-line.model';
 
 @ObjectType({ description: 'Order' })
@@ -27,4 +27,10 @@ export class Order extends BaseEntity {
 
   @Field(() => Int)
   totalProductQuantity: number;
+}
+
+@ObjectType({ description: 'OrderWithKeys' })
+export class OrderWithKeys extends OmitType(Order, ['customer'] as const) {
+  @Field(() => ID)
+  customerId: string;
 }

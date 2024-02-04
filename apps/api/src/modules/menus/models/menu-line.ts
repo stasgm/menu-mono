@@ -1,13 +1,13 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class MenuLine {
-  @Field(() => String)
+  @Field(() => ID)
   id: string;
 
   @Field(() => Number)
   price: number;
 
-  @Field(() => String)
+  @Field(() => ID)
   productId: string;
 }

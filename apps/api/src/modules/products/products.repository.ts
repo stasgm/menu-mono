@@ -6,14 +6,14 @@ import { BaseRepository } from '@/modules/common/base.repository';
 
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Product } from './models/product.model';
+import { Product, ProductWithKeys } from './models/product.model';
 
 const productInclude = Prisma.validator<Prisma.ProductInclude>()({
   categories: true,
 });
 
 @Injectable()
-export class ProductsRepository extends BaseRepository(Product, 'product') {
+export class ProductsRepository extends BaseRepository(Product, ProductWithKeys, 'product') {
   constructor(readonly prisma: PrismaService) {
     super(prisma);
   }
@@ -53,13 +53,14 @@ export class ProductsRepository extends BaseRepository(Product, 'product') {
   }
 
   private async createProduct(params: { data: CreateProductInput }) {
-    const { data } = params;
+    const {
+      data: { categories, ...rest },
+    } = params;
 
     return this.prisma.product.create({
       data: {
-        name: data.name,
-        disabled: data.disabled,
-        // categories: this.connectCategoriesById(data.categories),
+        ...rest,
+        categories: this.connectCategoriesById(categories),
       },
       include: productInclude,
     });
@@ -99,15 +100,19 @@ export class ProductsRepository extends BaseRepository(Product, 'product') {
   }
 
   private async updateProduct(params: { where: Prisma.ProductWhereUniqueInput; data: UpdateProductInput }) {
-    const { where, data } = params;
+    const {
+      where,
+      data: { categories, ...rest },
+    } = params;
+
+    const updateData = {
+      ...rest,
+      categories: categories ? this.connectCategoriesById(categories) : undefined,
+    };
 
     return this.prisma.product.update({
       where,
-      data: {
-        name: data.name,
-        disabled: data.disabled,
-        // categories: this.connectCategoriesById(data.categories ?? []),
-      },
+      data: updateData,
       include: productInclude,
     });
   }
@@ -121,9 +126,9 @@ export class ProductsRepository extends BaseRepository(Product, 'product') {
    * Format the categories IDs array into the prisma query way
    */
   private connectCategoriesById(
-    category: Array<string | null>
+    categoryIds: Array<string | null>
   ): Prisma.CategoryUncheckedCreateNestedManyWithoutProductsInput {
-    const categories = category.reduce((acc, cur) => {
+    const categories = categoryIds.reduce((acc, cur) => {
       if (!cur) {
         return acc;
       }

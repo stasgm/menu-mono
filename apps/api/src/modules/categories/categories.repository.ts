@@ -9,7 +9,7 @@ import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './models/category.model';
 
 @Injectable()
-export class CategoriesRepository extends BaseRepository(Category, 'category') {
+export class CategoriesRepository extends BaseRepository(Category, Category, 'category') {
   constructor(readonly prisma: PrismaService) {
     super(prisma);
   }

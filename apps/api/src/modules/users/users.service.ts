@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 
 import { BaseService } from '@/modules/common/base.service';
 
-import { UsersRepository } from '../users/users.repository';
-import { User } from './models/user.model';
+import { User, UserWithKeys } from './models/user.model';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
-export class UsersService extends BaseService(User) {
+export class UsersService extends BaseService(User, UserWithKeys) {
   constructor(readonly usersRepository: UsersRepository) {
     super(usersRepository);
   }

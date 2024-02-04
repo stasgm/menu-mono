@@ -4,11 +4,11 @@ import { BaseResolver } from '@/modules/common/base.resolver';
 
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
-import { Order } from './models/order.model';
+import { Order, OrderWithKeys } from './models/order.model';
 import { OrdersService } from './orders.service';
 
 @Resolver(() => Order)
-export class OrdersResolver extends BaseResolver(Order, CreateOrderInput, UpdateOrderInput) {
+export class OrdersResolver extends BaseResolver(Order, OrderWithKeys, CreateOrderInput, UpdateOrderInput) {
   constructor(readonly ordersService: OrdersService) {
     super(ordersService);
   }

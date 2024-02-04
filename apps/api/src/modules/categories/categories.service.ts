@@ -6,7 +6,7 @@ import { CategoriesRepository } from './categories.repository';
 import { Category } from './models/category.model';
 
 @Injectable()
-export class CategoriesService extends BaseService(Category) {
+export class CategoriesService extends BaseService(Category, Category) {
   constructor(readonly categoriesRepository: CategoriesRepository) {
     super(categoriesRepository);
   }
