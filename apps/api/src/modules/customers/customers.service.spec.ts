@@ -11,7 +11,7 @@ describe('CustomersService', () => {
     jest.clearAllMocks();
 
     const customersRepositoryMock = {
-      getCustomers: jest.fn().mockResolvedValue([]),
+      findAll: jest.fn().mockResolvedValue([]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -39,13 +39,13 @@ describe('CustomersService', () => {
   describe('findAll', () => {
     it('should call getCustomers with the correct params', async () => {
       const params = { skip: 10, take: 20 };
-      const getCustomersSpy = jest.spyOn(customersRepository, 'getCustomers');
+      const getCustomersSpy = jest.spyOn(customersRepository, 'findAll');
       await service.findAll(params);
       expect(getCustomersSpy).toHaveBeenCalledWith(params);
     });
 
     it('should call getCustomers with default params if no params are provided', async () => {
-      const getCustomersSpy = jest.spyOn(customersRepository, 'getCustomers');
+      const getCustomersSpy = jest.spyOn(customersRepository, 'findAll');
       await service.findAll({});
       expect(getCustomersSpy).toHaveBeenCalledWith({ skip: 0, take: 100 });
     });

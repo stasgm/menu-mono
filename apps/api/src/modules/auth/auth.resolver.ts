@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UserNotFoundException } from '@/core/exceptions';
 import { User } from '@/modules/users/models/user.model';
@@ -16,6 +16,17 @@ import { Tokens } from './models/tokens.model';
 @Resolver(() => Auth)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
+
+  @Query(() => User, { name: 'getCurrentUser', description: 'Get current user' })
+  @UseGuards(JwtAccessAuthGuard)
+  async currentUser(@CurrentUser() { id }: { id: string }): Promise<User> {
+    const user = await this.authService.getCurrentUser(id);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+    return user;
+  }
 
   @Mutation(() => Auth, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
@@ -40,18 +51,6 @@ export class AuthResolver {
   //   // Retrun status instead of User
   //   return this.authService.confirmEmail(hash);
   // }
-
-  // @Query(() => User, { name: 'getCurrentUser', description: 'Return current user' })
-  @Mutation(() => User, { name: 'getCurrentUser', description: 'Return current user' })
-  @UseGuards(JwtAccessAuthGuard)
-  async me(@CurrentUser() { id }: { id: string }): Promise<User> {
-    const user = await this.authService.getCurrentUser(id);
-
-    if (!user) {
-      throw new UserNotFoundException();
-    }
-    return user;
-  }
 
   @Mutation(() => Tokens)
   @UseGuards(JwtRefreshAuthGuard)

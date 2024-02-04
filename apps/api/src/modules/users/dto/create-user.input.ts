@@ -1,7 +1,8 @@
-import { Field, HideField } from '@nestjs/graphql';
+import { Field, HideField, InputType } from '@nestjs/graphql';
 
 import { CreateBaseNamedInput } from '@/modules/common/base.dto';
 
+@InputType('CreateUserInput', { description: 'Create user input' })
 export class CreateUserInput extends CreateBaseNamedInput {
   @HideField()
   passwordHash: string;

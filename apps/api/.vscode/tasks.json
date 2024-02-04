@@ -27,7 +27,7 @@
       }
     },
     {
-      "label": "🌴 migrate:dev",
+      "label": "📤 migrate:dev",
       "command": "pnpm",
       "args": ["migrate:dev"],
       "options": {
@@ -35,7 +35,7 @@
       }
     },
     {
-      "label": "✨ migrate:create",
+      "label": "📥 migrate:create",
       "command": "pnpm",
       "args": ["migrate:dev:create"],
       "options": {

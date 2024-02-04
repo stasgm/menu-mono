@@ -32,7 +32,7 @@ describe('UsersService', () => {
     jest.clearAllMocks();
 
     const usersRepositoryMock = {
-      getUsers: jest.fn().mockResolvedValue([]),
+      findAll: jest.fn().mockResolvedValue([]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -60,14 +60,14 @@ describe('UsersService', () => {
   describe('findAll', () => {
     it('should call getUsers with the correct params', async () => {
       const params = { skip: 10, take: 20 };
-      const getCustomersSpy = jest.spyOn(usersRepository, 'getUsers');
+      const getCustomersSpy = jest.spyOn(usersRepository, 'findAll');
       await service.findAll(params);
       expect(getCustomersSpy).toHaveBeenCalledWith(params);
     });
 
     it('should call getUsers with default params if no params are provided', async () => {
       const getCustomersSpy = jest
-        .spyOn(usersRepository, 'getUsers')
+        .spyOn(usersRepository, 'findAll')
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         .mockResolvedValue(usersMock as any);
       await service.findAll({});

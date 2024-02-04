@@ -14,7 +14,9 @@ export const BaseService = <T extends BaseEntity, C extends BaseEntity = T>(
 
     findAll(params: FindAllBaseArgs) {
       this.logger.debug(`Operation: findAll`);
-      return this.repository.findAll(params);
+      // TODO find another way to make default values on services
+      const { skip = 0, take = 100, ...rest } = params;
+      return this.repository.findAll({ skip, take, ...rest });
     }
 
     findOne(id: string) {

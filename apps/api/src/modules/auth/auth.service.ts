@@ -74,7 +74,8 @@ export class AuthService {
     }
 
     // 6. Generate tokens
-    // TODO return this.generateTokens(user, agent);
+    // TODO generate tokens for the user and agent: this.generateTokens(user, agent);
+    // TODO do not generate tokens if the user is not active
     const tokens = await this.generateTokens({ userId: user?.id });
 
     return {
@@ -86,6 +87,7 @@ export class AuthService {
   async login(loginUserInput: LoginUserInput): Promise<Auth> {
     this.logger.debug(`Operation: loginUser`);
     // TODO add agent: string
+    // TODO restrict if the user is not confirmed or disabed
 
     const { name, password } = loginUserInput;
 
