@@ -1,7 +1,6 @@
 import { Field, ID, InputType, Int } from '@nestjs/graphql';
 
 import { CreateBaseInput } from '@/modules/common/base.dto';
-import { Customer } from '@/modules/customers/models/customer.model';
 
 import { CreateOrderLineInput } from './create-order-line.input';
 

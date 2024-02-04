@@ -14,15 +14,13 @@ export const connectCategoriesByIds = (
 export const createMenuLinesByLines = (
   menuLines: IMenuline[]
 ): Prisma.MenuLineUncheckedCreateNestedManyWithoutMenuInput => {
-  const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.map(
-    (menuLine) => {
-      return {
-        id: menuLine.id,
-        price: menuLine.price,
-        productId: menuLine.product.id,
-      };
-    }
-  );
+  const createMenuLines: Prisma.MenuLineUncheckedCreateWithoutMenuInput[] = menuLines.map((menuLine) => {
+    return {
+      id: menuLine.id,
+      price: menuLine.price,
+      productId: menuLine.product.id,
+    };
+  });
 
   return {
     create: createMenuLines,
@@ -32,17 +30,15 @@ export const createMenuLinesByLines = (
 export const createOrderLinesByLines = (
   orderLines: IOrderLine[]
 ): Prisma.OrderLineUncheckedCreateNestedManyWithoutOrderInput => {
-  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.map(
-    (line) => {
-      return {
-        id: line.id,
-        price: line.price,
-        quantity: line.quantity,
-        totalAmount: line.totalAmount,
-        productId: line.productId,
-      };
-    }
-  );
+  const createOrderLines: Prisma.OrderLineUncheckedCreateWithoutOrderInput[] = orderLines.map((line) => {
+    return {
+      id: line.id,
+      price: line.price,
+      quantity: line.quantity,
+      totalAmount: line.totalAmount,
+      productId: line.productId,
+    };
+  });
 
   return {
     create: createOrderLines,

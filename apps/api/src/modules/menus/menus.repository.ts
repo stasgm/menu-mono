@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Menu, Prisma } from '@prisma/client';
 
-import { PrismaService } from '../../core/persistence/prisma/prisma.service';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+
 import { CreateMenuInput } from './dto/create-menu.input';
 import { CreateMenuLineInput } from './dto/create-menu-line.input';
 import { UpdateMenuInput } from './dto/update-menu.input';

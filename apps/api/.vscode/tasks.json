@@ -7,7 +7,7 @@
       "command": "pnpm",
       "args": ["dev"],
       "options": {
-        "cwd": "${workspaceFolder}",
+        "cwd": "${workspaceFolder}"
       }
     },
     {
@@ -15,7 +15,7 @@
       "command": "pnpm",
       "args": ["seed"],
       "options": {
-        "cwd": "${workspaceFolder}",
+        "cwd": "${workspaceFolder}"
       }
     },
     {
@@ -23,7 +23,7 @@
       "command": "pnpm",
       "args": ["run", "prisma:generate"],
       "options": {
-        "cwd": "${workspaceFolder}",
+        "cwd": "${workspaceFolder}"
       }
     },
     {
@@ -39,15 +39,23 @@
       "command": "pnpm",
       "args": ["migrate:dev:create"],
       "options": {
-        "cwd": "${workspaceFolder}",
+        "cwd": "${workspaceFolder}"
       }
     },
     {
-      "label": "✅ graphql",
+      "label": "✨ Format",
       "command": "pnpm",
-      "args": ["graphql:generate"],
+      "args": ["format"],
       "options": {
-        "cwd": "${workspaceFolder}",
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "🧶 lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "options": {
+        "cwd": "${workspaceFolder}"
       }
     }
   ]

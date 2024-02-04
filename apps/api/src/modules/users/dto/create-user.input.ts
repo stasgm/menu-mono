@@ -1,9 +1,6 @@
 import { Field, HideField } from '@nestjs/graphql';
 
 import { CreateBaseNamedInput } from '@/modules/common/base.dto';
-import { Customer } from '@/modules/customers/models/customer.model';
-
-// import { CreateCustomerInput } from '@/modules/customers/dto/create-customer.input';
 
 export class CreateUserInput extends CreateBaseNamedInput {
   @HideField()

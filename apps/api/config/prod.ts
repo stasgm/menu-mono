@@ -1,4 +1,4 @@
-import { IAppConfig } from '../src/core/config/types';
+import { IAppConfig } from '@/core/config/types';
 
 const config: IAppConfig = {
   envPrefix: 'production',

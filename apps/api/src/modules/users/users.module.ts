@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import { PersistenceModule } from '../../core/persistence/persistence.module';
-import { PasswordService } from '../auth/password.service';
-import { CustomersModule } from '../customers/customers.module';
-import { CustomersRepository } from '../customers/customers.repository';
+import { PersistenceModule } from '@/core/persistence/persistence.module';
+import { PasswordService } from '@/modules/auth/password.service';
+import { CustomersModule } from '@/modules/customers/customers.module';
+import { CustomersRepository } from '@/modules/customers/customers.repository';
+
 import { UsersRepository } from './users.repository';
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';

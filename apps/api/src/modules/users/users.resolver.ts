@@ -29,25 +29,25 @@ export class UsersResolver {
     return result;
   }
 
-  // @Mutation(() => User, { name: 'updateUser', description: 'Update one user' })
-  // async update(@Args('id') id: string, @Args('updateUserInput') data: UpdateUserInput) {
-  //   const result = await this.usersService.update(id, data);
+  @Mutation(() => User, { name: 'updateUser', description: 'Update one user' })
+  async update(@Args('id') id: string, @Args('updateUserInput') data: UpdateUserInput) {
+    const result = await this.usersService.update(id, data);
 
-  //   if (!result) {
-  //     throw new NotFoundException(`A user with id '${id}' not found`);
-  //   }
+    if (!result) {
+      throw new NotFoundException(`A user with id '${id}' not found`);
+    }
 
-  //   return result;
-  // }
+    return result;
+  }
 
-  // @Mutation(() => User, { name: `removeUser`, description: `Remove one user` })
-  // remove(@Args('id') id: string) {
-  //   const result = this.usersService.remove(id);
+  @Mutation(() => User, { name: `removeUser`, description: `Remove one user` })
+  remove(@Args('id') id: string) {
+    const result = this.usersService.remove(id);
 
-  //   if (!result) {
-  //     throw new NotFoundException(`A user with id '${id}' not found`);
-  //   }
+    if (!result) {
+      throw new NotFoundException(`A user with id '${id}' not found`);
+    }
 
-  //   return result;
-  // }
+    return result;
+  }
 }

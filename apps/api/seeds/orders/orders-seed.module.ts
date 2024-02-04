@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { PersistenceModule } from '../../src/core/persistence/persistence.module';
+import { PersistenceModule } from '@/core/persistence/persistence.module';
+
 import { OrdersSeedService } from './orders-seed.service';
 
 @Module({

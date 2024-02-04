@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { getMenu } from '@packages/domains';
 import { categoriesMock, menusMock, productsMock } from '@packages/mocks';
 
-import { PrismaService } from '../../src/core/persistence/prisma/prisma.service';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+
 import { createMenuLinesByLines } from '../helpers';
 import { SeedService } from '../types';
 

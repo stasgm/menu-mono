@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { compare, genSalt, hash } from 'bcrypt';
-// import { AppConfig } from '../../core/config/app-config';
+// import { AppConfig } from '@/core/config/app-config';
 
 @Injectable()
 export class PasswordService {

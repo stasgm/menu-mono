@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { customersMock } from '@packages/mocks';
 
-import { PrismaService } from '../../src/core/persistence/prisma/prisma.service';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+
 import { SeedService } from '../types';
 
 @Injectable()
