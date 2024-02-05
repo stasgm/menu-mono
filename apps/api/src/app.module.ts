@@ -9,6 +9,7 @@ import { DirectiveLocation, GraphQLDirective, GraphQLError } from 'graphql';
 
 import { AppConfig } from '@/core/config/app-config';
 import { upperDirectiveTransformer } from '@/core/directives/upper-case.directive';
+import { HealthModule } from '@/core/health/health.module';
 import { PersistenceModule } from '@/core/persistence/persistence.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { CategoriesModule } from '@/modules/categories/categories.module';
@@ -72,6 +73,7 @@ const appConfig = new AppConfig();
         defaultJobOptions: appConfig.bullmq.defaultJobOptions,
       }),
     }),
+    HealthModule,
     AuthModule,
     PersistenceModule,
     ProductsModule,
