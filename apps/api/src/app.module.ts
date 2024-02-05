@@ -2,19 +2,24 @@ import { join } from 'node:path';
 
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { BullModule } from '@nestjs/bullmq';
 import { HttpException, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { DirectiveLocation, GraphQLDirective, GraphQLError } from 'graphql';
 
+import { AppConfig } from '@/core/config/app-config';
 import { upperDirectiveTransformer } from '@/core/directives/upper-case.directive';
 import { PersistenceModule } from '@/core/persistence/persistence.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { CategoriesModule } from '@/modules/categories/categories.module';
 import { CustomersModule } from '@/modules/customers/customers.module';
 import { MenusModule } from '@/modules/menus/menus.module';
-import { OrdersModule } from '@/modules/orders/orders.module';
+// import { OrdersModule } from '@/modules/orders/orders.module';
 import { ProductsModule } from '@/modules/products/products.module';
 import { UsersModule } from '@/modules/users/users.module';
+
+// TODO move this to a separate injectable module
+const appConfig = new AppConfig();
 
 @Module({
   imports: [
@@ -55,6 +60,17 @@ import { UsersModule } from '@/modules/users/users.module';
           }),
         ],
       },
+    }),
+    // TODO: Move BullModule config to a separate file
+    BullModule.forRootAsync({
+      imports: [],
+      useFactory: () => ({
+        connection: {
+          host: appConfig.redis.host,
+          port: appConfig.redis.port,
+        },
+        defaultJobOptions: appConfig.bullmq.defaultJobOptions,
+      }),
     }),
     AuthModule,
     PersistenceModule,

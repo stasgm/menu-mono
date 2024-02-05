@@ -12,19 +12,7 @@ export type RedisConfig = {
   port: number;
 };
 
-// export type JwtAuthConfig = {
-//   accessSecret?: string;
-//   refreshSecret?: string;
-//   expiresIn?: string;
-// };
-
 export type JwtAuthConfig = {
-  // header: {
-  //   typ: string;
-  // };
-  // audience: string;
-  // issuer: string;
-  // algorithm: string;
   accessSecret?: string;
   accessExpiresIn?: string;
   refreshSecret?: string;

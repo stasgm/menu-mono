@@ -2,11 +2,20 @@ import { Injectable } from '@nestjs/common';
 import config from 'config';
 
 import { JwtAuthConfig, PostgresConfig, RedisConfig } from './types';
+
 const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
 const DEFAULT_NESTJS_PORT = 5000;
 
 @Injectable()
 export class AppConfig {
+  static get nestApiGlobalPrefix(): string {
+    return '/api/v1';
+  }
+
+  get nestPort(): number {
+    return config.get('nestPort') || DEFAULT_NESTJS_PORT;
+  }
+
   get envPrefix(): string {
     return config.get('envPrefix');
   }
@@ -70,11 +79,15 @@ export class AppConfig {
     };
   }
 
-  static get nestApiGlobalPrefix(): string {
-    return '/api/v1';
-  }
-
-  get nestPort(): number {
-    return config.get('nestPort') || DEFAULT_NESTJS_PORT;
+  get bullmq() {
+    return {
+      defaultJobOptions: {
+        attempts: 3,
+        backoff: {
+          type: 'fixed',
+          delay: 1000,
+        },
+      },
+    }
   }
 }
