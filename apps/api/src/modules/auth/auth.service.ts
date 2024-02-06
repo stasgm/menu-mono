@@ -4,9 +4,11 @@ import { JwtService } from '@nestjs/jwt';
 import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
 import { CustomersService } from '@/modules/customers/customers.service';
+import { MailService } from '@/modules/mail/mail.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
+import { IContextData } from './decorators/context-data.decorator';
 import { LoginUserInput } from './dto/login-user.input';
 import { RegisterUserInput } from './dto/register-user.input';
 import { Auth } from './models/auth.model';
@@ -25,13 +27,14 @@ export class AuthService {
 
   constructor(
     private readonly appConfig: AppConfig,
+    private readonly mailService: MailService,
     private readonly usersService: UsersService,
     private readonly customersService: CustomersService,
     private readonly jwtService: JwtService,
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerUserInput: RegisterUserInput): Promise<Auth> {
+  async register(registerUserInput: RegisterUserInput, ctx: IContextData): Promise<Auth> {
     this.logger.debug(`Operation: registerUser`);
 
     const { password, customer: createCustomerInput, ...createUserInput } = registerUserInput;
@@ -56,10 +59,8 @@ export class AuthService {
     // TODO. Check if the customer already exists and not connected with any user
     const customer = await this.customersService.findByPhoneNumberOrCreate(createCustomerInput);
 
-    // 4. Send an email to confirm the user
-    // TODO Add bullmq service to send email
-
-    // 5. Create the user
+    // 4. Create the user
+    // TODO. customer and user should work on the same transaction
     const user = await this.usersService.create({
       ...createUserInput,
       passwordHash,
@@ -72,6 +73,25 @@ export class AuthService {
     if (!user) {
       throw new InternalServerErrorException('Failed to create user');
     }
+
+    // 5. Send an email to confirm the user.
+    // TODO generate activation code
+    const code = '123456';
+    const originIp = ctx.originIp ?? 'Unknown';
+    const device = ctx.userAgent ?? 'Unknown';
+    const location = '3-й подъезд слева от дома 19, Малиновка, Минск, Беларусь';
+
+    await this.mailService.userRegister({
+      to: customer.email,
+      data: {
+        userName: user.name,
+        code,
+        location,
+        originIp,
+        device,
+      },
+    });
+    // TODO Add bullmq service to send email
 
     // 6. Generate tokens
     // TODO generate tokens for the user and agent: this.generateTokens(user, agent);

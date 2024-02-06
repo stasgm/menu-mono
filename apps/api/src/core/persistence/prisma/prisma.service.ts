@@ -5,8 +5,9 @@ import { AppConfig } from '@/core/config/app-config';
 
 @Injectable()
 export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {
-  constructor() {
-    const url = new AppConfig().postgresUrl;
+  constructor(readonly appConfig: AppConfig) {
+    // const url = new AppConfig().postgresUrl;
+    const url = appConfig.postgresUrl;
 
     super({
       datasources: {

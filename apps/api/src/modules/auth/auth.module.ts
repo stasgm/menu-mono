@@ -4,6 +4,7 @@ import { PassportModule } from '@nestjs/passport';
 
 import { AppConfig } from '@/core/config/app-config';
 import { CustomersModule } from '@/modules/customers/customers.module';
+import { MailModule } from '@/modules/mail/mail.module';
 import { UsersModule } from '@/modules/users/users.module';
 
 import { AuthResolver } from './auth.resolver';
@@ -13,8 +14,10 @@ import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
 
 @Module({
   imports: [
+    // TODO check initial setup. Do we need jwt here?
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({}),
+    MailModule,
     PassportModule,
     UsersModule,
     CustomersModule,

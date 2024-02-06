@@ -1,0 +1,202 @@
+<html>
+
+<head>
+  <style>
+    .bodyContainer {
+      font-family: Noto Sans, sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 22px;
+      text-align: left;
+      color: #E0E0E0;
+    }
+
+    .mainContainer {
+      background-color: #303030;
+      padding: 24px 0;
+    }
+
+    .tableContainer {
+      margin: 0px auto;
+      max-width: 720px;
+      background-color: #424242;
+      border-top: solid 4px #009db2;
+      border-radius:
+        12px;
+      padding: 48px 32px;
+    }
+
+    .tableContainer>table {
+      border-collapse: separate;
+      border-spacing: 0 16px;
+    }
+
+    .title {
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 28px;
+      color: #77b9ee;
+    }
+
+    .codeContainer {
+      display: flex;
+      padding: 36px;
+      background-color: #303030;
+      border-radius: 12px;
+    }
+
+    .code {
+      font-size: 40px;
+      font-weight: 500;
+      color: #009db2;
+      width: 100%;
+      text-align: center;
+    }
+
+    .address {
+      display: flex;
+      border-collapse:
+        separate;
+    }
+
+    .address tbody {
+      vertical-align: baseline;
+    }
+
+    .address .data {
+      color: #77b9ee;
+    }
+
+    .footer {
+      font-size:
+        14px;
+      line-height: 18px;
+    }
+  </style>
+</head>
+
+<body class='bodyContainer'>
+  <div class='mainContainer'>
+    <div class='tableContainer'>
+      <table>
+        <tr>
+          <td>
+            <div class='title'>
+              Подключение нового устройства
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+              Приветствуем,
+              {{userName}}.
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+              Вы входите в систему с нового устройства. Для безопасности вашего аккаунта требуется верификация.
+              Авторизуйте новое устройство с помощью кода подтверждения, если указанная далее информация верна.
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class='codeContainer'>
+              <div class='code'>
+                {{code}}
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table class='address'>
+              <tr>
+                <td>
+                  <div>
+                    Адрес:
+                  </div>
+                </td>
+                <td>
+                  <div class='data'>
+                    {{location}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    IP адрес:
+                  </div>
+                </td>
+                <td>
+                  <div class='data'>
+                    {{originIp}}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    Устройство:
+                  </div>
+                </td>
+                <td>
+                  <div class='data'>
+                    {{device}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+              Если это не вы, немедленно смените пароль.
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p style='border-top:solid 1px #dddddd;font-size:1px;margin:0px auto;width:100%'>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table class='footer'>
+              <tr>
+                <td>
+                  <div>
+                    Есть вопросы или нужна помощь?
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    Вы можете написать нам на адрес support@gsbelarus.com, чтобы связаться с нами.
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    * Это письмо отправляется автоматически, и вам не нужно отвечать.
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

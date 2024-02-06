@@ -28,10 +28,24 @@ export type AuthenticationConfig = {
   };
 };
 
+export type GoogleApiConfig = {
+  apiEmail: string;
+  clientId: string;
+  clientSecret: string;
+  refreshToken: string;
+};
+
+export type MailConfig = {
+  mockMailing?: boolean;
+  transport?: string;
+  googleApi?: GoogleApiConfig;
+};
+
 export interface IAppConfig {
   envPrefix: string;
   nestPort: number;
   postgres?: PostgresConfig;
   redis?: RedisConfig;
   secuirity?: AuthenticationConfig;
+  mail?: MailConfig;
 }

@@ -17,7 +17,7 @@ import { PrismaService } from '../persistence/prisma/prisma.service';
   DiskHealthIndicator,
   MemoryHealthIndicator,
   PrismaHealthIndicator,
-  PrismaService,
+  PrismaService
 )
 export class HealthController {
   constructor(
@@ -26,7 +26,7 @@ export class HealthController {
     private disk: DiskHealthIndicator,
     private memory: MemoryHealthIndicator,
     private prisma: PrismaHealthIndicator,
-    private prismaClient: PrismaService,
+    private prismaClient: PrismaService
   ) {}
 
   @Get()

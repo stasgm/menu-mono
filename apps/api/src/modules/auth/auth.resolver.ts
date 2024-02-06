@@ -1,10 +1,11 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UserNotFoundException } from '@/core/exceptions';
 import { User } from '@/modules/users/models/user.model';
 
 import { AuthService } from './auth.service';
+import { ContextData, IContextData } from './decorators/context-data.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { LoginUserInput } from './dto/login-user.input';
 import { RegisterUserInput } from './dto/register-user.input';
@@ -32,9 +33,10 @@ export class AuthResolver {
 
   @Mutation(() => Auth, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
-    @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput
+    @ContextData('req') ctx: IContextData,
+    @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput,
   ): Promise<Auth> {
-    return this.authService.register(data);
+    return this.authService.register(data, ctx);
   }
 
   @Mutation(() => Auth, { name: 'loginUser', description: 'User login' })

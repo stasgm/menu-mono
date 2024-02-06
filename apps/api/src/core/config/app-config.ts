@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import config from 'config';
 
-import { JwtAuthConfig, PostgresConfig, RedisConfig } from './types';
+import { AuthenticationConfig, JwtAuthConfig, MailConfig, PostgresConfig, RedisConfig } from './types';
 
 const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
 const DEFAULT_NESTJS_PORT = 5000;
+
+// TODO make params validation. Throw error if not valid
 
 @Injectable()
 export class AppConfig {
@@ -13,11 +15,11 @@ export class AppConfig {
   }
 
   get nestPort(): number {
-    return config.get('nestPort') || DEFAULT_NESTJS_PORT;
+    return config.get<number>('nestPort') || DEFAULT_NESTJS_PORT;
   }
 
   get envPrefix(): string {
-    return config.get('envPrefix');
+    return config.get<string>('envPrefix');
   }
 
   get isProduction(): boolean {
@@ -38,12 +40,14 @@ export class AppConfig {
   get postgres(): Required<PostgresConfig> {
     const postgres: Partial<PostgresConfig> = config.has('postgres') ? config.get('postgres') : {};
 
+    // TODO should throw an error when jwt host, port, db, user and password are not set
+
     return {
-      host: (postgres.host ?? process.env.POSTGRES_HOST) as string,
+      host: postgres.host ?? process.env.POSTGRES_HOST ?? 'localhost',
       port: (postgres.port ?? process.env.POSTGRES_PORT) as number,
-      dbname: (postgres.dbname ?? process.env.POSTGRES_DB) as string,
-      user: (postgres.user ?? process.env.POSTGRES_USER) as string,
-      password: (postgres.password ?? process.env.POSTGRES_PASSWORD) as string,
+      dbname: postgres.dbname ?? process.env.POSTGRES_DB ?? '',
+      user: postgres.user ?? process.env.POSTGRES_USER ?? '',
+      password: postgres.password ?? process.env.POSTGRES_PASSWORD ?? '',
       dbConnectionMaxAttempts: postgres.dbConnectionMaxAttempts ?? DEFAULT_DB_CONNECTION_MAX_ATTEMPTS,
     };
   }
@@ -60,22 +64,24 @@ export class AppConfig {
   }
 
   get redis(): Required<RedisConfig> {
-    const redis: Partial<RedisConfig> = config.has('redis') ? config.get('redis') : {};
+    const redis = config.has('redis') ? config.get<Partial<RedisConfig>>('redis') : {};
 
     return {
-      host: (redis.host ?? process.env.POSTGRES_HOST) as string,
-      port: (redis.port ?? process.env.POSTGRES_PORT) as number,
+      host: redis.host ?? process.env.POSTGRES_HOST ?? 'localhost',
+      port: redis.port ?? (process.env.POSTGRES_PORT ? +process.env.POSTGRES_PORT : 6379),
     };
   }
 
   get jwt(): Required<JwtAuthConfig> {
-    const jwt: Partial<JwtAuthConfig> = config.has('jwt') ? config.get('jwt') : {};
+    const secuirity = config.has('secuirity') ? config.get<Partial<AuthenticationConfig>>('secuirity') : {};
+
+    // TODO should throw an error when jwt is not set
 
     return {
-      accessSecret: (jwt.accessSecret ?? process.env.JWT_ACCESS_SECRET) as string,
-      accessExpiresIn: (jwt.accessExpiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN) as string,
-      refreshSecret: (jwt.refreshSecret ?? process.env.JWT_REFRESH_SECRET) as string,
-      refreshExpiresIn: (jwt.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN) as string,
+      accessSecret: secuirity?.jwt?.accessSecret ?? process.env.JWT_ACCESS_SECRET ?? '',
+      accessExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
+      refreshSecret: secuirity?.jwt?.refreshSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
+      refreshExpiresIn: secuirity?.jwt?.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
     };
   }
 
@@ -88,6 +94,24 @@ export class AppConfig {
           delay: 1000,
         },
       },
-    }
+    };
+  }
+
+  get mail() {
+    // TODO should throw an error when googleApi is not set
+    const mail = config.has('mail') ? config.get<Partial<MailConfig>>('mail') : {};
+
+    const { googleApi, mockMailing, transport } = mail;
+
+    return {
+      mockMailing: mockMailing ?? false,
+      transport: transport ?? 'smtps://username:password@smtp.example.com',
+      googleApi: {
+        clientId: googleApi?.clientId ?? process.env.GOOGLE_API_CLIENT_ID ?? '',
+        clientSecret: googleApi?.clientSecret ?? process.env.GOOGLE_API_CLIENT_SECRET ?? '',
+        refreshToken: googleApi?.refreshToken ?? process.env.GOOGLE_API_REFRESH_TOKEN ?? '',
+        apiEmail: googleApi?.apiEmail ?? process.env.GOOGLE_API_EMAIL ?? '',
+      },
+    };
   }
 }
