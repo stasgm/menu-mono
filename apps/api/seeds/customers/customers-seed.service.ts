@@ -3,7 +3,7 @@ import { customersMock } from '@packages/mocks';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
-import { SeedService } from '../types';
+import { SeedService } from '../seed.service';
 
 @Injectable()
 export class CustomersSeedService extends SeedService {

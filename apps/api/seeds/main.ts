@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { CategoriesSeedService } from './categories/categories-seed.service';
@@ -9,10 +10,11 @@ import { SeedModule } from './seed.module';
 import { UsersSeedService } from './users/users-seed.service';
 
 const runSeed = async () => {
+  const logger = new Logger('SeedService');
+
   const app = await NestFactory.create(SeedModule);
 
-  console.log('🌿 Seeding...\t');
-
+  logger.log('🧹 Removing old data...\t');
   // remove old data
   await app.get(OrdersSeedService).removeAll();
   await app.get(UsersSeedService).removeAll();
@@ -21,6 +23,7 @@ const runSeed = async () => {
   await app.get(ProductsSeedService).removeAll();
   await app.get(CategoriesSeedService).removeAll();
 
+  logger.log('🌿 Seeding new data...\t');
   // seed new data
   await app.get(CategoriesSeedService).seed();
   await app.get(ProductsSeedService).seed();
@@ -29,7 +32,8 @@ const runSeed = async () => {
   await app.get(UsersSeedService).seed();
   await app.get(OrdersSeedService).seed();
 
-  console.log('🌿 Done! \t');
+  logger.log('🏁 Done! \t');
+
   await app.close();
 };
 

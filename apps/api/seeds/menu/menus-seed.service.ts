@@ -5,7 +5,7 @@ import { categoriesMock, menusMock, productsMock } from '@packages/mocks';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 import { createMenuLinesByLines } from '../helpers';
-import { SeedService } from '../types';
+import { SeedService } from '../seed.service';
 
 @Injectable()
 export class MenusSeedService extends SeedService {

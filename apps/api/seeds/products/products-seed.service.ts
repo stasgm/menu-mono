@@ -4,7 +4,7 @@ import { productsMock } from '@packages/mocks';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 import { connectCategoriesByIds } from '../helpers';
-import { SeedService } from '../types';
+import { SeedService } from '../seed.service';
 
 @Injectable()
 export class ProductsSeedService extends SeedService {

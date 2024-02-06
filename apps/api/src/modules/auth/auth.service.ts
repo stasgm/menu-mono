@@ -56,11 +56,11 @@ export class AuthService {
     // - confirmed: false
 
     // 3. Create the customer
-    // TODO. Check if the customer already exists and not connected with any user
+    // TODO Check if the customer already exists and not connected with any user
     const customer = await this.customersService.findByPhoneNumberOrCreate(createCustomerInput);
 
     // 4. Create the user
-    // TODO. customer and user should work on the same transaction
+    // TODO customer and user should work on the same transaction
     const user = await this.usersService.create({
       ...createUserInput,
       passwordHash,
