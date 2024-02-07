@@ -8,23 +8,23 @@ import { createMenuLinesByLines } from '../helpers';
 import { SeedService } from '../seed.service';
 
 @Injectable()
-export class MenusSeedService extends SeedService {
-  constructor(private prisma: PrismaService) {
-    super('menus');
+export class MenusSeedService extends SeedService('menu') {
+  constructor(readonly prisma: PrismaService) {
+    super(prisma);
   }
 
   async removeAll() {
-    this.logInfo('REMOVE');
+    super.removeAll();
 
     await this.prisma.menuLine.deleteMany();
-    await this.prisma.menu.deleteMany();
+    await this.model.deleteMany();
   }
 
   async seed() {
-    this.logInfo('SEED');
+    super.seed();
 
     for await (const menu of menusMock) {
-      await this.prisma.menu.create({
+      await this.model.create({
         data: {
           id: menu.id,
           number: menu.number,

@@ -1,33 +1,11 @@
 import { Type } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
 
 import { FindAllBaseArgs } from './base.dto';
 import { BaseEntity } from './base.entity';
 import { CreateInput, IBaseRepository, UpdateInput } from './base.types';
-
-export type PrismaModel = keyof Omit<
-  PrismaClient,
-  | '$extends'
-  | '$connect'
-  | '$disconnect'
-  | '$executeRaw'
-  | '$executeRawUnsafe'
-  | '$on'
-  | '$queryRaw'
-  | '$queryRawUnsafe'
-  | '$transaction'
-  | '$use'
->;
-
-// type ModelType = Prisma.TypeMap['model'];
-
-// type ModelNames = Prisma.ModelName; // "User" | "Post"
-
-// export type PrismaModels = {
-//   [M in ModelNames]: Exclude<Awaited<ReturnType<PrismaClient[Uncapitalize<M>]['findUnique']>>, null>;
-// };
 
 export const BaseRepository = <Model extends PrismaModel, T extends BaseEntity, C extends BaseEntity = T>(
   _entity: Type<T>,

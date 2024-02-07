@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { usersMock } from '@packages/mocks';
+import { categoriesMock } from '@packages/mocks';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 import { SeedService } from '../seed.service';
 
 @Injectable()
-export class UsersSeedService extends SeedService('user') {
+export class CategoriesSeedService extends SeedService('category') {
   constructor(readonly prisma: PrismaService) {
     super(prisma);
   }
@@ -20,8 +20,8 @@ export class UsersSeedService extends SeedService('user') {
   async seed() {
     super.seed();
 
-    for await (const user of usersMock) {
-      await this.model.create({ data: user });
+    for await (const category of categoriesMock) {
+      await this.model.create({ data: category });
     }
   }
 }

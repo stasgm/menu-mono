@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { PersistenceModule } from '@/core/persistence/persistence.module';
 
-import { CategoriesSeedService } from './categories-seed.service';
+import { CategoriesSeedService } from './categories.service';
 
 @Module({
   imports: [PersistenceModule],

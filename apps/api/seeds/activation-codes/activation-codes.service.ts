@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { productsMock } from '@packages/mocks';
+import { activationCodesMock } from '@packages/mocks';
 
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
-import { connectCategoriesByIds } from '../helpers';
 import { SeedService } from '../seed.service';
 
 @Injectable()
-export class ProductsSeedService extends SeedService('product') {
+export class ActivationCodesSeedService extends SeedService('activationCode') {
   constructor(readonly prisma: PrismaService) {
     super(prisma);
   }
@@ -21,15 +20,9 @@ export class ProductsSeedService extends SeedService('product') {
   async seed() {
     super.seed();
 
-    for await (const product of productsMock) {
-      const categories = connectCategoriesByIds(product.categories);
-
+    for await (const activationCode of activationCodesMock) {
       await this.model.create({
-        data: {
-          id: product.id,
-          name: product.name,
-          categories,
-        },
+        data: activationCode,
       });
     }
   }

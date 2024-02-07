@@ -1,16 +1,37 @@
 import { Logger } from '@nestjs/common';
 
-export abstract class SeedService {
-  readonly logger = new Logger('SeedService');
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
+import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
 
-  constructor(readonly name: string) {}
+export const SeedService = <Model extends PrismaModel>(_model: Model) => {
+  abstract class SeedServiceHost {
+    readonly logger = new Logger('SeedService');
+    readonly model;
+    readonly _modelMame = _model.toString();
 
-  logInfo(type: 'SEED' | 'REMOVE'): void {
-    this.logger.log(`  ${type === 'SEED' ? '🌻' : '🗑 '} ${this.name}`);
+    constructor(readonly prisma: PrismaService) {
+      const mod = prisma[_model];
+
+      if (!mod) {
+        throw new Error(`Entity not found`);
+      }
+
+      this.model = mod;
+    }
+
+    logInfo(type: 'SEED' | 'REMOVE'): void {
+      this.logger.log(`   ${type === 'SEED' ? '🌻' : '🗑 '}  ${this._modelMame}`);
+    }
+
+    removeAll(): void {
+      this.logInfo('REMOVE');
+    }
+
+    seed(): void {
+      this.logInfo('SEED');
+    }
+    // TODO add seedTestData implementation
+    // abstract seedTestData(): void;
   }
-
-  abstract removeAll(): void;
-  abstract seed(): void;
-  // TODO add seedTestData implementation
-  // abstract seedTestData(): void;
-}
+  return SeedServiceHost;
+};

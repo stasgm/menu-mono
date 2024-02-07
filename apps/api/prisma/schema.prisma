@@ -50,7 +50,7 @@ model ActivationCode {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   code      String
-  attempts  Int       @default(3)
+  attempts  Int       @default(0)
   userId    String    @db.Uuid
   user      User      @relation(fields: [userId], references: [id])
 

@@ -6,22 +6,22 @@ import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { SeedService } from '../seed.service';
 
 @Injectable()
-export class CustomersSeedService extends SeedService {
-  constructor(private prisma: PrismaService) {
-    super('customers');
+export class CustomersSeedService extends SeedService('customer') {
+  constructor(readonly prisma: PrismaService) {
+    super(prisma);
   }
 
   async removeAll() {
-    this.logInfo('REMOVE');
+    super.removeAll();
 
-    await this.prisma.customer.deleteMany();
+    await this.model.deleteMany();
   }
 
   async seed() {
-    this.logInfo('SEED');
+    super.seed();
 
     for await (const customer of customersMock) {
-      await this.prisma.customer.create({
+      await this.model.create({
         data: {
           id: customer.id,
           firstName: customer.firstName,

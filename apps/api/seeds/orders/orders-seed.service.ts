@@ -7,23 +7,23 @@ import { createOrderLinesByLines } from '../helpers';
 import { SeedService } from '../seed.service';
 
 @Injectable()
-export class OrdersSeedService extends SeedService {
-  constructor(private prisma: PrismaService) {
-    super('orders');
+export class OrdersSeedService extends SeedService('order') {
+  constructor(readonly prisma: PrismaService) {
+    super(prisma);
   }
 
   async removeAll() {
-    this.logInfo('REMOVE');
+    super.removeAll();
 
     await this.prisma.orderLine.deleteMany();
-    await this.prisma.order.deleteMany();
+    await this.model.deleteMany();
   }
 
   async seed() {
-    this.logInfo('SEED');
+    super.seed();
 
     for await (const order of ordersMock) {
-      await this.prisma.order.create({
+      await this.model.create({
         data: {
           id: order.id,
           date: new Date(order.date),

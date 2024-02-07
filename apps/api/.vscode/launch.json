@@ -29,7 +29,7 @@
       "type": "node",
       "request": "launch",
       "name": "Debug prisma seed",
-      "args": ["${workspaceFolder}/prisma/seed.ts"],
+      "args": ["${workspaceFolder}/seeds/main.ts"],
       "runtimeArgs": [
         "--nolazy",
         "-r",
