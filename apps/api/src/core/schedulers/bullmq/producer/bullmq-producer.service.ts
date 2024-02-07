@@ -56,7 +56,7 @@ export class BullmqProducerService {
     );
 
     // eslint-disable-next-line unicorn/prefer-module
-    this.logger.log(__dirname, `Job '${job.name}' added to ${job.queueName}`, {
+    this.logger.log(__dirname, `Job '${job.name}' added to the '${job.queueName}' queue`, {
       data: job.data,
       options: job.opts,
     });

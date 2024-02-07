@@ -10,18 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// System models
+
 model User {
-  id           String    @id @default(uuid()) @db.Uuid
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  deletedAt    DateTime?
-  name         String    @unique
-  passwordHash String
-  role         String
-  active       Boolean   @default(false)
-  confirmed    Boolean   @default(false)
-  customer     Customer  @relation(fields: [customerId], references: [id])
-  customerId   String    @unique @db.Uuid
+  id             String           @id @default(uuid()) @db.Uuid
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  deletedAt      DateTime?
+  name           String           @unique
+  passwordHash   String
+  role           String
+  active         Boolean          @default(false)
+  confirmed      Boolean          @default(false)
+  customer       Customer         @relation(fields: [customerId], references: [id])
+  customerId     String           @unique @db.Uuid
+  activationCode ActivationCode[]
 
   @@map("users")
 }
@@ -41,6 +44,20 @@ model Customer {
   @@map("customers")
 }
 
+model ActivationCode {
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  code      String
+  attempts  Int       @default(3)
+  userId    String    @db.Uuid
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("activationCodes")
+}
+
+// Domains models
 model Category {
   id        String    @id @default(uuid()) @db.Uuid
   name      String    @unique

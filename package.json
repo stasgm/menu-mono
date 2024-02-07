@@ -43,5 +43,13 @@
     "pnpm": ">=8.*",
     "yarn": "please-use-pnpm"
   },
-  "packageManager": "pnpm@8.6.5"
+  "packageManager": "pnpm@8.6.5",
+  "pnpm": {
+    "overrides": {
+      "postcss@<8.4.31": ">=8.4.31",
+      "zod@<=3.22.2": ">=3.22.3",
+      "next@>=0.9.9 <13.4.20-canary.13": ">=13.4.20-canary.13",
+      "@apollo/experimental-nextjs-app-support@<=0.6.0": ">=0.7.0"
+    }
+  }
 }

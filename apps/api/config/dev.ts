@@ -4,11 +4,11 @@ const config: IAppConfig = {
   envPrefix: 'development',
   nestPort: 3000,
   postgres: {
-    dbname: 'devdb',
+    dbname: 'menu-mono',
     host: 'localhost',
     port: 5433,
-    user: 'dev_user',
-    password: '1234',
+    user: 'test',
+    password: 'test',
   },
   redis: {
     host: 'localhost',

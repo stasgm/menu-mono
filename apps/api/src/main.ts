@@ -30,6 +30,10 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
+  if (!appConfig.isProduction) {
+    logger.debug(`Current environment: ${appConfig.envPrefix}`);
+  }
+
   logger.log(`Application is running on: http://localhost:${PORT}`);
   logger.log(`GraphQL Sandbox: http://localhost:${PORT}/graphql`);
 }

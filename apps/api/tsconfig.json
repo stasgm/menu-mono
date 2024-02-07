@@ -5,6 +5,7 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
+    // "baseUrl": "./",
     "declaration": true,
     "declarationMap": true,
     "emitDecoratorMetadata": true,
@@ -15,6 +16,10 @@
       "@/modules/*": ["modules/*"],
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"]
+      // "@/core/*": ["./src/core/*"],
+      // "@/modules/*": ["./src/modules/*"],
+      // "@/types/*": ["./src/types/*"],
+      // "@/utils/*": ["./src/utils/*"]
     }
   },
   "references": [

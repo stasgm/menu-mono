@@ -1,14 +1,15 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UserNotFoundException } from '@/core/exceptions';
+import { ActivationCode } from '@/modules/activation-codes/models/activation-code.model';
 import { User } from '@/modules/users/models/user.model';
 
 import { AuthService } from './auth.service';
 import { ContextData, IContextData } from './decorators/context-data.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { LoginUserInput } from './dto/login-user.input';
-import { RegisterUserInput } from './dto/register-user.input';
+import { LoginUserInput } from './dto/inputs/login-user.input';
+import { RegisterUserInput } from './dto/inputs/register-user.input';
 import { JwtAccessAuthGuard } from './guards/jwt-access.guard';
 import { JwtRefreshAuthGuard } from './guards/jwt-refresh.guard';
 import { Auth } from './models/auth.model';
@@ -34,8 +35,8 @@ export class AuthResolver {
   @Mutation(() => Auth, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
     @ContextData('req') ctx: IContextData,
-    @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput,
-  ): Promise<Auth> {
+    @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput
+  ): Promise<ActivationCode> {
     return this.authService.register(data, ctx);
   }
 

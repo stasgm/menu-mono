@@ -3,14 +3,16 @@ import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
+import { ActivationCodesService } from '@/modules/activation-codes/activation-codes.service';
+import { ActivationCode } from '@/modules/activation-codes/models/activation-code.model';
 import { CustomersService } from '@/modules/customers/customers.service';
 import { MailService } from '@/modules/mail/mail.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
 import { IContextData } from './decorators/context-data.decorator';
-import { LoginUserInput } from './dto/login-user.input';
-import { RegisterUserInput } from './dto/register-user.input';
+import { LoginUserInput } from './dto/inputs/login-user.input';
+import { RegisterUserInput } from './dto/inputs/register-user.input';
 import { Auth } from './models/auth.model';
 import { Tokens } from './models/tokens.model';
 import { PasswordService } from './password.service';
@@ -27,6 +29,7 @@ export class AuthService {
 
   constructor(
     private readonly appConfig: AppConfig,
+    private readonly activationCodesService: ActivationCodesService,
     private readonly mailService: MailService,
     private readonly usersService: UsersService,
     private readonly customersService: CustomersService,
@@ -34,7 +37,7 @@ export class AuthService {
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerUserInput: RegisterUserInput, ctx: IContextData): Promise<Auth> {
+  async register(registerUserInput: RegisterUserInput, ctx: IContextData): Promise<ActivationCode> {
     this.logger.debug(`Operation: registerUser`);
 
     const { password, customer: createCustomerInput, ...createUserInput } = registerUserInput;
@@ -74,34 +77,44 @@ export class AuthService {
       throw new InternalServerErrorException('Failed to create user');
     }
 
-    // 5. Send an email to confirm the user.
+    // 5. Send an email to activate the user.
     // TODO generate activation code
-    const code = '123456';
+    const activationCodesService = await this.activationCodesService.create({
+      userId: user.id,
+    });
+
+    // TODO use the same transaction as user and customer
+    if (!activationCodesService) {
+      throw new InternalServerErrorException('Failed to create activation code');
+    }
+
     const originIp = ctx.originIp ?? 'Unknown';
     const device = ctx.userAgent ?? 'Unknown';
-    const location = '3-й подъезд слева от дома 19, Малиновка, Минск, Беларусь';
+    const location = 'Unknown';
 
     await this.mailService.userRegister({
       to: customer.email,
       data: {
         userName: user.name,
-        code,
+        code: activationCodesService.code,
         location,
         originIp,
         device,
       },
     });
-    // TODO Add bullmq service to send email
 
-    // 6. Generate tokens
-    // TODO generate tokens for the user and agent: this.generateTokens(user, agent);
-    // TODO do not generate tokens if the user is not active
-    const tokens = await this.generateTokens({ sub: user.id, role: user.role });
+    // 6. Return the activation code
+    return activationCodesService;
 
-    return {
-      user,
-      ...tokens,
-    };
+    // // 6. Generate tokens
+    // // TODO generate tokens for the user and agent: this.generateTokens(user, agent);
+    // // TODO do not generate tokens if the user is not active
+    // const tokens = await this.generateTokens({ sub: user.id, role: user.role });
+
+    // return {
+    //   user,
+    //   ...tokens,
+    // };
   }
 
   async login(loginUserInput: LoginUserInput): Promise<Auth> {

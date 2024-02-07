@@ -15,6 +15,11 @@ export interface IUserAdditionalData {
   device: string;
 }
 
+const Templates = {
+  userRegistration: 'user-registration',
+  resetPassword: 'reset-password',
+};
+
 export interface IUserRegistrationData extends IUserAdditionalData {
   code: string;
 }
@@ -34,7 +39,7 @@ export class MailService {
         transporterName: 'gmail',
         to: mailData.to,
         subject: 'User registration',
-        template: 'user-registration',
+        template: Templates.userRegistration,
         context: mailData.data,
       },
     });
@@ -47,7 +52,7 @@ export class MailService {
         transporterName: 'gmail',
         to: mailData.to,
         subject: 'Reset password',
-        template: 'reset-password',
+        template: Templates.resetPassword,
         context: mailData.data,
       },
     });

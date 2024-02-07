@@ -8,7 +8,7 @@ CREATE TABLE "users" (
     "passwordHash" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL DEFAULT false,
-    "confirmed" BOOLEAN NOT NULL DEFAULT false,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
     "customerId" UUID NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
@@ -26,6 +26,18 @@ CREATE TABLE "customers" (
     "email" TEXT NOT NULL,
 
     CONSTRAINT "customers_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "activationCodes" (
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "code" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+
+    CONSTRAINT "activationCodes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -159,6 +171,9 @@ CREATE INDEX "_MenuToMenuLine_B_index" ON "_MenuToMenuLine"("B");
 
 -- AddForeignKey
 ALTER TABLE "users" ADD CONSTRAINT "users_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "customers"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "activationCodes" ADD CONSTRAINT "activationCodes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "menuLines" ADD CONSTRAINT "menuLines_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

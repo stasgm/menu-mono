@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { Injectable } from '@nestjs/common';
 import { MailerOptions, MailerOptionsFactory } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
@@ -24,7 +26,7 @@ export class MailConfigService implements MailerOptionsFactory {
       },
       template: {
         // eslint-disable-next-line unicorn/prefer-module
-        dir: __dirname + '/templates',
+        dir: path.join(__dirname, 'templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,

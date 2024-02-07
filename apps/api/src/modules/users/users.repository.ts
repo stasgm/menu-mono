@@ -57,7 +57,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
       data: { customerId, ...user },
     } = params;
 
-    return this.prisma.user.create({
+    return this.model.create({
       data: {
         customer: this.connectCustomerById(customerId),
         ...user,
@@ -66,13 +66,14 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
-  async getUser(params: { where: Prisma.UserWhereInput }) {
+  getUser(params: { where: Prisma.UserWhereInput }) {
     const { where } = params;
-    return await this.prisma.user.findFirst({ where, include: userInclude });
+
+    return this.model.findFirst({ where, include: userInclude });
   }
 
   getUserById(id: string) {
-    return this.prisma.user.findUnique({ where: { id }, include: userInclude });
+    return this.model.findUnique({ where: { id }, include: userInclude });
   }
 
   getUsers(params: {
@@ -84,7 +85,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
   }): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params;
 
-    return this.prisma.user.findMany({
+    return this.model.findMany({
       skip,
       take,
       cursor,
@@ -97,12 +98,13 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
   updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }): Promise<User | null> {
     const { where, data } = params;
 
-    return this.prisma.user.update({ where, data, include: userInclude });
+    return this.model.update({ where, data, include: userInclude });
   }
 
   deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User | null> {
     const { where } = params;
-    return this.prisma.user.delete({ where, include: userInclude });
+
+    return this.model.delete({ where, include: userInclude });
   }
 
   private connectCustomerById(id: string): Prisma.CustomerCreateNestedOneWithoutUserInput {

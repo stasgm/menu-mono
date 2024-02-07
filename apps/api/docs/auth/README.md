@@ -14,3 +14,12 @@ flowchart TD
     C1 --> K([End])
     
 ```
+
+## TODO
+
+- [ ] Add auth entity for storing user authentication method with following fields:
+  - user
+  - active
+  - method
+  - provider
+- [ ] Add loginSocial and registerSocial method for social authentication

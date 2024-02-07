@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import config from 'config';
 
 import { AuthenticationConfig, JwtAuthConfig, MailConfig, PostgresConfig, RedisConfig } from './types';
@@ -10,6 +10,8 @@ const DEFAULT_NESTJS_PORT = 5000;
 
 @Injectable()
 export class AppConfig {
+  private readonly logger = new Logger('AppConfig');
+
   static get nestApiGlobalPrefix(): string {
     return '/api/v1';
   }
@@ -31,9 +33,10 @@ export class AppConfig {
 
     const uri = `postgresql://${user}:${password}@${host}:${port}/${dbname}?schema=public`;
 
-    if (this.envPrefix !== 'test') {
-      console.log(uri);
+    if (this.envPrefix !== 'test' && !this.isProduction) {
+      this.logger.debug(uri);
     }
+
     return uri;
   }
 
@@ -55,11 +58,12 @@ export class AppConfig {
   get redisUrl(): string {
     const { host, port } = this.redis;
 
-    const uri = `postgresql://${host}:${port}`;
+    const uri = `redis://${host}:${port}`;
 
-    if (this.envPrefix !== 'test') {
-      console.log(uri);
+    if (this.envPrefix !== 'test' && !this.isProduction) {
+      this.logger.debug(uri);
     }
+
     return uri;
   }
 
@@ -104,7 +108,7 @@ export class AppConfig {
     const { googleApi, mockMailing, transport } = mail;
 
     return {
-      mockMailing: mockMailing ?? false,
+      mockMailing: mockMailing ?? process.env.MOCK_MAILING === 'true',
       transport: transport ?? 'smtps://username:password@smtp.example.com',
       googleApi: {
         clientId: googleApi?.clientId ?? process.env.GOOGLE_API_CLIENT_ID ?? '',

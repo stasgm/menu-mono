@@ -19,6 +19,9 @@
       ],
       "sourceMaps": true,
       "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "MOCK_MAILING": "true"
+      },
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal"
     },
