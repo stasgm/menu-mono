@@ -113,3 +113,5 @@
 //   menus,
 //   products,
 // });
+
+export default {};

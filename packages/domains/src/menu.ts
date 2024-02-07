@@ -1,5 +1,5 @@
 import { ICategory, ICategoryData } from './category';
-import { IProductData, IProduct, getProduct } from './product';
+import { getProduct, IProduct, IProductData } from './product';
 
 export interface IMenuline {
   id: string;
@@ -81,7 +81,7 @@ export const getCurrentMenu = (generateMenuData: IGenerateMenuData): IMenu => {
     );
   });
 
-  if (!activeMenus.length) {
+  if (activeMenus.length === 0) {
     throw new Error('No active menu');
   }
 

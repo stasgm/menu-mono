@@ -47,3 +47,5 @@
 //     expect(menu.lines.length).toBe(4);
 //   });
 // });
+
+export default {};

@@ -59,5 +59,5 @@ export const generateOrderLines = (productSelection: IProductSelection): IOrderL
       price: cur.price,
       totalAmount: cur.quantity * cur.price,
     };
-  }, []);
+  });
 };
