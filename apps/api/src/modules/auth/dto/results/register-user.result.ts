@@ -10,5 +10,5 @@ import { AuthUserResponse } from '../responses/auth-user.response';
 export const RegisterUserResultUnion = createUnionType({
   name: 'RegisterUserResult',
   types: () => [AuthUserResponse],
-// types: () => [AuthUserResponse, InvalidInputError, CredentialsTakenError],
+  // types: () => [AuthUserResponse, InvalidInputError, CredentialsTakenError],
 });

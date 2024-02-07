@@ -5,6 +5,7 @@ import { AppConfig } from '@/core/config/app-config';
 import { PrismaExceptionFilter } from '@/core/persistence/prisma/prisma-exception.filter';
 
 import { AppModule } from './app.module';
+import { GlobalExceptionFilter } from './core/exceptions/http-exception-filter';
 // import { GlobalExceptionFilter } from './core/exceptions/http-exception-filter';
 
 declare const module: any;
@@ -19,7 +20,7 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter());
-  app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter));
+  app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaExceptionFilter(httpAdapter));
 
   const PORT = appConfig.nestPort;
 

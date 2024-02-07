@@ -8,16 +8,15 @@ import { DirectiveLocation, GraphQLDirective, GraphQLError, GraphQLFormattedErro
 
 import { AppConfig } from '@/core/config/app-config';
 
-import { upperDirectiveTransformer } from '../directives/upper-case.directive';
+import { upperDirectiveTransformer } from './directives/upper-case.directive';
 
 @Injectable()
 export class GraphqlConfigService implements GqlOptionsFactory {
-  private readonly appConfig = new AppConfig();
-  // constructor(private readonly appConfig: AppConfig) {}
+  constructor(private readonly appConfig: AppConfig) {}
 
   private formatError(formattedError: GraphQLFormattedError, error: unknown) {
     const message = formattedError.message.replace('Validation error: ', '').replace('GraphQL error: ', '');
-    const name = formattedError.extensions?.code
+    const name = formattedError.extensions?.code;
     const originalError = formattedError?.extensions?.originalError as Record<string, unknown>;
 
     const code = originalError?.statusCode ?? formattedError.extensions?.status ?? 500;
@@ -26,7 +25,7 @@ export class GraphqlConfigService implements GqlOptionsFactory {
       return {
         message,
         name,
-        code
+        code,
       };
     } else if (error instanceof HttpException) {
       return {
@@ -43,12 +42,12 @@ export class GraphqlConfigService implements GqlOptionsFactory {
     return {
       formatError: (formattedError, error) => this.formatError(formattedError, error),
       autoSchemaFile: join(process.cwd(), 'src/types/schema.gql'),
-      // sortSchema: true,
+      sortSchema: true,
       transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
       // installSubscriptionHandlers: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      includeStacktraceInErrorResponses: process.env.NODE_ENV === 'development',
+      includeStacktraceInErrorResponses: !this.appConfig.isProduction,
       buildSchemaOptions: {
         // dateScalarMode: 'timestamp',
         directives: [
