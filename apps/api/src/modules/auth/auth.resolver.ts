@@ -32,11 +32,11 @@ export class AuthResolver {
     return user;
   }
 
-  @Mutation(() => Auth, { name: 'registerUser', description: 'User Registeration' })
+  @Mutation(() => User, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
     @ContextData('req') ctx: IContextData,
     @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput
-  ): Promise<ActivationCode> {
+  ): Promise<User> {
     return this.authService.register(data, ctx);
   }
 

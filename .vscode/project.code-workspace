@@ -18,14 +18,11 @@
     },
   ],
   "settings": {
-    "jest.autoRun": {
-      "jest.runAllTestsFirst": false
-    },
-    "jest.showCoverageOnLoad": false,
+    "jest.runMode": "on-demand",
     "jest.disabledWorkspaceFolders": [
       "ROOT",
       "apps/api",
-      "apps/web"
+      "apps/web",
       "packages/domains",
       "packages/mocks"
     ]

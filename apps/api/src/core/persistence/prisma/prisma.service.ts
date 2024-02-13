@@ -6,8 +6,11 @@ import { AppConfig } from '@/core/config/app-config';
 @Injectable()
 export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {
   constructor(readonly appConfig: AppConfig) {
-    // const url = new AppConfig().postgresUrl;
     const url = appConfig.postgresUrl;
+
+    if (!url) {
+      throw new Error('Postgres url is not set');
+    }
 
     super({
       datasources: {

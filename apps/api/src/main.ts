@@ -33,9 +33,11 @@ async function bootstrap() {
 
   if (!appConfig.isProduction) {
     logger.debug(`Current environment: ${appConfig.envPrefix}`);
+    logger.debug(`Mailing is ${appConfig.mail.mockMailing ? 'mocked' : 'enabled'}`);
   }
 
   logger.log(`Application is running on: http://localhost:${PORT}`);
   logger.log(`GraphQL Sandbox: http://localhost:${PORT}/graphql`);
 }
+
 bootstrap();

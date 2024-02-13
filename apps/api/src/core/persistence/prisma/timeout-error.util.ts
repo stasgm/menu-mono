@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { Observable, TimeoutError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 
+// TODO: check use case
 export function handleTimeoutAndErrors<T = unknown>() {
   return (source$: Observable<T>) =>
     source$.pipe(

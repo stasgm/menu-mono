@@ -33,7 +33,7 @@ const runSeed = async () => {
   }
 
   logger.log('');
-  logger.log('🚀 -= Seeding =-  🚀');
+  logger.log('🚀 Seeding 🚀');
   logger.log('');
 
   logger.log('🧹 Removing data in tables:');
@@ -50,7 +50,8 @@ const runSeed = async () => {
     await app.get(service).seed();
   }
 
-  logger.log('🏁 Done! \t');
+  logger.log('');
+  logger.log('🏁 Done!');
 
   await app.close();
 };

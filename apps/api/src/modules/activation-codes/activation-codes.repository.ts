@@ -76,7 +76,7 @@ export class ActivationCodesRepository extends BaseRepository(
 
     return this.model.create({
       data: {
-        user: this.connectUserById(userId),
+        userId,
         attempts: 0,
         code: generateRandomNumber(NUMBER_OF_DIGITS).toString(),
         ...activationCode,
@@ -125,12 +125,13 @@ export class ActivationCodesRepository extends BaseRepository(
 
   deleteActivationCode(params: { where: Prisma.ActivationCodeWhereUniqueInput }): Promise<ActivationCode | null> {
     const { where } = params;
+
     return this.model.delete({ where, include: activationCodeInclude });
   }
 
-  private connectUserById(id: string): Prisma.UserCreateNestedOneWithoutActivationCodeInput {
-    return {
-      connect: { id },
-    };
-  }
+  // private connectUserById(id: string): Prisma.UserCreateNestedOneWithoutActivationCodeInput {
+  //   return {
+  //     connect: { id },
+  //   };
+  // }
 }

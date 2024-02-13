@@ -32,6 +32,19 @@ export interface IUserPasswordResetData extends IUserAdditionalData {
 export class MailService {
   constructor(private readonly bullmqProducerService: BullmqProducerService) {}
 
+  async insertNewMail<T>(mailData: IMailData<T>) {
+    // await this.bullmqProducerService.insertNewJob<MailJob<IUserRegistrationData>>({
+    //   name: 'mailQueue',
+    //   data: {
+    //     transporterName: 'gmail',
+    //     to: mailData.to,
+    //     subject: 'User registration',
+    //     template: Templates.userRegistration,
+    //     context: mailData.data,
+    //   },
+    // });
+  }
+
   async userRegister(mailData: IMailData<IUserRegistrationData>) {
     await this.bullmqProducerService.insertNewJob<MailJob<IUserRegistrationData>>({
       name: 'mailQueue',

@@ -4,9 +4,9 @@ const config: IAppConfig = {
   envPrefix: 'test',
   nestPort: 3000,
   postgres: {
-    dbname: 'testdb',
+    dbname: 'menu-mono-test',
     host: 'localhost',
-    port: 5434,
+    port: 5433,
     user: 'test_user',
     password: '1234',
   },
@@ -14,6 +14,9 @@ const config: IAppConfig = {
     host: 'localhost',
     port: 6379,
   },
+  mail: {
+    mockMailing: true,
+  }
 };
 
 export default config;

@@ -1,8 +1,5 @@
 {
-  "jest.autoRun": {
-    "jest.runAllTestsFirst": false,
-  },
-  "jest.showCoverageOnLoad": false,
+  "jest.runMode": "on-demand",
   "json.schemaDownload.enable": true,
   "json.validate.enable": false,
   "jest.disabledWorkspaceFolders": ["*"]

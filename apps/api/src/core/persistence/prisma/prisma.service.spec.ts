@@ -1,5 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AppConfig } from '@/core/config/app-config';
+
 import { PrismaService } from './prisma.service';
 
 describe('PrismaService', () => {
@@ -7,8 +9,12 @@ describe('PrismaService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PrismaService],
-    }).compile();
+      providers: [PrismaService, AppConfig],
+    })
+      .useMocker(() => {
+        return {};
+      })
+      .compile();
 
     service = module.get<PrismaService>(PrismaService);
   });

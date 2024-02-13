@@ -1,4 +1,5 @@
-version: '3.8'
+version: '3.9'
+
 services:
   menu-prisma-migrate:
     container_name: menu-prisma-migrate

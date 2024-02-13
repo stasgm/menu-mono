@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException, Logger, UnauthorizedException
 import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
-import { UserAlreadyExistsException, UserNotFoundException } from '@/core/exceptions';
+import { UserAlreadyExistsException, UserNotConfirmedException, UserNotFoundException } from '@/core/exceptions';
 import { ActivationCodesService } from '@/modules/activation-codes/activation-codes.service';
 import { ActivationCode } from '@/modules/activation-codes/models/activation-code.model';
 import { CustomersService } from '@/modules/customers/customers.service';
@@ -37,7 +37,7 @@ export class AuthService {
     private readonly passwordService: PasswordService
   ) {}
 
-  async register(registerUserInput: RegisterUserInput, ctx: IContextData): Promise<ActivationCode> {
+  async register(registerUserInput: RegisterUserInput, ctx: IContextData): Promise<User> {
     this.logger.debug(`Operation: registerUser`);
 
     const { password, customer: createCustomerInput, ...createUserInput } = registerUserInput;
@@ -67,7 +67,7 @@ export class AuthService {
     const user = await this.usersService.create({
       ...createUserInput,
       passwordHash,
-      active: false,
+      active: true,
       confirmed: false,
       role: Roles.USER,
       customerId: customer.id,
@@ -78,13 +78,12 @@ export class AuthService {
     }
 
     // 5. Send an email to activate the user.
-    // TODO generate activation code
-    const activationCodesService = await this.activationCodesService.create({
+    const activationCode = await this.activationCodesService.create({
       userId: user.id,
     });
 
     // TODO use the same transaction as user and customer
-    if (!activationCodesService) {
+    if (!activationCode) {
       throw new InternalServerErrorException('Failed to create activation code');
     }
 
@@ -96,7 +95,7 @@ export class AuthService {
       to: customer.email,
       data: {
         userName: user.name,
-        code: activationCodesService.code,
+        code: activationCode.code,
         location,
         originIp,
         device,
@@ -104,7 +103,7 @@ export class AuthService {
     });
 
     // 6. Return the activation code
-    return activationCodesService;
+    return user;
 
     // // 6. Generate tokens
     // // TODO generate tokens for the user and agent: this.generateTokens(user, agent);
@@ -136,6 +135,10 @@ export class AuthService {
 
     if (!(await this.passwordService.validatePassword(password, user.passwordHash))) {
       throw new UnauthorizedException();
+    }
+
+    if (!user.confirmed) {
+      throw new UserNotConfirmedException();
     }
 
     const payload = { sub: user.id, role: user.role };

@@ -8,8 +8,8 @@ import { AppConfig } from '@/core/config/app-config';
 
 @Injectable()
 export class MailConfigService implements MailerOptionsFactory {
-  private readonly appConfig = new AppConfig();
-  // constructor() {}
+  // private readonly appConfig = new AppConfig();
+  constructor(private readonly appConfig: AppConfig) {}
 
   createMailerOptions(): MailerOptions {
     return {
@@ -25,8 +25,7 @@ export class MailConfigService implements MailerOptionsFactory {
         from: `"No reply" <${this.appConfig.mail.googleApi.apiEmail}>`,
       },
       template: {
-        // eslint-disable-next-line unicorn/prefer-module
-        dir: path.join(__dirname, 'templates'),
+        dir: path.join(process.cwd(), 'src', 'modules', 'mail', 'templates'),
         adapter: new HandlebarsAdapter(),
         options: {
           strict: true,

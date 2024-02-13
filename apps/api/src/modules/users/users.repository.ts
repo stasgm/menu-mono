@@ -59,7 +59,8 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
 
     return this.model.create({
       data: {
-        customer: this.connectCustomerById(customerId),
+        customerId,
+        // customer: this.connectCustomerById(customerId),
         ...user,
       },
       include: userInclude,
@@ -107,9 +108,9 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.model.delete({ where, include: userInclude });
   }
 
-  private connectCustomerById(id: string): Prisma.CustomerCreateNestedOneWithoutUserInput {
-    return {
-      connect: { id },
-    };
-  }
+  // private connectCustomerById(id: string): Prisma.CustomerCreateNestedOneWithoutUserInput {
+  //   return {
+  //     connect: { id },
+  //   };
+  // }
 }
