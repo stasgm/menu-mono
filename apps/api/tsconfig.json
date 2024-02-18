@@ -19,7 +19,7 @@
       "@/core/*": ["./src/core/*"],
       "@/modules/*": ["./src/modules/*"],
       "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/libs/*": ["./src/libs/*"]
     }
   },
   "references": [

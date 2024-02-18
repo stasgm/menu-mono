@@ -19,12 +19,6 @@
   ],
   "settings": {
     "jest.runMode": "on-demand",
-    "jest.disabledWorkspaceFolders": [
-      "ROOT",
-      "apps/api",
-      "apps/web",
-      "packages/domains",
-      "packages/mocks"
-    ]
+    "jest.disabledWorkspaceFolders": []
   }
 }

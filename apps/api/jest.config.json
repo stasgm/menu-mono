@@ -18,7 +18,7 @@
         "^@/core(.*)$": "<rootDir>/core$1",
         "^@/modules(.*)$": "<rootDir>/modules$1",
         "^@/types(.*)$": "<rootDir>/types$1",
-        "^@/utils(.*)$": "<rootDir>/utils$1"
+        "^@/libs(.*)$": "<rootDir>/libs$1"
       },
       "transform": {
         "^.+\\.(ts|js)?$": [
@@ -34,7 +34,7 @@
         "^@/core(.*)$": "<rootDir>/../src/core$1",
         "^@/modules(.*)$": "<rootDir>/../src/modules$1",
         "^@/types(.*)$": "<rootDir>/../src/types$1",
-        "^@/utils(.*)$": "<rootDir>/../src/utils$1"
+        "^@/libs(.*)$": "<rootDir>/../src/libs$1"
       },
       "transform": {
         "^.+\\.(ts|js)?$": [

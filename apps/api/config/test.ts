@@ -6,9 +6,9 @@ const config: IAppConfig = {
   postgres: {
     dbname: 'menu-mono-test',
     host: 'localhost',
-    port: 5433,
-    user: 'test_user',
-    password: '1234',
+    port: 5434,
+    user: 'test',
+    password: 'test',
   },
   redis: {
     host: 'localhost',

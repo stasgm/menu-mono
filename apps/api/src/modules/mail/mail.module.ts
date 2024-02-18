@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef,Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 import { AppConfigModule } from '@/core/config/app-config.module';
@@ -14,7 +14,7 @@ import { MailConfigService } from './mail-config.service';
       inject: [AppConfigModule],
       useClass: MailConfigService,
     }),
-    SchedulersModule,
+    forwardRef(() => SchedulersModule),
     AppConfigModule,
   ],
   providers: [MailService],

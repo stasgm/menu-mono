@@ -4,9 +4,10 @@ import { JwtService } from '@nestjs/jwt';
 import { AppConfig } from '@/core/config/app-config';
 import { UserAlreadyExistsException, UserNotConfirmedException, UserNotFoundException } from '@/core/exceptions';
 import { ActivationCodesService } from '@/modules/activation-codes/activation-codes.service';
-import { ActivationCode } from '@/modules/activation-codes/models/activation-code.model';
+// import { ActivationCode } from '@/modules/activation-codes/models/activation-code.model';
 import { CustomersService } from '@/modules/customers/customers.service';
 import { MailService } from '@/modules/mail/mail.service';
+import { IUserRegistrationData } from '@/modules/mail/mail.types';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
@@ -91,9 +92,14 @@ export class AuthService {
     const device = ctx.userAgent ?? 'Unknown';
     const location = 'Unknown';
 
-    await this.mailService.userRegister({
-      to: customer.email,
-      data: {
+    // await this.mailService.insertNewMail<IUserRegistrationData>({
+    await this.mailService.insertEmailInQueue<IUserRegistrationData>({
+      to: {
+        name: user.name,
+        address: customer.email,
+      },
+      type: 'userRegistration',
+      context: {
         userName: user.name,
         code: activationCode.code,
         location,
