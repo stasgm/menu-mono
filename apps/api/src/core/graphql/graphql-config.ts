@@ -16,9 +16,11 @@ export class GraphqlConfigService implements GqlOptionsFactory {
 
   private formatError(formattedError: GraphQLFormattedError, error: unknown) {
     const message = formattedError.message.replace('Validation error: ', '').replace('GraphQL error: ', '');
-    const name = formattedError.extensions?.code;
-    const originalError = formattedError?.extensions?.originalError as Record<string, unknown>;
+    const originalError =
+      ((error ?? ({} as any)).originalError as Record<string, unknown>) ??
+      (formattedError?.extensions?.originalError as Record<string, unknown>);
 
+    const name = originalError?.code ?? formattedError.extensions?.code;
     const code = originalError?.statusCode ?? formattedError.extensions?.status ?? 500;
 
     if (error instanceof GraphQLError) {

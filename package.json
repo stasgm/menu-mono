@@ -7,8 +7,6 @@
   "author": "Stanislau Shliakhtsich",
   "scripts": {
     "api:dev": "turbo run dev --filter=api",
-    "web-admin:dev": "turbo run dev --filter=web-admin",
-    "web:dev": "turbo run dev --filter=web",
     "clean": "turbo run clean",
     "clear-node-modules": "rimraf packages/*/node_modules && rimraf apps/*/node_modules && rimraf configs/**/*/node_modules && rimraf node_modules",
     "clear-turbo-cache": "rimraf packages/*/.turbo && rimraf apps/*/.turbo && rimraf configs/**/*/.turbo && rimraf .turbo",
@@ -21,7 +19,9 @@
     "test:ci": "turbo run test:ci",
     "test:integration": "turbo run test:integration",
     "test:unit": "turbo run test:unit",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "web:dev": "turbo run dev --filter=web",
+    "web-admin:dev": "turbo run dev --filter=web-admin"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.6.1",

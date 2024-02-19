@@ -1,5 +1,5 @@
 import { BullModule } from '@nestjs/bullmq';
-import { forwardRef,Global, Module } from '@nestjs/common';
+import { forwardRef, Global, Module } from '@nestjs/common';
 
 import { AppConfig } from '@/core/config/app-config';
 import { MailModule } from '@/modules/mail/mail.module';

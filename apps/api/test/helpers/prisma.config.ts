@@ -3,7 +3,6 @@ import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 import { AppConfig } from '@/core/config/app-config';
-import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 @Injectable()
 export class PrismaTestService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {

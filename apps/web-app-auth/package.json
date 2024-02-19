@@ -1,18 +1,18 @@
 {
+  "private": true,
   "name": "web-app-auth",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "build": "next build",
     "clean": "rimraf build",
     "dev": "next dev -p 3003",
     "format": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --write",
     "format:check": "prettier --parser=typescript \"src/**/*.{js,ts*}\" --check",
+    "gen": "graphql-codegen",
     "lint": "next lint --fix",
     "lint-staged": "pnpm dlx lint-staged",
     "start": "next start",
-    "typecheck": "tsc --noEmit",
-    "gen": "graphql-codegen"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.8.9",

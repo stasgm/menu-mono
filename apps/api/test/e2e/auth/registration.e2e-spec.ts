@@ -13,6 +13,10 @@ describe('User registration', () => {
 
   let e2e: E2EApp;
 
+  beforeAll(async () => {
+    e2e = await initializeApp();
+  });
+
   beforeEach(async () => {
     e2e = await initializeApp();
     await e2e.cleanup();
@@ -56,7 +60,7 @@ describe('User registration', () => {
     const result = await request(e2e.app.getHttpServer()).post('/graphql').send(gqlReq).expect(200);
     const data = result.body.data?.registerUser;
 
-    expect(result.body.error).toBeUndefined();
+    expect(result.body.errors).toBeUndefined();
     expect(data).not.toBeUndefined();
     expect(data.name).toBe(registerUserInput.name);
     expect(data.active).toBe('true');
@@ -68,5 +72,34 @@ describe('User registration', () => {
     expect(data.customer.phoneNumber).toBe(registerUserInput.customer.phoneNumber);
 
     // TODO: get activationCode from email or db
+  });
+
+  it('should fail when registering a new user if the user already exists', async () => {
+    const registerUserInput = {
+      name: 'Stasnislau',
+      password: '1234',
+      customer: {
+        email: 'stasgm@gmail.com',
+        lastName: 'Stanislau',
+        firstName: 'Shl',
+        phoneNumber: '+1112223231',
+      },
+    };
+    const gqlReq = {
+      query,
+      variables: {
+        registerUserInput: registerUserInput,
+      },
+    };
+
+    // first registration ok
+    const result = await request(e2e.app.getHttpServer()).post('/graphql').send(gqlReq).expect(200);
+    // second registration should fail
+    const result2 = await request(e2e.app.getHttpServer()).post('/graphql').send(gqlReq).expect(200);
+
+    expect(result2.body.errors).not.toBeUndefined();
+    expect(result2.body.errors.length).toBe(1);
+    expect(result2.body.errors[0].message).toBe('The user with this name already exists');
+    //
   });
 });
