@@ -17,6 +17,8 @@ export type JwtAuthConfig = {
   accessExpiresIn?: string;
   refreshSecret?: string;
   refreshExpiresIn?: string;
+  activateSecret?: string;
+  activateExpiresIn?: string;
 };
 
 export type AuthenticationConfig = {

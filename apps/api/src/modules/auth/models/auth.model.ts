@@ -7,5 +7,5 @@ import { Tokens } from './tokens.model';
 @ObjectType({ description: 'Auth' })
 export class Auth extends Tokens {
   @Field(() => User, { description: 'User' })
-  user: User;
+  user: Omit<User, 'passwordHash'>;
 }

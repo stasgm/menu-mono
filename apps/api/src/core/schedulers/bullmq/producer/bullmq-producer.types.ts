@@ -3,6 +3,7 @@
 import { EmailData, MailType } from '@/modules/mail/mail.types';
 
 export const MAIL_QUEUE = 'mailQueue';
+export const MAIL_JOB = 'mailJob';
 
 export type MailJob<T = never> = {
   type: MailType;
@@ -14,4 +15,4 @@ export type MailJob<T = never> = {
 
 export const getBullmqPrefix = (env: string) => `${env.toUpperCase()}-BULLMQ-SCHEDULED-JOBS`;
 
-export type JobTypes = typeof MAIL_QUEUE;
+export type JobTypes = typeof MAIL_JOB;

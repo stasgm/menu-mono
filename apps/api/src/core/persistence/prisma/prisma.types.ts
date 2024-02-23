@@ -18,5 +18,5 @@ export type PrismaModel = keyof Omit<
 // export type PrismaModelNames = Prisma.ModelName; // "User" | "Post"
 
 // export type PrismaModels = {
-//   [M in ModelNames]: Exclude<Awaited<ReturnType<PrismaClient[Uncapitalize<M>]['findUnique']>>, null>;
+//   [M in PrismaModelNames]: Exclude<Awaited<ReturnType<PrismaClient[Uncapitalize<M>]['findUnique']>>, null>;
 // };

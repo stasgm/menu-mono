@@ -1,9 +1,10 @@
 import { HttpStatus } from '@nestjs/common';
 
+import { AppErrors } from '../constants/errors';
 import { BaseException } from './base.exception';
 
 export class UserNotFoundException extends BaseException {
-  constructor() {
-    super('USER_NOT_FOUND', 'User not found', HttpStatus.BAD_REQUEST);
+  constructor(message?: string) {
+    super(AppErrors.USER_NOT_FOUND, message ?? 'User not found', HttpStatus.BAD_REQUEST);
   }
 }

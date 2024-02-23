@@ -1,4 +1,3 @@
-// import { Injectable } from '@nestjs/common';
 import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 
@@ -7,6 +6,10 @@ import { AppConfig } from '@/core/config/app-config';
 @Injectable()
 export class PrismaTestService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {
   constructor(readonly appConfig: AppConfig) {
+    if (appConfig.envPrefix !== 'test') {
+      throw new Error('Enviroment must be only "test"');
+    }
+
     const url = appConfig.postgresUrl;
 
     if (!url) {
@@ -33,7 +36,6 @@ export class PrismaTestService extends PrismaClient<Prisma.PrismaClientOptions, 
   }
 
   async resetDB(): Promise<void> {
-    // TODO leave some data for tests
     await this.$transaction([
       this.orderLine.deleteMany(),
       this.order.deleteMany(),

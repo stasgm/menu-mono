@@ -12,6 +12,13 @@ export interface IReqUserData {
     role: string;
   };
 }
+
+export const JwtStrategies = {
+  jwtAccess: 'jwt-access',
+  jwtRefresh: 'jwt-refresh',
+  jwtActivate: 'jwt-activate',
+} as const;
+
 export interface IJwtRequest {
   req: IReqUserData;
 }

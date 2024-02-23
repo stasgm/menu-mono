@@ -4,9 +4,9 @@ import { google } from 'googleapis';
 import { Options, SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
 import { AppConfig } from '@/core/config/app-config';
-import { BullmqProducerService } from '@/core/schedulers/bullmq/producer/bullmq-producer.service';
-import { MailJob } from '@/core/schedulers/bullmq/producer/bullmq-producer.types';
 
+// import { BullmqProducerService } from '@/core/schedulers/bullmq/producer/bullmq-producer.service';
+// import { MailJob } from '@/core/schedulers/bullmq/producer/bullmq-producer.types';
 import { utils } from './helpers';
 import { DEFAULT_TRANSPORT_NAME, FAKE_EMAILS, SendEmailParams, Templates } from './mail.types';
 
@@ -16,8 +16,7 @@ export class MailService {
 
   constructor(
     private readonly mailerService: MailerService,
-    private readonly appConfig: AppConfig,
-    private readonly bullmqProducerService: BullmqProducerService
+    private readonly appConfig: AppConfig // private readonly bullmqProducerService: BullmqProducerService
   ) {}
 
   async sendEmail({ to, type, subject, context, dryRun = false }: SendEmailParams): Promise<SentMessageInfo | boolean> {
@@ -67,65 +66,6 @@ export class MailService {
       throw new TypeError('Unknow error');
     }
   }
-
-  public async insertEmailInQueue<T>(data: MailJob<T>) {
-    await this.bullmqProducerService.insertNewJob<MailJob<T>>({
-      name: 'mailQueue',
-      data: {
-        to: data.to,
-        subject: data.subject,
-        type: data.type,
-        context: data.context,
-        dryRun: data.dryRun,
-      },
-    });
-  }
-
-  //   const { job } = await this.redisScheduledJobsService.insertNewJob<SendEmailJobData>({
-  //     name: SEND_EMAIL_JOB,
-  //     data,
-  //   });
-
-  //   return !!job;
-  // }
-  // async insertNewMail<T extends IUserAdditionalData = never>(mailData: IMailData<T>) {
-  //   await this.bullmqProducerService.insertNewJob<MailJob<T>>({
-  //     name: 'mailQueue',
-  //     data: {
-  //       transporterName: 'gmail',
-  //       to: mailData.to,
-  //       subject: Templates[mailData.type].subject,
-  //       template: Templates[mailData.type].fileName,
-  //       context: mailData.data,
-  //     },
-  //   });
-  // }
-
-  // async userRegister(mailData: IMailData<IUserRegistrationData>) {
-  //   await this.bullmqProducerService.insertNewJob<MailJob<IUserRegistrationData>>({
-  //     name: 'mailQueue',
-  //     data: {
-  //       transporterName: 'gmail',
-  //       to: mailData.to,
-  //       subject: 'User registration',
-  //       template: Templates.userRegistration,
-  //       context: mailData.data,
-  //     },
-  //   });
-  // }
-
-  // async forgotPassword(mailData: IMailData<IUserPasswordResetData>) {
-  //   await this.bullmqProducerService.insertNewJob<MailJob<IUserPasswordResetData>>({
-  //     name: 'mailQueue',
-  //     data: {
-  //       transporterName: 'gmail',
-  //       to: mailData.to,
-  //       subject: 'Reset password',
-  //       template: Templates.resetPassword,
-  //       context: mailData.data,
-  //     },
-  //   });
-  // }
 
   private async setGoogleTransport() {
     const OAuth2 = google.auth.OAuth2;

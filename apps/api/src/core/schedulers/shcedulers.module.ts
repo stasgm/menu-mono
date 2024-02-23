@@ -1,7 +1,7 @@
 import { BullModule } from '@nestjs/bullmq';
-import { forwardRef, Global, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 
-import { AppConfig } from '@/core/config/app-config';
+import { AppConfigModule } from '@/core/config/app-config.module';
 import { MailModule } from '@/modules/mail/mail.module';
 
 import { MailJobProcessor } from './bullmq/consumers/mail.processor';
@@ -15,13 +15,16 @@ const processors = [MailJobProcessor];
 @Global()
 @Module({
   imports: [
-    forwardRef(() => MailModule),
+    MailModule,
+    AppConfigModule,
     BullModule.forRootAsync('generalConfig', {
       useClass: BullmqConfigService,
+      imports: [AppConfigModule],
+      inject: [AppConfigModule],
     }),
     BullModule.registerQueue(...REGISTERED_QUEUES),
   ],
-  providers: [...processors, BullmqProducerService, AppConfig],
+  providers: [...processors, BullmqProducerService],
   exports: [BullmqProducerService],
 })
 export class SchedulersModule {}

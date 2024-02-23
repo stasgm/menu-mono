@@ -4,10 +4,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 
-import { IReqUserData, JwtPayload } from '../types';
+import { IReqUserData, JwtPayload, JwtStrategies } from '../../types';
 
 @Injectable()
-export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies.jwtRefresh) {
   constructor(readonly appConfig: AppConfig) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),

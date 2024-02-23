@@ -28,3 +28,4 @@ flowchart TD
   - method
   - provider
   - [ ] Add loginSocial and registerSocial method for social authentication
+- [ ] Return user object with system fields (createdAt, updatedAt, activated, enabled etc) only for admin and super admin from login, activate and register methods

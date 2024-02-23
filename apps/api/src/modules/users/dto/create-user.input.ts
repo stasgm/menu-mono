@@ -13,9 +13,11 @@ export class CreateUserInput extends CreateBaseNamedInput {
   @Field(() => String, { description: 'User role' })
   role: string;
 
-  @Field(() => String, { description: 'User activity status' })
+  // @Field(() => String, { description: 'User activity status' })
+  @HideField()
   active: boolean;
 
-  @Field(() => String, { description: 'User confirmation status' })
-  confirmed: boolean;
+  // @Field(() => String, { description: 'User confirmation status' })
+  @HideField()
+  disabled: boolean;
 }

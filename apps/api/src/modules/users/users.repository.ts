@@ -52,7 +52,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.deleteUser({ where: { id } });
   }
 
-  createUser(params: { data: CreateUserInput }): Promise<User | null> {
+  createUser(params: { data: CreateUserInput }) {
     const {
       data: { customerId, ...user },
     } = params;
@@ -96,13 +96,13 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
-  updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }): Promise<User | null> {
+  updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }) {
     const { where, data } = params;
 
     return this.model.update({ where, data, include: userInclude });
   }
 
-  deleteUser(params: { where: Prisma.UserWhereUniqueInput }): Promise<User | null> {
+  deleteUser(params: { where: Prisma.UserWhereUniqueInput }) {
     const { where } = params;
 
     return this.model.delete({ where, include: userInclude });

@@ -11,11 +11,11 @@ export class User extends BaseNamedEntity {
   @Field(() => String, { description: 'User role' })
   role: string;
 
-  @Field(() => String, { description: 'User activity status' })
-  active: boolean;
+  @Field(() => Boolean, { description: 'User disabled status' })
+  disabled: boolean;
 
-  @Field(() => String, { description: 'User confirmation status' })
-  confirmed: boolean;
+  @Field(() => Boolean, { description: 'User activation status' })
+  active: boolean;
 
   @Field(() => Customer, { description: 'Customer' })
   customer: Customer;

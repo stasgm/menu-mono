@@ -5,7 +5,6 @@ import { PassportModule } from '@nestjs/passport';
 import { AppConfig } from '@/core/config/app-config';
 import { ActivationCodesModule } from '@/modules/activation-codes/activation-codes.module';
 import { CustomersModule } from '@/modules/customers/customers.module';
-import { MailModule } from '@/modules/mail/mail.module';
 import { UsersModule } from '@/modules/users/users.module';
 
 import { AuthResolver } from './auth.resolver';
@@ -19,7 +18,6 @@ import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({}),
     ActivationCodesModule,
-    MailModule,
     PassportModule,
     UsersModule,
     CustomersModule,

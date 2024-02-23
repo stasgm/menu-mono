@@ -12,11 +12,15 @@ export class GlobalExceptionFilter implements ExceptionFilter, GqlExceptionFilte
 
     return gqlHost.getType<'graphql' | ContextType>() === 'graphql'
       ? new GraphQLError(exception.message, {
-          extensions: { code: exception.code },
+          extensions: {
+            code: exception.code,
+            status: exception.status ?? 400,
+          },
         })
       : new HttpException(
           {
-            status: 400,
+            status: exception.status ?? 400,
+            code: exception.code,
             // error: exception.getErrorCode(),
             message: exception.message,
           },

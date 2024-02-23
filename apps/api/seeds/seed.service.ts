@@ -3,24 +3,24 @@ import { Logger } from '@nestjs/common';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
 
-export const SeedService = <Model extends PrismaModel>(_model: Model) => {
+export const SeedService = <Model extends PrismaModel>(modelName: Model) => {
   abstract class SeedServiceHost {
     readonly logger = new Logger('SeedService');
     readonly model;
-    readonly _modelMame = _model.toString();
+    readonly _modelName = modelName.toString();
 
     constructor(readonly prisma: PrismaService) {
-      const mod = prisma[_model];
+      const _model = prisma[modelName];
 
-      if (!mod) {
+      if (!_model) {
         throw new Error(`Entity not found`);
       }
 
-      this.model = mod;
+      this.model = _model;
     }
 
     logInfo(type: 'SEED' | 'REMOVE'): void {
-      this.logger.log(`   ${type === 'SEED' ? '🌻' : '🗑 '}  ${this._modelMame}`);
+      this.logger.log(`   ${type === 'SEED' ? '🌻' : '🗑 '}  ${this._modelName}`);
     }
 
     removeAll(): void {

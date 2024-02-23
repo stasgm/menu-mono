@@ -16,7 +16,7 @@ module.exports = {
     'jest.config.js',
     'jest.setup.js',
     '.eslintrc.js',
-    'test',
+    // 'test',
     'webpack-hmr.config.js',
   ],
   parser: '@typescript-eslint/parser',

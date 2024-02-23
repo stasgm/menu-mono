@@ -1,8 +1,10 @@
 import { join } from 'node:path';
+
+import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
 import { GqlModuleOptions, GqlOptionsFactory } from '@nestjs/graphql';
+
 import { AppConfig } from '@/core/config/app-config';
-import { ApolloDriverConfig } from '@nestjs/apollo';
 
 @Injectable()
 export class GraphqlTestConfigService implements GqlOptionsFactory {

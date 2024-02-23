@@ -20,20 +20,20 @@ export class GraphqlConfigService implements GqlOptionsFactory {
       ((error ?? ({} as any)).originalError as Record<string, unknown>) ??
       (formattedError?.extensions?.originalError as Record<string, unknown>);
 
-    const name = originalError?.code ?? formattedError.extensions?.code;
-    const code = originalError?.statusCode ?? formattedError.extensions?.status ?? 500;
+    const code = originalError?.code ?? formattedError.extensions?.code;
+    const statusCode = originalError?.status ?? formattedError.extensions?.status ?? 500;
 
     if (error instanceof GraphQLError) {
       return {
         message,
-        name,
         code,
+        statusCode,
       };
     } else if (error instanceof HttpException) {
       return {
         message: error.message,
-        name: error.name,
-        code: 500,
+        code: error.name,
+        statusCode: 500,
       };
     }
 

@@ -18,7 +18,6 @@ const activationCodeInclude = Prisma.validator<Prisma.ActivationCodeInclude>()({
 });
 
 const NUMBER_OF_DIGITS = 5;
-const MAX_NUMBER_OF_ATTEMPTS = 3;
 
 @Injectable()
 export class ActivationCodesRepository extends BaseRepository(
@@ -60,16 +59,36 @@ export class ActivationCodesRepository extends BaseRepository(
     return this.updateActivationCode({ data, where: { id } });
   }
 
-  refreshCode(id: string) {
+  refreshCodeByUserId(id: string) {
     const code = generateRandomNumber(NUMBER_OF_DIGITS).toString();
-    return this.model.update({ data: { code }, where: { id }, include: activationCodeInclude });
+    return this.model.update({
+      data: {
+        code,
+        attempts: 0,
+      },
+      where: { userId: id },
+      include: activationCodeInclude,
+    });
+  }
+
+  increaseAttempt(id: string) {
+    return this.model.update({
+      data: {
+        attempts: {
+          increment: 1,
+        },
+      },
+      where: {
+        id,
+      },
+    });
   }
 
   remove(id: string) {
     return this.deleteActivationCode({ where: { id } });
   }
 
-  createActivationCode(params: { data: CreateActivationCodeInput }): Promise<ActivationCode | null> {
+  createActivationCode(params: { data: CreateActivationCodeInput }) {
     const {
       data: { userId, ...activationCode },
     } = params;

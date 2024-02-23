@@ -10,7 +10,7 @@ export interface IBaseRepository<T extends BaseEntity, C extends BaseEntity> {
   readonly model: any;
   findAll: (params: FindAllBaseArgs) => Promise<T[]>;
   findOne: (id: string) => Promise<T | null>;
-  create: (createInput: CreateInput<C>) => Promise<T | null>;
+  create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;
   remove: (id: string) => Promise<T | null>;
 }
@@ -19,7 +19,7 @@ export interface IBaseResolver<T extends BaseEntity, C extends BaseEntity> {
   readonly service: IBaseService<T, C>;
   findAll: (params: FindAllBaseArgs) => Promise<T[]>;
   findOne: (id: string) => Promise<T | null>;
-  create: (createInput: CreateInput<C>) => Promise<T | null>;
+  create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;
   remove: (id: string) => Promise<T | null>;
 }
@@ -29,7 +29,7 @@ export interface IBaseService<T extends BaseEntity, C extends BaseEntity> {
   readonly logger: Logger;
   findAll: (params: FindAllBaseArgs) => Promise<T[]>;
   findOne: (id: string) => Promise<T | null>;
-  create: (createInput: CreateInput<C>) => Promise<T | null>;
+  create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;
   remove: (id: string) => Promise<T | null>;
 }

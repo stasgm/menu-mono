@@ -1,2 +1,3 @@
-export * from './jwt-access.strategy';
-export * from './jwt-refresh.strategy';
+export * from './jwt/jwt-access.strategy';
+export * from './jwt/jwt-activate.strategy';
+export * from './jwt/jwt-refresh.strategy';

@@ -2,7 +2,7 @@ import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { Queue } from 'bullmq';
 
-import { JobTypes, MAIL_QUEUE, MailJob } from './bullmq-producer.types';
+import { JobTypes, MAIL_JOB, MAIL_QUEUE, MailJob } from './bullmq-producer.types';
 
 const getDelayByDate = (runAt: Date): number => {
   const targetTime = new Date(runAt);
@@ -10,10 +10,11 @@ const getDelayByDate = (runAt: Date): number => {
   return delayTime > 0 ? delayTime : 0;
 };
 
+// TODO: Rename the service to something more appropriate
 @Injectable()
 export class BullmqProducerService {
   readonly queueMapper: { [jobType in JobTypes]: Queue } = {
-    [MAIL_QUEUE]: this.mailJobQueue,
+    [MAIL_JOB]: this.mailJobQueue,
   } as const;
 
   readonly logger = new Logger(BullmqProducerService.name);

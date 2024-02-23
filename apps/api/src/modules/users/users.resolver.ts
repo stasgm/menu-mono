@@ -1,6 +1,7 @@
-import { NotFoundException, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { UserNotFoundException } from '../../core/exceptions';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-access.guard';
 import { FindUsersArgs } from './dto/find-users.args';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -25,7 +26,7 @@ export class UsersResolver {
     const result = await this.usersService.findOne(id);
 
     if (!result) {
-      throw new NotFoundException(`A user with id '${id}' not found`);
+      throw new UserNotFoundException(`User with id '${id}' not found`);
     }
 
     return result;
@@ -36,7 +37,7 @@ export class UsersResolver {
     const result = await this.usersService.update(id, data);
 
     if (!result) {
-      throw new NotFoundException(`A user with id '${id}' not found`);
+      throw new UserNotFoundException(`User with id '${id}' not found`);
     }
 
     return result;
@@ -47,7 +48,7 @@ export class UsersResolver {
     const result = this.usersService.remove(id);
 
     if (!result) {
-      throw new NotFoundException(`A user with id '${id}' not found`);
+      throw new UserNotFoundException(`User with id '${id}' not found`);
     }
 
     return result;

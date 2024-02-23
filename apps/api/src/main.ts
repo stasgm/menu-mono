@@ -5,8 +5,7 @@ import { AppConfig } from '@/core/config/app-config';
 import { PrismaExceptionFilter } from '@/core/persistence/prisma/prisma-exception.filter';
 
 import { AppModule } from './app.module';
-import { GlobalExceptionFilter } from './core/exceptions/http-exception-filter';
-// import { GlobalExceptionFilter } from './core/exceptions/http-exception-filter';
+import { GlobalExceptionFilter } from './core/filters/http-exception-filter';
 
 declare const module: any;
 async function bootstrap() {

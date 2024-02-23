@@ -2,5 +2,5 @@
   "jest.runMode": "on-demand",
   "jest.nodeEnv": {
     "NODE_ENV": "test"
-  },
+  }
 }

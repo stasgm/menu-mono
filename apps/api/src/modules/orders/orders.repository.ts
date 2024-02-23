@@ -78,7 +78,7 @@ export class OrdersRepository extends BaseRepository(Order, OrderWithKeys, 'orde
   }
 
   create(data: CreateOrderInput) {
-    return Promise.resolve(null);
+    return Promise.reject(null);
     // return this.createOrder({ data });
   }
 

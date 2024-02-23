@@ -30,6 +30,9 @@
       "displayName": "e2e",
       "rootDir": "./test",
       "testRegex": ".e2e-spec.ts$",
+      "setupFiles": [
+        "<rootDir>/globals.js"
+      ],
       "moduleNameMapper": {
         "^@/core(.*)$": "<rootDir>/../src/core$1",
         "^@/modules(.*)$": "<rootDir>/../src/modules$1",

@@ -86,6 +86,8 @@ export class AppConfig {
       accessExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
       refreshSecret: secuirity?.jwt?.refreshSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
       refreshExpiresIn: secuirity?.jwt?.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+      activateSecret: secuirity?.jwt?.accessSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
+      activateExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '5m',
     };
   }
 

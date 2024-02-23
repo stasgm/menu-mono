@@ -11,7 +11,7 @@ export interface IUser {
   name: string;
   role: Role;
   active: boolean;
-  confirmed: boolean;
+  disabled: boolean;
   passwordHash: string;
   customerId: string;
 }

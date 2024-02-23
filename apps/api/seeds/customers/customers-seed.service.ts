@@ -22,13 +22,14 @@ export class CustomersSeedService extends SeedService('customer') {
 
     for await (const customer of customersMock) {
       await this.model.create({
-        data: {
-          id: customer.id,
-          firstName: customer.firstName,
-          lastName: customer.lastName,
-          email: customer.email,
-          phoneNumber: customer.phoneNumber,
-        },
+        data: customer,
+        // data: {
+        //   id: customer.id,
+        //   firstName: customer.firstName,
+        //   lastName: customer.lastName,
+        //   email: customer.email,
+        //   phoneNumber: customer.phoneNumber,
+        // },
       });
     }
   }
