@@ -17,6 +17,7 @@ export class JwtActivateStrategy extends PassportStrategy(Strategy, JwtStrategie
   }
 
   validate(payload: JwtPayload): IReqUserData {
+    // TODO check if user is exists and not disabled
     return { user: { id: payload.sub, role: payload.role } };
   }
 }

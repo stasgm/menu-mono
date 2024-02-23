@@ -5,6 +5,7 @@ import { AppErrors } from '../../../src/core/constants/errors';
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { requestFunction } from '../helpers/utils';
 import { newUserData, userPassword } from './mock-data';
+import { loginUserQuery } from './queries';
 
 describe('User login', () => {
   // For the debug mode timeout set to 5 minutes
@@ -26,33 +27,13 @@ describe('User login', () => {
     await e2e.cleanup();
   });
 
-  const query = gql`
-    mutation Mutation($loginUserInput: LoginUserInput!) {
-      loginUser(loginUserInput: $loginUserInput) {
-        ... on ActivationToken {
-          activationToken
-        }
-        ... on Auth {
-          accessToken
-          refreshToken
-          user {
-            active
-            id
-            name
-            role
-          }
-        }
-      }
-    }
-  `.loc?.source.body;
-
   const loginUserInput = {
     name: newUserData.name,
     password: userPassword,
   };
 
   const gqlReq = {
-    query,
+    query: loginUserQuery,
     variables: {
       loginUserInput,
     },
@@ -112,7 +93,7 @@ describe('User login', () => {
 
   it('should throw an error - invalid credentials (invalid user name)', async () => {
     const gqlReq = {
-      query,
+      query: loginUserQuery,
       variables: {
         loginUserInput: { ...loginUserInput, name: 'wrong-user-name' },
       },
@@ -136,7 +117,7 @@ describe('User login', () => {
 
   it('should throw an error - invalid credentials (invalid password)', async () => {
     const gqlReq = {
-      query,
+      query: loginUserQuery,
       variables: {
         loginUserInput: { ...loginUserInput, password: 'wrong-password' },
       },

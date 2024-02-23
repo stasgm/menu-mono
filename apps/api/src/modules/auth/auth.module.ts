@@ -10,7 +10,7 @@ import { UsersModule } from '@/modules/users/users.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { PasswordService } from './password.service';
-import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
+import { JwtAccessStrategy, JwtActivateStrategy,JwtRefreshStrategy } from './strategies';
 
 @Module({
   imports: [
@@ -22,7 +22,15 @@ import { JwtAccessStrategy, JwtRefreshStrategy } from './strategies';
     UsersModule,
     CustomersModule,
   ],
-  providers: [AuthResolver, AuthService, JwtAccessStrategy, JwtRefreshStrategy, PasswordService, AppConfig],
+  providers: [
+    AuthResolver,
+    AuthService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+    JwtActivateStrategy,
+    PasswordService,
+    AppConfig,
+  ],
   exports: [PasswordService],
 })
 export class AuthModule {}
