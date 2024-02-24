@@ -1,14 +1,12 @@
 import request from 'supertest';
-
-import { RegisterUserInput } from '@/modules/auth/dto/inputs';
+import { App } from 'supertest/types';
 
 import { GQL } from './constants';
 import { E2EApp } from './initialize-app';
 import { CreateUserData, getUserData, userPassword } from './mock-data';
 
-export const requestFunction = (e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  request(e2e.app.getHttpServer()).post(GQL).set('Authorization', `JWT ${token}`).send(gqlReq).expect(200);
+export const requestFunction = <T>(e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
+  request(e2e.app.getHttpServer() as App).post(GQL).set('Authorization', `JWT ${token}`).send(gqlReq).expect(200)
 
 export const createUser = async (
   e2e: E2EApp,

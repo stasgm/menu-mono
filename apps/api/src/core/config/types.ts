@@ -43,6 +43,10 @@ export type MailConfig = {
   googleApi?: GoogleApiConfig;
 };
 
+export type AccountConfig = {
+  codeAcivationMaxNumberOfAttempts?: number;
+};
+
 export interface IAppConfig {
   envPrefix: string;
   nestPort: number;
@@ -50,4 +54,5 @@ export interface IAppConfig {
   redis?: RedisConfig;
   secuirity?: AuthenticationConfig;
   mail?: MailConfig;
+  account?: AccountConfig;
 }

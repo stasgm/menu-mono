@@ -3,8 +3,8 @@ import { HttpStatus } from '@nestjs/common';
 import { AppErrors } from '../constants/errors';
 import { BaseException } from './base.exception';
 
-export class UserAlreadyExistsException extends BaseException {
+export class UserAlreadyActivatedException extends BaseException {
   constructor(message?: string) {
-    super(AppErrors.USER_ALREADY_EXISTS, message ?? 'User with this name already exists', HttpStatus.CONFLICT);
+    super(AppErrors.USER_ALREADY_ACTIVATED, message ?? 'User already activated', HttpStatus.BAD_REQUEST);
   }
 }

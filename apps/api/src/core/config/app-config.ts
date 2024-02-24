@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import config from 'config';
 
-import { AuthenticationConfig, JwtAuthConfig, MailConfig, PostgresConfig, RedisConfig } from './types';
+import { AccountConfig, AuthenticationConfig, JwtAuthConfig, MailConfig, PostgresConfig, RedisConfig } from './types';
 
 const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
 const DEFAULT_NESTJS_PORT = 5000;
+const ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS = 3;
 
 // TODO make params validation. Throw error if not valid
 
@@ -88,6 +89,18 @@ export class AppConfig {
       refreshExpiresIn: secuirity?.jwt?.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
       activateSecret: secuirity?.jwt?.accessSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
       activateExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '5m',
+    };
+  }
+
+  get account(): Required<AccountConfig> {
+    const account = config.has('account') ? config.get<Partial<AccountConfig>>('account') : {};
+
+    return {
+      codeAcivationMaxNumberOfAttempts:
+        account?.codeAcivationMaxNumberOfAttempts ??
+        (process.env.ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS
+          ? +process.env.ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS
+          : ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS),
     };
   }
 

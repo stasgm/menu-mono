@@ -50,7 +50,7 @@ describe('User login', () => {
     const errors = result.body.errors;
 
     expect(errors).toBeUndefined();
-    expect(data).not.toBeUndefined();
+    expect(data).toBeDefined();
     expect(data.user.name).toBe(userData.name);
     expect(data.user.role).toBe(Roles.USER);
     expect(data.accessToken).toBeDefined();
@@ -66,7 +66,7 @@ describe('User login', () => {
     const errors = result.body.errors;
 
     expect(errors).toBeUndefined();
-    expect(data).not.toBeUndefined();
+    expect(data).toBeDefined();
     expect(data.user).toBeUndefined();
     expect(data.activationToken).toBeDefined();
     expect(data.accessToken).toBeUndefined();
@@ -82,7 +82,7 @@ describe('User login', () => {
     const errors = result.body.errors;
 
     expect(data).toBeUndefined();
-    expect(errors).not.toBeUndefined();
+    expect(errors).toBeDefined();
     expect(errors).toBeInstanceOf(Array);
     expect(errors.length).toBe(1);
     expect(errors[0].code).toBe(AppErrors.USER_DISABLED);
@@ -98,7 +98,7 @@ describe('User login', () => {
     const errors = result.body.errors;
 
     expect(data).toBeUndefined();
-    expect(errors).not.toBeUndefined();
+    expect(errors).toBeDefined();
     expect(errors).toBeInstanceOf(Array);
     expect(errors.length).toBe(1);
     expect(errors[0].code).toBe(AppErrors.INVALID_CREDENTIALS);
@@ -114,7 +114,7 @@ describe('User login', () => {
     const errors = result.body.errors;
 
     expect(data).toBeUndefined();
-    expect(errors).not.toBeUndefined();
+    expect(errors).toBeDefined();
     expect(errors).toBeInstanceOf(Array);
     expect(errors.length).toBe(1);
     expect(errors[0].code).toBe(AppErrors.INVALID_CREDENTIALS);

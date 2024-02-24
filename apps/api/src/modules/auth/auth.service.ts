@@ -1,8 +1,9 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { AppConfig } from '@/core/config/app-config';
 import {
+  InvalidActivationCodeAttemptsExceededException,
   InvalidCredentialsException,
   UserAlreadyExistsException,
   UserDisabledException,
@@ -42,7 +43,7 @@ export class AuthService {
     const existedUser = await this.usersService.findByName(createUserInput.name);
 
     if (existedUser) {
-      throw new UserAlreadyExistsException(`User '${createUserInput.name}' already exists`);
+      throw new UserAlreadyExistsException();
     }
 
     // 2. Create the customer
@@ -86,11 +87,11 @@ export class AuthService {
     };
   }
 
-  async activate(activateUserInput: ActivateUserInput, userId: string): Promise<Auth> {
+  async activate(activateUserInput: ActivateUserInput, userId: string, ctx: IContextData): Promise<Auth> {
     this.logger.debug('Operation: activateUser');
 
     const { activationCode } = activateUserInput;
-    // 1. Check user
+    // 1. Check the user
     const user = await this.usersService.findOne(userId);
 
     if (!user) {
@@ -98,17 +99,27 @@ export class AuthService {
     }
 
     if (user.active) {
-      throw new BadRequestException('User already activated');
+      throw new UserAlreadyExistsException();
     }
 
-    // 2. Activate user
+    // 2. Activate the user
     const activationCodeEntity = await this.activationCodesService.verifyByUserId(user.id, activationCode);
 
     if (!activationCodeEntity) {
-      throw new BadRequestException('Failed to activate user');
+      // Max number of attempts has exceeded for this code -> regenerate and send a new code
+      await this.activationCodesService.createOrRefreshCodeAndSendEmail({
+        userId: user.id,
+        info: {
+          originIp: ctx.originIp ?? 'Unknown',
+          device: ctx.userAgent ?? 'Unknown',
+          location: 'Unknown',
+        },
+      });
+
+      throw new InvalidActivationCodeAttemptsExceededException();
     }
 
-    // 3. Get activated user
+    // 3. Get the activated user
     const activatedUser = await this.usersService.activate(user.id);
     const payload = { sub: user.id, role: user.role };
     const tokens = await this.generateTokens(payload);

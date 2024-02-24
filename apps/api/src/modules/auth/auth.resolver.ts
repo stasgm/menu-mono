@@ -43,7 +43,7 @@ export class AuthResolver {
 
   @Mutation(() => ActivationToken, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
-    @ContextData('req') ctx: IContextData,
+    @ContextData() ctx: IContextData,
     @Args({ type: () => RegisterUserInput, name: 'registerUserInput' }) data: RegisterUserInput
   ): Promise<ActivationToken> {
     return this.authService.register(data, ctx);
@@ -53,9 +53,10 @@ export class AuthResolver {
   @UseGuards(JwtActivateAuthGuard)
   activateUser(
     @CurrentUser() req: IReqUserData,
+    @ContextData() ctx: IContextData,
     @Args({ type: () => ActivateUserInput, name: 'activateUserInput' }) data: ActivateUserInput
   ): Promise<Auth> {
-    return this.authService.activate(data, req.user.id);
+    return this.authService.activate(data, req.user.id, ctx);
   }
 
   @Mutation(() => LoginResultUnion, { name: 'loginUser', description: 'User login' })

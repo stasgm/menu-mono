@@ -55,7 +55,7 @@ describe('User registration', () => {
     const errors = result.body.errors;
 
     expect(errors).toBeUndefined();
-    expect(data).not.toBeUndefined();
+    expect(data).toBeDefined();
     expect(data.activationToken).toBeDefined();
   });
 
@@ -65,7 +65,7 @@ describe('User registration', () => {
     const result = await requestFunction(e2e, gqlReq);
     const errors = result.body.errors;
 
-    expect(errors).not.toBeUndefined();
+    expect(errors).toBeDefined();
     expect(errors).toBeInstanceOf(Array);
     expect(errors.length).toBe(1);
     expect(errors[0].code).toBe(AppErrors.USER_ALREADY_EXISTS);

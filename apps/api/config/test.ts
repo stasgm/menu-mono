@@ -16,7 +16,10 @@ const config: IAppConfig = {
   },
   mail: {
     mockMailing: true,
-  }
+  },
+  account: {
+    codeAcivationMaxNumberOfAttempts: 1,
+  },
 };
 
 export default config;
