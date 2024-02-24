@@ -5,7 +5,7 @@ import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
 
 import { FindAllBaseArgs } from './base.dto';
 import { BaseEntity } from './base.entity';
-import { CreateInput, IBaseRepository, UpdateInput } from './base.types';
+import { CreateInput, EntityOptions, IBaseRepository, UpdateInput } from './base.types';
 
 export const BaseRepository = <Model extends PrismaModel, T extends BaseEntity, C extends BaseEntity = T>(
   _entity: Type<T>,
@@ -25,7 +25,7 @@ export const BaseRepository = <Model extends PrismaModel, T extends BaseEntity, 
     }
 
     abstract findAll(params: FindAllBaseArgs): Promise<T[]>;
-    abstract findOne(id: string): Promise<T | null>;
+    abstract findOne(id: string, options?: EntityOptions): Promise<T | null>;
     abstract create(createInput: CreateInput<C>): Promise<T>;
     abstract update(id: string, updateInput: UpdateInput<C>): Promise<T | null>;
     abstract remove(id: string): Promise<T | null>;

@@ -5,6 +5,7 @@ import { AppConfig } from '@/core/config/app-config';
 import {
   InvalidActivationCodeAttemptsExceededException,
   InvalidCredentialsException,
+  UserAlreadyActivatedException,
   UserAlreadyExistsException,
   UserDisabledException,
   UserNotFoundException,
@@ -99,7 +100,7 @@ export class AuthService {
     }
 
     if (user.active) {
-      throw new UserAlreadyExistsException();
+      throw new UserAlreadyActivatedException();
     }
 
     // 2. Activate the user
@@ -136,6 +137,7 @@ export class AuthService {
 
     const { name, password } = loginUserInput;
 
+    // Include disabled but exclude deleted users
     const userWithPasswordHash = await this.usersService.findForAuth(name);
 
     if (!userWithPasswordHash) {

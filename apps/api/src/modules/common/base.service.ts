@@ -2,7 +2,7 @@ import { Logger, Type } from '@nestjs/common';
 
 import { FindAllBaseArgs } from './base.dto';
 import { BaseEntity } from './base.entity';
-import { CreateInput, IBaseRepository, IBaseService, UpdateInput } from './base.types';
+import { CreateInput, EntityOptions, IBaseRepository, IBaseService, UpdateInput } from './base.types';
 
 export const BaseService = <T extends BaseEntity, C extends BaseEntity = T>(
   entity: Type<T>,
@@ -19,9 +19,9 @@ export const BaseService = <T extends BaseEntity, C extends BaseEntity = T>(
       return this.repository.findAll({ skip, take, ...rest });
     }
 
-    findOne(id: string) {
+    findOne(id: string, options?: EntityOptions) {
       this.logger.debug(`Operation: findOne (id: ${id})`);
-      return this.repository.findOne(id);
+      return this.repository.findOne(id, options);
     }
 
     create(data: CreateInput<C>) {

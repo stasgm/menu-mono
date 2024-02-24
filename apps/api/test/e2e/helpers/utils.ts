@@ -6,7 +6,11 @@ import { E2EApp } from './initialize-app';
 import { CreateUserData, getUserData, userPassword } from './mock-data';
 
 export const requestFunction = <T>(e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
-  request(e2e.app.getHttpServer() as App).post(GQL).set('Authorization', `JWT ${token}`).send(gqlReq).expect(200)
+  request(e2e.app.getHttpServer() as App)
+    .post(GQL)
+    .set('Authorization', `JWT ${token}`)
+    .send(gqlReq)
+    .expect(200);
 
 export const createUser = async (
   e2e: E2EApp,
@@ -29,4 +33,12 @@ export const createUser = async (
   }
 
   return user;
+};
+
+export const updateUser = async (
+  e2e: E2EApp,
+  userId: string,
+  userData: Partial<Omit<CreateUserData, 'passwordHash'>> & { deletedAt?: Date } = {}
+) => {
+  return await e2e.prisma.user.update({ data: userData, where: { id: userId } });
 };

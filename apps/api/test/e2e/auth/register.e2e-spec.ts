@@ -49,7 +49,7 @@ describe('User registration', () => {
     },
   };
 
-  it('should register a new user', async () => {
+  it('should successfully register a new user', async () => {
     const result = await requestFunction(e2e, gqlReq);
     const data = result.body.data?.registerUser;
     const errors = result.body.errors;
@@ -59,7 +59,7 @@ describe('User registration', () => {
     expect(data.activationToken).toBeDefined();
   });
 
-  it('should fail when registering new user (user with that name already exists)', async () => {
+  it('should throw an error (user with that name already exists)', async () => {
     await createUser(e2e, { active: true });
 
     const result = await requestFunction(e2e, gqlReq);

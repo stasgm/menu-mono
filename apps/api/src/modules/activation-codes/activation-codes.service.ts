@@ -20,10 +20,6 @@ export class ActivationCodesService extends BaseService(ActivationCode, Activati
     super(activationCodesRepository);
   }
 
-  // override create(data: CreateInput<ActivationCodeWithKeys>): Promise<ActivationCode | null> {
-  //   return this.activationCodesRepository.create(data);
-  // }
-
   async createOrRefreshCodeAndSendEmail(params: {
     userId: string;
     info: {

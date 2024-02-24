@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
+import { EntityOptions } from '../common/base.types';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User, UserWithKeys } from './models/user.model';
@@ -36,8 +37,8 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
-  findOne(id: string) {
-    return this.getUserById(id);
+  findOne(id: string, options?: EntityOptions) {
+    return this.getUserById(id, options);
   }
 
   create(data: CreateUserInput) {
@@ -73,8 +74,15 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.model.findFirst({ where, include: userInclude });
   }
 
-  getUserById(id: string) {
-    return this.model.findUnique({ where: { id }, include: userInclude });
+  getUserById(id: string, options: EntityOptions = {}) {
+    const { includeDeleted = false, includeDisabled = false } = options || {};
+
+    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
+
+    return this.model.findUnique({
+      where: { id, ...deletedAtCond, disabled: includeDisabled },
+      include: userInclude,
+    });
   }
 
   getUsers(params: {

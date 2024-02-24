@@ -4,7 +4,7 @@ import { Roles } from '@packages/domains';
 import { AppErrors } from '../../../src/core/constants/errors';
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { userData, userPassword } from '../helpers/mock-data';
-import { createUser, requestFunction } from '../helpers/utils';
+import { createUser, requestFunction, updateUser } from '../helpers/utils';
 import { loginUserQuery } from './queries';
 
 describe('User login', () => {
@@ -89,7 +89,25 @@ describe('User login', () => {
     expect(errors[0].statusCode).toBe(HttpStatus.FORBIDDEN);
   });
 
-  it('should throw an error - invalid credentials (invalid user name)', async () => {
+  it('should throw an error (user is deleted)', async () => {
+    // 1. Create a new user
+    const user = await createUser(e2e, { active: true, disabled: true });
+    // 2. Delete the user (set deletedAt = now)
+    await updateUser(e2e, user.id, { deletedAt: new Date() });
+    // 3. Login user
+    const result = await requestFunction(e2e, getGqlReq());
+    const data = result.body.data?.loginUser;
+    const errors = result.body.errors;
+
+    expect(data).toBeUndefined();
+    expect(errors).toBeDefined();
+    expect(errors).toBeInstanceOf(Array);
+    expect(errors.length).toBe(1);
+    expect(errors[0].code).toBe(AppErrors.INVALID_CREDENTIALS);
+    expect(errors[0].statusCode).toBe(HttpStatus.UNAUTHORIZED);
+  });
+
+  it('should throw an error (invalid user name)', async () => {
     // 1. Create a new user
     await createUser(e2e, { active: true });
     // 2. Login user
@@ -105,7 +123,7 @@ describe('User login', () => {
     expect(errors[0].statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
 
-  it('should throw an error - invalid credentials (invalid password)', async () => {
+  it('should throw an error (invalid password)', async () => {
     // 1. Create a new user
     await createUser(e2e, { active: true });
     // 2. Login user

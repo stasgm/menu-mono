@@ -17,7 +17,8 @@ export class UsersService extends BaseService(User, UserWithKeys) {
   }
 
   findForAuth(name: string) {
-    return this.usersRepository.getUser({ where: { name } });
+    // Exclude deleted users
+    return this.usersRepository.getUser({ where: { name, deletedAt: null } });
   }
 
   async activate(id: string) {
