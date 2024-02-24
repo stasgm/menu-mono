@@ -1,10 +1,10 @@
 import { Resolver } from '@nestjs/graphql';
 
-import { UpdateCategoryInput } from '@/modules/categories/dto/update-category.input';
+import { UpdateCategoryInput } from '@/modules/categories/dto/inputs/update-category.input';
 import { BaseResolver } from '@/modules/common/base.resolver';
 
 import { CustomersService } from './customers.service';
-import { CreateCustomerInput } from './dto/create-customer.input';
+import { CreateCustomerInput } from './dto/inputs/create-customer.input';
 import { Customer } from './models/customer.model';
 
 @Resolver(() => Customer)

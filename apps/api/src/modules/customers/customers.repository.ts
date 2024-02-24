@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
-import { CreateCustomerInput } from './dto/create-customer.input';
-import { UpdateCustomerInput } from './dto/update-customer.input';
+import { CreateCustomerInput } from './dto/inputs/create-customer.input';
+import { UpdateCustomerInput } from './dto/inputs/update-customer.input';
 import { Customer } from './models/customer.model';
 
 @Injectable()

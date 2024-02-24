@@ -5,7 +5,7 @@ import { GQL } from './constants';
 import { E2EApp } from './initialize-app';
 import { CreateUserData, getUserData, userPassword } from './mock-data';
 
-export const requestFunction = <T>(e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
+export const requestFunction = (e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
   request(e2e.app.getHttpServer() as App)
     .post(GQL)
     .set('Authorization', `JWT ${token}`)

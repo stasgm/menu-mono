@@ -30,13 +30,14 @@ export class ActivationCodesService extends BaseService(ActivationCode, Activati
     create?: boolean;
   }): Promise<void> {
     const { userId, info, create = false } = params;
-
+    // 1. Create or refresh the activation code
     const { code, user } = await (() => {
       return create
         ? this.activationCodesRepository.createActivationCode({ data: { userId } })
         : this.activationCodesRepository.refreshCodeByUserId(userId);
     })();
 
+    // 2. Send the email with the activation code
     await this.bullmqProducerService.insertNewJob<MailJob<IUserRegistrationData>>({
       name: 'mailJob',
       data: {
@@ -54,6 +55,9 @@ export class ActivationCodesService extends BaseService(ActivationCode, Activati
         },
       },
     });
+
+    // 3. Update sentAt in activation code
+    await this.activationCodesRepository.updateSentAtByUserId(user.id);
   }
 
   async verifyByUserId(userId: string, code: string): Promise<boolean> {
@@ -79,6 +83,7 @@ export class ActivationCodesService extends BaseService(ActivationCode, Activati
 
       // Increase the number of attempts for this code and throw an error
       await this.activationCodesRepository.increaseAttempt(result.id);
+
       throw new InvalidActivationCodeException();
     }
 

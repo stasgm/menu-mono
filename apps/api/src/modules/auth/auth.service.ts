@@ -15,11 +15,10 @@ import { CustomersService } from '@/modules/customers/customers.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
-import { IContextData } from './decorators/context-data.decorator';
 import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
-import { ActivationToken, Auth, Tokens } from './models/';
+import { ActivationToken, Auth, Tokens } from './dto/results';
 import { PasswordService } from './password.service';
-import { JwtPayload, Roles } from './types';
+import { IContextData, JwtPayload, Roles } from './types';
 
 @Injectable()
 export class AuthService {
@@ -131,6 +130,39 @@ export class AuthService {
     };
   }
 
+  async refreshActivationCode(userId: string, ctx: IContextData): Promise<ActivationToken> {
+    this.logger.debug('Operation: refreshActivationCode');
+
+    // 1. Check the user
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+
+    if (user.active) {
+      throw new UserAlreadyActivatedException();
+    }
+
+    // 2. Generate an activation code and send it to the user email
+    await this.activationCodesService.createOrRefreshCodeAndSendEmail({
+      userId: user.id,
+      info: {
+        originIp: ctx.originIp ?? 'Unknown',
+        device: ctx.userAgent ?? 'Unknown',
+        location: 'Unknown',
+      },
+    });
+
+    // 3. Generate new activation token
+    const payload = { sub: user.id, role: user.role };
+    const activationToken = await this.generateActivationToken(payload);
+
+    return {
+      activationToken,
+    };
+  }
+
   async login(loginUserInput: LoginUserInput): Promise<Auth | ActivationToken> {
     this.logger.debug('Operation: loginUser');
     // TODO add agent for the token
@@ -180,10 +212,16 @@ export class AuthService {
     return this.generateTokens(payload);
   }
 
-  getCurrentUser(id: string): Promise<User | null> {
+  async getCurrentUser(id: string): Promise<User> {
     this.logger.debug('Operation: getCurrentUser');
 
-    return this.usersService.findOne(id);
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+
+    return user;
   }
 
   private async generateTokens(payload: JwtPayload): Promise<Tokens> {

@@ -22,14 +22,7 @@ import { JwtAccessStrategy, JwtActivateStrategy, JwtRefreshStrategy } from './st
     CustomersModule,
     AppConfigModule,
   ],
-  providers: [
-    AuthResolver,
-    AuthService,
-    JwtAccessStrategy,
-    JwtRefreshStrategy,
-    JwtActivateStrategy,
-    PasswordService,
-  ],
+  providers: [AuthResolver, AuthService, JwtAccessStrategy, JwtRefreshStrategy, JwtActivateStrategy, PasswordService],
   exports: [PasswordService],
 })
 export class AuthModule {}

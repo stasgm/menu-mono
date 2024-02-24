@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
-import { CreateActivationCodeInput } from './dto/create-activation-code.input';
-import { UpdateActivationWithoutCodeCodeInput } from './dto/update-activation-code.input';
+import { CreateActivationCodeInput } from './dto/inputs/create-activation-code.input';
+import { UpdateActivationWithoutCodeCodeInput } from './dto/inputs/update-activation-code.input';
 import { generateRandomNumber } from './helpers';
 import { ActivationCode, ActivationCodeWithKeys } from './models/activation-code.model';
 
@@ -80,6 +80,17 @@ export class ActivationCodesRepository extends BaseRepository(
       },
       where: {
         id,
+      },
+    });
+  }
+
+  updateSentAtByUserId(userId: string) {
+    return this.model.update({
+      data: {
+        sentAt: new Date(),
+      },
+      where: {
+        userId,
       },
     });
   }

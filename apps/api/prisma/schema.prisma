@@ -49,6 +49,7 @@ model ActivationCode {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+  sentAt    DateTime?
   code      String
   attempts  Int       @default(0)
   userId    String    @unique @db.Uuid

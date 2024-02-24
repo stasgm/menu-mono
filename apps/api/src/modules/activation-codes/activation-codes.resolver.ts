@@ -1,13 +1,13 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { ContextData, CurrentUser, IContextData } from '../auth/decorators';
+import { ContextData, CurrentUser } from '../auth/decorators';
 import { JwtActivateAuthGuard } from '../auth/guards';
-import { IReqUserData } from '../auth/types';
+import { IContextData, IReqUserData } from '../auth/types';
 import { ActivationCodesService } from './activation-codes.service';
-import { CreateActivationCodeInput } from './dto/create-activation-code.input';
-import { FindActivationCodesArgs } from './dto/find-activation-code.args';
-import { UpdateActivationCodeInput } from './dto/update-activation-code.input';
+import { CreateActivationCodeInput } from './dto/inputs/create-activation-code.input';
+import { FindActivationCodesArgs } from './dto/inputs/find-activation-code.args';
+import { UpdateActivationCodeInput } from './dto/inputs/update-activation-code.input';
 import { ActivationCode } from './models/activation-code.model';
 
 @Resolver(() => ActivationCode)

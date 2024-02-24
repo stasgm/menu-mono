@@ -5,8 +5,8 @@ import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
 import { EntityOptions } from '../common/base.types';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { CreateUserInput } from './dto/inputs/create-user.input';
+import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { User, UserWithKeys } from './models/user.model';
 
 const userInclude = Prisma.validator<Prisma.UserInclude>()({

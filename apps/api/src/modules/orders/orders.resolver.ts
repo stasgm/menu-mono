@@ -2,8 +2,8 @@ import { Resolver } from '@nestjs/graphql';
 
 import { BaseResolver } from '@/modules/common/base.resolver';
 
-import { CreateOrderInput } from './dto/create-order.input';
-import { UpdateOrderInput } from './dto/update-order.input';
+import { CreateOrderInput } from './dto/inputs/create-order.input';
+import { UpdateOrderInput } from './dto/inputs/update-order.input';
 import { Order, OrderWithKeys } from './models/order.model';
 import { OrdersService } from './orders.service';
 

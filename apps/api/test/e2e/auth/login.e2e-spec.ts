@@ -4,8 +4,8 @@ import { Roles } from '@packages/domains';
 import { AppErrors } from '../../../src/core/constants/errors';
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { userData, userPassword } from '../helpers/mock-data';
+import { loginUserQuery } from '../helpers/queries';
 import { createUser, requestFunction, updateUser } from '../helpers/utils';
-import { loginUserQuery } from './queries';
 
 describe('User login', () => {
   // For the debug mode timeout set to 5 minutes

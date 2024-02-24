@@ -1,29 +1,14 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, createUnionType, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UserNotFoundException } from '@/core/exceptions';
 import { User } from '@/modules/users/models/user.model';
 
 import { AuthService } from './auth.service';
-import { ContextData, CurrentUser, IContextData } from './decorators';
+import { ContextData, CurrentUser } from './decorators';
 import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
+import { ActivationToken, Auth, LoginResultUnion, Tokens } from './dto/results';
 import { JwtAccessAuthGuard, JwtActivateAuthGuard, JwtRefreshAuthGuard } from './guards';
-import { ActivationToken, Auth, Tokens } from './models';
-import { IReqUserData } from './types';
-
-export const LoginResultUnion = createUnionType({
-  name: 'ResultUnion',
-  types: () => [Auth, ActivationToken] as const,
-  resolveType(value) {
-    if (value.accessToken) {
-      return Auth;
-    }
-    if (value.activationToken) {
-      return ActivationToken;
-    }
-    return null;
-  },
-});
+import { IContextData, IReqUserData } from './types';
 
 @Resolver(() => Auth)
 export class AuthResolver {
@@ -31,14 +16,8 @@ export class AuthResolver {
 
   @Query(() => User, { name: 'getCurrentUser', description: 'Get current user' })
   @UseGuards(JwtAccessAuthGuard)
-  async currentUser(@CurrentUser() req: IReqUserData): Promise<User> {
-    const user = await this.authService.getCurrentUser(req.user.id);
-
-    if (!user) {
-      throw new UserNotFoundException();
-    }
-
-    return user;
+  currentUser(@CurrentUser() req: IReqUserData): Promise<User> {
+    return this.authService.getCurrentUser(req.user.id);
   }
 
   @Mutation(() => ActivationToken, { name: 'registerUser', description: 'User Registeration' })
@@ -59,6 +38,12 @@ export class AuthResolver {
     return this.authService.activate(data, req.user.id, ctx);
   }
 
+  @Mutation(() => Auth, { name: 'refreshActivationCode', description: 'Refresh activation code' })
+  @UseGuards(JwtActivateAuthGuard)
+  refreshActivationCode(@CurrentUser() req: IReqUserData, @ContextData() ctx: IContextData): Promise<ActivationToken> {
+    return this.authService.refreshActivationCode(req.user.id, ctx);
+  }
+
   @Mutation(() => LoginResultUnion, { name: 'loginUser', description: 'User login' })
   loginUser(
     @Args({ type: () => LoginUserInput, name: 'loginUserInput' }) data: LoginUserInput
@@ -66,10 +51,19 @@ export class AuthResolver {
     return this.authService.login(data);
   }
 
+  // @Mutation(() => ResetPassword, { name: 'forgotPassword', description: 'Forgot password' })
+  // forgotPassword(
+  //   @Args({ type: () => ForgotPasswordInput, name: 'forgotPasswordInput' }) data: forgotPasswordInput
+  // ): Promise<SuccessfulResponse> {
+  //   return this.authService.forgotEmail(forgotPasswordInput);
+  // }
+
   // @Mutation(() => ResetPassword, { name: 'resetPassword', description: 'Reset password' })
-  // resetPassword(): Promise<User> {
-  //   // Retrun status instead of User
-  //   return this.authService.confirmEmail(hash);
+  // @UseGuards(JwtAccessAuthGuard)
+  // resetPassword(
+  //   @Args({ type: () => ResetPasswordInput, name: 'resetPasswordInput' }) data: resetPasswordInput
+  // ): Promise<SuccessfulResponse> {
+  //   return this.authService.resetPassword(resetPasswordInput);
   // }
 
   @Mutation(() => Auth, { name: 'refreshTokens', description: 'Refresh tokens' })

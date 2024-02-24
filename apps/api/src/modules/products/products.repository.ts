@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
-import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
+import { CreateProductInput } from './dto/inputs/create-product.input';
+import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { Product, ProductWithKeys } from './models/product.model';
 
 const productInclude = Prisma.validator<Prisma.ProductInclude>()({

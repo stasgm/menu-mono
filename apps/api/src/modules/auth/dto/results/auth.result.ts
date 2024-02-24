@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 
 import { User } from '@/modules/users/models/user.model';
 
-import { Tokens } from './tokens.model';
+import { Tokens } from './tokens.result';
 
 @ObjectType({ description: 'Auth' })
 export class Auth extends Tokens {

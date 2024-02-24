@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from '@/modules/common/base.service';
 
 import { CustomersRepository } from './customers.repository';
-import { CreateCustomerInput } from './dto/create-customer.input';
+import { CreateCustomerInput } from './dto/inputs/create-customer.input';
 import { Customer } from './models/customer.model';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 export const loginUserQuery = gql`
-  mutation Mutation($loginUserInput: LoginUserInput!) {
+  mutation LoginUser($loginUserInput: LoginUserInput!) {
     loginUser(loginUserInput: $loginUserInput) {
       ... on ActivationToken {
         activationToken
@@ -30,6 +30,23 @@ export const activateUserQuery = gql`
         name
         role
         active
+      }
+    }
+  }
+`.loc?.source.body;
+
+export const currentUserQuery = gql`
+  query CurrentUser {
+    getCurrentUser {
+      id
+      name
+      role
+      customer {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
       }
     }
   }

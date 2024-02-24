@@ -13,6 +13,11 @@ export interface IReqUserData {
   };
 }
 
+export type IContextData = {
+  originIp?: string;
+  userAgent?: string;
+};
+
 export const JwtStrategies = {
   jwtAccess: 'jwt-access',
   jwtRefresh: 'jwt-refresh',

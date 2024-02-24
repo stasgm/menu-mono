@@ -5,10 +5,10 @@ import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 import { CustomersService } from '@/modules/customers/customers.service';
 
-import { CreateOrderInput } from './dto/create-order.input';
-import { CreateOrderLineInput } from './dto/create-order-line.input';
-import { UpdateOrderInput } from './dto/update-order.input';
-import { UpdateOrderStatusInput } from './dto/update-order-status.input';
+import { CreateOrderInput } from './dto/inputs/create-order.input';
+import { CreateOrderLineInput } from './dto/inputs/create-order-line.input';
+import { UpdateOrderInput } from './dto/inputs/update-order.input';
+import { UpdateOrderStatusInput } from './dto/inputs/update-order-status.input';
 import { Order, OrderWithKeys } from './models/order.model';
 
 const orderInclude = Prisma.validator<Prisma.OrderInclude>()({

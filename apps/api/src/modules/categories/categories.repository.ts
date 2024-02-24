@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
+import { CreateCategoryInput } from './dto/inputs/create-category.input';
+import { UpdateCategoryInput } from './dto/inputs/update-category.input';
 import { Category } from './models/category.model';
 
 @Injectable()

@@ -4,8 +4,8 @@ import { AppErrors } from '@/core/constants/errors';
 
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { activationCode, userData, userPassword } from '../helpers/mock-data';
+import { activateUserQuery, loginUserQuery } from '../helpers/queries';
 import { createUser, requestFunction, updateUser } from '../helpers/utils';
-import { activateUserQuery, loginUserQuery } from './queries';
 
 describe('User activation', () => {
   // For the debug mode timeout set to 5 minutes
@@ -121,9 +121,9 @@ describe('User activation', () => {
     expect(errorsLogin).toBeUndefined();
     expect(dataLogin).toBeDefined();
     expect(dataLogin.activationToken).toBeDefined();
-    // 3. Activate the user manually
+    // 3. Disable the user manually
     await updateUser(e2e, user.id, { disabled: true });
-    // 3. Try to activate the user
+    // 4. Try to activate the user
     const result = await requestFunction(e2e, getGqlReq(), dataLogin.activationToken as string);
     const data = result.body.data?.activateUser;
     const errors = result.body.errors;
@@ -147,7 +147,7 @@ describe('User activation', () => {
     expect(errorsLogin).toBeUndefined();
     expect(dataLogin).toBeDefined();
     expect(dataLogin.activationToken).toBeDefined();
-    // 3. Activate the user manually
+    // 3. Sodt delete the user manually
     await updateUser(e2e, user.id, { deletedAt: new Date() });
     // 3. Try to activate the user
     const result = await requestFunction(e2e, getGqlReq(), dataLogin.activationToken as string);
