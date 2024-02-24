@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common';
-import { gql } from 'apollo-server-express';
+import { Roles } from '@packages/domains';
 
 import { AppErrors } from '../../../src/core/constants/errors';
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
-import { requestFunction } from '../helpers/utils';
-import { newUserData, userPassword } from './mock-data';
+import { userData, userPassword } from '../helpers/mock-data';
+import { createUser, requestFunction } from '../helpers/utils';
 import { loginUserQuery } from './queries';
 
 describe('User login', () => {
@@ -28,41 +28,40 @@ describe('User login', () => {
   });
 
   const loginUserInput = {
-    name: newUserData.name,
+    name: userData.name,
     password: userPassword,
   };
 
-  const gqlReq = {
-    query: loginUserQuery,
-    variables: {
-      loginUserInput,
-    },
+  const getGqlReq = (data: typeof loginUserInput = loginUserInput) => {
+    return {
+      query: loginUserQuery,
+      variables: {
+        loginUserInput: data,
+      },
+    };
   };
 
   it('should successfully login (activated user)', async () => {
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash, active: true } });
+    await createUser(e2e, { active: true });
     // 2. Login user
-    const result = await requestFunction(e2e, gqlReq);
+    const result = await requestFunction(e2e, getGqlReq());
     const data = result.body.data?.loginUser;
     const errors = result.body.errors;
 
     expect(errors).toBeUndefined();
     expect(data).not.toBeUndefined();
-    expect(data.user.name).toBe(newUserData.name);
-    expect(data.user.role).toBe(newUserData.role);
+    expect(data.user.name).toBe(userData.name);
+    expect(data.user.role).toBe(Roles.USER);
     expect(data.accessToken).toBeDefined();
     expect(data.refreshToken).toBeDefined();
   });
 
-  it('should return activationToken (not activated user)', async () => {
+  it('should return activationToken (user is not activated)', async () => {
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash } });
-
+    await createUser(e2e);
     // 2. Login user
-    const result = await requestFunction(e2e, gqlReq);
+    const result = await requestFunction(e2e, getGqlReq());
     const data = result.body.data?.loginUser;
     const errors = result.body.errors;
 
@@ -74,12 +73,11 @@ describe('User login', () => {
     expect(data.refreshToken).toBeUndefined();
   });
 
-  it('should throw an error - user disabled', async () => {
+  it('should throw an error (user is disabled)', async () => {
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash, active: true, disabled: true } });
+    await createUser(e2e, { active: true, disabled: true });
     // 2. Login user
-    const result = await requestFunction(e2e, gqlReq);
+    const result = await requestFunction(e2e, getGqlReq());
     const data = result.body.data?.loginUser;
     const errors = result.body.errors;
 
@@ -92,18 +90,10 @@ describe('User login', () => {
   });
 
   it('should throw an error - invalid credentials (invalid user name)', async () => {
-    const gqlReq = {
-      query: loginUserQuery,
-      variables: {
-        loginUserInput: { ...loginUserInput, name: 'wrong-user-name' },
-      },
-    };
-
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash, active: true } });
+    await createUser(e2e, { active: true });
     // 2. Login user
-    const result = await requestFunction(e2e, gqlReq);
+    const result = await requestFunction(e2e, getGqlReq({ ...loginUserInput, name: 'wrong-user-name' }));
     const data = result.body.data?.loginUser;
     const errors = result.body.errors;
 
@@ -116,18 +106,10 @@ describe('User login', () => {
   });
 
   it('should throw an error - invalid credentials (invalid password)', async () => {
-    const gqlReq = {
-      query: loginUserQuery,
-      variables: {
-        loginUserInput: { ...loginUserInput, password: 'wrong-password' },
-      },
-    };
-
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash, active: true } });
+    await createUser(e2e, { active: true });
     // 2. Login user
-    const result = await requestFunction(e2e, gqlReq);
+    const result = await requestFunction(e2e, getGqlReq({ ...loginUserInput, password: 'wrong-password' }));
     const data = result.body.data?.loginUser;
     const errors = result.body.errors;
 

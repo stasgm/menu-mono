@@ -5,8 +5,8 @@ import { AppErrors } from '@/core/constants/errors';
 import { RegisterUserInput } from '@/modules/auth/dto/inputs/register-user.input';
 
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
-import { requestFunction } from '../helpers/utils';
-import { customerData, newUserData, userPassword } from './mock-data';
+import { customerData, userData, userPassword } from '../helpers/mock-data';
+import { createUser, requestFunction } from '../helpers/utils';
 
 describe('User registration', () => {
   // For the debug mode timeout set to 5 minutes
@@ -36,12 +36,10 @@ describe('User registration', () => {
     }
   `.loc?.source.body;
 
-  const { id: _id, ...customer } = customerData;
-
   const registerUserInput: RegisterUserInput = {
-    name: newUserData.name,
+    name: userData.name,
     password: userPassword,
-    customer,
+    customer: customerData,
   };
 
   const gqlReq = {
@@ -61,9 +59,8 @@ describe('User registration', () => {
     expect(data.activationToken).toBeDefined();
   });
 
-  it('should fail when registering a new user - user with that name already exists', async () => {
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-    await e2e.prisma.user.create({ data: { ...newUserData, passwordHash, active: true } });
+  it('should fail when registering new user (user with that name already exists)', async () => {
+    await createUser(e2e, { active: true });
 
     const result = await requestFunction(e2e, gqlReq);
     const errors = result.body.errors;

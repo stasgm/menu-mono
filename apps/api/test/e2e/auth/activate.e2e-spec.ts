@@ -1,8 +1,6 @@
-// import { HttpStatus } from '@nestjs/common';
-// import { AppErrors } from '../../../src/core/constants/errors';
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
-import { requestFunction } from '../helpers/utils';
-import { activationCode, newUserData, userPassword } from './mock-data';
+import { activationCode, userData, userPassword } from '../helpers/mock-data';
+import { createUser, requestFunction } from '../helpers/utils';
 import { activateUserQuery, loginUserQuery } from './queries';
 
 describe('User activation', () => {
@@ -37,7 +35,7 @@ describe('User activation', () => {
   };
 
   const loginUserInput = {
-    name: newUserData.name,
+    name: userData.name,
     password: userPassword,
   };
 
@@ -48,28 +46,16 @@ describe('User activation', () => {
     },
   };
 
-  it('should activate new user', async () => {
+  it('should activate a new user', async () => {
     // 1. Create a new user
-    const passwordHash = await e2e.passwordService.hashPassword(userPassword);
-
-    const user = await e2e.prisma.user.create({ data: { ...newUserData, passwordHash } });
-
-    // 2. Create an activation code
-    await e2e.prisma.activationCode.create({
-      data: {
-        code: activationCode,
-        userId: user.id,
-      },
-    });
-
-    // 4. Get activationToken from Login
+    await createUser(e2e, {}, activationCode);
+    // 2. Get activationToken from Login
     const resultLogin = await requestFunction(e2e, gqlReqLogin);
     const dataLogin = resultLogin.body.data?.loginUser;
     const errorsLogin = resultLogin.body.errors;
     expect(errorsLogin).toBeUndefined();
     expect(dataLogin).not.toBeUndefined();
     expect(dataLogin.activationToken).toBeDefined();
-
     // 3. Activate user
     const result = await requestFunction(e2e, gqlReq, dataLogin.activationToken as string);
     const data = result.body.data?.activateUser;
@@ -77,21 +63,18 @@ describe('User activation', () => {
 
     expect(errors).toBeUndefined();
     expect(data).not.toBeUndefined();
-    expect(data.user.name).toBe(newUserData.name);
-    expect(data.user.role).toBe(newUserData.role);
+    expect(data.user.name).toBe(userData.name);
     expect(data.accessToken).toBeDefined();
     expect(data.refreshToken).toBeDefined();
-
+    // 3. Activate user
     const activationCodeEntity = await e2e.prisma.activationCode.findFirst({
       where: {
-        userId: user.id,
+        userId: userData.id,
       },
     });
 
     expect(activationCodeEntity).toBeNull();
   });
 
-  it('should throw an error (invalid activation code)', async () => {
-
-  });
+  it('should throw an error (invalid activation code)', async () => {});
 });
