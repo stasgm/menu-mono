@@ -1,7 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { Roles } from '@packages/domains';
 
-import { AppErrors } from '../../../src/core/constants/errors';
+import { AppErrors } from '@/core/constants/errors';
+
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { userData, userPassword } from '../helpers/mock-data';
 import { loginUserQuery } from '../helpers/queries';

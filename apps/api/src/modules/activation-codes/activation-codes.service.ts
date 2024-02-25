@@ -1,12 +1,12 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import { AppConfig } from '@/core/config/app-config';
+import { InvalidActivationCodeException } from '@/core/exceptions';
 import { BullmqProducerService } from '@/core/schedulers/bullmq/producer/bullmq-producer.service';
 import { MailJob } from '@/core/schedulers/bullmq/producer/bullmq-producer.types';
 import { BaseService } from '@/modules/common/base.service';
 import { IUserRegistrationData } from '@/modules/mail/mail.types';
 
-import { InvalidActivationCodeException } from '../../core/exceptions';
 import { ActivationCodesRepository } from './activation-codes.repository';
 import { ActivationCode, ActivationCodeWithKeys } from './models/activation-code.model';
 

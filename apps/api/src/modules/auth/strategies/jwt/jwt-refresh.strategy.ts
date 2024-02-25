@@ -3,12 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AppConfig } from '@/core/config/app-config';
+import { UserNotFoundException } from '@/core/exceptions';
+import { UsersService } from '@/modules/users/users.service';
 
 import { IReqUserData, JwtPayload, JwtStrategies } from '../../types';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies.jwtRefresh) {
-  constructor(readonly appConfig: AppConfig) {
+  constructor(readonly appConfig: AppConfig, readonly usersService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,
@@ -16,8 +18,14 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies
     });
   }
 
-  validate(payload: JwtPayload): IReqUserData {
+  async validate(payload: JwtPayload): Promise<IReqUserData> {
     // TODO check if user is exists and not disabled
+    const user = await this.usersService.findOne(payload.sub);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+
     return { user: { id: payload.sub, role: payload.role } };
   }
 }

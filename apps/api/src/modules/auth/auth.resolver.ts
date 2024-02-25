@@ -67,7 +67,7 @@ export class AuthResolver {
   // }
 
   @UseGuards(JwtRefreshAuthGuard)
-  @Mutation(() => Auth, { name: 'refreshTokens', description: 'Refresh tokens' })
+  @Mutation(() => Tokens, { name: 'refreshTokens', description: 'Refresh tokens' })
   refreshTokens(@CurrentUser() req: IReqUserData): Promise<Tokens> {
     return this.authService.refreshTokens({ sub: req.user.id, role: req.user.role });
   }

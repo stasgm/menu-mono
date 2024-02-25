@@ -59,3 +59,12 @@ export const refreshActivationCodeQuery = gql`
     }
   }
 `.loc?.source.body;
+
+export const refreshTokensQuery = gql`
+  mutation RefreshTokens {
+    refreshTokens {
+      accessToken
+      refreshToken
+    }
+  }
+`.loc?.source.body;
