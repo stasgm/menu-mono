@@ -51,3 +51,11 @@ export const currentUserQuery = gql`
     }
   }
 `.loc?.source.body;
+
+export const refreshActivationCodeQuery = gql`
+  mutation RefreshActivationCode {
+    refreshActivationCode {
+      activationToken
+    }
+  }
+`.loc?.source.body;

@@ -14,8 +14,8 @@ import { IContextData, IReqUserData } from './types';
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Query(() => User, { name: 'getCurrentUser', description: 'Get current user' })
   @UseGuards(JwtAccessAuthGuard)
+  @Query(() => User, { name: 'getCurrentUser', description: 'Get current user' })
   currentUser(@CurrentUser() req: IReqUserData): Promise<User> {
     return this.authService.getCurrentUser(req.user.id);
   }
@@ -28,8 +28,8 @@ export class AuthResolver {
     return this.authService.register(data, ctx);
   }
 
-  @Mutation(() => Auth, { name: 'activateUser', description: 'Activate user' })
   @UseGuards(JwtActivateAuthGuard)
+  @Mutation(() => Auth, { name: 'activateUser', description: 'Activate user' })
   activateUser(
     @CurrentUser() req: IReqUserData,
     @ContextData() ctx: IContextData,
@@ -38,8 +38,8 @@ export class AuthResolver {
     return this.authService.activate(data, req.user.id, ctx);
   }
 
-  @Mutation(() => Auth, { name: 'refreshActivationCode', description: 'Refresh activation code' })
   @UseGuards(JwtActivateAuthGuard)
+  @Mutation(() => ActivationToken, { name: 'refreshActivationCode', description: 'Refresh activation code' })
   refreshActivationCode(@CurrentUser() req: IReqUserData, @ContextData() ctx: IContextData): Promise<ActivationToken> {
     return this.authService.refreshActivationCode(req.user.id, ctx);
   }
@@ -66,8 +66,8 @@ export class AuthResolver {
   //   return this.authService.resetPassword(resetPasswordInput);
   // }
 
-  @Mutation(() => Auth, { name: 'refreshTokens', description: 'Refresh tokens' })
   @UseGuards(JwtRefreshAuthGuard)
+  @Mutation(() => Auth, { name: 'refreshTokens', description: 'Refresh tokens' })
   refreshTokens(@CurrentUser() req: IReqUserData): Promise<Tokens> {
     return this.authService.refreshTokens({ sub: req.user.id, role: req.user.role });
   }

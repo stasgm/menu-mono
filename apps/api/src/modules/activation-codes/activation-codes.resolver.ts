@@ -1,9 +1,9 @@
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { ContextData, CurrentUser } from '../auth/decorators';
-import { JwtActivateAuthGuard } from '../auth/guards';
-import { IContextData, IReqUserData } from '../auth/types';
+// import { ContextData, CurrentUser } from '../auth/decorators';
+// import { JwtActivateAuthGuard } from '../auth/guards';
+// import { IContextData, IReqUserData } from '../auth/types';
 import { ActivationCodesService } from './activation-codes.service';
 import { CreateActivationCodeInput } from './dto/inputs/create-activation-code.input';
 import { FindActivationCodesArgs } from './dto/inputs/find-activation-code.args';
@@ -55,21 +55,22 @@ export class ActivationCodesResolver {
     return result;
   }
 
-  @UseGuards(JwtActivateAuthGuard)
-  @Mutation(() => ActivationCode, {
-    name: 'refreshCodeActivationCode',
-    description: 'Refresh code in activationCode',
-  })
-  async refreshCode(@ContextData() ctx: IContextData, @CurrentUser() req: IReqUserData) {
-    return await this.activationCodesService.createOrRefreshCodeAndSendEmail({
-      userId: req.user.id,
-      info: {
-        originIp: ctx.originIp ?? 'Unknown',
-        device: ctx.userAgent ?? 'Unknown',
-        location: 'Unknown',
-      },
-    });
-  }
+  // TODO: Only for SUPER_ADMIN
+  // @UseGuards(JwtActivateAuthGuard)
+  // @Mutation(() => ActivationCode, {
+  //   name: 'refreshCodeActivationCode',
+  //   description: 'Refresh code in activationCode',
+  // })
+  // async refreshCode(@ContextData() ctx: IContextData, @Args('userId') userId: string,) {
+  //   return await this.activationCodesService.createOrRefreshCodeAndSendEmail({
+  //     userId: req.user.id,
+  //     info: {
+  //       originIp: ctx.originIp ?? 'Unknown',
+  //       device: ctx.userAgent ?? 'Unknown',
+  //       location: 'Unknown',
+  //     },
+  //   });
+  // }
 
   @Mutation(() => ActivationCode, { name: `removeActivationCode`, description: `Remove one activationCode` })
   remove(@Args('id') id: string) {

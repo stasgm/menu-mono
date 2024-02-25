@@ -210,5 +210,6 @@ describe('User activation', () => {
     expect(activationCodeEntity?.attempts).toBe(0);
     // A new code should be generated
     expect(activationCodeEntity?.code).not.toBe(activationCode);
+    expect(activationCodeEntity?.sentAt).toBeDefined();
   });
 });
