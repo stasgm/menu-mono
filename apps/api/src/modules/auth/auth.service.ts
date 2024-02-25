@@ -10,7 +10,7 @@ import {
   UserDisabledException,
   UserNotFoundException,
 } from '@/core/exceptions';
-import { ActivationCodesService } from '@/modules/activation-codes/activation-codes.service';
+import { ActivationCodesService } from '@/modules/auth/activation-codes/activation-codes.service';
 import { CustomersService } from '@/modules/customers/customers.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';

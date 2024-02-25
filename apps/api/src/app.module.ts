@@ -7,8 +7,9 @@ import { GraphqlConfigService } from '@/core/graphql/graphql-config';
 import { HealthModule } from '@/core/health/health.module';
 import { PersistenceModule } from '@/core/persistence/persistence.module';
 import { SchedulersModule } from '@/core/schedulers/shcedulers.module';
-import { ActivationCodesModule } from '@/modules/activation-codes/activation-codes.module';
+import { ActivationCodesModule } from '@/modules/auth/activation-codes/activation-codes.module';
 import { AuthModule } from '@/modules/auth/auth.module';
+import { TokensModule } from '@/modules/auth/tokens/tokens.module';
 import { CategoriesModule } from '@/modules/categories/categories.module';
 import { CustomersModule } from '@/modules/customers/customers.module';
 import { MailModule } from '@/modules/mail/mail.module';
@@ -37,6 +38,7 @@ import { UsersModule } from '@/modules/users/users.module';
     UsersModule,
     CustomersModule,
     ActivationCodesModule,
+    TokensModule,
   ],
   controllers: [],
   providers: [],

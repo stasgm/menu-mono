@@ -5,7 +5,7 @@ import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
 import { CreateActivationCodeInput } from './dto/inputs/create-activation-code.input';
-import { UpdateActivationWithoutCodeCodeInput } from './dto/inputs/update-activation-code.input';
+import { UpdateActivationCodeWithoutCodeInput } from './dto/inputs/update-activation-code.input';
 import { generateRandomNumber } from './helpers';
 import { ActivationCode, ActivationCodeWithKeys } from './models/activation-code.model';
 
@@ -55,7 +55,7 @@ export class ActivationCodesRepository extends BaseRepository(
     return this.createActivationCode({ data });
   }
 
-  update(id: string, data: UpdateActivationWithoutCodeCodeInput) {
+  update(id: string, data: UpdateActivationCodeWithoutCodeInput) {
     return this.updateActivationCode({ data, where: { id } });
   }
 
@@ -146,7 +146,7 @@ export class ActivationCodesRepository extends BaseRepository(
 
   updateActivationCode(params: {
     where: Prisma.ActivationCodeWhereUniqueInput;
-    data: UpdateActivationWithoutCodeCodeInput;
+    data: UpdateActivationCodeWithoutCodeInput;
   }): Promise<ActivationCode | null> {
     const { where, data } = params;
 
