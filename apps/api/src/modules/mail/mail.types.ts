@@ -1,9 +1,9 @@
-const USER_REGISTRATION = 'userRegistration';
-const RESET_PASSWORD = 'resetPassword';
-
 const MailTypes = {
-  USER_REGISTRATION,
-  RESET_PASSWORD,
+  USER_REGISTRATION: 'userRegistration',
+  USER_ACTIVATION_REQUEST: 'userActivationRequest',
+  USER_ACTIVATION_CONFIRMATION: 'userActivationConfirmation',
+  RESET_PASSWORD_REQUEST: 'resetPasswordRequest',
+  RESET_PASSWORD_CONFIRMATION: 'resetPasswordConfirmation',
 } as const;
 
 export type MailType = (typeof MailTypes)[keyof typeof MailTypes];
@@ -41,8 +41,16 @@ export const Templates: IMailTemplates = {
     templateName: 'user-registration',
     subject: 'User registration',
   },
-  [MailTypes.RESET_PASSWORD]: {
+  [MailTypes.USER_ACTIVATION_CONFIRMATION]: {
+    templateName: 'user-activation-confirmation',
+    subject: 'User activation confirmation',
+  },
+  [MailTypes.RESET_PASSWORD_REQUEST]: {
     templateName: 'reset-password',
+    subject: 'Reset user password',
+  },
+  [MailTypes.RESET_PASSWORD_CONFIRMATION]: {
+    templateName: 'reset-password-confirmation',
     subject: 'Reset user password',
   },
 };
