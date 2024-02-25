@@ -3,7 +3,7 @@ import { HttpStatus } from '@nestjs/common';
 import { AppErrors } from '@/core/constants/errors';
 
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
-import { activationCode, userData, userPassword } from '../helpers/mock-data';
+import { userData, userPassword } from '../helpers/mock-data';
 import { loginUserQuery, refreshTokensQuery } from '../helpers/queries';
 import { createUser, requestFunction, updateUser } from '../helpers/utils';
 
