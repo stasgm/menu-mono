@@ -4,6 +4,6 @@
   "version": "0.0.1",
   "main": "index.js",
   "dependencies": {
-    "prettier": "2.8.8"
+    "prettier": "3.2.5"
   }
 }

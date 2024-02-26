@@ -170,17 +170,17 @@ export class AuthService {
     const { name, password } = loginUserInput;
 
     // Include disabled but exclude deleted users
-    const userWithPasswordHash = await this.usersService.findForAuth(name);
+    const userForAuth = await this.usersService.findForAuth(name);
 
-    if (!userWithPasswordHash) {
+    if (!userForAuth) {
       throw new InvalidCredentialsException();
     }
 
-    if (userWithPasswordHash.disabled) {
+    if (userForAuth.disabled) {
       throw new UserDisabledException();
     }
 
-    const { passwordHash, ...user } = userWithPasswordHash;
+    const { passwordHash, ...user } = userForAuth;
 
     const isPasswordValid = await this.passwordService.validatePassword(password, passwordHash);
 

@@ -6,6 +6,6 @@
     "tsconfig.jsx.json"
   ],
   "devDependencies": {
-    "typescript": "5.1.6"
+    "typescript": "5.3.3"
   }
 }

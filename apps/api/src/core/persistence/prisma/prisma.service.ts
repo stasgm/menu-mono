@@ -21,8 +21,28 @@ export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'bef
     });
   }
 
+  categorySoftDeleteMiddleware: Prisma.Middleware = async (params, next) => {
+    // if (params.model !== 'Category') {
+    //   return next(params);
+    // }
+    if (params.action === 'delete') {
+      return next({
+        ...params,
+        action: 'update',
+        args: {
+          ...params.args,
+          data: {
+            deletedAt: new Date(),
+          },
+        },
+      });
+    }
+    return next(params);
+  };
+
   async onModuleInit() {
     await this.$connect();
+    this.$use(this.categorySoftDeleteMiddleware);
   }
 
   enableShutdownHooks(app: INestApplication) {
