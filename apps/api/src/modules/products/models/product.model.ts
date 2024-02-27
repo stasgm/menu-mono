@@ -8,7 +8,7 @@ export class Product extends BaseNamedEntity {
   @Field(() => Boolean, { description: 'Product disabled' })
   disabled: boolean;
 
-  @Field(() => [Category]!, { description: 'Product categories' })
+  @Field(() => [Category], { description: 'Product categories' })
   categories: Category[];
 }
 
@@ -17,6 +17,6 @@ export class ProductWithKeys extends BaseNamedEntity {
   @Field(() => Boolean, { description: 'Product disabled' })
   disabled: boolean;
 
-  @Field(() => [String]!, { description: 'Product categories' })
+  @Field(() => [String], { description: 'Product categories' })
   categories: string[];
 }

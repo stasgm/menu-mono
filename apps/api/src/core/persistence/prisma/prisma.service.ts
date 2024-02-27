@@ -3,8 +3,35 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 import { AppConfig } from '@/core/config/app-config';
 
+import { softDelete } from './prisma.extensions';
+
+//function to give us a prismaClient with extensions we want
+export const customPrismaClient = (prismaClient: PrismaClient) => {
+  return prismaClient.$extends(softDelete); //here we add our created extensions
+};
+
+//Our Custom Prisma Client with the client set to the customPrismaClient with extension
+export class PrismaClientExtended extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> {
+  customPrismaClient: CustomPrismaClient;
+
+  get client() {
+    if (!this.customPrismaClient) this.customPrismaClient = customPrismaClient(this);
+
+    return this.customPrismaClient;
+  }
+
+  enableShutdownHooks(app: INestApplication) {
+    this.$on('beforeExit', async () => {
+      await app.close();
+    });
+  }
+}
+
+//Create a type to our funtion
+export type CustomPrismaClient = ReturnType<typeof customPrismaClient>;
+
 @Injectable()
-export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {
+export class PrismaService extends PrismaClientExtended implements OnModuleInit {
   constructor(readonly appConfig: AppConfig) {
     const url = appConfig.postgresUrl;
 
@@ -21,33 +48,8 @@ export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'bef
     });
   }
 
-  categorySoftDeleteMiddleware: Prisma.Middleware = async (params, next) => {
-    // if (params.model !== 'Category') {
-    //   return next(params);
-    // }
-    if (params.action === 'delete') {
-      return next({
-        ...params,
-        action: 'update',
-        args: {
-          ...params.args,
-          data: {
-            deletedAt: new Date(),
-          },
-        },
-      });
-    }
-    return next(params);
-  };
-
   async onModuleInit() {
     await this.$connect();
-    this.$use(this.categorySoftDeleteMiddleware);
-  }
-
-  enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
-    });
+    this.$extends(softDelete);
   }
 }

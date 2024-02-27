@@ -10,7 +10,7 @@ module.exports = {
     browser: true,
     node: true,
     es2022: true,
-    'jest/globals': true,
+    // 'jest/globals': true,
   },
   ignorePatterns: [
     'jest.config.js',
@@ -35,7 +35,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:security/recommended',
+    'plugin:security/recommended-legacy',
     'plugin:sonarjs/recommended',
     'plugin:jest/recommended',
     'plugin:unicorn/recommended',

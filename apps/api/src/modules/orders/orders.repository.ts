@@ -59,7 +59,10 @@ const createOrderLinesByLines = (
 
 @Injectable()
 export class OrdersRepository extends BaseRepository(Order, OrderWithKeys, 'order') {
-  constructor(readonly prisma: PrismaService, private customersService: CustomersService) {
+  constructor(
+    readonly prisma: PrismaService,
+    private customersService: CustomersService
+  ) {
     super(prisma);
   }
 

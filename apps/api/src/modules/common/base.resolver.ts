@@ -10,7 +10,7 @@ export const BaseResolver = <
   T extends BaseEntity,
   C extends BaseEntity,
   U extends CreateBaseInput,
-  V extends UpdateBaseInput
+  V extends UpdateBaseInput,
 >(
   entity: Type<T>,
   _entityWithKeys: Type<C>,

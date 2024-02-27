@@ -13,7 +13,7 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => [User]!, {
+  @Query(() => [User], {
     name: 'findAllUsers',
     description: 'Find all users',
   })

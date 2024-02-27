@@ -10,7 +10,10 @@ import { IReqUserData, JwtPayload, JwtStrategies } from '../../types';
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies.jwtRefresh) {
-  constructor(readonly appConfig: AppConfig, readonly usersService: UsersService) {
+  constructor(
+    readonly appConfig: AppConfig,
+    readonly usersService: UsersService
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,

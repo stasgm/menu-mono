@@ -6,7 +6,10 @@ import { RequestContext } from './request-context.module';
 
 @Injectable()
 export class PrismaClientManager {
-  constructor(private readonly prisma: PrismaService, private readonly requestContext: RequestContext) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly requestContext: RequestContext
+  ) {}
 
   async transaction<T>(
     fn: () => Promise<T>,

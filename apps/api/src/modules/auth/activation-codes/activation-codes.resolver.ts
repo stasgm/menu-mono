@@ -14,7 +14,7 @@ import { ActivationCode } from './models/activation-code.model';
 export class ActivationCodesResolver {
   constructor(private readonly activationCodesService: ActivationCodesService) {}
 
-  @Query(() => [ActivationCode]!, {
+  @Query(() => [ActivationCode], {
     name: 'findAllActivationCodes',
     description: 'Find all activationCodes',
   })

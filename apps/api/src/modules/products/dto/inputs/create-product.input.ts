@@ -11,6 +11,6 @@ export class CreateProductInput extends CreateBaseNamedInput {
   @Field(() => Boolean, { description: 'Product disabled' })
   disabled: boolean;
 
-  @Field(() => [String]!, { description: "Product's categories" })
+  @Field(() => [String], { description: "Product's categories" })
   categories: string[];
 }
