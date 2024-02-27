@@ -17,7 +17,7 @@ flowchart TD
     K1 --> G2[Account activated ]
     G2 --> M
     K --> |Yes| M([End])
-    
+
 ```
 
 ## TODO
@@ -29,3 +29,12 @@ flowchart TD
   - provider
   - [ ] Add loginSocial and registerSocial method for social authentication
 - [ ] Return user object with system fields (createdAt, updatedAt, activated, enabled etc) only for admin and super admin from login, activate and register methods
+- [ ] Add session entity for storing users sessions method with following fields:
+  - [ ] user
+  - [ ] expires at
+  - [ ] ip
+  - [ ] user agent
+  - [ ] device
+- [ ] Add token entity for storing custom tokens for different actions such as:
+  - [ ] password reset
+  - [ ] account activation
