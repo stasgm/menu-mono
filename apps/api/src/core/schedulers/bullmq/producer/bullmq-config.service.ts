@@ -9,8 +9,6 @@ import { getBullmqPrefix } from './bullmq-producer.types';
 
 @Injectable()
 export class BullmqConfigService implements SharedBullConfigurationFactory {
-  // TODO: inject AppConfig
-  // private readonly appConfig = new AppConfig();
   private readonly redisConnection;
   constructor(private readonly appConfig: AppConfig) {
     this.redisConnection = new IORedis(this.appConfig.redisUrl, {

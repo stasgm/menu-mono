@@ -38,3 +38,5 @@ flowchart TD
 - [ ] Add token entity for storing custom tokens for different actions such as:
   - [ ] password reset
   - [ ] account activation
+- When disabling a user account, we need to send an email to the user to let them know that their account has been disabled.
+  - create an endpoint to disable a user account

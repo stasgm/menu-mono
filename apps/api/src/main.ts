@@ -19,7 +19,7 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter());
-  app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaExceptionFilter(httpAdapter));
+  app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter), new GlobalExceptionFilter());
 
   const PORT = appConfig.nestPort;
 

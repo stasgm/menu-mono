@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
+import { EntityOptions } from '../common/base.types';
 import { CreateProductInput } from './dto/inputs/create-product.input';
 import { UpdateProductInput } from './dto/inputs/update-product.input';
 import { Product, ProductWithKeys } from './models/product.model';
@@ -18,26 +19,32 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     super(prisma);
   }
 
-  findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.ProductWhereUniqueInput;
-    where?: Prisma.ProductWhereInput;
-    orderBy?: Prisma.ProductOrderByWithRelationInput;
-  }) {
+  findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.ProductWhereUniqueInput;
+      where?: Prisma.ProductWhereInput;
+      orderBy?: Prisma.ProductOrderByWithRelationInput;
+    },
+    options?: EntityOptions
+  ) {
     const { skip, take, cursor, where, orderBy } = params;
 
-    return this.getProducts({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+    return this.getProducts(
+      {
+        skip,
+        take,
+        cursor,
+        where,
+        orderBy,
+      },
+      options
+    );
   }
 
-  findOne(id: string) {
-    return this.getProductById(id);
+  findOne(id: string, options?: EntityOptions) {
+    return this.getProductById(id, options);
   }
 
   create(data: CreateProductInput) {
@@ -49,6 +56,10 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
   }
 
   remove(id: string) {
+    return this.softDeleteProduct({ where: { id } });
+  }
+
+  hardRemove(id: string) {
     return this.deleteProduct({ where: { id } });
   }
 
@@ -57,7 +68,7 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
       data: { categories, ...rest },
     } = params;
 
-    return this.prisma.product.create({
+    return this.model.create({
       data: {
         ...rest,
         categories: this.connectCategoriesById(categories),
@@ -66,34 +77,45 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     });
   }
 
-  // private getProduct(params: { where: Prisma.ProductWhereInput }) {
-  //   const { where } = params;
-  //   return this.prisma.product.findFirst({ where, include: productInclude });
-  // }
+  private getProductById(id: string, options: EntityOptions = {}) {
+    const { includeDeleted = false, includeDisabled = false } = options || {};
 
-  private getProductById(id: string) {
-    return this.prisma.product.findUnique({
+    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
+
+    return this.model.findUnique({
       where: {
         id,
+        ...deletedAtCond,
+        disabled: includeDisabled,
       },
       include: productInclude,
     });
   }
 
-  private async getProducts(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.ProductWhereUniqueInput;
-    where?: Prisma.ProductWhereInput;
-    orderBy?: Prisma.ProductOrderByWithRelationInput;
-  }) {
+  private async getProducts(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.ProductWhereUniqueInput;
+      where?: Prisma.ProductWhereInput;
+      orderBy?: Prisma.ProductOrderByWithRelationInput;
+    },
+    options: EntityOptions = {}
+  ) {
     const { skip, take, cursor, where, orderBy } = params;
+    const { includeDeleted = false, includeDisabled = false } = options || {};
 
-    return await this.prisma.product.findMany({
+    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
+
+    return await this.model.findMany({
       skip,
       take,
       cursor,
-      where,
+      where: {
+        ...where,
+        ...deletedAtCond,
+        disabled: includeDisabled,
+      },
       include: productInclude,
       orderBy,
     });
@@ -110,16 +132,35 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
       categories: categories ? this.connectCategoriesById(categories) : undefined,
     };
 
-    return this.prisma.product.update({
-      where,
+    return this.model.update({
+      where: {
+        ...where,
+        deletedAt: null,
+      },
       data: updateData,
+      include: productInclude,
+    });
+  }
+
+  private async softDeleteProduct(params: { where: Prisma.ProductWhereUniqueInput }) {
+    const { where } = params;
+
+    return this.model.update({
+      where: {
+        ...where,
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
       include: productInclude,
     });
   }
 
   private async deleteProduct(params: { where: Prisma.ProductWhereUniqueInput }) {
     const { where } = params;
-    return this.prisma.product.delete({ where, include: productInclude });
+
+    return this.model.delete({ where, include: productInclude });
   }
 
   /**

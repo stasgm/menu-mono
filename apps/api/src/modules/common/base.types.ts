@@ -13,7 +13,7 @@ export type UpdateInput<T extends BaseEntity> = Partial<CreateInput<T>>;
 
 export interface IBaseRepository<T extends BaseEntity, C extends BaseEntity> {
   readonly model: any;
-  findAll: (params: FindAllBaseArgs) => Promise<T[]>;
+  findAll: (params: FindAllBaseArgs, options?: EntityOptions) => Promise<T[]>;
   findOne: (id: string, options?: EntityOptions) => Promise<T | null>;
   create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;
@@ -22,7 +22,7 @@ export interface IBaseRepository<T extends BaseEntity, C extends BaseEntity> {
 
 export interface IBaseResolver<T extends BaseEntity, C extends BaseEntity> {
   readonly service: IBaseService<T, C>;
-  findAll: (params: FindAllBaseArgs) => Promise<T[]>;
+  findAll: (params: FindAllBaseArgs, options?: EntityOptions) => Promise<T[]>;
   findOne: (id: string, options?: EntityOptions) => Promise<T | null>;
   create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;
@@ -32,7 +32,7 @@ export interface IBaseResolver<T extends BaseEntity, C extends BaseEntity> {
 export interface IBaseService<T extends BaseEntity, C extends BaseEntity> {
   readonly repository: IBaseRepository<T, C>;
   readonly logger: Logger;
-  findAll: (params: FindAllBaseArgs) => Promise<T[]>;
+  findAll: (params: FindAllBaseArgs, options?: EntityOptions) => Promise<T[]>;
   findOne: (id: string, options?: EntityOptions) => Promise<T | null>;
   create: (createInput: CreateInput<C>) => Promise<T>;
   update: (id: string, updateInput: UpdateInput<C>) => Promise<T | null>;

@@ -1,5 +1,5 @@
-import { ArgumentsHost, Catch, HttpException, HttpServer, HttpStatus } from '@nestjs/common';
-import { APP_FILTER, BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
+import { ArgumentsHost, Catch, HttpException, HttpServer, HttpStatus, Logger } from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
 
 export declare type GqlContextType = 'graphql';
@@ -36,6 +36,8 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
 
   private readonly userDefinedMapping?: ExtendedErrorCodesStatusMapping;
 
+  private readonly logger = new Logger(PrismaExceptionFilter.name);
+
   /**
    * @param applicationRef
    * @param errorCodesStatusMapping
@@ -43,23 +45,6 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
   constructor(applicationRef?: HttpServer, errorCodesStatusMapping?: ErrorCodesStatusMapping) {
     super(applicationRef);
 
-    // use custom error codes mapping (overwrite)
-    //
-    // @example:
-    //
-    //   const { httpAdapter } = app.get(HttpAdapterHost);
-    //   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter, {
-    //     P2022: HttpStatus.BAD_REQUEST,
-    //   }));
-    //
-    //   or
-    //
-    //   const { httpAdapter } = app.get(HttpAdapterHost);
-    //   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter, {
-    //     // You can omit either statusCode or errorMessage so that the default one is used.
-    //     P2022: { statusCode: HttpStatus.BAD_REQUEST, errorMessage: "bad request" },
-    //   }));
-    //
     this.userDefinedMapping = errorCodesStatusMapping;
   }
 
@@ -73,9 +58,15 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
   }
 
   private catchClientKnownRequestError(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
-    const statusCode = this.userDefinedStatusCode(exception) ?? this.defaultStatusCode(exception);
+    const statusCode = this.defaultStatusCode(exception);
 
     const message = this.userDefinedExceptionMessage(exception) ?? this.defaultExceptionMessage(exception);
+
+    this.logger.error({
+      code: statusCode,
+      message,
+      exception,
+    });
 
     if (host.getType() === 'http') {
       if (statusCode === undefined) {
@@ -117,14 +108,4 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
         .trim()
     );
   }
-}
-
-export function providePrismaClientExceptionFilter(errorCodesStatusMapping?: ErrorCodesStatusMapping) {
-  return {
-    provide: APP_FILTER,
-    useFactory: ({ httpAdapter }: HttpAdapterHost) => {
-      return new PrismaExceptionFilter(httpAdapter, errorCodesStatusMapping);
-    },
-    inject: [HttpAdapterHost],
-  };
 }

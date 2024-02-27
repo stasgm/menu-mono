@@ -8,7 +8,7 @@ export const usersMock: IUser[] = [
     name: 'Stas',
     active: true,
     role: 'SUPER_ADMIN',
-    disabled: true,
+    disabled: false,
     passwordHash: '$2a$04$Itqh6ragYeLMrPsWPRV4e.fFl2754Xc39KxPVgjI6P9zpkdrwAjB6',
     customerId: customersMock[0].id,
   },
