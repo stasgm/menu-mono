@@ -4,7 +4,7 @@ services:
   menu-mono-db:
     image: postgres:13.5
     container_name: menu-mono-db
-    # restart: always
+    restart: always
     networks:
       - menu-mono-net
     ports:
@@ -16,18 +16,20 @@ services:
 
   menu-mono-db-test:
     image: postgres:13.5
-    # restart: always
+    restart: always
     container_name: menu-mono-testdb
     ports:
       - '5434:5432'
     env_file:
       - .env.test
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-test:/var/lib/postgresql/data
 
 volumes:
   postgres:
     name: menu-mono-db
+  postgres-test:
+    name: menu-mono-testdb
 
 networks:
   menu-mono-net:

@@ -21,11 +21,11 @@ describe('User registration', () => {
   });
 
   afterAll(async () => {
-    await e2e.close();
+    await e2e?.close();
   });
 
   beforeEach(async () => {
-    await e2e.cleanup();
+    await e2e?.cleanup();
   });
 
   const query = gql`

@@ -8,35 +8,40 @@ import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './core/filters/http-exception-filter';
 
 declare const module: any;
+
 async function bootstrap() {
   const logger = new Logger('EntryPoint');
   const appConfig = new AppConfig();
 
-  const app = await NestFactory.create(AppModule);
+  const { nestPort, isProduction, envPrefix, mail } = appConfig;
 
-  app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
-  app.enableCors();
-
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  // app.useGlobalFilters(new GlobalExceptionFilter(), new PrismaClientExceptionFilter());
-  app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter), new GlobalExceptionFilter());
-
-  const PORT = appConfig.nestPort;
-
-  await app.listen(PORT);
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
+  if (!isProduction) {
+    logger.debug(`Current environment: ${envPrefix}`);
+    logger.debug(`Mailing is ${mail.mockMailing ? 'mocked' : 'enabled'}`);
   }
 
-  if (!appConfig.isProduction) {
-    logger.debug(`Current environment: ${appConfig.envPrefix}`);
-    logger.debug(`Mailing is ${appConfig.mail.mockMailing ? 'mocked' : 'enabled'}`);
-  }
+  try {
+    const app = await NestFactory.create(AppModule);
 
-  logger.log(`Application is running on: http://localhost:${PORT}`);
-  logger.log(`GraphQL Sandbox: http://localhost:${PORT}/graphql`);
+    app.setGlobalPrefix(AppConfig.nestApiGlobalPrefix);
+    app.enableCors();
+
+    const { httpAdapter } = app.get(HttpAdapterHost);
+    app.useGlobalFilters(new PrismaExceptionFilter(httpAdapter), new GlobalExceptionFilter());
+
+    await app.listen(nestPort);
+
+    if (!isProduction && module.hot) {
+      module.hot.accept();
+      module.hot.dispose(() => app.close());
+    }
+
+    logger.log(`Application is running on: http://localhost:${nestPort}`);
+    logger.log(`GraphQL Sandbox: http://localhost:${nestPort}/graphql`);
+  } catch (error) {
+    logger.error({ err: error });
+    throw new Error('error');
+  }
 }
 
 bootstrap();

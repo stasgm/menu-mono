@@ -1,10 +1,10 @@
-import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 import { AppConfig } from '@/core/config/app-config';
 
 @Injectable()
-export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'beforeExit'> implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(readonly appConfig: AppConfig) {
     const url = appConfig.postgresUrl;
 
@@ -22,12 +22,10 @@ export class PrismaService extends PrismaClient<Prisma.PrismaClientOptions, 'bef
   }
 
   async onModuleInit() {
-    await this.$connect();
-  }
-
-  enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
-    });
+    try {
+      await this.$connect();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

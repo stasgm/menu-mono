@@ -34,11 +34,24 @@ CREATE TABLE "activationCodes" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
+    "sentAt" TIMESTAMP(3),
     "code" TEXT NOT NULL,
     "attempts" INTEGER NOT NULL DEFAULT 0,
     "userId" UUID NOT NULL,
 
     CONSTRAINT "activationCodes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "tokens" (
+    "id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "token" TEXT NOT NULL,
+    "userId" UUID NOT NULL,
+
+    CONSTRAINT "tokens_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -147,6 +160,9 @@ CREATE UNIQUE INDEX "customers_email_key" ON "customers"("email");
 CREATE UNIQUE INDEX "activationCodes_userId_key" ON "activationCodes"("userId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "tokens_userId_key" ON "tokens"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "categories_name_key" ON "categories"("name");
 
 -- CreateIndex
@@ -178,6 +194,9 @@ ALTER TABLE "users" ADD CONSTRAINT "users_customerId_fkey" FOREIGN KEY ("custome
 
 -- AddForeignKey
 ALTER TABLE "activationCodes" ADD CONSTRAINT "activationCodes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tokens" ADD CONSTRAINT "tokens_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "menuLines" ADD CONSTRAINT "menuLines_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
