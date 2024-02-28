@@ -14,8 +14,7 @@
         "-r",
         "ts-node/register",
         "-r",
-        "tsconfig-paths/register",
-        "--watch"
+        "tsconfig-paths/register"
       ],
       "sourceMaps": true,
       "envFile": "${workspaceFolder}/.env",

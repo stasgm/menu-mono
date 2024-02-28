@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import { AppConfig } from '@/core/config/app-config';
+import { AppConfigModule } from '@/core/config/app-config.module';
 
 import { PrismaService } from './prisma/prisma.service';
 
 @Module({
-  providers: [PrismaService, AppConfig],
+  imports: [AppConfigModule],
+  providers: [PrismaService],
   exports: [PrismaService],
 })
 export class PersistenceModule {}

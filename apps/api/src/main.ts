@@ -10,7 +10,7 @@ import { GlobalExceptionFilter } from './core/filters/http-exception-filter';
 declare const module: any;
 
 async function bootstrap() {
-  const logger = new Logger('EntryPoint');
+  const logger = new Logger('Bootstrap');
   const appConfig = new AppConfig();
 
   const { nestPort, isProduction, envPrefix, mail } = appConfig;

@@ -4,7 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 
 import { AppConfigModule } from '@/core/config/app-config.module';
 import { GraphqlConfigService } from '@/core/graphql/graphql-config';
-import { HealthModule } from '@/core/health/health.module';
+// import { HealthModule } from '@/core/health/health.module';
 import { PersistenceModule } from '@/core/persistence/persistence.module';
 import { SchedulersModule } from '@/core/schedulers/shcedulers.module';
 import { ActivationCodesModule } from '@/modules/auth/activation-codes/activation-codes.module';
@@ -18,6 +18,8 @@ import { MenusModule } from '@/modules/menus/menus.module';
 import { ProductsModule } from '@/modules/products/products.module';
 import { UsersModule } from '@/modules/users/users.module';
 
+import { AppResolver } from './app.resolver';
+
 @Module({
   imports: [
     GraphQLModule.forRootAsync({
@@ -26,21 +28,21 @@ import { UsersModule } from '@/modules/users/users.module';
       imports: [AppConfigModule],
     }),
     AppConfigModule,
+    // HealthModule,
+    PersistenceModule,
     SchedulersModule,
-    HealthModule,
     MailModule,
     AuthModule,
-    PersistenceModule,
-    ProductsModule,
-    CategoriesModule,
-    MenusModule,
+    // ProductsModule,
+    // CategoriesModule,
+    // MenusModule,
     // OrdersModule,
     UsersModule,
     CustomersModule,
     ActivationCodesModule,
-    TokensModule,
+    // TokensModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AppResolver],
 })
 export class AppModule {}

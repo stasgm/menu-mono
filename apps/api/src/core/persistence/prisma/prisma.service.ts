@@ -3,18 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 import { AppConfig } from '@/core/config/app-config';
 
-export type Datasource = {
-  url?: string;
-};
-
-export type Datasources = {
-  db?: Datasource;
-};
-
-export interface PrismaClientOptions {
-  datasources?: Datasources;
-}
-
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(readonly appConfig: AppConfig) {
