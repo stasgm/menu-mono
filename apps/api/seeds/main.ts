@@ -46,7 +46,6 @@ const runSeed = async () => {
   logger.log('🌿 Inserting data into tables:');
 
   for (const service of services) {
-    // insert your code here
     await app.get(service).seed();
   }
 

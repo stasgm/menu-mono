@@ -1,4 +1,17 @@
 import { gql } from 'apollo-server-express';
+import request from 'supertest';
+import { App } from 'supertest/types';
+
+import { E2EApp } from './initialize-app';
+
+const GQL = '/graphql';
+
+export const requestFunction = (e2e: E2EApp, gqlReq: Record<string, unknown>, token: string = '') =>
+  request(e2e.app.getHttpServer() as App)
+    .post(GQL)
+    .set('Authorization', `JWT ${token}`)
+    .send(gqlReq)
+    .expect(200);
 
 export const registerUserQuery = gql`
   mutation RegisterUser($registerUserInput: RegisterUserInput!) {

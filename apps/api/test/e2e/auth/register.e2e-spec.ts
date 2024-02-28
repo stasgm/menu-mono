@@ -5,15 +5,9 @@ import { RegisterUserInput } from '@/modules/auth/dto/inputs/register-user.input
 
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { customerData, userData, userPassword } from '../helpers/mock-data';
-import { registerUserQuery } from '../helpers/queries';
-import { createUser, requestFunction } from '../helpers/utils';
+import { registerUserQuery, requestFunction } from '../helpers/queries';
 
 describe('User registration', () => {
-  // For the debug mode timeout set to 5 minutes
-  if (process.env.VSCODE_INSPECTOR_OPTIONS) {
-    jest.setTimeout(60 * 1000 * 5);
-  }
-
   let e2e: E2EApp;
 
   beforeAll(async () => {
@@ -52,7 +46,7 @@ describe('User registration', () => {
   });
 
   it('should throw an error (user with that name already exists)', async () => {
-    await createUser(e2e, { active: true });
+    await e2e.prismaUtilsService.createUser({ active: true });
 
     const result = await requestFunction(e2e, gqlReq);
     const errors = result.body.errors;

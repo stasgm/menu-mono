@@ -12,18 +12,4 @@ export class PrismaTestService extends PrismaService {
 
     super(appConfig);
   }
-
-  async resetDB(): Promise<void> {
-    await this.$transaction([
-      this.orderLine.deleteMany(),
-      this.order.deleteMany(),
-      this.menuLine.deleteMany(),
-      this.menu.deleteMany(),
-      this.product.deleteMany(),
-      this.category.deleteMany(),
-      this.activationCode.deleteMany(),
-      this.user.deleteMany(),
-      this.customer.deleteMany(),
-    ]);
-  }
 }

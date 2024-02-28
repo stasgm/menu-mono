@@ -21,7 +21,7 @@ export class BullmqProducerService {
 
   constructor(
     @InjectQueue(MAIL_QUEUE)
-    private readonly mailJobQueue: Queue<MailJob> // private readonly logger: LoggerService
+    private readonly mailJobQueue: Queue<MailJob>
   ) {}
 
   async insertNewJob<T = never>({
