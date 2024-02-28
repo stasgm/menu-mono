@@ -1,4 +1,4 @@
-import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
+// import { PrismaModel } from '@/core/persistence/prisma/prisma.types';
 
 import { PrismaTestService } from '../prisma-test.service';
 

@@ -1,11 +1,11 @@
 import { HttpStatus } from '@nestjs/common';
-import { gql } from 'apollo-server-express';
 
 import { AppErrors } from '@/core/constants/errors';
 import { RegisterUserInput } from '@/modules/auth/dto/inputs/register-user.input';
 
 import { E2EApp, initializeApp } from '../helpers/initialize-app';
 import { customerData, userData, userPassword } from '../helpers/mock-data';
+import { registerUserQuery } from '../helpers/queries';
 import { createUser, requestFunction } from '../helpers/utils';
 
 describe('User registration', () => {
@@ -28,14 +28,6 @@ describe('User registration', () => {
     await e2e?.cleanup();
   });
 
-  const query = gql`
-    mutation RegisterUser($registerUserInput: RegisterUserInput!) {
-      registerUser(registerUserInput: $registerUserInput) {
-        activationToken
-      }
-    }
-  `.loc?.source.body;
-
   const registerUserInput: RegisterUserInput = {
     name: userData.name,
     password: userPassword,
@@ -43,7 +35,7 @@ describe('User registration', () => {
   };
 
   const gqlReq = {
-    query,
+    query: registerUserQuery,
     variables: {
       registerUserInput,
     },

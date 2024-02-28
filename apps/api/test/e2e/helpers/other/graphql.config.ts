@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { ApolloDriverConfig } from '@nestjs/apollo';
+// import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Injectable } from '@nestjs/common';
 import { GqlModuleOptions, GqlOptionsFactory } from '@nestjs/graphql';
 

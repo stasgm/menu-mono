@@ -1,5 +1,13 @@
 import { gql } from 'apollo-server-express';
 
+export const registerUserQuery = gql`
+  mutation RegisterUser($registerUserInput: RegisterUserInput!) {
+    registerUser(registerUserInput: $registerUserInput) {
+      activationToken
+    }
+  }
+`.loc?.source.body;
+
 export const loginUserQuery = gql`
   mutation LoginUser($loginUserInput: LoginUserInput!) {
     loginUser(loginUserInput: $loginUserInput) {
