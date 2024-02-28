@@ -41,32 +41,6 @@ export class PrismaUtilsService {
     return this.prismaService.user.update({ data: userData, where: { id: userId } });
   }
 
-  // addOne<Model extends PrismaModel, T>(_model: Model, data: T): Promise<T> {
-  //   try {
-  //     const model = this.prisma[_model];
-  //     return model.create(data);
-  //   } catch (error) {
-  //     throw new Error(`Error adding entity: ${_model.toString()}${error}`);
-  //   }
-  // }
-
-  // addMany = async <T>(entities: T[]): Promise<T[]> => {
-  //   const savedEntities: T[] = [];
-  //   for (const entity of entities) {
-  //     try {
-  //       const name = (entity as unknown as Type<T>).constructor.name;
-  //       // const repository = this.connection.getRepository(name);
-  //       // const created = repository.create({ ...entity }) as T;
-  //       // const savedEntity = await repository.save(created);
-  //       // savedEntities.push(savedEntity);
-  //       return Promise.resolve(entities);
-  //     } catch (e) {
-  //       throw new Error(`Error adding entity: ${_model.toString()}. ${e}`);
-  //     }
-  //   }
-  //   return savedEntities;
-  // };
-
   async resetDB(): Promise<void> {
     // const models = Prisma.dmmf.datamodel.models;
     // return Promise.all(models.map((model) => (this.prismaService[model.name] as any).deleteMany()));
