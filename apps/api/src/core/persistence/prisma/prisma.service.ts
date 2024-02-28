@@ -17,18 +17,15 @@ export interface PrismaClientOptions {
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor(
-    readonly prismaClientOptions: PrismaClientOptions,
-    readonly appConfig: AppConfig
-  ) {
+  constructor(readonly appConfig: AppConfig) {
     const url = appConfig.postgresUrl;
 
-    if (!prismaClientOptions?.datasources?.db?.url && !url) {
+    if (!url) {
       throw new Error('Postgres url is not set');
     }
 
     super({
-      datasources: prismaClientOptions.datasources ?? {
+      datasources: {
         db: {
           url,
         },

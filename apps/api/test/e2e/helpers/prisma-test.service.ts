@@ -1,36 +1,16 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
 import { AppConfig } from '@/core/config/app-config';
+import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 
 @Injectable()
-export class PrismaTestService extends PrismaClient implements OnModuleInit {
+export class PrismaTestService extends PrismaService {
   constructor(readonly appConfig: AppConfig) {
     if (appConfig.envPrefix !== 'test') {
       throw new Error('Enviroment must be only "test"');
     }
 
-    const url = appConfig.postgresUrl;
-
-    if (!url) {
-      throw new Error('Postgres url is not set');
-    }
-
-    super({
-      datasources: {
-        db: {
-          url,
-        },
-      },
-    });
-  }
-
-  async onModuleInit() {
-    try {
-      await this.$connect();
-    } catch (error) {
-      console.log(error);
-    }
+    super(appConfig);
   }
 
   async resetDB(): Promise<void> {

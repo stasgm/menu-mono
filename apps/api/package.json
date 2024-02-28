@@ -42,6 +42,8 @@
   "dependencies": {
     "@apollo/server": "^4.10.0",
     "@graphql-tools/utils": "^10.1.0",
+    "@nestjs-cls/transactional": "^2.2.0",
+    "@nestjs-cls/transactional-adapter-prisma": "^1.1.0",
     "@nestjs-modules/mailer": "^1.11.0",
     "@nestjs/apollo": "^12.1.0",
     "@nestjs/axios": "^3.0.2",

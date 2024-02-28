@@ -13,7 +13,7 @@ import { SchedulersTestModule } from './schedulers-test.module';
 
 export interface E2EApp {
   app: INestApplication;
-  prisma: PrismaTestService;
+  prismaService: PrismaTestService;
   passwordService: PasswordService;
 
   cleanup(): Promise<void>;
@@ -32,31 +32,31 @@ export async function initializeApp() {
     .useClass(BullmqTestProducerService)
     .compile();
 
-  const prisma = moduleRef.get<PrismaTestService>(PrismaService);
+  const prismaService = moduleRef.get<PrismaTestService>(PrismaService);
   const passwordService = moduleRef.get(PasswordService);
 
   const app = moduleRef.createNestApplication();
   await app.init();
 
   const cleanup = async () => {
-    // await prisma.resetDB();
-    await prisma.$transaction([
-      prisma.orderLine.deleteMany(),
-      prisma.order.deleteMany(),
-      prisma.menuLine.deleteMany(),
-      prisma.menu.deleteMany(),
-      prisma.product.deleteMany(),
-      prisma.category.deleteMany(),
-      prisma.activationCode.deleteMany(),
-      prisma.user.deleteMany(),
-      prisma.customer.deleteMany(),
-    ]);
+    await prismaService.resetDB();
+    // await prismaService.$transaction([
+    //   prismaService.orderLine.deleteMany(),
+    //   prismaService.order.deleteMany(),
+    //   prismaService.menuLine.deleteMany(),
+    //   prismaService.menu.deleteMany(),
+    //   prismaService.product.deleteMany(),
+    //   prismaService.category.deleteMany(),
+    //   prismaService.activationCode.deleteMany(),
+    //   prismaService.user.deleteMany(),
+    //   prismaService.customer.deleteMany(),
+    // ]);
   };
 
   const close = async () => {
     await app.close();
-    // await prisma.$disconnect();
+    // await prismaService.$disconnect();
   };
 
-  return { app, prisma, passwordService, cleanup, close };
+  return { app, prismaService, passwordService, cleanup, close };
 }

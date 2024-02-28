@@ -20,11 +20,11 @@ export const createUser = async (
   const { password = userPassword, ...userData } = createUserData;
   const passwordHash = await e2e.passwordService.hashPassword(password);
 
-  const user = await e2e.prisma.user.create({ data: getUserData({ passwordHash, ...userData }) });
+  const user = await e2e.prismaService.user.create({ data: getUserData({ passwordHash, ...userData }) });
 
   if (activationCode) {
     // 2. Create an activation code
-    await e2e.prisma.activationCode.create({
+    await e2e.prismaService.activationCode.create({
       data: {
         code: activationCode,
         userId: user.id,
@@ -40,5 +40,5 @@ export const updateUser = async (
   userId: string,
   userData: Partial<Omit<CreateUserData, 'passwordHash'>> & { deletedAt?: Date } = {}
 ) => {
-  return await e2e.prisma.user.update({ data: userData, where: { id: userId } });
+  return await e2e.prismaService.user.update({ data: userData, where: { id: userId } });
 };

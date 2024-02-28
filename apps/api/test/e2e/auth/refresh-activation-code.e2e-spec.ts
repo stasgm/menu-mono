@@ -64,7 +64,7 @@ describe('Refrsh activation code', () => {
     expect(data.activationToken).toBeDefined();
 
     // Receive the activationCode record
-    const activationCodeEntity = await e2e.prisma.activationCode.findFirst({ where: { userId: user.id } });
+    const activationCodeEntity = await e2e.prismaService.activationCode.findFirst({ where: { userId: user.id } });
     expect(activationCodeEntity).toBeDefined();
     expect(activationCodeEntity?.attempts).toBe(0);
     // A new activation code should be generated

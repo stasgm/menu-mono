@@ -75,7 +75,7 @@ describe('User activation', () => {
     expect(data.accessToken).toBeDefined();
     expect(data.refreshToken).toBeDefined();
     // 3. Check activation code
-    const activationCodeEntity = await e2e.prisma.activationCode.findFirst({
+    const activationCodeEntity = await e2e.prismaService.activationCode.findFirst({
       where: {
         userId: data.user.id,
       },
@@ -205,7 +205,7 @@ describe('User activation', () => {
     expect(errors2[0].code).toBe(AppErrors.INVALID_ACTIVATION_CODE_ATTEMPTS_EXCEEDED);
     expect(errors2[0].statusCode).toBe(HttpStatus.BAD_REQUEST);
     // Receive the activationCode record
-    const activationCodeEntity = await e2e.prisma.activationCode.findFirst({ where: { userId: user.id } });
+    const activationCodeEntity = await e2e.prismaService.activationCode.findFirst({ where: { userId: user.id } });
     expect(activationCodeEntity).toBeDefined();
     expect(activationCodeEntity?.attempts).toBe(0);
     // A new code should be generated
