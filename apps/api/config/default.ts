@@ -6,10 +6,20 @@ const config: IAppConfig = {
   secuirity: {
     strategies: ['JWT', 'LOCAL'],
     jwt: {
-      accessExpiresIn: '15m',
-      refreshExpiresIn: '7d',
-    }
-  }
+      access: {
+        expiresIn: '15m',
+      },
+      refresh: {
+        expiresIn: '7d',
+      },
+      activate: {
+        expiresIn: '1d',
+      },
+      resetPass: {
+        expiresIn: '1d',
+      },
+    },
+  },
 };
 
 export default config;

@@ -18,7 +18,7 @@ import { UsersService } from '@/modules/users/users.service';
 import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
 import { ActivationToken, Auth, Tokens } from './dto/results';
 import { PasswordService } from './password.service';
-import { IContextData, JwtPayload, Roles } from './types';
+import { IContextData, JwtPayload, Roles, TokenType } from './types';
 
 @Injectable()
 export class AuthService {
@@ -80,7 +80,7 @@ export class AuthService {
 
     // 6. Generate Activation token
     const payload = { sub: user.id, role: user.role };
-    const activationToken = await this.generateActivationToken(payload);
+    const activationToken = await this.generateToken(payload, 'activate');
 
     return {
       activationToken,
@@ -156,7 +156,7 @@ export class AuthService {
 
     // 3. Generate new activation token
     const payload = { sub: user.id, role: user.role };
-    const activationToken = await this.generateActivationToken(payload);
+    const activationToken = await this.generateToken(payload, 'activate');
 
     return {
       activationToken,
@@ -191,7 +191,7 @@ export class AuthService {
     const payload = { sub: user.id, role: user.role };
 
     if (!user.active) {
-      const activationToken = await this.generateActivationToken(payload);
+      const activationToken = await this.generateToken(payload, 'activate');
 
       return {
         activationToken,
@@ -226,8 +226,8 @@ export class AuthService {
 
   private async generateTokens(payload: JwtPayload): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
-      this.generateAccessToken(payload),
-      this.generateRefreshToken(payload),
+      this.generateToken(payload, 'access'),
+      this.generateToken(payload, 'refresh'),
     ]);
 
     return {
@@ -236,24 +236,31 @@ export class AuthService {
     };
   }
 
-  private generateAccessToken(payload: JwtPayload): Promise<string> {
+  private generateToken(payload: JwtPayload, tokenType: TokenType): Promise<string> {
     return this.jwtService.signAsync(payload, {
-      expiresIn: this.appConfig.jwt.accessExpiresIn,
-      secret: this.appConfig.jwt.accessSecret,
+      expiresIn: this.appConfig.jwt[tokenType].expiresIn,
+      secret: this.appConfig.jwt[tokenType].secret,
     });
   }
 
-  private generateRefreshToken(payload: JwtPayload): Promise<string> {
-    return this.jwtService.signAsync(payload, {
-      expiresIn: this.appConfig.jwt.refreshExpiresIn,
-      secret: this.appConfig.jwt.refreshSecret,
-    });
-  }
+  // private generateAccessToken(payload: JwtPayload): Promise<string> {
+  //   return this.jwtService.signAsync(payload, {
+  //     expiresIn: this.appConfig.jwt.accessExpiresIn,
+  //     secret: this.appConfig.jwt.accessSecret,
+  //   });
+  // }
 
-  private generateActivationToken(payload: JwtPayload): Promise<string> {
-    return this.jwtService.signAsync(payload, {
-      expiresIn: this.appConfig.jwt.activateExpiresIn,
-      secret: this.appConfig.jwt.activateSecret,
-    });
-  }
+  // private generateRefreshToken(payload: JwtPayload): Promise<string> {
+  //   return this.jwtService.signAsync(payload, {
+  //     expiresIn: this.appConfig.jwt.refreshExpiresIn,
+  //     secret: this.appConfig.jwt.refreshSecret,
+  //   });
+  // }
+
+  // private generateActivationToken(payload: JwtPayload): Promise<string> {
+  //   return this.jwtService.signAsync(payload, {
+  //     expiresIn: this.appConfig.jwt.activateExpiresIn,
+  //     secret: this.appConfig.jwt.activateSecret,
+  //   });
+  // }
 }

@@ -9,7 +9,7 @@ import { UsersService } from '@/modules/users/users.service';
 import { IReqUserData, JwtPayload, JwtStrategies } from '../../types';
 
 @Injectable()
-export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies.jwtRefresh) {
+export class JwtResetPassStrategy extends PassportStrategy(Strategy, JwtStrategies.jwtResetPass) {
   constructor(
     readonly appConfig: AppConfig,
     readonly usersService: UsersService
@@ -17,7 +17,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,
-      secretOrKey: appConfig.jwt.refresh.secret,
+      secretOrKey: appConfig.jwt.resetPass.secret,
     });
   }
 

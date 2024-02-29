@@ -58,7 +58,7 @@ export class PrismaExceptionFilter extends BaseExceptionFilter {
   }
 
   private catchClientKnownRequestError(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
-    const statusCode = this.defaultStatusCode(exception);
+    const statusCode = this.userDefinedStatusCode(exception) ?? this.defaultStatusCode(exception);
 
     const message = this.userDefinedExceptionMessage(exception) ?? this.defaultExceptionMessage(exception);
 

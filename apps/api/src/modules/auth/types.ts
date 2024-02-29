@@ -18,10 +18,13 @@ export type IContextData = {
   userAgent?: string;
 };
 
+export type TokenType = 'access' | 'refresh' | 'activate' | 'resetPass';
+
 export const JwtStrategies = {
   jwtAccess: 'jwt-access',
   jwtRefresh: 'jwt-refresh',
   jwtActivate: 'jwt-activate',
+  jwtResetPass: 'jwt-resetPass',
 } as const;
 
 export interface IJwtRequest {

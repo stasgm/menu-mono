@@ -12,7 +12,7 @@ export class JwtActivateStrategy extends PassportStrategy(Strategy, JwtStrategie
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
       ignoreExpiration: false,
-      secretOrKey: appConfig.jwt.activateSecret,
+      secretOrKey: appConfig.jwt.activate.secret,
     });
   }
 

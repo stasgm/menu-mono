@@ -83,12 +83,22 @@ export class AppConfig {
     // TODO should throw an error when jwt is not set
 
     return {
-      accessSecret: secuirity?.jwt?.accessSecret ?? process.env.JWT_ACCESS_SECRET ?? '',
-      accessExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
-      refreshSecret: secuirity?.jwt?.refreshSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
-      refreshExpiresIn: secuirity?.jwt?.refreshExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
-      activateSecret: secuirity?.jwt?.accessSecret ?? process.env.JWT_REFRESH_SECRET ?? '',
-      activateExpiresIn: secuirity?.jwt?.accessExpiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '5m',
+      access: {
+        secret: secuirity?.jwt?.access.secret ?? process.env.JWT_ACCESS_SECRET ?? '',
+        expiresIn: secuirity?.jwt?.access.expiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '15m',
+      },
+      refresh: {
+        secret: secuirity?.jwt?.refresh.secret ?? process.env.JWT_REFRESH_SECRET ?? '',
+        expiresIn: secuirity?.jwt?.refresh.expiresIn ?? process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+      },
+      activate: {
+        secret: secuirity?.jwt?.activate.secret ?? process.env.JWT_ACCESS_SECRET ?? '',
+        expiresIn: secuirity?.jwt?.activate.expiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '1d',
+      },
+      resetPass: {
+        secret: secuirity?.jwt?.resetPass.secret ?? process.env.JWT_ACCESS_SECRET ?? '',
+        expiresIn: secuirity?.jwt?.resetPass.expiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '1d',
+      },
     };
   }
 

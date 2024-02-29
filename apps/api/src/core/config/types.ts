@@ -13,12 +13,22 @@ export type RedisConfig = {
 };
 
 export type JwtAuthConfig = {
-  accessSecret?: string;
-  accessExpiresIn?: string;
-  refreshSecret?: string;
-  refreshExpiresIn?: string;
-  activateSecret?: string;
-  activateExpiresIn?: string;
+  access: {
+    secret?: string;
+    expiresIn: string;
+  };
+  refresh: {
+    secret?: string;
+    expiresIn: string;
+  };
+  activate: {
+    secret?: string;
+    expiresIn?: string;
+  };
+  resetPass: {
+    secret?: string;
+    expiresIn: string;
+  };
 };
 
 export type AuthenticationConfig = {
