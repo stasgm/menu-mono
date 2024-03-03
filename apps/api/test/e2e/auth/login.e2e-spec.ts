@@ -27,14 +27,12 @@ describe('User login', () => {
     password: userPassword,
   };
 
-  const getGqlReq = (data: typeof loginUserInput = loginUserInput) => {
-    return {
-      query: loginUserQuery,
-      variables: {
-        loginUserInput: data,
-      },
-    };
-  };
+  const getGqlReq = (data: typeof loginUserInput = loginUserInput) => ({
+    query: loginUserQuery,
+    variables: {
+      loginUserInput: data,
+    },
+  });
 
   it('should successfully login (activated user)', async () => {
     // 1. Create a new user

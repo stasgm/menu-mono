@@ -5,8 +5,6 @@ import { Options, SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
 import { AppConfig } from '@/core/config/app-config';
 
-// import { BullmqProducerService } from '@/core/schedulers/bullmq/producer/bullmq-producer.service';
-// import { MailJob } from '@/core/schedulers/bullmq/producer/bullmq-producer.types';
 import { utils } from './helpers';
 import { DEFAULT_TRANSPORT_NAME, FAKE_EMAILS, SendEmailParams, Templates } from './mail.types';
 
@@ -63,7 +61,7 @@ export class MailService {
       if (error instanceof Error) {
         throw new TypeError(error.message);
       }
-      throw new TypeError('Unknow error');
+      throw new TypeError('Unknown error');
     }
   }
 

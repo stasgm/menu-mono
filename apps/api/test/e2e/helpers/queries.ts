@@ -89,3 +89,19 @@ export const refreshTokensQuery = gql`
     }
   }
 `.loc?.source.body;
+
+export const forgotPasswordQuery = gql`
+  mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
+    forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
+      message
+    }
+  }
+`.loc?.source.body;
+
+export const resetPasswordQuery = gql`
+  mutation ResetPassword($resetPasswordInput: ResetPasswordInput!) {
+    resetPassword(resetPasswordInput: $resetPasswordInput) {
+      message
+    }
+  }
+`.loc?.source.body;

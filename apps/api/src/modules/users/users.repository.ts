@@ -5,8 +5,7 @@ import { PrismaService } from '@/core/persistence/prisma/prisma.service';
 import { BaseRepository } from '@/modules/common/base.repository';
 
 import { EntityOptions } from '../common/base.types';
-import { CreateUserInput } from './dto/inputs/create-user.input';
-import { UpdateUserInput } from './dto/inputs/update-user.input';
+import { CreateUserInput, UpdateUserInput } from './dto/inputs';
 import { User, UserWithKeys } from './models/user.model';
 
 const userInclude = Prisma.validator<Prisma.UserInclude>()({
@@ -19,22 +18,28 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     super(prisma);
   }
 
-  findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  findAll(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.UserWhereUniqueInput;
+      where?: Prisma.UserWhereInput;
+      orderBy?: Prisma.UserOrderByWithRelationInput;
+    },
+    options?: EntityOptions
+  ) {
     const { skip, take, cursor, where, orderBy } = params;
 
-    return this.getUsers({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+    return this.getUsers(
+      {
+        skip,
+        take,
+        cursor,
+        where,
+        orderBy,
+      },
+      options
+    );
   }
 
   findOne(id: string, options?: EntityOptions) {
@@ -49,8 +54,8 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.updateUser({ data, where: { id } });
   }
 
-  remove(id: string) {
-    return this.deleteUser({ where: { id } });
+  remove(id: string, softDelete = true) {
+    return softDelete ? this.softDeleteUser({ where: { id } }) : this.deleteUser({ where: { id } });
   }
 
   createUser(params: { data: CreateUserInput }) {
@@ -61,44 +66,51 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.model.create({
       data: {
         customerId,
-        // customer: this.connectCustomerById(customerId),
         ...user,
       },
       include: userInclude,
     });
   }
 
-  getUser(params: { where: Prisma.UserWhereInput }) {
+  getUser(params: { where: Prisma.UserWhereInput }, options: EntityOptions = {}) {
     const { where } = params;
 
-    return this.model.findFirst({ where, include: userInclude });
-  }
-
-  getUserById(id: string, options: EntityOptions = {}) {
-    const { includeDeleted = false, includeDisabled = false } = options || {};
-
-    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
-
-    return this.model.findUnique({
-      where: { id, ...deletedAtCond, disabled: includeDisabled },
+    return this.model.findFirst({
+      where: {
+        ...where,
+        ...super.getWhereExtraOptions(options),
+      },
       include: userInclude,
     });
   }
 
-  getUsers(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByWithRelationInput;
-  }): Promise<User[]> {
+  getUserById(id: string, options: EntityOptions = {}) {
+    return this.model.findUnique({
+      where: { id, ...super.getWhereExtraOptions(options) },
+      include: userInclude,
+    });
+  }
+
+  getUsers(
+    params: {
+      skip?: number;
+      take?: number;
+      cursor?: Prisma.UserWhereUniqueInput;
+      where?: Prisma.UserWhereInput;
+      orderBy?: Prisma.UserOrderByWithRelationInput;
+    },
+    options: EntityOptions = {}
+  ) {
     const { skip, take, cursor, where, orderBy } = params;
 
     return this.model.findMany({
       skip,
       take,
       cursor,
-      where,
+      where: {
+        ...where,
+        ...super.getWhereExtraOptions(options),
+      },
       include: userInclude,
       orderBy,
     });
@@ -107,7 +119,29 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
   updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }) {
     const { where, data } = params;
 
-    return this.model.update({ where, data, include: userInclude });
+    return this.model.update({
+      where: {
+        ...where,
+        deletedAt: null,
+      },
+      data,
+      include: userInclude,
+    });
+  }
+
+  softDeleteUser(params: { where: Prisma.UserWhereUniqueInput }) {
+    const { where } = params;
+
+    return this.model.update({
+      where: {
+        ...where,
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+      include: userInclude,
+    });
   }
 
   deleteUser(params: { where: Prisma.UserWhereUniqueInput }) {
@@ -115,10 +149,4 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
 
     return this.model.delete({ where, include: userInclude });
   }
-
-  // private connectCustomerById(id: string): Prisma.CustomerCreateNestedOneWithoutUserInput {
-  //   return {
-  //     connect: { id },
-  //   };
-  // }
 }

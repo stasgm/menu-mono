@@ -24,11 +24,18 @@ export const BaseRepository = <Model extends PrismaModel, T extends BaseEntity, 
       this.model = mod;
     }
 
+    getWhereExtraOptions(options: EntityOptions) {
+      const { includeDeleted = false, includeDisabled = false } = options || {};
+
+      return includeDeleted ? { disabled: includeDisabled } : { disabled: includeDisabled, deletedAt: null };
+    }
+
     abstract findAll(params: FindAllBaseArgs): Promise<T[]>;
     abstract findOne(id: string, options?: EntityOptions): Promise<T | null>;
     abstract create(createInput: CreateInput<C>): Promise<T>;
     abstract update(id: string, updateInput: UpdateInput<C>): Promise<T | null>;
     abstract remove(id: string): Promise<T | null>;
   }
+
   return BaseRepositoryHost;
 };

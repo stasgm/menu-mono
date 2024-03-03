@@ -1,6 +1,7 @@
 import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
+import { minutes, ThrottlerModule } from '@nestjs/throttler';
 
 import { AppConfigModule } from '@/core/config/app-config.module';
 import { GraphqlConfigService } from '@/core/graphql/graphql-config';
@@ -27,6 +28,12 @@ import { AppResolver } from './app.resolver';
       useClass: GraphqlConfigService,
       imports: [AppConfigModule],
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: minutes(1),
+        limit: 10,
+      },
+    ]),
     AppConfigModule,
     // HealthModule,
     PersistenceModule,

@@ -3,8 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { UserNotFoundException } from '../../core/exceptions';
 import { JwtAccessAuthGuard } from '../auth/guards/jwt-access.guard';
-import { FindUsersArgs } from './dto/inputs/find-users.args';
-import { UpdateUserInput } from './dto/inputs/update-user.input';
+import { CreateUserInput, FindUsersArgs, UpdateUserInput } from './dto/inputs';
 import { User } from './models/user.model';
 import { UsersService } from './users.service';
 
@@ -30,6 +29,11 @@ export class UsersResolver {
     }
 
     return result;
+  }
+
+  @Mutation(() => User, { name: 'updateUser', description: 'Create one user' })
+  create(@Args('createUserInput') data: CreateUserInput) {
+    return this.usersService.create(data);
   }
 
   @Mutation(() => User, { name: 'updateUser', description: 'Update one user' })

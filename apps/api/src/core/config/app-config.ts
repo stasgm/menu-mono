@@ -5,9 +5,14 @@ import { AccountConfig, AuthenticationConfig, JwtAuthConfig, MailConfig, Postgre
 
 const DEFAULT_DB_CONNECTION_MAX_ATTEMPTS = 3;
 const DEFAULT_NESTJS_PORT = 5000;
-const ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS = 3;
+const DEFAULT_REDIS_PORT = 6379;
+const DEFAULT_POSTGRES_PORT = 5432;
+const DEFAULT_ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS = 3;
 
-// TODO make params validation. Throw error if not valid
+const getNumericParam = (value: string | undefined, defaultValue: number): number => (value ? +value : defaultValue);
+
+// TODO: Make params validation. Throw error if not valid. Create a class for validation
+// TODO: Perharps better way to get env variables is .env -> [config].ts -> [default value]
 
 @Injectable()
 export class AppConfig {
@@ -17,8 +22,16 @@ export class AppConfig {
     return '/api/v1';
   }
 
+  get frontendUrl(): string {
+    return config.has('frontendUrl')
+      ? config.get<string>('frontendUrl')
+      : process.env.FRONTEND_URL ?? `http://localhost:${this.nestPort}`;
+  }
+
   get nestPort(): number {
-    return config.get<number>('nestPort') || DEFAULT_NESTJS_PORT;
+    return config.has('nestPort')
+      ? config.get<number>('nestPort')
+      : getNumericParam(process.env.PORT, DEFAULT_NESTJS_PORT);
   }
 
   get envPrefix(): string {
@@ -48,7 +61,7 @@ export class AppConfig {
 
     return {
       host: postgres.host ?? process.env.POSTGRES_HOST ?? 'localhost',
-      port: (postgres.port ?? process.env.POSTGRES_PORT) as number,
+      port: postgres.port ?? getNumericParam(process.env.POSTGRES_PORT, DEFAULT_POSTGRES_PORT),
       dbname: postgres.dbname ?? process.env.POSTGRES_DB ?? '',
       user: postgres.user ?? process.env.POSTGRES_USER ?? '',
       password: postgres.password ?? process.env.POSTGRES_PASSWORD ?? '',
@@ -72,8 +85,8 @@ export class AppConfig {
     const redis = config.has('redis') ? config.get<Partial<RedisConfig>>('redis') : {};
 
     return {
-      host: redis.host ?? process.env.POSTGRES_HOST ?? 'localhost',
-      port: redis.port ?? (process.env.POSTGRES_PORT ? +process.env.POSTGRES_PORT : 6379),
+      host: redis.host ?? process.env.REDIS_HOST ?? 'localhost',
+      port: redis.port ?? getNumericParam(process.env.REDIS_PORT, DEFAULT_REDIS_PORT),
     };
   }
 
@@ -97,7 +110,7 @@ export class AppConfig {
       },
       resetPass: {
         secret: secuirity?.jwt?.resetPass.secret ?? process.env.JWT_ACCESS_SECRET ?? '',
-        expiresIn: secuirity?.jwt?.resetPass.expiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '1d',
+        expiresIn: secuirity?.jwt?.resetPass.expiresIn ?? process.env.JWT_ACCESS_EXPIRES_IN ?? '1h',
       },
     };
   }
@@ -108,9 +121,10 @@ export class AppConfig {
     return {
       codeAcivationMaxNumberOfAttempts:
         account?.codeAcivationMaxNumberOfAttempts ??
-        (process.env.ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS
-          ? +process.env.ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS
-          : ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS),
+        getNumericParam(
+          process.env.ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS,
+          DEFAULT_ACCOUNT_ACTIVATION_MAX_NUMBER_OF_ATTEMPTS
+        ),
     };
   }
 

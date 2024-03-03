@@ -59,6 +59,7 @@ export type AccountConfig = {
 
 export interface IAppConfig {
   envPrefix: string;
+  frontendUrl?: string;
   nestPort: number;
   postgres?: PostgresConfig;
   redis?: RedisConfig;

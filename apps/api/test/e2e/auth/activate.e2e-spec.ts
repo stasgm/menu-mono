@@ -25,14 +25,12 @@ describe('User activation', () => {
     activationCode,
   };
 
-  const getGqlReq = (data: typeof activateUserInput = activateUserInput) => {
-    return {
-      query: activateUserQuery,
-      variables: {
-        activateUserInput: data,
-      },
-    };
-  };
+  const getGqlReq = (data: typeof activateUserInput = activateUserInput) => ({
+    query: activateUserQuery,
+    variables: {
+      activateUserInput: data,
+    },
+  });
 
   const loginUserInput = {
     name: userData.name,

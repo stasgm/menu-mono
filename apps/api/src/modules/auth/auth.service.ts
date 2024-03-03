@@ -10,13 +10,16 @@ import {
   UserDisabledException,
   UserNotFoundException,
 } from '@/core/exceptions';
+import { BullmqProducerService } from '@/core/schedulers/bullmq/producer/bullmq-producer.service';
+import { MailJob } from '@/core/schedulers/bullmq/producer/bullmq-producer.types';
 import { ActivationCodesService } from '@/modules/auth/activation-codes/activation-codes.service';
 import { CustomersService } from '@/modules/customers/customers.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
-import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
-import { ActivationToken, Auth, Tokens } from './dto/results';
+import { IUserForgotPasswordData } from '../mail/mail.types';
+import { ActivateUserInput, ForgotPasswordInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
+import { ActivationToken, Auth, SuccessfulResponse, Tokens } from './dto/results';
 import { PasswordService } from './password.service';
 import { IContextData, JwtPayload, Roles, TokenType } from './types';
 
@@ -30,6 +33,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly customersService: CustomersService,
     private readonly jwtService: JwtService,
+    private readonly bullmqProducerService: BullmqProducerService,
     private readonly passwordService: PasswordService
   ) {}
 
@@ -222,6 +226,52 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async forgotEmail(data: ForgotPasswordInput, ctx: IContextData): Promise<SuccessfulResponse> {
+    this.logger.debug('Operation: forgotEmail');
+
+    // 1. Check email
+    const user = await this.usersService.findByEmail(data.email);
+
+    if (user) {
+      const info = {
+        originIp: ctx.originIp ?? 'Unknown',
+        device: ctx.userAgent ?? 'Unknown',
+        location: 'Unknown',
+      };
+
+      // Remove role from the payload and relace sub with email
+      const token = await this.generateToken({ sub: user.id, role: user.role }, 'resetPass');
+
+      const resetLink = `${this.appConfig.frontendUrl}/reset-password?token=${token}`;
+
+      // 2. Send the email with the activation code
+      await this.bullmqProducerService.insertNewJob<MailJob<IUserForgotPasswordData>>({
+        name: 'mailJob',
+        data: {
+          to: {
+            name: user.name,
+            address: user.customer.email,
+          },
+          type: 'resetPasswordRequest',
+          context: {
+            resetLink,
+            userName: user.name,
+            location: info.location,
+            originIp: info.originIp,
+            device: info.device,
+          },
+        },
+      });
+    } else {
+      // throw new UserNotFoundException();
+      // Don't throw an error, just return the success response
+    }
+
+    return {
+      message: 'Email sent',
+    };
   }
 
   private async generateTokens(payload: JwtPayload): Promise<Tokens> {

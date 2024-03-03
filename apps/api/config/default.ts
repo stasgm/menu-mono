@@ -16,7 +16,7 @@ const config: IAppConfig = {
         expiresIn: '1d',
       },
       resetPass: {
-        expiresIn: '1d',
+        expiresIn: '1h',
       },
     },
   },

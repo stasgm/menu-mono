@@ -1,10 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 
-import { CreateBaseNamedInput } from '@/modules/common/base.dto';
 import { CreateCustomerInput } from '@/modules/customers/dto/inputs/create-customer.input';
 
 @InputType('RegisterUserInput', { description: 'Register user input' })
-export class RegisterUserInput extends CreateBaseNamedInput {
+export class RegisterUserInput {
   @Field(() => String, { description: 'User name' })
   name: string;
 

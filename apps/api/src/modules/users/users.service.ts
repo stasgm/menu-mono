@@ -21,6 +21,11 @@ export class UsersService extends BaseService(User, UserWithKeys) {
     return this.usersRepository.getUser({ where: { name, deletedAt: null } });
   }
 
+  findByEmail(email: string) {
+    // Exclude deleted users
+    return this.usersRepository.getUser({ where: { customer: { email }, deletedAt: null } });
+  }
+
   async activate(id: string) {
     const user = await this.usersRepository.findOne(id);
 

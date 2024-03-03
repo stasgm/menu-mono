@@ -1,12 +1,14 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { minutes, Throttle } from '@nestjs/throttler';
 
 import { User } from '@/modules/users/models/user.model';
 
 import { AuthService } from './auth.service';
 import { ContextData, CurrentUser } from './decorators';
 import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
-import { ActivationToken, Auth, LoginResultUnion, Tokens } from './dto/results';
+import { ForgotPasswordInput } from './dto/inputs/forgot-password.input';
+import { ActivationToken, Auth, LoginResultUnion, SuccessfulResponse, Tokens } from './dto/results';
 import { JwtAccessAuthGuard, JwtActivateAuthGuard, JwtRefreshAuthGuard } from './guards';
 import { IContextData, IReqUserData } from './types';
 
@@ -20,6 +22,7 @@ export class AuthResolver {
     return this.authService.getCurrentUser(req.user.id);
   }
 
+  @Throttle({ default: { ttl: minutes(1), limit: 2 } })
   @Mutation(() => ActivationToken, { name: 'registerUser', description: 'User Registeration' })
   registerUser(
     @ContextData() ctx: IContextData,
@@ -51,13 +54,17 @@ export class AuthResolver {
     return this.authService.login(data);
   }
 
-  // @Mutation(() => ResetPassword, { name: 'forgotPassword', description: 'Forgot password' })
-  // forgotPassword(
-  //   @Args({ type: () => ForgotPasswordInput, name: 'forgotPasswordInput' }) data: forgotPasswordInput
-  // ): Promise<SuccessfulResponse> {
-  //   return this.authService.forgotEmail(forgotPasswordInput);
-  // }
+  @Throttle({ default: { ttl: minutes(1), limit: 2 } })
+  @Mutation(() => SuccessfulResponse, { name: 'forgotPassword', description: 'Forgot password' })
+  forgotPassword(
+    @ContextData() ctx: IContextData,
+    @Args({ type: () => ForgotPasswordInput, name: 'forgotPasswordInput' }) data: ForgotPasswordInput
+  ): Promise<SuccessfulResponse> {
+    return this.authService.forgotEmail(data, ctx);
+  }
 
+  // @Throttle({ default: { ttl: minutes(1), limit: 2 } })
+  // @UseGuards(JwtActivateAuthGuard)
   // @Mutation(() => ResetPassword, { name: 'resetPassword', description: 'Reset password' })
   // @UseGuards(JwtAccessAuthGuard)
   // resetPassword(

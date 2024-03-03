@@ -19,8 +19,12 @@ export interface IUserRegistrationData extends IUserAdditionalData {
   code: string;
 }
 
+export interface IUserForgotPasswordData extends IUserAdditionalData {
+  resetLink: string;
+}
+
 export interface IUserPasswordResetData extends IUserAdditionalData {
-  code: string;
+  // code: string;
 }
 
 export interface IMailData<T extends IUserAdditionalData> {
@@ -46,12 +50,12 @@ export const Templates: IMailTemplates = {
     subject: 'User activation confirmation',
   },
   [MailTypes.RESET_PASSWORD_REQUEST]: {
-    templateName: 'reset-password',
-    subject: 'Reset user password',
+    templateName: 'reset-password-request',
+    subject: 'Password reset request',
   },
   [MailTypes.RESET_PASSWORD_CONFIRMATION]: {
     templateName: 'reset-password-confirmation',
-    subject: 'Reset user password',
+    subject: 'Change user password confirmation',
   },
 };
 
