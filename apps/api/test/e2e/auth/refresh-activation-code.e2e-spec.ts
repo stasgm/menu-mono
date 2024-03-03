@@ -68,7 +68,7 @@ describe('Refrsh activation code', () => {
     expect(activationCodeEntity?.sentAt).toBeDefined();
   });
 
-  it('should throw an error (user is disabled)', async () => {
+  it('should throw an error (the user is disabled)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser({}, activationCode);
     // 2. Login user

@@ -45,7 +45,7 @@ describe('User registration', () => {
     expect(data.activationToken).toBeDefined();
   });
 
-  it('should throw an error (user with that name already exists)', async () => {
+  it('should throw an error (the user with that name already exists)', async () => {
     await e2e.prismaUtilsService.createUser({ active: true });
 
     const result = await requestFunction(e2e, gqlReq);

@@ -14,7 +14,7 @@ export class MailService {
 
   constructor(
     private readonly mailerService: MailerService,
-    private readonly appConfig: AppConfig // private readonly bullmqProducerService: BullmqProducerService
+    private readonly appConfig: AppConfig
   ) {}
 
   async sendEmail({ to, type, subject, context, dryRun = false }: SendEmailParams): Promise<SentMessageInfo | boolean> {
@@ -88,6 +88,9 @@ export class MailService {
 
     const config: Options = {
       service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         type: 'OAuth2',
         user: this.appConfig.mail.googleApi.apiEmail,

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { UserNotFoundException } from '@/core/exceptions';
 import { BaseService } from '@/modules/common/base.service';
 
 import { User, UserWithKeys } from './models/user.model';
@@ -17,22 +16,20 @@ export class UsersService extends BaseService(User, UserWithKeys) {
   }
 
   findForAuth(name: string) {
-    // Exclude deleted users
-    return this.usersRepository.getUser({ where: { name, deletedAt: null } });
+    return this.usersRepository.getUser({ where: { name } });
   }
 
   findByEmail(email: string) {
-    // Exclude deleted users
-    return this.usersRepository.getUser({ where: { customer: { email }, deletedAt: null } });
+    return this.usersRepository.getUser({ where: { customer: { email } } });
   }
 
   async activate(id: string) {
-    const user = await this.usersRepository.findOne(id);
+    // User already verified
+    return this.usersRepository.update(id, { active: true });
+  }
 
-    if (!user) {
-      throw new UserNotFoundException();
-    }
-
-    return this.usersRepository.update(user.id, { active: true });
+  async updatePasswordHash(id: string, passwordHash: string) {
+    // User already verified
+    return this.usersRepository.updatePasswordHash(id, passwordHash);
   }
 }

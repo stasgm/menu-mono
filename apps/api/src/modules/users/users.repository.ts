@@ -129,6 +129,19 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
+  updatePasswordHash(id: string, passwordHash: string) {
+    return this.model.update({
+      where: {
+        id,
+        deletedAt: null,
+      },
+      data: {
+        passwordHash,
+      },
+      include: userInclude,
+    });
+  }
+
   softDeleteUser(params: { where: Prisma.UserWhereUniqueInput }) {
     const { where } = params;
 

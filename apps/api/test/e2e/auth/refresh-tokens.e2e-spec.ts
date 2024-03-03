@@ -59,7 +59,7 @@ describe('Refrsh tokens', () => {
     expect(data.refreshToken).toBeDefined();
   });
 
-  it('should throw an error (user is disabled)', async () => {
+  it('should throw an error (the user is disabled)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser({ active: true });
     // 2. Login user

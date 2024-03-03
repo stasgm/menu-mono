@@ -44,7 +44,7 @@ describe('User activation', () => {
     },
   };
 
-  it('should successfully activate a new user', async () => {
+  it('should successfully activate the new user', async () => {
     // 1. Create a new user
     await e2e.prismaUtilsService.createUser({}, activationCode);
     // 2. Receive the activation token from the login request
@@ -76,7 +76,7 @@ describe('User activation', () => {
     expect(activationCodeEntity).toBeNull();
   });
 
-  it('should throw an error (user is already activated)', async () => {
+  it('should throw an error (the user is already activated)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser({});
     // 2. Receive the activation token from the login request
@@ -102,7 +102,7 @@ describe('User activation', () => {
     expect(errors[0].statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
 
-  it('should throw an error (user is disabled)', async () => {
+  it('should throw an error (the user is disabled)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser();
     // 2. Receive the activation token from the login request
@@ -128,7 +128,7 @@ describe('User activation', () => {
     expect(errors[0].statusCode).toBe(HttpStatus.NOT_FOUND);
   });
 
-  it('should throw an error (user is deleted)', async () => {
+  it('should throw an error (the user is deleted)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser();
     // 2. Receive the activation token from the login request

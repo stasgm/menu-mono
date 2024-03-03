@@ -50,7 +50,7 @@ describe('User login', () => {
     expect(data.refreshToken).toBeDefined();
   });
 
-  it('should return activationToken (user is not activated)', async () => {
+  it('should return activationToken (the user is not activated)', async () => {
     // 1. Create a new user
     await e2e.prismaUtilsService.createUser();
     // 2. Login user
@@ -66,7 +66,7 @@ describe('User login', () => {
     expect(data.refreshToken).toBeUndefined();
   });
 
-  it('should throw an error (user is disabled)', async () => {
+  it('should throw an error (the user is disabled)', async () => {
     // 1. Create a new user
     await e2e.prismaUtilsService.createUser({ active: true, disabled: true });
     // 2. Login user
@@ -82,7 +82,7 @@ describe('User login', () => {
     expect(errors[0].statusCode).toBe(HttpStatus.FORBIDDEN);
   });
 
-  it('should throw an error (user is deleted)', async () => {
+  it('should throw an error (the user is deleted)', async () => {
     // 1. Create a new user
     const user = await e2e.prismaUtilsService.createUser({ active: true, disabled: true });
     // 2. Delete the user (set deletedAt = now)

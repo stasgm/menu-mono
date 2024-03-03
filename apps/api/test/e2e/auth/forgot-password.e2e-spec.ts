@@ -30,7 +30,7 @@ describe('Forgot password', () => {
     },
   });
 
-  it('should successfully call a ForgotPassword mutation', async () => {
+  it('should successfully call the ForgotPassword mutation', async () => {
     await e2e.prismaUtilsService.createUser({ active: true });
 
     const result = await requestFunction(e2e, getGqlReq());
@@ -42,7 +42,7 @@ describe('Forgot password', () => {
     expect(data.message).toBeDefined();
   });
 
-  it("should successfully call a ForgotPassword mutation (user email doen't exist)", async () => {
+  it("should successfully call the ForgotPassword mutation (the user email doen't exist)", async () => {
     await e2e.prismaUtilsService.createUser({ active: true });
 
     const result = await requestFunction(e2e, getGqlReq({ ...forgotPasswordInput, email: 'wrong@email.com' }));

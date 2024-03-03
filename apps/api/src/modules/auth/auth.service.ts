@@ -17,8 +17,14 @@ import { CustomersService } from '@/modules/customers/customers.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
-import { IUserForgotPasswordData } from '../mail/mail.types';
-import { ActivateUserInput, ForgotPasswordInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
+import { IUserForgotPasswordData, IUserPasswordResetData } from '../mail/mail.types';
+import {
+  ActivateUserInput,
+  ForgotPasswordInput,
+  LoginUserInput,
+  RegisterUserInput,
+  ResetPasswordInput,
+} from './dto/inputs';
 import { ActivationToken, Auth, SuccessfulResponse, Tokens } from './dto/results';
 import { PasswordService } from './password.service';
 import { IContextData, JwtPayload, Roles, TokenType } from './types';
@@ -271,6 +277,51 @@ export class AuthService {
 
     return {
       message: 'Email sent',
+    };
+  }
+
+  async resetPassword(data: ResetPasswordInput, ctx: IContextData): Promise<SuccessfulResponse> {
+    this.logger.debug('Operation: resetPassword');
+
+    // 1. Find user by email
+    const user = await this.usersService.findByEmail(data.email);
+
+    if (!user) {
+      throw new UserNotFoundException();
+    }
+
+    const info = {
+      originIp: ctx.originIp ?? 'Unknown',
+      device: ctx.userAgent ?? 'Unknown',
+      location: 'Unknown',
+    };
+
+    // 2. Hash the password
+    const passwordHash = await this.passwordService.hashPassword(data.password);
+
+    // 3. Update the user passwordHash
+    await this.usersService.updatePasswordHash(user.id, passwordHash);
+
+    //4. Send the email with the activation code
+    await this.bullmqProducerService.insertNewJob<MailJob<IUserPasswordResetData>>({
+      name: 'mailJob',
+      data: {
+        to: {
+          name: user.name,
+          address: user.customer.email,
+        },
+        type: 'resetPasswordConfirmation',
+        context: {
+          userName: user.name,
+          location: info.location,
+          originIp: info.originIp,
+          device: info.device,
+        },
+      },
+    });
+
+    return {
+      message: 'Password changed',
     };
   }
 

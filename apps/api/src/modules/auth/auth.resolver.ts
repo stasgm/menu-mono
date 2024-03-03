@@ -6,10 +6,10 @@ import { User } from '@/modules/users/models/user.model';
 
 import { AuthService } from './auth.service';
 import { ContextData, CurrentUser } from './decorators';
-import { ActivateUserInput, LoginUserInput, RegisterUserInput } from './dto/inputs';
+import { ActivateUserInput, LoginUserInput, RegisterUserInput, ResetPasswordInput } from './dto/inputs';
 import { ForgotPasswordInput } from './dto/inputs/forgot-password.input';
 import { ActivationToken, Auth, LoginResultUnion, SuccessfulResponse, Tokens } from './dto/results';
-import { JwtAccessAuthGuard, JwtActivateAuthGuard, JwtRefreshAuthGuard } from './guards';
+import { JwtAccessAuthGuard, JwtActivateAuthGuard, JwtRefreshAuthGuard, JwtResetPassAuthGuard } from './guards';
 import { IContextData, IReqUserData } from './types';
 
 @Resolver(() => Auth)
@@ -63,15 +63,15 @@ export class AuthResolver {
     return this.authService.forgotEmail(data, ctx);
   }
 
-  // @Throttle({ default: { ttl: minutes(1), limit: 2 } })
-  // @UseGuards(JwtActivateAuthGuard)
-  // @Mutation(() => ResetPassword, { name: 'resetPassword', description: 'Reset password' })
-  // @UseGuards(JwtAccessAuthGuard)
-  // resetPassword(
-  //   @Args({ type: () => ResetPasswordInput, name: 'resetPasswordInput' }) data: resetPasswordInput
-  // ): Promise<SuccessfulResponse> {
-  //   return this.authService.resetPassword(resetPasswordInput);
-  // }
+  @Throttle({ default: { ttl: minutes(1), limit: 2 } })
+  @UseGuards(JwtResetPassAuthGuard)
+  @Mutation(() => SuccessfulResponse, { name: 'resetPassword', description: 'Reset password' })
+  resetPassword(
+    @ContextData() ctx: IContextData,
+    @Args({ type: () => ResetPasswordInput, name: 'resetPasswordInput' }) data: ResetPasswordInput
+  ): Promise<SuccessfulResponse> {
+    return this.authService.resetPassword(data, ctx);
+  }
 
   @UseGuards(JwtRefreshAuthGuard)
   @Mutation(() => Tokens, { name: 'refreshTokens', description: 'Refresh tokens' })

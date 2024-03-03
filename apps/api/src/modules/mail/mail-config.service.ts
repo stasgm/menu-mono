@@ -8,21 +8,26 @@ import { AppConfig } from '@/core/config/app-config';
 
 @Injectable()
 export class MailConfigService implements MailerOptionsFactory {
-  // private readonly appConfig = new AppConfig();
   constructor(private readonly appConfig: AppConfig) {}
 
   createMailerOptions(): MailerOptions {
+    const { transport, googleApi } = this.appConfig.mail;
+
     return {
-      transport: {
-        transport: this.appConfig.mail.transport,
-        requireTLS: true,
-        secure: false,
-        tls: {
-          rejectUnauthorized: false,
-        },
-      },
+      transport,
+      // {
+      //   transport,
+      //   // requireTLS: true,
+      //   // secure: true,
+      //   // service: 'gmail',
+      //   host: '',
+      //   // port: 465,
+      //   tls: {
+      //     rejectUnauthorized: false,
+      //   },
+      // },
       defaults: {
-        from: `"No reply" <${this.appConfig.mail.googleApi.apiEmail}>`,
+        from: `"No reply" <${googleApi.apiEmail}>`,
       },
       template: {
         dir: path.join(process.cwd(), 'src', 'modules', 'mail', 'templates'),

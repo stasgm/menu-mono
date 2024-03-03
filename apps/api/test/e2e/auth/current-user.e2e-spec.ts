@@ -38,7 +38,7 @@ describe('Current user', () => {
     query: currentUserQuery,
   };
 
-  it('should successfully return current user', async () => {
+  it('should successfully return the current user', async () => {
     // 1. Create a new activated user
     await e2e.prismaUtilsService.createUser({ active: true });
     // 2. Login user
@@ -64,7 +64,7 @@ describe('Current user', () => {
     expect(data.role).toBe(Roles.USER);
   });
 
-  it('should throw an error (user is disabled)', async () => {
+  it('should throw an error (the user is disabled)', async () => {
     // 1. Create a new activated user
     const user = await e2e.prismaUtilsService.createUser({ active: true });
     // 2. Receive the access token from the login request
