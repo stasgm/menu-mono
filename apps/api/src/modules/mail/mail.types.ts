@@ -19,6 +19,10 @@ export interface IUserRegistrationData extends IUserAdditionalData {
   code: string;
 }
 
+export interface IUserRegistrationConfirmationData extends IUserAdditionalData {
+  // code: string;
+}
+
 export interface IUserForgotPasswordData extends IUserAdditionalData {
   resetLink: string;
 }

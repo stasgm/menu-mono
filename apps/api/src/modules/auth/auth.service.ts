@@ -17,7 +17,7 @@ import { CustomersService } from '@/modules/customers/customers.service';
 import { User } from '@/modules/users/models/user.model';
 import { UsersService } from '@/modules/users/users.service';
 
-import { IUserForgotPasswordData, IUserPasswordResetData } from '../mail/mail.types';
+import { IUserForgotPasswordData, IUserPasswordResetData, IUserRegistrationConfirmationData } from '../mail/mail.types';
 import {
   ActivateUserInput,
   ForgotPasswordInput,
@@ -129,10 +129,32 @@ export class AuthService {
       throw new InvalidActivationCodeAttemptsExceededException();
     }
 
-    // // 3. Activate the user
+    // 3. Activate the user
     await this.usersService.activate(user.id);
-    // const payload = { sub: user.id, role: user.role };
-    // const tokens = await this.generateTokens(payload);
+
+    // 4. Send the email with registration confirmation
+    const info = {
+      originIp: ctx.originIp ?? 'Unknown',
+      device: ctx.userAgent ?? 'Unknown',
+      location: 'Unknown',
+    };
+
+    await this.bullmqProducerService.insertNewJob<MailJob<IUserRegistrationConfirmationData>>({
+      name: 'mailJob',
+      data: {
+        to: {
+          name: user.name,
+          address: user.customer.email,
+        },
+        type: 'userActivationConfirmation',
+        context: {
+          userName: user.name,
+          location: info.location,
+          originIp: info.originIp,
+          device: info.device,
+        },
+      },
+    });
 
     return {
       message: 'User activated',
