@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { google } from 'googleapis';
-import { Options, SentMessageInfo } from 'nodemailer/lib/smtp-transport';
+import { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 
 import { AppConfig } from '@/core/config/app-config';
 
 import { utils } from './helpers';
-import { DEFAULT_TRANSPORT_NAME, FAKE_EMAILS, SendEmailParams, Templates } from './mail.types';
+import { DEFAULT_TRANSPORT_NAME, SendEmailParams, Templates } from './mail.types';
 
 @Injectable()
 export class MailService {
@@ -18,28 +17,23 @@ export class MailService {
   ) {}
 
   async sendEmail({ to, type, subject, context, dryRun = false }: SendEmailParams): Promise<SentMessageInfo | boolean> {
-    const _to = (Array.isArray(to) ? to : [to]).filter((emailData) => {
-      // Remove all empty emails and emails inside FAKE_EMAILS array
-      return emailData.address.trim().length > 0 && !FAKE_EMAILS.includes(emailData.address);
-    });
+    // Remove all empty emails and emails inside FAKE_EMAILS array
+    const _to = utils.removeEmpty(to);
 
     if (_to.length === 0) {
       this.logger.log('EMAILSENDING: No email addresses provided');
       return false;
     }
 
-    const logData = `Type: ${type}. Data: ${JSON.stringify({ to: utils.maskEmails(_to), subject })}`;
+    // const logData = `Type: ${type}. Data: ${JSON.stringify({ to: utils.maskEmails(_to), subject })}`;
 
     if (dryRun || this.appConfig.mail.mockMailing) {
-      this.logger.log(`EMAILSENDING: Sending email disabled. ${logData}`);
+      this.logger.log('EMAILSENDING: Sending email disabled.');
       return true;
     }
 
-    // TODO: register all transports in module
-    await this.setGoogleTransport();
-
     try {
-      this.logger.log(`EMAILSENDING: Sending email... ${logData}`);
+      this.logger.log('EMAILSENDING: Sending email...');
 
       const extraSubject = subject ? `.${subject}` : '';
 
@@ -53,54 +47,16 @@ export class MailService {
         context,
       });
 
-      this.logger.log(`EMAILSENDING: Email successfully sent ${logData}`);
+      this.logger.log('EMAILSENDING: Email successfully sent.');
 
       return result;
     } catch (error) {
-      this.logger.log(`EMAILSENDING: Failed to send email. ${logData}`);
+      this.logger.log('EMAILSENDING: Failed to send email.');
       if (error instanceof Error) {
         throw new TypeError(error.message);
       }
       throw new TypeError('Unknown error');
     }
-  }
-
-  private async setGoogleTransport() {
-    const OAuth2 = google.auth.OAuth2;
-    const oauth2Client = new OAuth2({
-      clientId: this.appConfig.mail.googleApi.clientId,
-      clientSecret: this.appConfig.mail.googleApi.clientSecret,
-      redirectUri: 'https://developers.google.com/oauthplayground',
-    });
-
-    oauth2Client.setCredentials({
-      refresh_token: this.appConfig.mail.googleApi.refreshToken,
-    });
-
-    const accessToken: string = await new Promise((resolve, reject) => {
-      oauth2Client.getAccessToken((err, token) => {
-        if (err) {
-          reject(new Error('Failed to create access token'));
-        }
-        resolve(token as string);
-      });
-    });
-
-    const config: Options = {
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        type: 'OAuth2',
-        user: this.appConfig.mail.googleApi.apiEmail,
-        clientId: this.appConfig.mail.googleApi.clientId,
-        clientSecret: this.appConfig.mail.googleApi.clientSecret,
-        accessToken,
-      },
-    };
-
-    this.mailerService.addTransporter('gmail', config);
   }
 
   // TODO: Add using

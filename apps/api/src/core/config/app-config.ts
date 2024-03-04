@@ -144,11 +144,10 @@ export class AppConfig {
     // TODO should throw an error when googleApi is not set
     const mail = config.has('mail') ? config.get<Partial<MailConfig>>('mail') : {};
 
-    const { googleApi, mockMailing, transport } = mail;
+    const { googleApi, mockMailing } = mail;
 
     return {
       mockMailing: mockMailing ?? process.env.MOCK_MAILING === 'true',
-      transport: transport ?? 'smtps://username:password@smtp.example.com',
       googleApi: {
         clientId: googleApi?.clientId ?? process.env.GOOGLE_API_CLIENT_ID ?? '',
         clientSecret: googleApi?.clientSecret ?? process.env.GOOGLE_API_CLIENT_SECRET ?? '',

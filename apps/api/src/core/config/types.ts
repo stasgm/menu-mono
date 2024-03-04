@@ -49,7 +49,6 @@ export type GoogleApiConfig = {
 
 export type MailConfig = {
   mockMailing?: boolean;
-  transport?: string;
   googleApi?: GoogleApiConfig;
 };
 
