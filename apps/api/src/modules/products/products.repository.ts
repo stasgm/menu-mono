@@ -13,6 +13,16 @@ const productInclude = Prisma.validator<Prisma.ProductInclude>()({
   categories: true,
 });
 
+type ExtraEntityOptions = EntityOptions & { includeDisabled?: boolean };
+
+const getWhereEntityExtraOptions = (options: ExtraEntityOptions) => {
+  const { includeDisabled = false } = options || {};
+
+  const disabledOption = includeDisabled ? undefined : { disabled: false };
+
+  return { ...disabledOption };
+};
+
 @Injectable()
 export class ProductsRepository extends BaseRepository(Product, ProductWithKeys, 'product') {
   constructor(readonly prisma: PrismaService) {
@@ -27,7 +37,7 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
       where?: Prisma.ProductWhereInput;
       orderBy?: Prisma.ProductOrderByWithRelationInput;
     },
-    options?: EntityOptions
+    options?: ExtraEntityOptions
   ) {
     const { skip, take, cursor, where, orderBy } = params;
 
@@ -43,7 +53,7 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     );
   }
 
-  findOne(id: string, options?: EntityOptions) {
+  findOne(id: string, options?: ExtraEntityOptions) {
     return this.getProductById(id, options);
   }
 
@@ -51,16 +61,12 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     return this.createProduct({ data });
   }
 
-  update(id: string, data: UpdateProductInput) {
-    return this.updateProduct({ data, where: { id } });
+  update(id: string, data: UpdateProductInput, options?: ExtraEntityOptions) {
+    return this.updateProduct({ data, where: { id } }, options);
   }
 
-  remove(id: string) {
-    return this.softDeleteProduct({ where: { id } });
-  }
-
-  hardRemove(id: string) {
-    return this.deleteProduct({ where: { id } });
+  remove(id: string, softDelete = true) {
+    return softDelete ? this.softDeleteProduct({ where: { id } }) : this.deleteProduct({ where: { id } });
   }
 
   private async createProduct(params: { data: CreateProductInput }) {
@@ -77,16 +83,12 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     });
   }
 
-  private getProductById(id: string, options: EntityOptions = {}) {
-    const { includeDeleted = false, includeDisabled = false } = options || {};
-
-    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
-
+  private getProductById(id: string, options: ExtraEntityOptions = {}) {
     return this.model.findUnique({
       where: {
         id,
-        ...deletedAtCond,
-        disabled: includeDisabled,
+        ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       include: productInclude,
     });
@@ -100,12 +102,9 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
       where?: Prisma.ProductWhereInput;
       orderBy?: Prisma.ProductOrderByWithRelationInput;
     },
-    options: EntityOptions = {}
+    options: ExtraEntityOptions = {}
   ) {
     const { skip, take, cursor, where, orderBy } = params;
-    const { includeDeleted = false, includeDisabled = false } = options || {};
-
-    const deletedAtCond = includeDeleted ? undefined : { deletedAt: null };
 
     return await this.model.findMany({
       skip,
@@ -113,15 +112,18 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
       cursor,
       where: {
         ...where,
-        ...deletedAtCond,
-        disabled: includeDisabled,
+        ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       include: productInclude,
       orderBy,
     });
   }
 
-  private async updateProduct(params: { where: Prisma.ProductWhereUniqueInput; data: UpdateProductInput }) {
+  private async updateProduct(
+    params: { where: Prisma.ProductWhereUniqueInput; data: UpdateProductInput },
+    options: ExtraEntityOptions = {}
+  ) {
     const {
       where,
       data: { categories, ...rest },
@@ -135,7 +137,8 @@ export class ProductsRepository extends BaseRepository(Product, ProductWithKeys,
     return this.model.update({
       where: {
         ...where,
-        deletedAt: null,
+        ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       data: updateData,
       include: productInclude,

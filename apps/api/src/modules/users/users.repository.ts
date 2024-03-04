@@ -60,8 +60,8 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     return this.createUser({ data });
   }
 
-  update(id: string, data: UpdateUserInput) {
-    return this.updateUser({ data, where: { id } });
+  update(id: string, data: UpdateUserInput, options?: ExtraEntityOptions) {
+    return this.updateUser({ data, where: { id } }, options);
   }
 
   remove(id: string, softDelete = true) {
@@ -132,13 +132,14 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
-  updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }) {
+  updateUser(params: { where: Prisma.UserWhereUniqueInput; data: UpdateUserInput }, options: ExtraEntityOptions = {}) {
     const { where, data } = params;
 
     return this.model.update({
       where: {
         ...where,
-        deletedAt: null,
+        ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       data,
       include: userInclude,
