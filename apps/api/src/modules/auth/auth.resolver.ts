@@ -32,12 +32,12 @@ export class AuthResolver {
   }
 
   @UseGuards(JwtActivateAuthGuard)
-  @Mutation(() => Auth, { name: 'activateUser', description: 'Activate user' })
+  @Mutation(() => SuccessfulResponse, { name: 'activateUser', description: 'Activate user' })
   activateUser(
     @CurrentUser() req: IReqUserData,
     @ContextData() ctx: IContextData,
     @Args({ type: () => ActivateUserInput, name: 'activateUserInput' }) data: ActivateUserInput
-  ): Promise<Auth> {
+  ): Promise<SuccessfulResponse> {
     return this.authService.activate(data, req.user.id, ctx);
   }
 

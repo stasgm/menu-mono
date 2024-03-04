@@ -8,6 +8,8 @@ import { google } from 'googleapis';
 
 import { AppConfig } from '@/core/config/app-config';
 
+import { DEFAULT_TRANSPORT_NAME } from './mail.types';
+
 @Injectable()
 export class MailConfigService implements MailerOptionsFactory {
   constructor(private readonly appConfig: AppConfig) {}
@@ -36,6 +38,7 @@ export class MailConfigService implements MailerOptionsFactory {
     });
 
     const transport: TransportType = {
+      name: DEFAULT_TRANSPORT_NAME,
       service: 'gmail',
       host: 'smtp.gmail.com',
       port: 465,

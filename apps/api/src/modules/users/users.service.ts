@@ -26,10 +26,12 @@ export class UsersService extends BaseService(User, UserWithKeys) {
   async activate(id: string) {
     // User already verified
     return this.usersRepository.update(id, { active: true });
+    // TODO: Send confirmation email about completed registration
   }
 
   async updatePasswordHash(id: string, passwordHash: string) {
     // User already verified
     return this.usersRepository.updatePasswordHash(id, passwordHash);
+    // TODO: Send confirmation email about changed password
   }
 }

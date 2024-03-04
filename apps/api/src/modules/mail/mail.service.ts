@@ -38,7 +38,7 @@ export class MailService {
       const extraSubject = subject ? `.${subject}` : '';
 
       const result: Promise<SentMessageInfo> = await this.mailerService.sendMail({
-        transporterName: DEFAULT_TRANSPORT_NAME,
+        // transporterName: DEFAULT_TRANSPORT_NAME,
         to: _to,
         // from: this.getNoReplyEmail(from),
         // bcc: bcc,

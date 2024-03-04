@@ -1,7 +1,7 @@
 import { IAppConfig } from '@/core/config/types';
 
 const config: IAppConfig = {
-  envPrefix: 'development',
+  envPrefix: 'dev',
   nestPort: 3000,
   postgres: {
     dbname: 'menu-mono',

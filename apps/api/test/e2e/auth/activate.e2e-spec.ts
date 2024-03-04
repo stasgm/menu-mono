@@ -46,7 +46,7 @@ describe('User activation', () => {
 
   it('should successfully activate the new user', async () => {
     // 1. Create a new user
-    await e2e.prismaUtilsService.createUser({}, activationCode);
+    const user = await e2e.prismaUtilsService.createUser({}, activationCode);
     // 2. Receive the activation token from the login request
     const resultLogin = await requestFunction(e2e, gqlReqLogin);
     const dataLogin = resultLogin.body.data?.loginUser;
@@ -61,15 +61,11 @@ describe('User activation', () => {
 
     expect(errors).toBeUndefined();
     expect(data).toBeDefined();
-    expect(data.user.name).toBe(userData.name);
-    expect(data.user.name).toBe(userData.name);
-    expect(data.user.active).toBeTruthy();
-    expect(data.accessToken).toBeDefined();
-    expect(data.refreshToken).toBeDefined();
+    expect(data.message).toBeDefined();
     // 3. Check activation code
     const activationCodeEntity = await e2e.prismaUtilsService.prismaService.activationCode.findFirst({
       where: {
-        userId: data.user.id,
+        userId: user.id,
       },
     });
 

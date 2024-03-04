@@ -22,7 +22,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, JwtStrategies
   }
 
   async validate(payload: JwtPayload): Promise<IReqUserData> {
-    // TODO check if user is exists and not disabled
     const user = await this.usersService.findOne(payload.sub);
 
     if (!user) {

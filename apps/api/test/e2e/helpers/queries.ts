@@ -44,14 +44,7 @@ export const loginUserQuery = gql`
 export const activateUserQuery = gql`
   mutation ActivateUser($activateUserInput: ActivateUserInput!) {
     activateUser(activateUserInput: $activateUserInput) {
-      accessToken
-      refreshToken
-      user {
-        id
-        name
-        role
-        active
-      }
+      message
     }
   }
 `.loc?.source.body;

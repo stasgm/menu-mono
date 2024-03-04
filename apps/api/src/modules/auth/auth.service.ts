@@ -71,7 +71,7 @@ export class AuthService {
     const user = await this.usersService.create({
       ...createUserInput,
       passwordHash,
-      active: true,
+      active: false,
       disabled: false,
       role: Roles.USER,
       customerId: customer.id,
@@ -97,7 +97,7 @@ export class AuthService {
     };
   }
 
-  async activate(activateUserInput: ActivateUserInput, userId: string, ctx: IContextData): Promise<Auth> {
+  async activate(activateUserInput: ActivateUserInput, userId: string, ctx: IContextData): Promise<SuccessfulResponse> {
     this.logger.debug('Operation: activateUser');
 
     const { activationCode } = activateUserInput;
@@ -129,14 +129,13 @@ export class AuthService {
       throw new InvalidActivationCodeAttemptsExceededException();
     }
 
-    // 3. Get the activated user
-    const activatedUser = await this.usersService.activate(user.id);
-    const payload = { sub: user.id, role: user.role };
-    const tokens = await this.generateTokens(payload);
+    // // 3. Activate the user
+    await this.usersService.activate(user.id);
+    // const payload = { sub: user.id, role: user.role };
+    // const tokens = await this.generateTokens(payload);
 
     return {
-      user: activatedUser,
-      ...tokens,
+      message: 'User activated',
     };
   }
 
