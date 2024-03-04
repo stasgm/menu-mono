@@ -25,9 +25,11 @@ export const BaseRepository = <Model extends PrismaModel, T extends BaseEntity, 
     }
 
     getWhereExtraOptions(options: EntityOptions) {
-      const { includeDeleted = false, includeDisabled = false } = options || {};
+      const { includeDeleted = false } = options || {};
 
-      return includeDeleted ? { disabled: includeDisabled } : { disabled: includeDisabled, deletedAt: null };
+      const deletedOption = includeDeleted ? undefined : { deletedAt: null };
+
+      return { ...deletedOption };
     }
 
     abstract findAll(params: FindAllBaseArgs): Promise<T[]>;

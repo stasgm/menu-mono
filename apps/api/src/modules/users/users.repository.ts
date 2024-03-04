@@ -12,6 +12,16 @@ const userInclude = Prisma.validator<Prisma.UserInclude>()({
   customer: true,
 });
 
+type ExtraEntityOptions = EntityOptions & { includeDisabled?: boolean };
+
+const getWhereEntityExtraOptions = (options: ExtraEntityOptions) => {
+  const { includeDisabled = false } = options || {};
+
+  const disabledOption = includeDisabled ? undefined : { disabled: false };
+
+  return { ...disabledOption };
+};
+
 @Injectable()
 export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') {
   constructor(readonly prisma: PrismaService) {
@@ -26,7 +36,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
       where?: Prisma.UserWhereInput;
       orderBy?: Prisma.UserOrderByWithRelationInput;
     },
-    options?: EntityOptions
+    options?: ExtraEntityOptions
   ) {
     const { skip, take, cursor, where, orderBy } = params;
 
@@ -42,7 +52,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     );
   }
 
-  findOne(id: string, options?: EntityOptions) {
+  findOne(id: string, options?: ExtraEntityOptions) {
     return this.getUserById(id, options);
   }
 
@@ -72,21 +82,26 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
     });
   }
 
-  getUser(params: { where: Prisma.UserWhereInput }, options: EntityOptions = {}) {
+  getUser(params: { where: Prisma.UserWhereInput }, options: ExtraEntityOptions = {}) {
     const { where } = params;
 
     return this.model.findFirst({
       where: {
         ...where,
         ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       include: userInclude,
     });
   }
 
-  getUserById(id: string, options: EntityOptions = {}) {
+  getUserById(id: string, options: ExtraEntityOptions = {}) {
     return this.model.findUnique({
-      where: { id, ...super.getWhereExtraOptions(options) },
+      where: {
+        id,
+        ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
+      },
       include: userInclude,
     });
   }
@@ -99,7 +114,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
       where?: Prisma.UserWhereInput;
       orderBy?: Prisma.UserOrderByWithRelationInput;
     },
-    options: EntityOptions = {}
+    options: ExtraEntityOptions = {}
   ) {
     const { skip, take, cursor, where, orderBy } = params;
 
@@ -110,6 +125,7 @@ export class UsersRepository extends BaseRepository(User, UserWithKeys, 'user') 
       where: {
         ...where,
         ...super.getWhereExtraOptions(options),
+        ...getWhereEntityExtraOptions(options),
       },
       include: userInclude,
       orderBy,

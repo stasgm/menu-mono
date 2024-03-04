@@ -5,7 +5,6 @@ import { BaseEntity } from './base.entity';
 
 export type EntityOptions = {
   includeDeleted?: boolean;
-  includeDisabled?: boolean;
 };
 
 export type CreateInput<T extends BaseEntity> = Omit<T, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;

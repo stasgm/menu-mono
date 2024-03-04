@@ -16,7 +16,7 @@ export class UsersService extends BaseService(User, UserWithKeys) {
   }
 
   findForAuth(name: string) {
-    return this.usersRepository.getUser({ where: { name } });
+    return this.usersRepository.getUser({ where: { name } }, { includeDisabled: true });
   }
 
   findByEmail(email: string) {

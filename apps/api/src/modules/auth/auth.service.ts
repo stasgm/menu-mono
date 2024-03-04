@@ -270,6 +270,10 @@ export class AuthService {
           },
         },
       });
+
+      return {
+        message: this.appConfig.envPrefix === 'test' ? token : 'Email sent',
+      };
     } else {
       // throw new UserNotFoundException();
       // Don't throw an error, just return the success response
@@ -286,6 +290,7 @@ export class AuthService {
     // 1. Find user by email
     const user = await this.usersService.findByEmail(data.email);
 
+    // The user is already checked by userId in jwt-reset-pass.strategy
     if (!user) {
       throw new UserNotFoundException();
     }

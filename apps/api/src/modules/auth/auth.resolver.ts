@@ -47,6 +47,7 @@ export class AuthResolver {
     return this.authService.refreshActivationCode(req.user.id, ctx);
   }
 
+  @Throttle({ default: { ttl: minutes(1), limit: 2 } })
   @Mutation(() => LoginResultUnion, { name: 'loginUser', description: 'User login' })
   loginUser(
     @Args({ type: () => LoginUserInput, name: 'loginUserInput' }) data: LoginUserInput

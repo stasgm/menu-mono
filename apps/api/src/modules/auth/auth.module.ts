@@ -11,7 +11,7 @@ import { UsersModule } from '@/modules/users/users.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { PasswordService } from './password.service';
-import { JwtAccessStrategy, JwtActivateStrategy, JwtRefreshStrategy } from './strategies';
+import { JwtAccessStrategy, JwtActivateStrategy, JwtRefreshStrategy, JwtResetPassStrategy } from './strategies';
 import { TokensModule } from './tokens/tokens.module';
 
 @Module({
@@ -26,7 +26,15 @@ import { TokensModule } from './tokens/tokens.module';
     CustomersModule,
     AppConfigModule,
   ],
-  providers: [AuthResolver, AuthService, JwtAccessStrategy, JwtRefreshStrategy, JwtActivateStrategy, PasswordService],
+  providers: [
+    AuthResolver,
+    AuthService,
+    PasswordService,
+    JwtAccessStrategy,
+    JwtRefreshStrategy,
+    JwtActivateStrategy,
+    JwtResetPassStrategy,
+  ],
   exports: [PasswordService],
 })
 export class AuthModule {}

@@ -16,12 +16,6 @@ export class MailConfigService implements MailerOptionsFactory {
     return {
       transport,
       // {
-      //   transport,
-      //   // requireTLS: true,
-      //   // secure: true,
-      //   // service: 'gmail',
-      //   host: '',
-      //   // port: 465,
       //   tls: {
       //     rejectUnauthorized: false,
       //   },
