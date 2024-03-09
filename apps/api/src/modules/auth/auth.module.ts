@@ -12,7 +12,6 @@ import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { PasswordService } from './password.service';
 import { JwtAccessStrategy, JwtActivateStrategy, JwtRefreshStrategy, JwtResetPassStrategy } from './strategies';
-import { TokensModule } from './tokens/tokens.module';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { TokensModule } from './tokens/tokens.module';
     JwtModule.register({}),
     ActivationCodesModule,
     SchedulersModule,
-    TokensModule,
     PassportModule,
     UsersModule,
     CustomersModule,
