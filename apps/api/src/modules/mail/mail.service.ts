@@ -5,7 +5,7 @@ import { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
 import { AppConfig } from '@/core/config/app-config';
 
 import { utils } from './helpers';
-import { DEFAULT_TRANSPORT_NAME, SendEmailParams, Templates } from './mail.types';
+import { SendEmailParams, Templates } from './mail.types';
 
 @Injectable()
 export class MailService {
