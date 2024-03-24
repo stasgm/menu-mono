@@ -3,7 +3,7 @@
  * You don't need to define per project Prettier configuration
  */
 module.exports = {
-  plugins: [require('prettier-plugin-tailwindcss')],
+  plugins: ['prettier-plugin-tailwindcss'],
   arrowParens: 'always',
   bracketSpacing: true,
   htmlWhitespaceSensitivity: 'css',

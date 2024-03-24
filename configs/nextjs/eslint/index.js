@@ -41,7 +41,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:security/recommended',
+    'plugin:security/recommended-legacy',
     'plugin:sonarjs/recommended',
     'plugin:jest/recommended',
     'plugin:unicorn/recommended',

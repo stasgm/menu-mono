@@ -10,13 +10,12 @@ import { PersistenceModule } from '@/core/persistence/persistence.module';
 import { SchedulersModule } from '@/core/schedulers/shcedulers.module';
 import { ActivationCodesModule } from '@/modules/auth/activation-codes/activation-codes.module';
 import { AuthModule } from '@/modules/auth/auth.module';
-// import { TokensModule } from '@/modules/auth/tokens/tokens.module';
-// import { CategoriesModule } from '@/modules/categories/categories.module';
+import { CategoriesModule } from '@/modules/categories/categories.module';
 import { CustomersModule } from '@/modules/customers/customers.module';
 import { MailModule } from '@/modules/mail/mail.module';
 // import { MenusModule } from '@/modules/menus/menus.module';
 // import { OrdersModule } from '@/modules/orders/orders.module';
-// import { ProductsModule } from '@/modules/products/products.module';
+import { ProductsModule } from '@/modules/products/products.module';
 import { UsersModule } from '@/modules/users/users.module';
 
 import { AppResolver } from './app.resolver';
@@ -40,14 +39,13 @@ import { AppResolver } from './app.resolver';
     SchedulersModule,
     MailModule,
     AuthModule,
-    // ProductsModule,
-    // CategoriesModule,
+    ProductsModule,
+    CategoriesModule,
     // MenusModule,
     // OrdersModule,
     UsersModule,
     CustomersModule,
     ActivationCodesModule,
-    // TokensModule,
   ],
   controllers: [],
   providers: [AppResolver],

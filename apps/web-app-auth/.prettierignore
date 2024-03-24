@@ -1,8 +1,0 @@
-*.json
-*.md
-dist
-build
-.next
-build
-node_modules
-gql

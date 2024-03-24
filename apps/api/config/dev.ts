@@ -2,7 +2,7 @@ import { IAppConfig } from '@/core/config/types';
 
 const config: IAppConfig = {
   envPrefix: 'dev',
-  nestPort: 3000,
+  nestPort: 5000,
   postgres: {
     dbname: 'menu-mono',
     host: 'localhost',
